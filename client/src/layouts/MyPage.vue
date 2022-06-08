@@ -3,8 +3,8 @@
     <q-drawer v-model="drawer" show-if-above :width="220" :breakpoint="400">
       <div class="q-pa-sm">
         <q-list dense bordered padding class="rounded-borders">
-          <q-item class="text-weight-bold">개발자의품격 님</q-item>
-          <q-item>abcd@gmail.com</q-item>
+          <q-item class="text-weight-bold">{{ profile }} 님</q-item>
+          <q-item>{{ email }}</q-item>
         </q-list>
       </div>
       <div class="q-pa-sm">
@@ -54,7 +54,8 @@ export default {
   components: {},
   data() {
     return {
-      sampleData: "",
+      profile: "개발자의 품격",
+      email: "abcd@gmail.com",
     };
   },
   setup() {
