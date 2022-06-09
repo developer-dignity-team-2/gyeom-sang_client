@@ -1,16 +1,20 @@
 <template>
   <q-page class="flex flex-top">
-    <div dense bordered padding class="rounded-borders">
-      <div class="col-12 flex flex-center q-mb-lg">
+    <!-- <div class="q-card q-card--bordered q-card--flat no-shadow q-my-lg"> -->
+    <div
+      style="max-height: 700px"
+      class="q-card q-card--bordered q-card--flat no-shadow q-pa-xl"
+    >
+      <div class="col-12 flex flex-center q-mb-xs">
         <q-avatar size="200px">
           <img src="../assets/img/profile.png" />
         </q-avatar>
       </div>
       <div class="col-12 column items-center">
-        <div class="q-pb-lg text-center">
+        <div class="q-mb-xs text-center">
           <span class="text-bold text-no-wrap">{{ profile }}</span>
         </div>
-        <div class="q-gutter-sm row items-center">
+        <div class="q-gutter-sm row items-center q-mb-lg">
           <q-btn outline rounded color="grey-7" size="xs" label="수정" />
         </div>
       </div>

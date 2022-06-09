@@ -1,5 +1,6 @@
 <template>
-  <div class="q-pa-md">
+  <!-- <div class="q-pa-md"> -->
+  <div>
     <q-layout view="hHh Lpr lFf">
       <!-- <q-header elevated style="color: #3a1d1d; background: #f7e600"> -->
       <q-header reveal class="bg-grey-4">

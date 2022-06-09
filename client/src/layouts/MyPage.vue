@@ -1,13 +1,13 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-none">
     <q-drawer v-model="drawer" show-if-above :width="220" :breakpoint="400">
-      <div class="q-pa-sm">
+      <div class="q-ml-md q-my-md">
         <q-list dense bordered padding class="rounded-borders">
           <q-item class="text-weight-bold">{{ profile }} 님</q-item>
           <q-item>{{ email }}</q-item>
         </q-list>
       </div>
-      <div class="q-pa-sm">
+      <div class="q-ml-md q-my-md">
         <q-list dense bordered padding class="rounded-borders">
           <q-item class="text-weight-bold">내 정보</q-item>
           <q-item clickable v-ripple @click="userProfile()">
@@ -41,11 +41,12 @@
         </q-list>
       </div>
     </q-drawer>
-    <q-page-container>
-      <q-page padding>
-        <router-view />
-      </q-page>
-    </q-page-container>
+
+    <!-- <q-page-container> -->
+    <q-page padding>
+      <router-view />
+    </q-page>
+    <!-- </q-page-container> -->
   </div>
 </template>
 <script>
