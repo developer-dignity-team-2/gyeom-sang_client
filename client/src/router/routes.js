@@ -17,30 +17,24 @@ const routes = [
         component: () => import("pages/SelectSpoon.vue"),
       },
       {
-        path: "/mypage",
-        component: () => import("layouts/MyPage.vue"),
-        children: [
-          {
-            path: "/mypage/user-profile",
-            component: () => import("pages/UserProfile.vue"),
-          },
-          {
-            path: "/mypage/join-babsang",
-            component: () => import("pages/JoinBabsang.vue"),
-          },
-          {
-            path: "/mypage/wish-babsang",
-            component: () => import("pages/WishBabsang.vue"),
-          },
-          {
-            path: "/mypage/message",
-            component: () => import("pages/UserMessage.vue"),
-          },
-          {
-            path: "/mypage/message/read",
-            component: () => import("pages/MessageDetail.vue"),
-          },
-        ],
+        path: "/mypage/user-profile",
+        component: () => import("pages/UserProfile.vue"),
+      },
+      {
+        path: "/mypage/join-babsang",
+        component: () => import("pages/JoinBabsang.vue"),
+      },
+      {
+        path: "/mypage/wish-babsang",
+        component: () => import("pages/WishBabsang.vue"),
+      },
+      {
+        path: "/mypage/message",
+        component: () => import("pages/UserMessage.vue"),
+      },
+      {
+        path: "/mypage/message/read",
+        component: () => import("pages/MessageDetail.vue"),
       },
     ],
   },

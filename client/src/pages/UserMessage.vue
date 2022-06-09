@@ -1,17 +1,19 @@
 <template>
-  <q-page class="flex flex-top">
-    <div
-      class="q-card q-card--bordered q-card--flat no-shadow doc-example q-my-lg"
-    >
-      <h2>7 Message</h2>
-    </div>
+  <q-page class="row" style="width: 1100px; margin: 0 auto; flex-wrap: nowrap">
+    <profile class="col-3"></profile>
+
+    <h2>7 Message</h2>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
+import profile from "../components/UserProfile.vue";
 
 export default defineComponent({
   name: "UserMessage",
+  components: {
+    profile,
+  },
 });
 </script>

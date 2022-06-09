@@ -3,8 +3,8 @@
   <div>
     <q-layout view="hHh Lpr lFf">
       <!-- <q-header elevated style="color: #3a1d1d; background: #f7e600"> -->
-      <q-header reveal class="bg-grey-4">
-        <q-toolbar>
+      <q-header reveal class="shadow-1 bg-white" style="height: 70px">
+        <q-toolbar style="width: 1100px; margin: 10px auto 0">
           <!-- <q-btn flat round dense icon="menu" class="q-mr-sm" /> -->
           <q-toolbar-title>
             <router-link to="/">겸상</router-link>
@@ -80,14 +80,14 @@ export default defineComponent({
   },
 
   setup() {
-    const leftDrawerOpen = ref(false);
+    // const leftDrawerOpen = ref(false);
 
     return {
       // essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
+      // leftDrawerOpen,
+      // toggleLeftDrawer() {
+      // leftDrawerOpen.value = !leftDrawerOpen.value;
+      // },
     };
   },
 });

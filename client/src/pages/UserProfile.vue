@@ -1,9 +1,9 @@
 <template>
-  <q-page class="flex flex-top">
-    <!-- <div class="q-card q-card--bordered q-card--flat no-shadow q-my-lg"> -->
+  <q-page class="row" style="width: 1100px; margin: 0 auto; flex-wrap: nowrap">
+    <profile class="col-3"></profile>
     <div
       style="max-height: 700px"
-      class="q-card q-card--bordered q-card--flat no-shadow q-pa-xl"
+      class="col-9 q-card q-card--bordered q-card--flat q-pa-xl q-mt-md q-ml-md"
     >
       <div class="col-12 flex flex-center q-mb-xs">
         <q-avatar size="200px">
@@ -64,10 +64,13 @@
 
 <script>
 import { defineComponent } from "vue";
+import profile from "../components/UserProfile.vue";
 
 export default defineComponent({
   name: "UserProfile",
-  components: {},
+  components: {
+    profile,
+  },
   data() {
     return {
       stars: 0,

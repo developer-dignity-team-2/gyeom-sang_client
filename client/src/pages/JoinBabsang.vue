@@ -1,13 +1,19 @@
 <template>
-  <q-page class="flex flex-center">
-   <h2>6 JoinBabsang</h2>
+  <q-page class="row" style="width: 1100px; margin: 0 auto; flex-wrap: nowrap">
+    <profile class="col-3"></profile>
+
+    <h2>6 JoinBabsang</h2>
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
+import profile from "../components/UserProfile.vue";
 
 export default defineComponent({
-  name: 'JoinBabsang'
-})
+  name: "JoinBabsang",
+  components: {
+    profile,
+  },
+});
 </script>
