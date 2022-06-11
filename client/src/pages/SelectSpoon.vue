@@ -18,7 +18,7 @@
           v-for="spoon in candidate"
         >
           <!-- <q-card class="my-card q-ma-xs" flat bordered> -->
-          <q-card class="my-card q-ma-xs" bordered>
+          <q-card class="my-card q-ma-md" bordered>
             <q-item>
               <q-item-section avatar>
                 <q-avatar>
@@ -61,9 +61,7 @@
           </q-avatar>
           함께할 숟갈
         </div>
-        <div
-          class="q-card q-card--bordered q-card--flat q-py-md q-px-xl no-shadow"
-        >
+        <div class="q-card q-card--bordered q-card--flat q-py-md no-shadow">
           <div
             class="items-start col-12 flex flex-center"
             :key="spoon.spoon_email"
@@ -80,7 +78,7 @@
               </q-item>
             </q-card> -->
 
-            <q-card class="my-card q-ma-xs" bordered>
+            <q-card class="my-card q-ma-md" bordered>
               <q-item>
                 <q-item-section avatar>
                   <q-avatar>
