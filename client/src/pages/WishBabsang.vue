@@ -8,7 +8,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import profile from "../components/UserProfile.vue";
+import profile from "components/comp-user-profile.vue";
 
 export default defineComponent({
   name: "WishBabsang",
