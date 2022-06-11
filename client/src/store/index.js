@@ -21,7 +21,7 @@ export default store(function (/* { ssrContext } */) {
 
     actions:{
       loadMainData({commit, getters}, payload) {
-        return api.get('https://jsonplaceholder.typicode.com/todos/1', null)
+        return api.get('https://nicespoons.com/api/v1/babsang', null)
           .then((res) => {
             let res_data = res.data;
             commit('setMainData', res_data);
