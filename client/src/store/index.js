@@ -1,22 +1,39 @@
 import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
-
-// import example from './module-example'
-
-/*
- * If not building with SSR mode, you can
- * directly export the Store instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Store instance.
- */
+import {api} from 'boot/axios'
 
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
       // example
     },
+    state:{
+      mainData:{}
+    },
+
+    getters:{
+      getMainData : (state) => state.mainData
+    },
+
+    mutations:{
+      setMainData : (state, payload) => state.mainData = payload
+    },
+
+    actions:{
+      loadMainData({commit, getters}, payload) {
+        return api.get('https://jsonplaceholder.typicode.com/todos/1', null)
+          .then((res) => {
+            let res_data = res.data;
+            commit('setMainData', res_data);
+            if(payload.onLoad !== undefined) payload.onLoad(getters.getMainData);
+          })
+          .catch((error) => {
+            console.log("error : ", error);
+
+          });
+      }
+    },
+
 
     // enable strict mode (adds overhead!)
     // for dev mode and --debug builds only

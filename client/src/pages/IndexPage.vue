@@ -1,25 +1,35 @@
 <template>
-  <q-page style="width: 1100px; margin: 0 auto" class="">
+  <q-page style="width: 1100px; margin: 0 auto">
     <!-- **1 Search bar -->
-    <div class="q-pt-md">
+    <div class="q-py-md">
       <div class="" style="max-width: 100%">
         <q-input
           outlined
-          bottom-slots
-          rounded
-          v-model="text"
-          label="원하는 밥상을 검색해보세요."
+          v-model="search"
+          debounce="500"
+          placeholder="원하는 밥상을 검색해 주세요 :)"
         >
           <template v-slot:append>
-            <q-icon
-              v-if="text !== ''"
-              name="close"
-              @click="text = ''"
-              class="cursor-pointer"
-            />
             <q-icon name="search" />
           </template>
         </q-input>
+<!--        <q-input-->
+<!--          outlined-->
+<!--          bottom-slots-->
+<!--          rounded-->
+<!--          v-model="text"-->
+<!--          label="원하는 밥상을 검색해보세요."-->
+<!--        >-->
+<!--          <template v-slot:append>-->
+<!--            <q-icon-->
+<!--              v-if="text !== ''"-->
+<!--              name="close"-->
+<!--              @click="text = ''"-->
+<!--              class="cursor-pointer"-->
+<!--            />-->
+<!--            <q-icon name="search" />-->
+<!--          </template>-->
+<!--        </q-input>-->
       </div>
     </div>
 
@@ -46,6 +56,7 @@
                   text-color="black"
                   label="남성"
                 />
+
                 <q-btn
                   rounded
                   class="col"
@@ -112,22 +123,40 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { ref } from "vue";
+// import { defineComponent } from "vue";
+// import { ref } from "vue";
 import BabsangCard from "../components/comp-babsang-card";
+import { mapGetters, mapActions } from "vuex";
 
-export default defineComponent({
+export default {
   name: "IndexPage",
   components: {
     BabsangCard,
   },
-  setup() {
-    return {
-      text: ref(""),
-      ph: ref(""),
-      lorem: "hihi",
-    };
+  data() {
+    return{
+      text:'',
+
+    }
   },
-});
+  computed: {
+    ...mapGetters({
+      mainData: "getMainData",
+    }),
+  },
+  methods: {
+    ...mapActions({
+      loadMainData: "loadMainData",
+    }),
+    onLoadMainData(res) {
+      console.log("OnLoadMainData : ", this.mainData);
+    },
+  },
+  created() {
+    this.loadMainData({
+      onLoad: this.onLoadMainData,
+    });
+  },
+};
 </script>
 <style scoped lang="scss"></style>
