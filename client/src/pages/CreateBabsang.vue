@@ -119,7 +119,9 @@
     <!-- **3 버튼 -->
     <div class="q-mb-xl" style="display: flex; justify-content: center">
       <q-btn class="q-ma-lg" style="width: 150px">밥상 엎기</q-btn>
-      <q-btn class="q-ma-lg" style="width: 150px">밥상 차리기</q-btn>
+      <q-btn class="q-ma-lg" style="width: 150px" @click="movePage()"
+        >밥상 차리기</q-btn
+      >
     </div>
   </q-page>
 </template>
@@ -135,6 +137,13 @@ export default {
       shape: "",
       model: 4,
     };
+  },
+  methods: {
+    movePage() {
+      this.$router.push({
+        path: "/read-babsang",
+      });
+    },
   },
 };
 </script>

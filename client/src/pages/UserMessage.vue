@@ -90,7 +90,7 @@
           </q-list>
         </q-btn-dropdown>
       </q-card-actions>
-      <q-markup-table class="square-Boolean">
+      <q-markup-table class="square-Boolean" @click="moveDetailMessage()">
         <thead>
           <tr>
             <th><input type="checkbox" /></th>
@@ -233,6 +233,13 @@ export default defineComponent({
         },
       ],
     };
+  },
+  methods: {
+    moveDetailMessage() {
+      this.$router.push({
+        path: "/mypage/message/read",
+      });
+    },
   },
   setup() {
     return {

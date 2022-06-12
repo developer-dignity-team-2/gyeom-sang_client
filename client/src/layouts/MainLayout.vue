@@ -9,7 +9,7 @@
           <q-toolbar-title>
             <router-link to="/">겸상</router-link>
           </q-toolbar-title>
-          <ul class="flex q-gutter-lg">
+          <!-- <ul class="flex q-gutter-lg">
             <li class=""><router-link to="/">1</router-link></li>
             <li class=""><router-link to="/create-babsang">2</router-link></li>
             <li class=""><router-link to="/read-babsang">3</router-link></li>
@@ -18,21 +18,16 @@
               <router-link to="/mypage/user-profile">5</router-link>
             </li>
             <li class="">
-              <router-link to="/mypage/join-babsang">6</router-link>
+              <router-link to="/mypage/join-babsang">6-1</router-link>
             </li>
             <li class="">
-              <router-link to="/mypage/wish-babsang">6</router-link>
+              <router-link to="/mypage/wish-babsang">6-2</router-link>
             </li>
             <li class=""><router-link to="/mypage/message">7</router-link></li>
             <li class="">
               <router-link to="/mypage/message/read">8</router-link>
             </li>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </ul>
+          </ul> -->
           <div class="q-gutter-sm row items-center no-wrap">
             <!-- <q-btn
               round
@@ -48,7 +43,7 @@
               <q-badge color="red" text-color="white" floating> 2 </q-badge>
               <q-tooltip>Notifications</q-tooltip>
             </q-btn>
-            <q-btn round flat>
+            <q-btn round flat @click="moveProfilePage()">
               <q-avatar size="26px">
                 <img src="../assets/img/profile.png" />
               </q-avatar>
@@ -78,17 +73,12 @@ export default defineComponent({
       profile: "개발자의 품격",
     };
   },
-
-  setup() {
-    // const leftDrawerOpen = ref(false);
-
-    return {
-      // essentialLinks: linksList,
-      // leftDrawerOpen,
-      // toggleLeftDrawer() {
-      // leftDrawerOpen.value = !leftDrawerOpen.value;
-      // },
-    };
+  methods: {
+    moveProfilePage() {
+      this.$router.push({
+        path: "/mypage/user-profile",
+      });
+    },
   },
 });
 </script>

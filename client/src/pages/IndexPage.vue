@@ -80,6 +80,7 @@
                 text-color="black"
                 label="밥상 차리기"
                 style="width: 150px"
+                @click="movePage()"
               />
             </q-card-section>
           </q-card>
@@ -90,16 +91,16 @@
     <!-- 밥상 카드 row -->
     <div class="row bab-group q-col-gutter-md">
       <div class="col-md-3 col-xs-12 bab-card">
-        <BabsangCard></BabsangCard>
+        <BabsangCard @click="moveReadPage()"></BabsangCard>
       </div>
       <div class="col-md-3 col-xs-12 bab-card">
-        <BabsangCard></BabsangCard>
+        <BabsangCard @click="moveReadPage()"></BabsangCard>
       </div>
       <div class="col-md-3 col-xs-12 bab-card">
-        <BabsangCard></BabsangCard>
+        <BabsangCard @click="moveReadPage()"></BabsangCard>
       </div>
       <div class="col-md-3 col-xs-12 bab-card">
-        <BabsangCard></BabsangCard>
+        <BabsangCard @click="moveReadPage()"></BabsangCard>
       </div>
       <div class="col-md-3 col-xs-12 bab-card">
         <BabsangCard></BabsangCard>
@@ -145,6 +146,16 @@ export default {
     }),
     onLoadMainData(res) {
       console.log("OnLoadMainData : ", this.mainData);
+    },
+    movePage() {
+      this.$router.push({
+        path: "/create-babsang",
+      });
+    },
+    moveReadPage() {
+      this.$router.push({
+        path: "/read-babsang",
+      });
     },
   },
   created() {

@@ -109,7 +109,9 @@
           <!-- 신청한 숟갈 -->
           <div class="col">
             <q-card>
-              <q-card-section> 신청한 숟갈 </q-card-section>
+              <q-card-section>
+                <q-btn @click="moveSelectPage()">숟갈 선택하기</q-btn>
+              </q-card-section>
             </q-card>
           </div>
         </div>
@@ -126,6 +128,13 @@ export default {
   date() {
     return {};
   },
+  methods: {
+    moveSelectPage() {
+      this.$router.push({
+        path: "/select-spoon",
+      });
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -139,8 +148,6 @@ dd {
   ul {
     list-style: none;
     margin: 5px 0 0;
-    li {
-    }
   }
   dl {
     display: flex;
