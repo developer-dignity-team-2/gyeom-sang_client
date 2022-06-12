@@ -1,11 +1,13 @@
 <template>
   <div class="">
     <q-card class="my-card">
-      <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
+      <q-img
+        src="https://cdn.pixabay.com/photo/2016/09/23/23/23/restaurant-1690696_1280.jpg"
+      />
 
       <q-card-section>
         <div class="row no-wrap items-center">
-          <div class="col text-h6 ellipsis">제주 최강 햄버거</div>
+          <div class="col text-h6 ellipsis">연돈</div>
         </div>
       </q-card-section>
 

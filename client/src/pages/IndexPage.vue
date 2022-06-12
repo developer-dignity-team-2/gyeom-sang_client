@@ -1,5 +1,5 @@
 <template>
-  <q-page style="width: 1100px; margin: 0 auto">
+  <q-page class="q-pb-xl" style="width: 1100px; margin: 0 auto">
     <!-- **1 Search bar -->
     <div class="q-py-md">
       <div class="" style="max-width: 100%">
@@ -13,23 +13,6 @@
             <q-icon name="search" />
           </template>
         </q-input>
-<!--        <q-input-->
-<!--          outlined-->
-<!--          bottom-slots-->
-<!--          rounded-->
-<!--          v-model="text"-->
-<!--          label="원하는 밥상을 검색해보세요."-->
-<!--        >-->
-<!--          <template v-slot:append>-->
-<!--            <q-icon-->
-<!--              v-if="text !== ''"-->
-<!--              name="close"-->
-<!--              @click="text = ''"-->
-<!--              class="cursor-pointer"-->
-<!--            />-->
-<!--            <q-icon name="search" />-->
-<!--          </template>-->
-<!--        </q-input>-->
       </div>
     </div>
 
@@ -118,6 +101,18 @@
       <div class="col-md-3 col-xs-12 bab-card">
         <BabsangCard></BabsangCard>
       </div>
+      <div class="col-md-3 col-xs-12 bab-card">
+        <BabsangCard></BabsangCard>
+      </div>
+      <div class="col-md-3 col-xs-12 bab-card">
+        <BabsangCard></BabsangCard>
+      </div>
+      <div class="col-md-3 col-xs-12 bab-card">
+        <BabsangCard></BabsangCard>
+      </div>
+      <div class="col-md-3 col-xs-12 bab-card">
+        <BabsangCard></BabsangCard>
+      </div>
     </div>
   </q-page>
 </template>
@@ -134,10 +129,10 @@ export default {
     BabsangCard,
   },
   data() {
-    return{
-      text:'',
-
-    }
+    return {
+      text: "",
+      search: "",
+    };
   },
   computed: {
     ...mapGetters({
