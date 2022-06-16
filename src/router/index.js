@@ -1,20 +1,56 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
+import Main from '../views/main.vue';
 
 const routes = [
 	{
 		path: '/',
-		name: 'Home',
-		component: Home,
+		name: 'main',
+		component: Main,
 	},
 	{
-		path: '/about',
-		name: 'About',
-		// route level code-splitting
-		// this generates a separate chunk (about.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
-		component: () =>
-			import(/* webpackChunkName: "about" */ '../views/About.vue'),
+		path: '/babsang-create',
+		name: 'BabsangCreate',
+		component: () => import('../views/babsang-create'),
+	},
+	{
+		path: '/babsang',
+		name: 'Babsang',
+		component: () => import('../views/babsang'),
+	},
+	{
+		path: '/babsang-select',
+		name: 'BabsangSelect',
+		component: () => import('../views/babsang-select'),
+	},
+	{
+		path: '/mypage/profile',
+		name: 'MypageProfile',
+		component: () => import('../views/mypage-profile'),
+	},
+	{
+		path: '/mypage/babsang',
+		name: 'MypageBabsang',
+		component: () => import('../views/mypage-babsang'),
+	},
+	{
+		path: '/mypage/favorites',
+		name: 'MypageFavorites',
+		component: () => import('../views/mypage-favorites'),
+	},
+	{
+		path: '/mypage/score',
+		name: 'MypageScore',
+		component: () => import('../views/mypage-score'),
+	},
+	{
+		path: '/mypage/message',
+		name: 'MypageMessage',
+		component: () => import('../views/mypage-message'),
+	},
+	{
+		path: '/mypage/message-view',
+		name: 'MypageMessageView',
+		component: () => import('../views/mypage-message-view'),
 	},
 ];
 
