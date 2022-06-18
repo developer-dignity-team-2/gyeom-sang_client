@@ -1,5 +1,5 @@
 <template>
-	<div class="container d-grid gap-3">
+	<div class="container d-grid gap-3 px-1">
 		<ul
 			class="dropdown-menu position-static d-grid gap-0 p-3 rounded-3 mx-0 shadow w-220px"
 		>
