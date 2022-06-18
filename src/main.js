@@ -15,9 +15,11 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 /* import specific icons */
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 /* add icons to the library */
-library.add(faStar);
+library.add(faStar, faImage, faLocationDot);
 
 createApp(App)
 	.component('font-awesome-icon', FontAwesomeIcon)
