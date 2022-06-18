@@ -10,7 +10,11 @@
 			</div>
 		</div>
 		<!-- 밥상카드 -->
+
 		<div class="row">
+			<div class="col">
+				<BabsangCard />
+			</div>
 			<div class="col">
 				<BabsangCard />
 			</div>
