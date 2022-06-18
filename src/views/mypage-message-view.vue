@@ -99,7 +99,13 @@
 				</div>
 				<!-- 목록 , 삭제( 불필요할 것같아서 일단 주석처리 )버튼 -->
 				<div id="wrapper">
-					<button type="button" class="btn btn-outline-primary">목록</button>
+					<button
+						type="button"
+						class="btn btn-outline-primary"
+						@click="message()"
+					>
+						목록
+					</button>
 					<!-- <button type="button" class="btn btn-outline-primary">삭제</button> -->
 				</div>
 			</div>
@@ -112,6 +118,11 @@ import CompUserProfile from '@/components/comp-user-profile';
 export default {
 	name: 'MypageMessageView',
 	components: { CompUserProfile },
+	methods: {
+		message() {
+			this.$router.push('/mypage/message');
+		},
+	},
 };
 </script>
 <style scoped>
