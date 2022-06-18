@@ -1,34 +1,47 @@
 <template>
 	<div class="container d-grid gap-3">
-		<div class="card" style="width: 15rem">
-			<div class="card-body">
-				<h5 class="card-title">{{ user[0].nickname }} 님</h5>
-				<p class="card-text">{{ user[0].email }}</p>
-			</div>
-		</div>
-		<div class="card" style="width: 15rem">
-			<div class="card-body">
-				<strong> 내 정보 </strong>
-				<ul class="list-unstyled small" style="line-height: 160%">
-					<li>
-						<div class="cursor" @click="userProfile()">프로필 정보</div>
-					</li>
-					<li>
-						<div class="cursor" @click="score()">식사 매너 점수</div>
-					</li>
-				</ul>
-				<strong> 밥상 정보 </strong>
-				<ul class="list-unstyled small" style="line-height: 160%">
-					<li>
-						<div class="cursor" @click="joinBabsang()">참여한 밥상 목록</div>
-					</li>
-					<li>
-						<div class="cursor" @click="favoriteBabsang()">찜한 밥상</div>
-					</li>
-				</ul>
-				<strong class="cursor" @click="message()"> 메시지함 </strong>
-			</div>
-		</div>
+		<ul
+			class="dropdown-menu position-static d-grid gap-0 p-3 rounded-3 mx-0 shadow w-220px"
+		>
+			<li>
+				<strong> {{ user[0].nickname }} 님 </strong>
+			</li>
+			<li>
+				{{ user[0].email }}
+			</li>
+		</ul>
+		<ul
+			class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px"
+		>
+			<li><div class="dropdown-item rounded-2 active">내 정보</div></li>
+			<li>
+				<div class="dropdown-item rounded-2 cursor" @click="joinBabsang()">
+					참여한 밥상 목록
+				</div>
+			</li>
+			<li>
+				<div class="dropdown-item rounded-2 cursor" @click="joinBabsang()">
+					참여한 밥상 목록
+				</div>
+			</li>
+			<li><div class="dropdown-item rounded-2 active">밥상 정보</div></li>
+			<li>
+				<div class="dropdown-item rounded-2 cursor" @click="joinBabsang()">
+					참여한 밥상 목록
+				</div>
+			</li>
+			<li>
+				<div class="dropdown-item rounded-2 cursor" @click="favoriteBabsang()">
+					찜한 밥상
+				</div>
+			</li>
+			<li><hr class="dropdown-divider" /></li>
+			<li>
+				<strong class="dropdown-item rounded-2 cursor" @click="message()">
+					메시지함
+				</strong>
+			</li>
+		</ul>
 	</div>
 </template>
 
