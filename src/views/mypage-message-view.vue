@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<div class="row bg-primary">
-			<div class="col bg-secondary">MypagMessageView</div>
+			<div class="col bg-secondary">rktl wkfgoqhwkrhgkwlaks</div>
 			<div class="col bg-success"></div>
 		</div>
 	</div>
@@ -9,7 +9,7 @@
 
 <script>
 export default {
-	name: 'MypagMessageView',
+	name: 'MypageMessageView',
 	components: {},
 };
 </script>
