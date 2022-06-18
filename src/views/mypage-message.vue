@@ -1,52 +1,76 @@
 <template>
 	<div class="container">
-		<div class="row">
-			<div class="col-sm-3">프로피ㄹ 네비</div>
-			<div class="col-sm-9">
+		<div class="row my-4">
+			<div class="col-md-3 col-sm-12">
+				<CompUserProfile />
+			</div>
+			<div class="col-md-9 col-sm-12">
 				<h3>메세지함</h3>
-				<div class="btn-group" role="group" aria-label="Basic example">
-					<button type="button" class="btn btn-outline-warning">
-						받은메세지
-					</button>
-					<button type="button" class="btn btn-outline-warning">
-						보낸메세지
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<button
+						type="button"
+						class="btn btn-primary disabled"
+						style="margin-bottom: 10px"
+					>
+						삭제
 					</button>
 				</div>
-				<div
-					class="btn-group"
-					role="group"
-					aria-label="Button group with nested dropdown"
-				>
-					<button type="button" class="btn btn-warning">모집중</button>
-					<div class="btn-group" role="group">
-						<button
-							id="btnGroupDrop4"
-							type="button"
-							class="btn btn-warning dropdown-toggle"
-							data-bs-toggle="dropdown"
-							aria-haspopup="true"
-							aria-expanded="false"
-						></button>
-						<div class="dropdown-menu" aria-labelledby="btnGroupDrop4" style="">
-							<a class="dropdown-item" href="#">모집마감</a>
-						</div>
+				<!-- 받은메세지, 보낸메시지 -->
+				<div class="d-flex justify-content-between">
+					<div class="btn-group" role="group" aria-label="Basic example">
+						<button type="button" class="btn btn-outline-primary">
+							받은메세지
+						</button>
+						<button type="button" class="btn btn-outline-primary">
+							보낸메세지
+						</button>
 					</div>
+					<!-- 모집중, 최신순 -->
+					<div
+						class="btn-group"
+						role="group"
+						aria-label="Button group with nested dropdown"
+					>
+						<button type="button" class="btn btn-primary">모집중</button>
+						<div class="btn-group" role="group">
+							<button
+								id="btnGroupDrop4"
+								type="button"
+								class="btn btn-primary dropdown-toggle"
+								data-bs-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							></button>
+							<div
+								class="dropdown-menu"
+								aria-labelledby="btnGroupDrop4"
+								style=""
+							>
+								<a class="dropdown-item" href="#">모집마감</a>
+							</div>
+						</div>
 
-					<button type="button" class="btn btn-warning">최신순</button>
-					<div class="btn-group" role="group">
-						<button
-							id="btnGroupDrop4"
-							type="button"
-							class="btn btn-warning dropdown-toggle"
-							data-bs-toggle="dropdown"
-							aria-haspopup="true"
-							aria-expanded="false"
-						></button>
-						<div class="dropdown-menu" aria-labelledby="btnGroupDrop4" style="">
-							<a class="dropdown-item" href="#">오래된순</a>
+						<button type="button" class="btn btn-primary">최신순</button>
+						<div class="btn-group" role="group">
+							<button
+								id="btnGroupDrop4"
+								type="button"
+								class="btn btn-primary dropdown-toggle"
+								data-bs-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							></button>
+							<div
+								class="dropdown-menu"
+								aria-labelledby="btnGroupDrop4"
+								style=""
+							>
+								<a class="dropdown-item" href="#">오래된순</a>
+							</div>
 						</div>
 					</div>
 				</div>
+				<!-- 메세지 테이블 -->
 				<table
 					class="table table-hover"
 					style="margin-left: auto; margin-right: auto"
@@ -62,7 +86,7 @@
 							</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody @click="messageView()">
 						<tr :key="i" v-for="(user, i) in userData">
 							<td scope="row">
 								<input class="form-check-input" type="checkbox" />
@@ -74,7 +98,7 @@
 						</tr>
 					</tbody>
 				</table>
-
+				<!-- pagination -->
 				<div>
 					<ul class="pagination justify-content-center">
 						<li class="page-item disabled">
@@ -106,9 +130,10 @@
 </template>
 
 <script>
+import CompUserProfile from '@/components/comp-user-profile';
 export default {
 	name: 'MypagMessage',
-	components: {},
+	components: { CompUserProfile },
 	data() {
 		return {
 			Headers: [
@@ -221,6 +246,11 @@ export default {
 				},
 			],
 		};
+	},
+	methods: {
+		messageView() {
+			this.$router.push('/mypage/message-view');
+		},
 	},
 };
 </script>
