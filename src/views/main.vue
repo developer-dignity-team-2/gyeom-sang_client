@@ -1,19 +1,35 @@
 <template>
 	<div class="container">
-		<div class="row bg-primary">
-			<div class="col bg-secondary">
-				<font-awesome-icon icon="fa-solid fa-user-secret" />
-				<font-awesome-icon icon="fa-brands fa-twitter" />
-				<font-awesome-icon icon="fa-solid fa-users" />
+		<!-- 검색창 -->
+		<div class="row">
+			<div class="col my-3">
+				<form class="d-flex">
+					<input class="form-control me-3" type="text" placeholder="Search" />
+					<button class="btn btn-secondary" type="submit">Search</button>
+				</form>
 			</div>
-			<div class="col bg-success">main</div>
+		</div>
+		<!-- 밥상카드 -->
+		<div class="row">
+			<div class="col">
+				<BabsangCard />
+			</div>
+			<div class="col">
+				<BabsangCard />
+			</div>
+			<div class="col">
+				<BabsangCard />
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import BabsangCard from '@/components/babsangCard';
 export default {
 	name: 'Main',
-	components: {},
+	components: {
+		BabsangCard,
+	},
 };
 </script>
