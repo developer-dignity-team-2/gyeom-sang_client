@@ -28,7 +28,7 @@
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
 									<h5 class="card-title">밥상제목</h5>
-									<!-- 밥상상세보기(해당 밥상으로 이동) -->
+									<!-- 밥상 상세보기 버튼(해당 밥상으로 이동) -->
 									<button class="btn btn-primary" type="button">
 										상세보기
 									</button>
@@ -125,16 +125,16 @@ export default {
 	},
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .img-wrap {
 	position: relative;
 	width: 100%;
 	height: 0;
 	padding-bottom: 56.26%;
 	overflow: hidden;
-}
-.img-wrap.map-wrap {
-	padding-bottom: 40%;
+	&.map-wrap {
+		padding-bottom: 40%;
+	}
 }
 .img-wrap.pf {
 	padding-bottom: 100%;

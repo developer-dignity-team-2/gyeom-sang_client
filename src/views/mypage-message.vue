@@ -86,13 +86,18 @@
 							</th>
 						</tr>
 					</thead>
-					<tbody @click="messageView()">
+					<tbody>
 						<tr :key="i" v-for="(user, i) in userData">
 							<td scope="row">
 								<input class="form-check-input" type="checkbox" />
 								<label class="form-check-label" for="gridCheck"> </label>
 							</td>
-							<td v-for="th in Headers" :key="th.key" class="text-left">
+							<td
+								v-for="th in Headers"
+								:key="th.key"
+								class="text-left"
+								@click="messageView()"
+							>
 								{{ user[th.key] }}
 							</td>
 						</tr>
