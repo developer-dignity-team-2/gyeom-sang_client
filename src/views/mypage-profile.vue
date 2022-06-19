@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container mb-5">
 		<div class="row my-4">
 			<!-- 네브바 -->
 			<div class="col-xl-3 col-sm-12">
@@ -7,68 +7,113 @@
 			</div>
 			<!-- 본문영역 -->
 			<!-- <div class="col border rounded p-3"> -->
-			<div
-				class="col dropdown-menu position-static d-grid gap-1 rounded-3 shadow w-220px"
-			>
-				<div class="row d-flex text-center flex-column align-items-center">
-					<div class="profile me-3" style="width: 12rem">
-						<div class="img-wrap pf rounded-circle">
-							<img :src="user[0].profile_image" alt="프로필" />
+			<div class="col-md-9 col-sm-12">
+				<div
+					class="col dropdown-menu position-static d-grid gap-1 rounded-3 shadow w-220px"
+				>
+					<div
+						class="row d-flex text-center flex-column align-items-center p-5"
+					>
+						<div class="profile me-3" style="width: 16rem">
+							<div class="img-wrap pf rounded-circle">
+								<img :src="user[0].profile_image" alt="프로필" />
+							</div>
+							<strong>{{ user[0].nickname }}</strong>
 						</div>
-						<strong> {{ user[0].nickname }} 님 </strong>
-						<button type="button" class="btn btn-secondary">수정</button>
-					</div>
-					<div class="col-sm-4 mt-3">
-						<table>
-							<colgroup>
-								<col width="500px" />
-								<col width="700px" />
-							</colgroup>
-							<tbody>
-								<tr>
-									<td>성별</td>
-									<td class="d-flex text-left">{{ user[0].gender }}</td>
-								</tr>
-								<tr>
-									<td>식사매너</td>
-									<td class="d-flex text-left">
-										<font-awesome-icon
-											icon="fa-solid fa-star"
-											style="color: #ffd24c"
+						<fieldset>
+							<div class="form-group">
+								<label class="mt-4 text-primary">성별</label>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input
+											type="radio"
+											class="form-check-input"
+											name="optionsRadios"
+											id="optionsRadios2"
+											value="option2"
+											disabled
+											checked
 										/>
-										<font-awesome-icon
-											icon="fa-solid fa-star"
-											style="color: #ffd24c"
+										남성
+									</label>
+								</div>
+								<div class="form-check disabled">
+									<label class="form-check-label">
+										<input
+											type="radio"
+											class="form-check-input"
+											name="optionsRadios"
+											id="optionsRadios3"
+											value="option3"
+											disabled=""
+											checked
 										/>
-										<font-awesome-icon
-											icon="fa-solid fa-star"
-											style="color: #ffd24c"
-										/>
-										<font-awesome-icon
-											icon="fa-solid fa-star"
-											style="color: #ffd24c"
-										/>
-										<font-awesome-icon
-											icon="fa-solid fa-star"
-											style="color: #ffd24c"
-										/>
-									</td>
-								</tr>
-								<tr>
-									<td>자기소개</td>
-									<td></td>
-								</tr>
-							</tbody>
-						</table>
-						<div class="form-group">
-							<textarea
-								class="form-control"
-								id="exampleTextarea"
-								rows="3"
-								style="height: 110px"
-								v-model="user[0].dining_spoons_description"
-							></textarea>
-						</div>
+										여성
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label
+									for="exampleTextarea"
+									class="form-label mt-4 text-primary"
+									>식사매너</label
+								>
+								<div>
+									<font-awesome-icon
+										icon="fa-solid fa-star"
+										style="color: #ffd24c"
+									/>
+									<font-awesome-icon
+										icon="fa-solid fa-star"
+										style="color: #ffd24c"
+									/>
+									<font-awesome-icon
+										icon="fa-solid fa-star"
+										style="color: #ffd24c"
+									/>
+									<font-awesome-icon
+										icon="fa-solid fa-star"
+										style="color: #ffd24c"
+									/>
+									<font-awesome-icon
+										icon="fa-solid fa-star"
+										style="color: #ffd24c"
+									/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label
+									for="exampleTextarea"
+									class="form-label mt-4 text-primary"
+									>자기소개</label
+								>
+								<textarea
+									class="form-control"
+									id="exampleTextarea"
+									rows="3"
+									v-model="user[0].dining_spoons_description"
+								></textarea>
+							</div>
+							<div class="d-flex justify-content-center mt-4">
+								<button
+									type="button"
+									class="btn btn-primary mx-3"
+									v-show="modifySave === false"
+									@click="doModifySave()"
+								>
+									수정
+								</button>
+								<button
+									type="button"
+									class="btn btn-secondary mx-3"
+									v-show="modifySave === true"
+									@click="doModifySave()"
+								>
+									저장
+								</button>
+								<button type="submit" class="btn btn-primary mx-3">취소</button>
+							</div>
+						</fieldset>
 					</div>
 				</div>
 			</div>
@@ -84,13 +129,14 @@ export default {
 	data() {
 		return {
 			stars: 0,
+			modifySave: false,
 			user: [
 				{
 					email: 'spoon1@gmail.com',
-					gender: '남자',
-					nickname: '개발자의 품격',
-					profile_image: require('../assets/img/profile.png'),
-					age_range: '40대',
+					gender: '여자',
+					nickname: '숟갈1',
+					profile_image: require('../assets/img/exprofile2.jpg'),
+					age_range: '20대',
 					mannerScore: 4,
 					dining_spoons_description:
 						'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
@@ -104,7 +150,15 @@ export default {
 		this.stars = this.user[0].mannerScore;
 	},
 	unmounted() {},
-	methods: {},
+	methods: {
+		doModifySave() {
+			if (this.modifySave === false) {
+				this.modifySave = true;
+			} else {
+				this.modifySave = false;
+			}
+		},
+	},
 };
 </script>
 <style scoped>
