@@ -18,9 +18,10 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faSpoon } from '@fortawesome/free-solid-svg-icons';
+import { faBowlFood } from '@fortawesome/free-solid-svg-icons';
 
 /* add icons to the library */
-library.add(faStar, faImage, faLocationDot, faSpoon);
+library.add(faStar, faImage, faLocationDot, faSpoon, faBowlFood);
 
 createApp(App)
 	.component('font-awesome-icon', FontAwesomeIcon)
