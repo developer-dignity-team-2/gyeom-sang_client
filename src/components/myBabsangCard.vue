@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="card rounded"
-		style="max-width: 25rem; overflow: hidden"
+		style="max-width: 27rem; overflow: hidden"
 		@click="goDetail"
 	>
 		<img

@@ -2,20 +2,17 @@
 	<div class="container mb-5">
 		<div class="row my-4">
 			<!-- 네브바 -->
-			<div class="col-xl-3">
+			<div class="col-xl-3 col-md-4 col-sm-12">
 				<CompUserProfile />
 			</div>
 			<!-- 본문영역 -->
-			<div class="col-md-9">
+			<div class="col-xl-9 col-md-8 col-sm-12">
 				<div class="col border rounded p-3">
 					<h3>찜한 밥상</h3>
-					<!-- 버튼 -->
-					<div class="row mt-4 mb-4">
-						<div class="col-8 d-flex justify-content-left">
-							<div class="d-flex justify-content-center"></div>
-						</div>
-						<div class="col">
-							<div class="row">
+					<div class="row mt-4">
+						<div>
+							<!-- 버튼 -->
+							<div class="row mb-4">
 								<!-- 모집중, 최신순 -->
 								<div
 									class="btn-group"
@@ -61,18 +58,21 @@
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<!-- 밥상카드 -->
-					<div class="row">
-						<div class="col">
-							<BabsangCard />
-						</div>
-						<div class="col">
-							<BabsangCard />
-						</div>
-						<div class="col">
-							<BabsangCard />
+							<!-- 밥상카드 -->
+							<div class="row">
+								<div class="col mb-4">
+									<BabsangCard />
+								</div>
+								<div class="col mb-4">
+									<BabsangCard />
+								</div>
+								<div class="col mb-4">
+									<BabsangCard />
+								</div>
+								<div class="col mb-4">
+									<BabsangCard />
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -83,7 +83,7 @@
 
 <script>
 import CompUserProfile from '@/components/comp-user-profile';
-import BabsangCard from '@/components/babsangCard';
+import BabsangCard from '@/components/myBabsangCard';
 
 export default {
 	name: 'MypageFavorites',

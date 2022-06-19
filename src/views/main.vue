@@ -70,18 +70,17 @@
 			</div>
 		</div>
 		<!-- 밥상카드 -->
-
 		<div class="row">
-			<div class="col">
+			<div class="col mb-4">
 				<BabsangCard />
 			</div>
-			<div class="col">
+			<div class="col mb-4">
 				<BabsangCard />
 			</div>
-			<div class="col">
+			<div class="col mb-4">
 				<BabsangCard />
 			</div>
-			<div class="col">
+			<div class="col mb-4">
 				<BabsangCard />
 			</div>
 		</div>

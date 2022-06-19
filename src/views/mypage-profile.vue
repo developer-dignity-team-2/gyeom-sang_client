@@ -2,12 +2,11 @@
 	<div class="container mb-5">
 		<div class="row my-4">
 			<!-- 네브바 -->
-			<div class="col-md-3 col-sm-12">
+			<div class="col-xl-3 col-md-4 col-sm-12">
 				<CompUserProfile />
 			</div>
 			<!-- 본문영역 -->
-			<!-- <div class="col border rounded p-3"> -->
-			<div class="col-md-9 col-sm-12">
+			<div class="col-xl-9 col-md-8 col-sm-12">
 				<div
 					class="col dropdown-menu position-static d-grid gap-1 rounded-3 shadow w-220px"
 				>
@@ -18,8 +17,8 @@
 							<div class="img-wrap pf rounded-circle">
 								<img :src="user[0].profile_image" alt="프로필" />
 							</div>
-							<strong>{{ user[0].nickname }}</strong>
 						</div>
+						<h4 class="mt-2">{{ user[0].nickname }}</h4>
 						<fieldset>
 							<div class="form-group">
 								<label class="mt-4 text-primary">성별</label>
@@ -89,8 +88,10 @@
 								>
 								<textarea
 									class="form-control"
+									style="resize: none"
 									id="exampleTextarea"
 									rows="3"
+									disabled
 									v-model="user[0].dining_spoons_description"
 								></textarea>
 							</div>
@@ -103,15 +104,22 @@
 								>
 									수정
 								</button>
-								<button
-									type="button"
-									class="btn btn-secondary mx-3"
-									v-show="modifySave === true"
-									@click="doModifySave()"
-								>
-									저장
-								</button>
-								<button type="submit" class="btn btn-primary mx-3">취소</button>
+								<div v-show="modifySave === true">
+									<button
+										type="button"
+										class="btn btn-secondary mx-3"
+										@click="doModifySave()"
+									>
+										저장
+									</button>
+									<button
+										type="submit"
+										class="btn btn-primary"
+										@click="doModifySave()"
+									>
+										취소
+									</button>
+								</div>
 							</div>
 						</fieldset>
 					</div>
