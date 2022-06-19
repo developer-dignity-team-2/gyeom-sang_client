@@ -6,3 +6,17 @@ dl, dt, dd, ol, ul, li{
 ol, ul, dl {
 	list-style: none;
 }
+.btn-primary{
+	background-color:#f6d912;
+	border-color:#fff;
+	color:#575757;
+};
+.btn-outline-primary{
+	border-color:#f6d912;
+	color:#f6d912
+}
+.btn-secondary{
+	background-color:#f4f4f4;
+	color:#666;
+	border-color:#fff;
+}

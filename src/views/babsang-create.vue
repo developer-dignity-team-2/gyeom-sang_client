@@ -133,7 +133,7 @@
 							></textarea>
 						</div>
 						<div class="d-flex justify-content-center mt-5">
-							<button type="button" class="btn btn-primary mx-3">
+							<button type="button" class="btn btn-secondary mx-3">
 								숟갈 엎기
 							</button>
 							<button type="submit" class="btn btn-primary mx-3">
@@ -153,7 +153,7 @@ export default {
 	components: {},
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .img-wrap {
 	position: relative;
 	width: 100%;

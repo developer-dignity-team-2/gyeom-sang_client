@@ -19,8 +19,8 @@
 							<h3 class="me-4">연돈</h3>
 							<div class="status">
 								<button class="btn btn-primary me-2">모집중</button>
-								<button class="btn btn-primary me-2">혼성</button>
-								<button class="btn btn-primary">1/4</button>
+								<button class="btn btn-secondary me-2">혼성</button>
+								<button class="btn btn-secondary">1/4</button>
 							</div>
 						</div>
 
@@ -64,9 +64,9 @@
 						</div>
 					</div>
 					<div class="col d-flex justify-content-center my-5">
-						<button class="btn btn-primary mx-2">수정</button>
-						<button class="btn btn-primary mx-2">목록</button>
-						<button class="btn btn-primary mx-2">삭제</button>
+						<button class="btn btn-secondary mx-2">수정</button>
+						<button class="btn btn-secondary mx-2">목록</button>
+						<button class="btn btn-secondary mx-2">삭제</button>
 					</div>
 					<!-- 구분선 -->
 					<div class="col my-3">
