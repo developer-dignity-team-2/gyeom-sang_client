@@ -77,13 +77,13 @@
 					</div>
 					<!-- 밥상카드 -->
 					<div class="row">
-						<div class="col mb-4">
+						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
 							<BabsangCard />
 						</div>
-						<div class="col mb-4">
+						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
 							<BabsangCard />
 						</div>
-						<div class="col mb-4">
+						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
 							<BabsangCard />
 						</div>
 					</div>
@@ -95,7 +95,7 @@
 
 <script>
 import CompUserProfile from '@/components/comp-user-profile';
-import BabsangCard from '@/components/myBabsangCard';
+import BabsangCard from '@/components/babsangCard';
 
 export default {
 	name: 'MypageProfile',
