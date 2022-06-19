@@ -137,16 +137,16 @@ export default {
 	components: {},
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .img-wrap {
 	position: relative;
 	width: 100%;
 	height: 0;
 	padding-bottom: 56.26%;
 	overflow: hidden;
-}
-.img-wrap.map-wrap {
-	padding-bottom: 40%;
+	&.map-wrap {
+		padding-bottom: 40%;
+	}
 }
 .img-wrap.pf {
 	padding-bottom: 100%;
