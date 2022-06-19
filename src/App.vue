@@ -63,7 +63,7 @@
 							</div>
 						</div>
 					</router-link>
-					<p class="m-0 pt-0" style="font-size: 0.6rem">개발자의 품격</p>
+					<p class="m-0 pt-0" style="font-size: 0.6rem">숟갈1</p>
 				</li>
 			</ul>
 			<!-- <button
