@@ -2,7 +2,7 @@
 	<div class="container mb-5">
 		<div class="row my-4">
 			<!-- 네브바 -->
-			<div class="col-xl-3 col-sm-12">
+			<div class="col-md-3 col-sm-12">
 				<CompUserProfile />
 			</div>
 			<!-- 본문영역 -->

@@ -102,3 +102,4 @@ export default {
 	components: { CompUserProfile, BabsangCard },
 };
 </script>
+<style scoped lang="scss"></style>
