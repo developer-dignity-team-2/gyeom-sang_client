@@ -14,3 +14,9 @@
 ```
 npm install -D sass-loader@^10 sass
 ```
+
+- color palette
+    - https://colorhunt.co/
+    - https://colors.muz.li/
+    - https://color.adobe.com/ko/create/color-wheel
+    - (색상조합 사이트 모음 블로그)[https://moo-you.tistory.com/214]
