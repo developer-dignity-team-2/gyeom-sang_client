@@ -88,7 +88,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .favorite {
 	position: absolute;
 	top: 0.5rem;
