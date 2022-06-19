@@ -61,7 +61,7 @@
 							<div class="d-flex align-items-center">
 								<div class="profile me-3" style="width: 6rem">
 									<div class="img-wrap pf rounded-circle">
-										<img src="@/assets/exProfile.jpg" alt="프로필" />
+										<img src="@/assets/img/exProfile.jpg" alt="프로필" />
 									</div>
 								</div>
 								<ul>
