@@ -1,5 +1,9 @@
 <template>
-	<div class="card rounded mb-4" style="max-width: 25rem; overflow: hidden">
+	<div
+		class="card rounded mb-4"
+		style="max-width: 25rem; overflow: hidden"
+		@click="goDetail"
+	>
 		<img
 			src="https://cdn.pixabay.com/photo/2016/09/23/23/23/restaurant-1690696_1280.jpg"
 			class="card-img-center"
@@ -19,9 +23,9 @@
 				<p class="card-text mb-2">2022.05.29~2022.06.10</p>
 			</div>
 			<div>
-				<button type="button" class="btn btn-outline-dark me-2">모집중</button>
-				<button type="button" class="btn btn-outline-dark me-2">혼성</button>
-				<button type="button" class="btn btn-outline-dark">1/4</button>
+				<button type="button" class="btn btn-primary me-2">모집중</button>
+				<button type="button" class="btn btn-secondary me-2">혼성</button>
+				<button type="button" class="btn btn-secondary">1/4</button>
 			</div>
 		</div>
 	</div>
@@ -30,10 +34,17 @@
 <script>
 export default {
 	name: 'BabsangCard',
+	methods: {
+		goDetail() {
+			this.$router.push({
+				path: '/babsang',
+			});
+		},
+	},
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .favorite {
 	position: absolute;
 	top: 0.5rem;

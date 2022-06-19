@@ -19,8 +19,8 @@
 							<h3 class="me-4">연돈</h3>
 							<div class="status">
 								<button class="btn btn-primary me-2">모집중</button>
-								<button class="btn btn-primary me-2">혼성</button>
-								<button class="btn btn-primary">1/4</button>
+								<button class="btn btn-secondary me-2">혼성</button>
+								<button class="btn btn-secondary">1/4</button>
 							</div>
 						</div>
 
@@ -60,13 +60,13 @@
 							</li>
 						</ul>
 						<div class="img-wrap map-wrap rounded">
-							<img src="@/assets/exampleMap.jpg" alt="food1" />
+							<img src="@/assets/img/exampleMap.jpg" alt="food1" />
 						</div>
 					</div>
 					<div class="col d-flex justify-content-center my-5">
-						<button class="btn btn-primary mx-2">수정</button>
-						<button class="btn btn-primary mx-2">목록</button>
-						<button class="btn btn-primary mx-2">삭제</button>
+						<button class="btn btn-secondary mx-2">수정</button>
+						<button class="btn btn-secondary mx-2">목록</button>
+						<button class="btn btn-secondary mx-2">삭제</button>
 					</div>
 					<!-- 구분선 -->
 					<div class="col my-3">
@@ -84,7 +84,7 @@
 						<div class="d-flex align-items-center">
 							<div class="profile me-3" style="width: 6rem">
 								<div class="img-wrap pf rounded-circle">
-									<img src="@/assets/exProfile.jpg" alt="프로필" />
+									<img src="@/assets/img/exProfile.jpg" alt="프로필" />
 								</div>
 							</div>
 							<ul>
@@ -123,7 +123,9 @@
 							<font-awesome-icon icon="fa-solid fa-spoon" />
 							<span class="ps-3">7명 !</span>
 						</p>
-						<button class="btn btn-primary">숟갈 선택</button>
+						<button class="btn btn-primary" @click="goSelectPage">
+							숟갈 선택
+						</button>
 					</div>
 				</div>
 			</div>
@@ -135,6 +137,13 @@
 export default {
 	name: 'Babsang',
 	components: {},
+	methods: {
+		goSelectPage() {
+			this.$router.push({
+				path: '/babsang-select',
+			});
+		},
+	},
 };
 </script>
 <style scoped lang="scss">
