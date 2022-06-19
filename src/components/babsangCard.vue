@@ -1,5 +1,9 @@
 <template>
-	<div class="card rounded mb-4" style="max-width: 25rem; overflow: hidden">
+	<div
+		class="card rounded mb-4"
+		style="max-width: 25rem; overflow: hidden"
+		@click="goDetail"
+	>
 		<img
 			src="https://cdn.pixabay.com/photo/2016/09/23/23/23/restaurant-1690696_1280.jpg"
 			class="card-img-center"
@@ -30,6 +34,13 @@
 <script>
 export default {
 	name: 'BabsangCard',
+	methods: {
+		goDetail() {
+			this.$router.push({
+				path: '/babsang',
+			});
+		},
+	},
 };
 </script>
 

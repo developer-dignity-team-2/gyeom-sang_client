@@ -60,7 +60,7 @@
 							</li>
 						</ul>
 						<div class="img-wrap map-wrap rounded">
-							<img src="@/assets/exampleMap.jpg" alt="food1" />
+							<img src="@/assets/img/exampleMap.jpg" alt="food1" />
 						</div>
 					</div>
 					<div class="col d-flex justify-content-center my-5">
@@ -84,7 +84,7 @@
 						<div class="d-flex align-items-center">
 							<div class="profile me-3" style="width: 6rem">
 								<div class="img-wrap pf rounded-circle">
-									<img src="@/assets/exProfile.jpg" alt="프로필" />
+									<img src="@/assets/img/exProfile.jpg" alt="프로필" />
 								</div>
 							</div>
 							<ul>
@@ -123,7 +123,9 @@
 							<font-awesome-icon icon="fa-solid fa-spoon" />
 							<span class="ps-3">7명 !</span>
 						</p>
-						<button class="btn btn-primary">숟갈 선택</button>
+						<button class="btn btn-primary" @click="goSelectPage">
+							숟갈 선택
+						</button>
 					</div>
 				</div>
 			</div>
@@ -135,6 +137,13 @@
 export default {
 	name: 'Babsang',
 	components: {},
+	methods: {
+		goSelectPage() {
+			this.$router.push({
+				path: '/babsang-select',
+			});
+		},
+	},
 };
 </script>
 <style scoped lang="scss">
