@@ -1,38 +1,84 @@
 <template>
 	<div class="container">
-		<!-- 검색창 -->
 		<div class="row my-4">
 			<h3>함께 식사할 숟갈을 선택해 주세요!</h3>
 		</div>
 		<!-- 함께할 숟갈 -->
-		<div style="position: sticky; top: 0">
-			<h5>함께할 숟갈</h5>
-			<div class="row text-center mb-5">
-				<div class="col-3 profile me-3" style="width: 6rem">
-					<div class="img-wrap pf rounded-circle">
-						<img :src="user[0].profile_image" alt="프로필" />
+		<div style="position: sticky; top: 0; z-index: 1">
+			<h5 style="opacity: 1; background-color: white">함께할 숟갈</h5>
+			<div
+				class="col-xl-6 col-12 border rounded p-3 text-center"
+				style="opacity: 1; background-color: white"
+			>
+				<div
+					style="display: flex; align-items: center; justify-content: center"
+				>
+					<div class="row">
+						<div class="col">
+							<div style="width: 6rem">
+								<div class="img-wrap pf rounded-circle mb-1">
+									<img :src="user[0].profile_image" alt="프로필" />
+								</div>
+								<strong>{{ user[0].nickname }}</strong>
+							</div>
+						</div>
+						<div class="col">
+							<div style="width: 6rem">
+								<div class="img-wrap pf rounded-circle mb-1">
+									<img :src="user[1].profile_image" alt="프로필" />
+								</div>
+								<strong>{{ user[1].nickname }}</strong>
+							</div>
+						</div>
+						<div class="col">
+							<div style="width: 6rem">
+								<div class="img-wrap pf rounded-circle mb-1">
+									<img :src="user[2].profile_image" alt="프로필" />
+								</div>
+								<strong>{{ user[2].nickname }}</strong>
+							</div>
+						</div>
 					</div>
-					<strong>{{ user[0].nickname }}</strong>
 				</div>
-				<div class="col-3 profile me-3" style="width: 6rem">
-					<div class="img-wrap pf rounded-circle">
-						<img :src="user[1].profile_image" alt="프로필" />
-					</div>
-					<strong>{{ user[1].nickname }}</strong>
-				</div>
-				<div class="col-3 profile me-3" style="width: 6rem">
-					<div class="img-wrap pf rounded-circle">
-						<img :src="user[2].profile_image" alt="프로필" />
-					</div>
-					<strong>{{ user[2].nickname }}</strong>
+			</div>
+			<div class="col-xl-6 col-12 mt-2" v-show="comfirm">
+				<textarea
+					class="form-control"
+					style="resize: none"
+					id="exampleTextarea"
+					rows="3"
+					v-model="selectedMessage"
+				></textarea>
+			</div>
+
+			<div
+				class="col-xl-6 col-12 mt-2"
+				style="display: flex; align-items: center; justify-content: center"
+			>
+				<button
+					type="button"
+					class="btn btn-primary mx-3"
+					v-show="!comfirm"
+					@click="doComfirm()"
+				>
+					선정
+				</button>
+				<div v-show="comfirm">
+					<button
+						type="button"
+						class="btn btn-primary mx-3"
+						@click="doComfirm()"
+					>
+						확인
+					</button>
+					<button type="submit" class="btn btn-secondary" @click="doComfirm()">
+						취소
+					</button>
 				</div>
 			</div>
 		</div>
-		<h5>신청한 숟갈</h5>
-		<div class="row mt-4 mb-4">
-			<div class="col-8 d-flex justify-content-left">
-				<div class="d-flex justify-content-center"></div>
-			</div>
+		<div class="mt-4 mb-3">
+			<h5>신청한 숟갈</h5>
 			<div class="col">
 				<div class="row">
 					<!-- 정렬 버튼 -->
@@ -81,7 +127,11 @@
 		</div>
 		<!-- 신청 숟갈 카드 -->
 		<div class="row">
-			<div class="col-4 mb-4" :key="spoon.email" v-for="spoon in user">
+			<div
+				class="col-xl-4 col-md-6 col-sm-12 mb-4"
+				:key="spoon.email"
+				v-for="spoon in user"
+			>
 				<userCard
 					:email="spoon.email"
 					:gender="spoon.gender"
@@ -102,6 +152,13 @@ export default {
 	components: { userCard },
 	data() {
 		return {
+			comfirm: false,
+			selectedMessage: '',
+			diningTableSpoons: {
+				spoon_email: 'spoon1@gmail.com',
+				nickname: '숟갈1',
+				dining_table_id: 1,
+			},
 			user: [
 				{
 					email: 'spoon1@gmail.com',
@@ -268,9 +325,22 @@ export default {
 	},
 	setup() {},
 	created() {},
-	mounted() {},
+	mounted() {
+		this.initialMessage();
+	},
 	unmounted() {},
-	methods: {},
+	methods: {
+		initialMessage() {
+			this.selectedMessage = `축하합니다 ^O^ ${this.diningTableSpoons.nickname}님은 ${this.diningTableSpoons.dining_table_id}번 밥상의 숟갈로 선정되셨습니다.`;
+		},
+		doComfirm() {
+			if (this.comfirm === false) {
+				this.comfirm = true;
+			} else {
+				this.comfirm = false;
+			}
+		},
+	},
 };
 </script>
 <style scoped lang="scss">
