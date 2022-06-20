@@ -331,7 +331,7 @@ export default {
 	unmounted() {},
 	methods: {
 		initialMessage() {
-			this.selectedMessage = `축하합니다 ^O^ ${this.diningTableSpoons.nickname}님은 ${this.diningTableSpoons.dining_table_id}번 밥상의 숟갈로 선택되셨습니다.`;
+			this.selectedMessage = `축하합니다 ^O^ ${this.diningTableSpoons.nickname}님은 ${this.diningTableSpoons.dining_table_id}번 밥상의 숟갈로 선정되셨습니다.`;
 		},
 		doComfirm() {
 			if (this.comfirm === false) {
