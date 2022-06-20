@@ -1,10 +1,10 @@
 <template>
 	<div class="container">
 		<div class="row my-4">
-			<div class="col-md-3 col-sm-12">
+			<div class="col-lg-3 col-md-4 col-sm-12">
 				<CompUserProfile />
 			</div>
-			<div class="col-md-9 col-sm-12">
+			<div class="col-lg-9 col-md-8 col-sm-12">
 				<h3>메세지함</h3>
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 					<button

@@ -2,7 +2,7 @@
 	<div class="container">
 		<!-- 검색창 -->
 		<div class="row my-4">
-			<h3>함께 식사할 숟갈들을 선택해 주세요!</h3>
+			<h3>함께 식사할 숟갈을 선택해 주세요!</h3>
 		</div>
 		<!-- 함께할 숟갈 -->
 		<div style="position: sticky; top: 0">
@@ -273,7 +273,7 @@ export default {
 	methods: {},
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .favorite {
 	position: absolute;
 	top: 0.5rem;
