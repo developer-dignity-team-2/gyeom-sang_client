@@ -1,6 +1,6 @@
 <template>
-	<div class="col border rounded p-3">
-		<div class="d-flex align-items-center">
+	<div class="card rounded p-3" style="overflow: hidden">
+		<div class="d-flex align-items-center mb-3">
 			<div class="profile me-3" style="width: 6rem">
 				<div class="img-wrap pf rounded-circle">
 					<img :src="profile_image" alt="프로필" />
@@ -20,7 +20,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="p-3">{{ dining_spoons_description }}</div>
+		<div class="p-1">{{ dining_spoons_description }}</div>
 	</div>
 </template>
 

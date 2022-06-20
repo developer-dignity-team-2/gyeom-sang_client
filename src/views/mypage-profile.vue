@@ -99,22 +99,22 @@
 								<button
 									type="button"
 									class="btn btn-primary mx-3"
-									v-show="modifySave === false"
+									v-show="!modifySave"
 									@click="doModifySave()"
 								>
 									수정
 								</button>
-								<div v-show="modifySave === true">
+								<div v-show="modifySave">
 									<button
 										type="button"
-										class="btn btn-secondary mx-3"
+										class="btn btn-primary mx-3"
 										@click="doModifySave()"
 									>
 										저장
 									</button>
 									<button
 										type="submit"
-										class="btn btn-primary"
+										class="btn btn-secondary"
 										@click="doModifySave()"
 									>
 										취소
