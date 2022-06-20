@@ -1,19 +1,22 @@
 <template>
 	<div class="container">
 		<div class="row my-4">
-			<div class="col-md-3 col-sm-12">
+			<!-- 네브 -->
+			<div class="col-xl-3 col-md-4 col-sm-12">
 				<CompUserProfile />
 			</div>
-			<div class="col-md-9 col-sm-12">
+			<!-- 본문 -->
+			<div class="col-xl-9 col-md-8 col-sm-12">
 				<h3>메세지함</h3>
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 					<button
 						type="button"
 						class="btn btn-primary"
 						style="margin-bottom: 10px"
-						disabled
+						:disabled="checked.length === 0"
 					>
 						삭제
+						<!-- 삭제하는 함수만들기 -->
 					</button>
 				</div>
 				<!-- 받은메세지, 보낸메시지 -->
@@ -79,8 +82,12 @@
 					<thead>
 						<tr>
 							<th scope="col">
-								<input class="form-check-input" type="checkbox" />
-								<label class="form-check-label" for="gridCheck"> </label>
+								<input
+									class="form-check-input"
+									type="checkbox"
+									v-model="checked_all"
+									@change="doSelectAll"
+								/>
 							</th>
 							<th v-for="th in Headers" :key="th.key" class="text-left">
 								{{ th.title }}
@@ -90,8 +97,13 @@
 					<tbody>
 						<tr :key="i" v-for="(user, i) in userData">
 							<td scope="row">
-								<input class="form-check-input" type="checkbox" />
-								<label class="form-check-label" for="gridCheck"></label>
+								<input
+									class="form-check-input"
+									type="checkbox"
+									:value="user.email"
+									v-model="checked"
+									@change="doSelect"
+								/>
 							</td>
 							<td
 								v-for="th in Headers"
@@ -142,7 +154,8 @@ export default {
 	components: { CompUserProfile },
 	data() {
 		return {
-			select: false,
+			checked_all: false,
+			checked: [],
 			Headers: [
 				{
 					title: '닉네임',
@@ -257,6 +270,17 @@ export default {
 	methods: {
 		messageView() {
 			this.$router.push('/mypage/message-view');
+		},
+		doSelect() {
+			console.log(this.checked);
+		},
+		doSelectAll() {
+			this.checked = [];
+			if (this.checked_all) {
+				for (let i in this.userData) {
+					this.checked.push(this.userData[i].email);
+				}
+			}
 		},
 	},
 };
