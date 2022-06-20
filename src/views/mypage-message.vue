@@ -1,16 +1,17 @@
 <template>
 	<div class="container">
 		<div class="row my-4">
-			<div class="col-lg-3 col-md-4 col-sm-12">
+			<div class="col-md-3 col-sm-12">
 				<CompUserProfile />
 			</div>
-			<div class="col-lg-9 col-md-8 col-sm-12">
+			<div class="col-md-9 col-sm-12">
 				<h3>메세지함</h3>
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 					<button
 						type="button"
-						class="btn btn-primary disabled"
+						class="btn btn-primary"
 						style="margin-bottom: 10px"
+						disabled
 					>
 						삭제
 					</button>
@@ -34,7 +35,7 @@
 						<button type="button" class="btn btn-primary">모집중</button>
 						<div class="btn-group" role="group">
 							<button
-								id="btnGroupDrop4"
+								email="btnGroupDrop4"
 								type="button"
 								class="btn btn-primary dropdown-toggle"
 								data-bs-toggle="dropdown"
@@ -53,7 +54,7 @@
 						<button type="button" class="btn btn-primary">최신순</button>
 						<div class="btn-group" role="group">
 							<button
-								id="btnGroupDrop4"
+								email="btnGroupDrop4"
 								type="button"
 								class="btn btn-primary dropdown-toggle"
 								data-bs-toggle="dropdown"
@@ -90,7 +91,7 @@
 						<tr :key="i" v-for="(user, i) in userData">
 							<td scope="row">
 								<input class="form-check-input" type="checkbox" />
-								<label class="form-check-label" for="gridCheck"> </label>
+								<label class="form-check-label" for="gridCheck"></label>
 							</td>
 							<td
 								v-for="th in Headers"
@@ -137,117 +138,118 @@
 <script>
 import CompUserProfile from '@/components/comp-user-profile';
 export default {
-	name: 'MypagMessage',
+	nickname: 'MypagMessage',
 	components: { CompUserProfile },
 	data() {
 		return {
+			select: false,
 			Headers: [
 				{
 					title: '닉네임',
-					key: 'name',
+					key: 'nickname',
 				},
 				{ title: '내용', key: 'message' },
-				{ title: '장소', key: 'place' },
+				{ title: '장소', key: 'restaurant_location' },
 				{ title: '날짜', key: 'data' },
 			],
 			userData: [
 				{
-					id: 0,
-					name: '개발자의품격',
+					email: 0,
+					nickname: '개발자의품격',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: 2022.06,
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 1,
-					name: '김민수',
+					email: 1,
+					nickname: '김민수',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: 2022.06,
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 2,
-					name: '원신희',
+					email: 2,
+					nickname: '원신희',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: 2022.06,
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 3,
-					name: '양세영',
+					email: 3,
+					nickname: '양세영',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 4,
-					name: '유승완',
+					email: 4,
+					nickname: '유승완',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 5,
-					name: '윤여진',
+					email: 5,
+					nickname: '윤여진',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 6,
-					name: '김준현',
+					email: 6,
+					nickname: '김준현',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 7,
-					name: '차은우',
+					email: 7,
+					nickname: '차은우',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 8,
-					name: '이민형',
+					email: 8,
+					nickname: '이민형',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 9,
-					name: '정재현',
+					email: 9,
+					nickname: '정재현',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 10,
-					name: '황민현',
+					email: 10,
+					nickname: '황민현',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 11,
-					name: '연준',
+					email: 11,
+					nickname: '연준',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 12,
-					name: '문세윤',
+					email: 12,
+					nickname: '문세윤',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 				{
-					id: 13,
-					name: '배고파',
+					email: 13,
+					nickname: '배고파',
 					message: '메세지가 도착하였습니다',
-					place: '제주도 할매 칼국수',
-					data: '22.06.06',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
 				},
 			],
 		};
