@@ -6,7 +6,10 @@
 				<li class="mb-3">
 					<div class="dropdown-item rounded-2 active">
 						<div class="row">
-							<div class="col-8">{{ i + 1 }}. {{ manner.question }}</div>
+							<div class="col-1">{{ i + 1 }}.</div>
+							<div class="col-7">
+								<span>{{ manner.question }}</span>
+							</div>
 							<div class="col-4" style="font-size: 1rem; text-align: end">
 								<font-awesome-icon icon="fa-solid fa-spoon" />
 								<span class="ps-1">{{ manner.count }}</span>
