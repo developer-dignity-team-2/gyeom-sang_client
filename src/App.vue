@@ -2,7 +2,18 @@
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid container">
 			<!-- <a class="navbar-brand" href="#">겸상</a> -->
-			<router-link to="/" class="navbar-brand fw-bold">겸상</router-link>
+			<router-link to="/" class="navbar-brand fw-bold">
+				<ul class="nav-r d-flex justify-content-center align-items-center">
+					<li class="d-flex flex-column align-items-center mb-1 me-2">
+						<div class="pf-wrap" style="width: 2.5rem">
+							<div class="img-wrap">
+								<img src="@/assets/img/gs_simbol.png" alt="프로필" />
+							</div>
+						</div>
+					</li>
+					겸상
+				</ul>
+			</router-link>
 			<div class="collapse navbar-collapse" id="navbarColor03">
 				<ul class="navbar-nav me-auto">
 					<!-- <li class="nav-item">
