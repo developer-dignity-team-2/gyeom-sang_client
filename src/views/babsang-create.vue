@@ -18,7 +18,7 @@
 		<!-- 신청폼 -->
 		<div class="row">
 			<div class="col">
-				<form class="border rounded p-4">
+				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
 					<fieldset>
 						<!-- <legend>밥상 준비하기</legend> -->
 						<div class="form-group">
@@ -163,8 +163,21 @@ export default {
 		};
 	},
 	mounted() {},
-	unmounted() {},
-	methods: {},
+	methods: {
+		onSubmitForm() {
+			this.$store.dispatch('babsang/upLoadBabsang', {
+				restaurant_name: '제주 할매 칼국수7',
+				dining_datetime: '2022-06-17 05:24:01',
+				recruit_start_date: '2022-06-10 05:00:00',
+				recruit_end_date: '2022-06-15 05:00:00',
+				gender_check: 'ALL',
+				dining_description: '칼국수 너무 맛있을 것 같아요.',
+				restaurant_location: '제주 서귀포시 할매 칼국수',
+				dining_thumbnail:
+					'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
+			});
+		},
+	},
 };
 </script>
 <style scoped lang="scss">
