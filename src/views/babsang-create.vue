@@ -38,6 +38,7 @@
 							<label for="exampleInputEmail1" class="form-label mt-4"
 								>식당 위치 검색</label
 							>
+
 							<input
 								type="email"
 								class="form-control"
@@ -45,10 +46,13 @@
 								aria-describedby="emailHelp"
 								placeholder="검색"
 							/>
+							<div id="map">
+								<userMap />
+							</div>
 						</div>
 						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4"
-								>식사 일시</label
+							<label for="exampleInputEmail1" class="form-label mt-4">
+								식사 일시</label
 							>
 							<input
 								type="email"
@@ -148,9 +152,19 @@
 </template>
 
 <script>
+import userMap from '@/components/userMap.vue';
 export default {
 	name: 'BabsangCreate',
-	components: {},
+	components: { userMap },
+	data() {
+		return {
+			sampleData: '',
+			// map: null,
+		};
+	},
+	mounted() {},
+	unmounted() {},
+	methods: {},
 };
 </script>
 <style scoped lang="scss">
@@ -172,5 +186,11 @@ export default {
 	position: absolute;
 	bottom: 0;
 	right: 0;
+}
+#map {
+	width: 500px;
+	height: 500px;
+	margin: auto;
+	margin-top: 10px;
 }
 </style>
