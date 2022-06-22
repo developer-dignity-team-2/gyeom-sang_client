@@ -5,75 +5,84 @@
 		</div>
 		<!-- 함께할 숟갈 -->
 		<div style="position: sticky; top: 0; z-index: 1">
-			<h5 style="opacity: 1; background-color: white">함께할 숟갈</h5>
-			<div
-				class="col-xl-6 col-12 border rounded p-3 text-center"
-				style="opacity: 1; background-color: white"
-			>
-				<div
-					style="display: flex; align-items: center; justify-content: center"
-				>
-					<div class="row">
-						<div class="col">
-							<div style="width: 6rem">
-								<div class="img-wrap pf rounded-circle mb-1">
-									<img :src="user[0].profile_image" alt="프로필" />
+			<div style="opacity: 1; background-color: white">
+				<h5>함께할 숟갈</h5>
+				<div class="col-12 border rounded p-3 text-center">
+					<div
+						style="display: flex; align-items: center; justify-content: center"
+					>
+						<div class="row">
+							<div class="col">
+								<div style="width: 6rem">
+									<div class="img-wrap pf rounded-circle mb-1">
+										<img :src="user[0].profile_image" alt="프로필" />
+									</div>
+									<strong>{{ user[0].nickname }}</strong>
 								</div>
-								<strong>{{ user[0].nickname }}</strong>
 							</div>
-						</div>
-						<div class="col">
-							<div style="width: 6rem">
-								<div class="img-wrap pf rounded-circle mb-1">
-									<img :src="user[1].profile_image" alt="프로필" />
+							<div class="col">
+								<div style="width: 6rem">
+									<div class="img-wrap pf rounded-circle mb-1">
+										<img :src="user[1].profile_image" alt="프로필" />
+									</div>
+									<strong>{{ user[1].nickname }}</strong>
 								</div>
-								<strong>{{ user[1].nickname }}</strong>
 							</div>
-						</div>
-						<div class="col">
-							<div style="width: 6rem">
-								<div class="img-wrap pf rounded-circle mb-1">
-									<img :src="user[2].profile_image" alt="프로필" />
+							<div class="col">
+								<div style="width: 6rem">
+									<div class="img-wrap pf rounded-circle mb-1">
+										<img :src="user[2].profile_image" alt="프로필" />
+									</div>
+									<strong>{{ user[2].nickname }}</strong>
 								</div>
-								<strong>{{ user[2].nickname }}</strong>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div class="col-12 mt-2" v-show="comfirm">
+					<textarea
+						class="form-control"
+						style="resize: none"
+						id="exampleTextarea"
+						rows="3"
+						v-model="selectedMessage"
+					></textarea>
+				</div>
 			</div>
-			<div class="col-xl-6 col-12 mt-2" v-show="comfirm">
-				<textarea
-					class="form-control"
-					style="resize: none"
-					id="exampleTextarea"
-					rows="3"
-					v-model="selectedMessage"
-				></textarea>
-			</div>
-
+			<!-- 확정(메시지 발송) -->
 			<div
-				class="col-xl-6 col-12 mt-2"
-				style="display: flex; align-items: center; justify-content: center"
+				style="
+					background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
+				"
 			>
-				<button
-					type="button"
-					class="btn btn-primary mx-3"
-					v-show="!comfirm"
-					@click="doComfirm()"
+				<div
+					class="col-12"
+					style="display: flex; align-items: center; justify-content: center"
 				>
-					선정
-				</button>
-				<div v-show="comfirm">
 					<button
 						type="button"
-						class="btn btn-primary mx-3"
+						class="btn btn-primary mt-1 mx-3"
+						v-show="!comfirm"
 						@click="doComfirm()"
 					>
-						확인
+						선택 완료
 					</button>
-					<button type="submit" class="btn btn-secondary" @click="doComfirm()">
-						취소
-					</button>
+					<div v-show="comfirm">
+						<button
+							type="button"
+							class="btn btn-primary mt-1 mx-3"
+							@click="doComfirm()"
+						>
+							확정(메시지 발송)
+						</button>
+						<button
+							type="submit"
+							class="btn btn-secondary mt-1"
+							@click="doComfirm()"
+						>
+							취소
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
