@@ -77,7 +77,7 @@
 					</div>
 					<!-- 밥상카드 -->
 					<div class="row">
-						<MainCardList :babsangData="babsangData" />
+						<MainCardList :babsangData="babsangData.result" />
 					</div>
 				</div>
 			</div>
@@ -88,26 +88,24 @@
 <script>
 import CompUserProfile from '@/components/comp-user-profile';
 import MainCardList from '@/components/main/MainCardList';
-import { mapActions, mapGetters } from 'vuex';
 
 export default {
 	name: 'MypageProfile',
 	components: { CompUserProfile, MainCardList },
 	data() {
-		return {};
+		return {
+			babsangData: [],
+		};
 	},
-	computed: {
-		...mapGetters({
-			babsangData: 'babsang/getBabsangData',
-		}),
-	},
-	created() {
-		this.loadBabsangData();
+	computed: {},
+	mounted() {
+		this.getBabsangData();
 	},
 	methods: {
-		...mapActions({ loadBabsangData: 'babsang/loadBabsangData' }),
-		test() {
-			console.log(this.babsangData);
+		async getBabsangData() {
+			this.babsangData = await this.$get(
+				`https://nicespoons.com/api/v1/babsang`,
+			);
 		},
 	},
 };
