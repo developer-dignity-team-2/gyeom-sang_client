@@ -77,15 +77,7 @@
 					</div>
 					<!-- 밥상카드 -->
 					<div class="row">
-						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
-							<BabsangCard />
-						</div>
-						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
-							<BabsangCard />
-						</div>
-						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
-							<BabsangCard />
-						</div>
+						<MainCardList :babsangData="babsangData" />
 					</div>
 				</div>
 			</div>
@@ -95,11 +87,29 @@
 
 <script>
 import CompUserProfile from '@/components/comp-user-profile';
-import BabsangCard from '@/components/babsangCard';
+import MainCardList from '@/components/main/MainCardList';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
 	name: 'MypageProfile',
-	components: { CompUserProfile, BabsangCard },
+	components: { CompUserProfile, MainCardList },
+	data() {
+		return {};
+	},
+	computed: {
+		...mapGetters({
+			babsangData: 'babsang/getBabsangData',
+		}),
+	},
+	created() {
+		this.loadBabsangData();
+	},
+	methods: {
+		...mapActions({ loadBabsangData: 'babsang/loadBabsangData' }),
+		test() {
+			console.log(this.babsangData);
+		},
+	},
 };
 </script>
 <style scoped lang="scss"></style>
