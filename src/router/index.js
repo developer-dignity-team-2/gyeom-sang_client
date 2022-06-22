@@ -52,6 +52,11 @@ const routes = [
 		name: 'MypageMessageView',
 		component: () => import('../views/mypage-message-view'),
 	},
+	{
+		path: '/babsang-score',
+		name: 'GiveScore',
+		component: () => import('../views/babsang-score'),
+	},
 ];
 
 const router = createRouter({
