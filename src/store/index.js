@@ -1,9 +1,9 @@
 import { createStore } from 'vuex';
 
-import babsang from './modules/babsang';
+import user from './user';
 
 export default createStore({
 	modules: {
-		babsang,
+		user,
 	},
 });
