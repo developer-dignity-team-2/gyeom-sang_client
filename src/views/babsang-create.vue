@@ -141,7 +141,7 @@
 								숟갈 엎기
 							</button>
 							<button type="submit" class="btn btn-primary mx-3">
-								숟갈 차리기
+								밥상 차리기
 							</button>
 						</div>
 					</fieldset>
