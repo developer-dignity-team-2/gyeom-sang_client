@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<!-- 검색창 -->
-		<div class="row row-cols-1 mt-3">
+		<div class="row row-cols-1 mt-3" @click="test()">
 			<div
 				class="col my-5 d-flex flex-column align-items-center justify-content-center"
 			>
@@ -71,28 +71,36 @@
 		</div>
 		<!-- 밥상카드 -->
 		<div class="row">
-			<div class="col-xl-4 col-md-6 col-sm-12 mb-4">
-				<BabsangCard />
-			</div>
-			<div class="col-xl-4 col-md-6 col-sm-12 mb-4">
-				<BabsangCard />
-			</div>
-			<div class="col-xl-4 col-md-6 col-sm-12 mb-4">
-				<BabsangCard />
-			</div>
-			<div class="col-xl-4 col-md-6 col-sm-12 mb-4">
-				<BabsangCard />
-			</div>
+			<MainCardList :babsangData="babsangData" />
 		</div>
 	</div>
 </template>
 
 <script>
-import BabsangCard from '@/components/babsangCard';
+import MainCardList from '@/components/main/MainCardList';
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
 	name: 'Main',
 	components: {
-		BabsangCard,
+		MainCardList,
+	},
+	data() {
+		return {};
+	},
+	computed: {
+		...mapGetters({
+			babsangData: 'babsang/getBabsangData',
+		}),
+	},
+	created() {
+		this.loadBabsangData();
+	},
+	methods: {
+		...mapActions({ loadBabsangData: 'babsang/loadBabsangData' }),
+		test() {
+			console.log(this.babsangData);
+		},
 	},
 };
 </script>
