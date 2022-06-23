@@ -13,7 +13,7 @@ const routes = [
 		component: () => import('../views/babsang-create'),
 	},
 	{
-		path: '/babsang',
+		path: '/babsang/:babsangId?',
 		name: 'Babsang',
 		component: () => import('../views/babsang'),
 	},

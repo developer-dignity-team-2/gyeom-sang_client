@@ -1,5 +1,5 @@
 <template>
-	<div class="card rounded" style="overflow: hidden" @click="goDetail">
+	<div class="card rounded" style="overflow: hidden">
 		<img
 			:src="itemData.dining_thumbnail"
 			class="card-img-center"
@@ -38,13 +38,7 @@
 <script>
 export default {
 	name: 'BabsangCard',
-	methods: {
-		goDetail() {
-			this.$router.push({
-				path: '/babsang',
-			});
-		},
-	},
+	methods: {},
 	props: {
 		itemData: Object,
 	},

@@ -1,8 +1,9 @@
 <template>
 	<div
 		class="col-xl-4 col-md-6 col-sm-12 mb-4"
-		v-for="(item, index) in babsangData"
-		:key="index"
+		v-for="item in babsangData"
+		:key="item.id"
+		@click="detail(item.id)"
 	>
 		<BabsangCard :itemData="item" />
 	</div>
@@ -19,6 +20,14 @@ export default {
 	},
 	props: {
 		babsangData: Object,
+	},
+	methods: {
+		detail(id) {
+			this.$router.push({
+				name: 'Babsang',
+				params: { babsangId: id },
+			});
+		},
 	},
 };
 </script>

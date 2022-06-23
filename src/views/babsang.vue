@@ -8,19 +8,25 @@
 					<div class="col">
 						<div class="img-wrap rounded">
 							<img
-								src="https://cdn.pixabay.com/photo/2016/09/23/23/23/restaurant-1690696_1280.jpg"
-								alt="food1"
+								:src="babsangDetailData.dining_thumbnail"
+								:alt="babsangDetailData.restaurant_name"
 							/>
 						</div>
 					</div>
 					<!-- 타이틀 -->
 					<div class="col my-4">
 						<div class="title d-flex">
-							<h3 class="me-4">연돈</h3>
+							<h3 class="me-4">{{ babsangDetailData.restaurant_name }}</h3>
 							<div class="status">
-								<button class="btn btn-primary me-2">모집중</button>
-								<button class="btn btn-secondary me-2">혼성</button>
-								<button class="btn btn-secondary">1/4</button>
+								<button class="btn btn-primary me-2">
+									{{ babsangDetailData.dining_status }}
+								</button>
+								<button class="btn btn-secondary me-2">
+									{{ babsangDetailData.gender_check }}
+								</button>
+								<button class="btn btn-secondary">
+									1/{{ babsangDetailData.dining_count }}
+								</button>
 							</div>
 						</div>
 
@@ -28,13 +34,17 @@
 							<li>
 								<dl>
 									<dt>식사 일시</dt>
-									<dd>2022.06.28 13:00</dd>
+									<dd>{{ babsangDetailData.dining_datetime }}</dd>
 								</dl>
 							</li>
 							<li>
 								<dl>
 									<dt>모집기간</dt>
-									<dd>2022.06.10 ~ 2022.06.20</dd>
+									<dd>
+										{{ babsangDetailData.recruit_start_date }}~{{
+											babsangDetailData.recruit_end_date
+										}}
+									</dd>
 								</dl>
 							</li>
 						</ul>
@@ -42,7 +52,7 @@
 					<!-- 소개 내용 -->
 					<div class="col">
 						<div class="border rounded p-3" style="min-height: 20rem">
-							안녕하세요 같이 제주도 연돈가실분 구해요
+							{{ babsangDetailData.dining_description }}
 						</div>
 					</div>
 					<!-- 구분선 -->
@@ -137,11 +147,28 @@
 export default {
 	name: 'Babsang',
 	components: {},
+	data() {
+		return {
+			babsangDetailData: [],
+		};
+	},
+	created() {},
+	mounted() {
+		console.log(this.$route.params);
+		this.getBabsangDetailData();
+	},
 	methods: {
 		goSelectPage() {
 			this.$router.push({
 				path: '/babsang-select',
 			});
+		},
+		async getBabsangDetailData() {
+			this.babsangDetailData = await this.$get(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}`,
+			);
+			this.babsangDetailData = this.babsangDetailData.result[0];
+			console.log(this.babsangDetailData);
 		},
 	},
 };

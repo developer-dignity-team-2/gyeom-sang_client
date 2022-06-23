@@ -90,6 +90,7 @@ export default {
 		};
 	},
 	computed: {},
+	created() {},
 	mounted() {
 		this.getBabsangData();
 	},
@@ -98,6 +99,7 @@ export default {
 			this.babsangData = await this.$get(
 				`https://nicespoons.com/api/v1/babsang`,
 			);
+			console.log(this.babsangData);
 		},
 	},
 };
