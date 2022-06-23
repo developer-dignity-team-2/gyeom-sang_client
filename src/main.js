@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import mixins from './mixins';
 
 /* bootstrap */
 import 'bootstrap';
@@ -18,12 +19,14 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faSpoon } from '@fortawesome/free-solid-svg-icons';
+import { faBowlFood } from '@fortawesome/free-solid-svg-icons';
 
 /* add icons to the library */
-library.add(faStar, faImage, faLocationDot, faSpoon);
+library.add(faStar, faImage, faLocationDot, faSpoon, faBowlFood);
 
 createApp(App)
 	.component('font-awesome-icon', FontAwesomeIcon)
 	.use(store)
 	.use(router)
+	.mixin(mixins)
 	.mount('#app');

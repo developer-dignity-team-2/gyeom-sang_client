@@ -13,7 +13,7 @@ const routes = [
 		component: () => import('../views/babsang-create'),
 	},
 	{
-		path: '/babsang',
+		path: '/babsang/:babsangId?',
 		name: 'Babsang',
 		component: () => import('../views/babsang'),
 	},
@@ -51,6 +51,11 @@ const routes = [
 		path: '/mypage/message-view',
 		name: 'MypageMessageView',
 		component: () => import('../views/mypage-message-view'),
+	},
+	{
+		path: '/babsang-score',
+		name: 'GiveScore',
+		component: () => import('../views/babsang-score'),
 	},
 ];
 

@@ -18,7 +18,7 @@
 		<!-- 신청폼 -->
 		<div class="row">
 			<div class="col">
-				<form class="border rounded p-4">
+				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
 					<fieldset>
 						<!-- <legend>밥상 준비하기</legend> -->
 						<div class="form-group">
@@ -38,6 +38,7 @@
 							<label for="exampleInputEmail1" class="form-label mt-4"
 								>식당 위치 검색</label
 							>
+
 							<input
 								type="email"
 								class="form-control"
@@ -45,10 +46,13 @@
 								aria-describedby="emailHelp"
 								placeholder="검색"
 							/>
+							<div id="map">
+								<userMap />
+							</div>
 						</div>
 						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4"
-								>식사 일시</label
+							<label for="exampleInputEmail1" class="form-label mt-4">
+								식사 일시</label
 							>
 							<input
 								type="email"
@@ -133,11 +137,11 @@
 							></textarea>
 						</div>
 						<div class="d-flex justify-content-center mt-5">
-							<button type="button" class="btn btn-primary mx-3">
+							<button type="button" class="btn btn-secondary mx-3">
 								숟갈 엎기
 							</button>
 							<button type="submit" class="btn btn-primary mx-3">
-								숟갈 차리기
+								밥상 차리기
 							</button>
 						</div>
 					</fieldset>
@@ -148,12 +152,45 @@
 </template>
 
 <script>
+import userMap from '@/components/userMap.vue';
 export default {
 	name: 'BabsangCreate',
-	components: {},
+	components: { userMap },
+	data() {
+		return {
+			sampleData: '',
+			// map: null,
+		};
+	},
+	mounted() {},
+	methods: {
+		async onSubmitForm() {
+			await this.$post('https://nicespoons.com/api/v1/babsang', {
+				param: {
+					// restaurant_name: this.restaurant_name,
+					// dining_datetime: this.dining_datetime,
+					// recruit_start_date: this.recruit_start_date,
+					// recruit_end_date: this.recruit_end_date,
+					// gender_check: this.gender_check,
+					// dining_description: this.dining_description,
+					// restaurant_location: this.restaurant_location,
+					// dining_thumbnail: this.dining_thumbnail,
+					restaurant_name: '제주 할매 칼국수7',
+					dining_datetime: '2022-06-17 05:24:01',
+					recruit_start_date: '2022-06-10 05:00:00',
+					recruit_end_date: '2022-06-15 05:00:00',
+					gender_check: 'ALL',
+					dining_description: '칼국수 너무 맛있을 것 같아요.',
+					restaurant_location: '제주 서귀포시 할매 칼국수',
+					dining_thumbnail:
+						'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
+				},
+			});
+		},
+	},
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .img-wrap {
 	position: relative;
 	width: 100%;
@@ -172,5 +209,11 @@ export default {
 	position: absolute;
 	bottom: 0;
 	right: 0;
+}
+#map {
+	width: 500px;
+	height: 500px;
+	margin: auto;
+	margin-top: 10px;
 }
 </style>
