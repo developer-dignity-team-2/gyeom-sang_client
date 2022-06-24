@@ -3,37 +3,34 @@
 		<div class="row my-4">
 			<h3>함께 식사할 숟갈을 선택해 주세요!</h3>
 		</div>
-		<!-- 함께할 숟갈 -->
+		<!-- 선택한 숟갈 -->
 		<div style="position: sticky; top: 0; z-index: 1">
 			<div style="opacity: 1; background-color: white">
 				<h5>함께할 숟갈</h5>
-				<div class="col-12 border rounded p-3 text-center">
+				<div
+					class="col-12 border rounded py-4 text-center"
+					style="min-height: 175px"
+				>
 					<div
 						style="display: flex; align-items: center; justify-content: center"
 					>
-						<div class="row">
-							<div class="col">
-								<div style="width: 6rem">
-									<div class="img-wrap pf rounded-circle mb-1">
-										<img :src="user[3].profile_image" alt="프로필" />
+						<div
+							class="row"
+							style="display: flex; justify-content: space-around"
+						>
+							<div
+								class="col-4"
+								:key="selectedSpoon.email"
+								v-for="selectedSpoon in selectedSpoons"
+								@click="doCancel(selectedSpoon)"
+							>
+								<div class="col">
+									<div style="width: 6rem">
+										<div class="img-wrap pf rounded-circle mb-1">
+											<img :src="selectedSpoon.profile_image" alt="프로필" />
+										</div>
+										<strong>{{ selectedSpoon.nickname }}</strong>
 									</div>
-									<strong>{{ user[3].nickname }}</strong>
-								</div>
-							</div>
-							<div class="col">
-								<div style="width: 6rem">
-									<div class="img-wrap pf rounded-circle mb-1">
-										<img :src="user[4].profile_image" alt="프로필" />
-									</div>
-									<strong>{{ user[4].nickname }}</strong>
-								</div>
-							</div>
-							<div class="col">
-								<div style="width: 6rem">
-									<div class="img-wrap pf rounded-circle mb-1">
-										<img :src="user[6].profile_image" alt="프로필" />
-									</div>
-									<strong>{{ user[6].nickname }}</strong>
 								</div>
 							</div>
 						</div>
@@ -134,12 +131,13 @@
 				</div>
 			</div>
 		</div>
-		<!-- 신청 숟갈 카드 -->
+		<!-- 선택전 숟갈 카드 -->
 		<div class="row">
 			<div
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
 				:key="spoon.email"
 				v-for="spoon in user"
+				@click="doSelect(spoon)"
 			>
 				<userCard
 					:email="spoon.email"
@@ -168,6 +166,7 @@ export default {
 				nickname: '숟갈1',
 				dining_table_id: 1,
 			},
+			selectedSpoons: [],
 			user: [
 				{
 					email: 'spoon1@gmail.com',
@@ -200,7 +199,7 @@ export default {
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 				{
-					email: 'spoon44@gmail.com',
+					email: 'spoon4@gmail.com',
 					gender: '여성',
 					nickname: '숟갈4',
 					profile_image: require('../assets/img/users/w4.png'),
@@ -279,6 +278,116 @@ export default {
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
+				{
+					email: 'spoon12@gmail.com',
+					gender: '남성',
+					nickname: '숟갈12',
+					profile_image: require('../assets/img/users/m1.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon13@gmail.com',
+					gender: '남성',
+					nickname: '숟갈13',
+					profile_image: require('../assets/img/users/m2.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon14@gmail.com',
+					gender: '남성',
+					nickname: '숟갈14',
+					profile_image: require('../assets/img/users/m3.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon15@gmail.com',
+					gender: '남성',
+					nickname: '숟갈15',
+					profile_image: require('../assets/img/users/m4.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon16@gmail.com',
+					gender: '남성',
+					nickname: '숟갈16',
+					profile_image: require('../assets/img/users/m5.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon17@gmail.com',
+					gender: '남성',
+					nickname: '숟갈17',
+					profile_image: require('../assets/img/users/m6.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon18@gmail.com',
+					gender: '남성',
+					nickname: '숟갈18',
+					profile_image: require('../assets/img/users/m7.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon19@gmail.com',
+					gender: '남성',
+					nickname: '숟갈19',
+					profile_image: require('../assets/img/users/m8.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon20@gmail.com',
+					gender: '남성',
+					nickname: '숟갈20',
+					profile_image: require('../assets/img/users/m9.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon21@gmail.com',
+					gender: '남성',
+					nickname: '숟갈21',
+					profile_image: require('../assets/img/users/m10.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon22@gmail.com',
+					gender: '남성',
+					nickname: '숟갈22',
+					profile_image: require('../assets/img/users/m11.png'),
+					age_range: '20대',
+					mannerScore: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
 			],
 		};
 	},
@@ -298,6 +407,18 @@ export default {
 			} else {
 				this.comfirm = false;
 			}
+		},
+		doSelect(spoon) {
+			console.log('숟갈 선택');
+			this.selectedSpoons.push(spoon);
+		},
+		doCancel(spoon) {
+			console.log('선택 취소');
+			this.selectedSpoons = this.selectedSpoons.filter(
+				s => s.email !== spoon.email,
+			);
+			console.log(this.selectedSpoons);
+			// this.selectedSpoons = tmp;
 		},
 	},
 };
