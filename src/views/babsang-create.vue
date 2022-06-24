@@ -1,5 +1,5 @@
 <template>
-	<div class="container mb-5" style="max-width: 1000px">
+	<div class="container mb" style="max-width: 1000px">
 		<!-- 썸네일 추가 -->
 		<div class="row my-4">
 			<div class="col">
@@ -50,30 +50,44 @@
 								<userMap />
 							</div>
 						</div>
+						<!-- datepicker 삽입 -->
 						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4">
-								식사 일시</label
-							>
-							<input
+							식사 일시<datepicker
+								v-model="dining_datetime"
+								class="form-control py-6 px-36 m-1"
+								placeholder="식사 일시"
+							/>
+							<!-- <input
 								type="email"
 								class="form-control"
 								id="exampleInputEmail1"
 								aria-describedby="emailHelp"
 								placeholder="검색"
-							/>
+							/> -->
 						</div>
+						<!-- datepicker 삽입 -->
 						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4"
-								>모집 기간</label
-							>
-							<input
+							모집 기간
+							<datepicker
+								v-model="recruit_start_date"
+								class="form-control py-6 px-36 m-1"
+								placeholder="모집 시작"
+							/>
+							<datepicker
+								v-model="recruit_end_date"
+								class="form-control py-6 px-36 m-1"
+								placeholder="모집 마감"
+							/>
+
+							<!-- <input
 								type="email"
 								class="form-control"
 								id="exampleInputEmail1"
 								aria-describedby="emailHelp"
 								placeholder="검색"
-							/>
+							/> -->
 						</div>
+
 						<div class="form-group">
 							<label class="mt-4">성별 선택</label>
 							<div class="form-check">
@@ -136,7 +150,7 @@
 								rows="3"
 							></textarea>
 						</div>
-						<div class="d-flex justify-content-center mt-5">
+						<div class="d-flex justify-content-center mt">
 							<button type="button" class="btn btn-secondary mx-3">
 								숟갈 엎기
 							</button>
@@ -153,13 +167,20 @@
 
 <script>
 import userMap from '@/components/userMap.vue';
+import Datepicker from 'vue3-datepicker';
+// import { ref } from 'vue';
+// const picked = ref(new Date());
+
 export default {
 	name: 'BabsangCreate',
-	components: { userMap },
+	components: { userMap, Datepicker },
 	data() {
 		return {
 			sampleData: '',
-			// map: null,
+			picked: '',
+			dining_datetime: '',
+			recruit_start_date: '',
+			recruit_end_date: '',
 		};
 	},
 	mounted() {},
