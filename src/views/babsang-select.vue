@@ -15,25 +15,25 @@
 							<div class="col">
 								<div style="width: 6rem">
 									<div class="img-wrap pf rounded-circle mb-1">
-										<img :src="user[0].profile_image" alt="프로필" />
+										<img :src="user[3].profile_image" alt="프로필" />
 									</div>
-									<strong>{{ user[0].nickname }}</strong>
+									<strong>{{ user[3].nickname }}</strong>
 								</div>
 							</div>
 							<div class="col">
 								<div style="width: 6rem">
 									<div class="img-wrap pf rounded-circle mb-1">
-										<img :src="user[1].profile_image" alt="프로필" />
+										<img :src="user[4].profile_image" alt="프로필" />
 									</div>
-									<strong>{{ user[1].nickname }}</strong>
+									<strong>{{ user[4].nickname }}</strong>
 								</div>
 							</div>
 							<div class="col">
 								<div style="width: 6rem">
 									<div class="img-wrap pf rounded-circle mb-1">
-										<img :src="user[2].profile_image" alt="프로필" />
+										<img :src="user[6].profile_image" alt="프로필" />
 									</div>
-									<strong>{{ user[2].nickname }}</strong>
+									<strong>{{ user[6].nickname }}</strong>
 								</div>
 							</div>
 						</div>
@@ -173,7 +173,7 @@ export default {
 					email: 'spoon1@gmail.com',
 					gender: '여성',
 					nickname: '숟갈1',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w1.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
@@ -183,7 +183,7 @@ export default {
 					email: 'spoon2@gmail.com',
 					gender: '여성',
 					nickname: '숟갈2',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w2.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
@@ -193,17 +193,17 @@ export default {
 					email: 'spoon3@gmail.com',
 					gender: '여성',
 					nickname: '숟갈3',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w3.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 				{
-					email: 'spoon4@gmail.com',
+					email: 'spoon44@gmail.com',
 					gender: '여성',
 					nickname: '숟갈4',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w4.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
@@ -213,7 +213,7 @@ export default {
 					email: 'spoon5@gmail.com',
 					gender: '여성',
 					nickname: '숟갈5',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w5.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
@@ -223,7 +223,7 @@ export default {
 					email: 'spoon6@gmail.com',
 					gender: '여성',
 					nickname: '숟갈6',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w6.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
@@ -233,7 +233,7 @@ export default {
 					email: 'spoon7@gmail.com',
 					gender: '여성',
 					nickname: '숟갈7',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w7.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
@@ -243,7 +243,7 @@ export default {
 					email: 'spoon8@gmail.com',
 					gender: '여성',
 					nickname: '숟갈8',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w8.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
@@ -253,7 +253,7 @@ export default {
 					email: 'spoon9@gmail.com',
 					gender: '여성',
 					nickname: '숟갈9',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w9.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
@@ -263,7 +263,7 @@ export default {
 					email: 'spoon10@gmail.com',
 					gender: '여성',
 					nickname: '숟갈10',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w10.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:
@@ -273,57 +273,7 @@ export default {
 					email: 'spoon11@gmail.com',
 					gender: '여성',
 					nickname: '숟갈11',
-					profile_image: require('../assets/img/exprofile2.jpg'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon12@gmail.com',
-					gender: '여성',
-					nickname: '숟갈12',
-					profile_image: require('../assets/img/exprofile2.jpg'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon13@gmail.com',
-					gender: '여성',
-					nickname: '숟갈13',
-					profile_image: require('../assets/img/exprofile2.jpg'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon14@gmail.com',
-					gender: '여성',
-					nickname: '숟갈14',
-					profile_image: require('../assets/img/exprofile2.jpg'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon15@gmail.com',
-					gender: '여성',
-					nickname: '숟갈15',
-					profile_image: require('../assets/img/exprofile2.jpg'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon16@gmail.com',
-					gender: '여성',
-					nickname: '숟갈16',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w11.png'),
 					age_range: '20대',
 					mannerScore: 3,
 					dining_spoons_description:

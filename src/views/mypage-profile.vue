@@ -15,10 +15,10 @@
 					>
 						<div class="profile me-3" style="width: 16rem">
 							<div class="img-wrap pf rounded-circle">
-								<img :src="user[0].profile_image" alt="프로필" />
+								<img :src="user.profile_image" alt="프로필" />
 							</div>
 						</div>
-						<h4 class="mt-2">{{ user[0].nickname }}</h4>
+						<h4 class="mt-2">{{ user.nickname }}</h4>
 						<fieldset>
 							<div class="form-group">
 								<label class="mt-4 text-primary">성별</label>
@@ -92,7 +92,7 @@
 									id="exampleTextarea"
 									rows="3"
 									disabled
-									v-model="user[0].dining_spoons_description"
+									v-model="user.profile_description"
 								></textarea>
 							</div>
 							<div class="d-flex justify-content-center mt-4">
@@ -138,24 +138,29 @@ export default {
 		return {
 			stars: 0,
 			modifySave: false,
-			user: [
-				{
-					email: 'spoon1@gmail.com',
-					gender: '여자',
-					nickname: '숟갈1',
-					profile_image: require('../assets/img/exprofile2.jpg'),
-					age_range: '20대',
-					mannerScore: 4,
-					dining_spoons_description:
-						'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
-				},
-			],
+			// user: [
+			// 	{
+			// 		email: 'spoon1@gmail.com',
+			// 		gender: '여자',
+			// 		nickname: '숟갈1',
+			// 		profile_image: require('../assets/img/exprofile2.jpg'),
+			// 		age_range: '20대',
+			// 		mannerScore: 4,
+			// 		dining_spoons_description:
+			// 			'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
+			// 	},
+			// ],
 		};
+	},
+	computed: {
+		user() {
+			return this.$store.state.user.userInfo;
+		},
 	},
 	setup() {},
 	created() {},
 	mounted() {
-		this.stars = this.user[0].mannerScore;
+		this.stars = this.user.mannerScore;
 	},
 	unmounted() {},
 	methods: {
