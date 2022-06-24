@@ -135,6 +135,10 @@
 		<div class="row">
 			<div
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
+				:class="{
+					disabled: spoon.email === alreadyChk[alreadyChk.indexOf(spoon.email)],
+					enabled: spoon.email !== alreadyChk[alreadyChk.indexOf(spoon.email)],
+				}"
 				:key="spoon.email"
 				v-for="spoon in user"
 				@click="doSelect(spoon)"
@@ -161,6 +165,8 @@ export default {
 		return {
 			comfirm: false,
 			selectedMessage: '',
+			// alreadyChk: {pointer-events: none},
+			alreadyChk: [],
 			diningTableSpoons: {
 				spoon_email: 'spoon1@gmail.com',
 				nickname: '숟갈1',
@@ -409,16 +415,20 @@ export default {
 			}
 		},
 		doSelect(spoon) {
-			console.log('숟갈 선택');
-			this.selectedSpoons.push(spoon);
+			if (this.selectedSpoons.length < 3) {
+				console.log('숟갈 선택');
+				this.selectedSpoons.push(spoon);
+				this.alreadyChk.push(spoon.email);
+				console.log(this.alreadyChk);
+			}
 		},
 		doCancel(spoon) {
 			console.log('선택 취소');
 			this.selectedSpoons = this.selectedSpoons.filter(
 				s => s.email !== spoon.email,
 			);
-			console.log(this.selectedSpoons);
-			// this.selectedSpoons = tmp;
+			this.alreadyChk = this.alreadyChk.filter(email => email !== spoon.email);
+			console.log(this.alreadyChk);
 		},
 	},
 };
@@ -463,5 +473,14 @@ dl {
 }
 dt {
 	margin-right: 1rem;
+}
+// 선택된 숟갈 처리
+.disabled {
+	pointer-events: none;
+	opacity: 0.4;
+}
+.enabled {
+	pointer-events: auto;
+	opacity: 1;
 }
 </style>
