@@ -57,7 +57,7 @@ export default {
 	height: 0;
 	padding-bottom: 56.26%;
 	overflow: hidden;
-	background-color: #d9d9d9;
+	background-color: #f7f7f7;
 }
 .image-input {
 	position: absolute;
