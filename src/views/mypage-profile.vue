@@ -57,28 +57,9 @@
 									class="form-label mt-4 text-primary"
 									>식사매너</label
 								>
-								<div>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-								</div>
+							</div>
+							<div>
+								<stars-rating :config="config" />
 							</div>
 							<div class="form-group">
 								<label
@@ -131,9 +112,10 @@
 
 <script>
 import CompUserProfile from '@/components/comp-user-profile';
+import starsRating from '@/components/rating-stars';
 export default {
 	name: 'MypageProfile',
-	components: { CompUserProfile },
+	components: { CompUserProfile, starsRating },
 	data() {
 		return {
 			stars: 0,
@@ -150,6 +132,16 @@ export default {
 			// 			'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
 			// 	},
 			// ],
+			config: {
+				rating: 4.7,
+				isIndicatorActive: true,
+				style: {
+					fullStarColor: '#ffcb00',
+					emptyStarColor: '#737373',
+					starWidth: 50,
+					starHeight: 50,
+				},
+			},
 		};
 	},
 	computed: {
