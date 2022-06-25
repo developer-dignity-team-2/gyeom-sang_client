@@ -280,32 +280,15 @@ export default {
 	width: 100%;
 	height: 100%;
 	display: block;
-	//width: 500px;
-	//height: 100px;
 	cursor: pointer;
 	background-size: cover;
 	background-position: center center;
 }
-// .placeholder {
-// 	background: #f0f0f0;
-// 	width: 100%;
-// 	height: 100%;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// 	color: #333;
-// 	font-size: 18px;
-// }
+
 .file-control {
 	display: none;
 }
-// .img-wrap img {
-// 	position: absolute;
-// 	top: 0;
-// 	left: 0;
-// 	width: 100%;
-// 	height: 100%;
-// }
+
 .loadBtn {
 	position: absolute;
 	bottom: 0;
