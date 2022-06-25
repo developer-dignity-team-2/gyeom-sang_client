@@ -11,13 +11,17 @@
 					<strong>{{ nickname }}</strong>
 				</li>
 				<li class="mb-1">{{ gender }}{{ age_range }}</li>
+				<!-- 별점 기능 -->
 				<li>
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
+					<stars-rating :config="config" />
 				</li>
+				<!-- <li>
+					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
+					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
+					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
+					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
+					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
+				</li> -->
 			</ul>
 		</div>
 		<div class="p-1">{{ dining_spoons_description }}</div>
@@ -25,15 +29,34 @@
 </template>
 
 <script>
+import starsRating from '@/components/rating-stars';
 export default {
+	components: { starsRating },
 	props: {
 		email: { type: String, default: '' },
 		gender: { type: String, default: '' },
 		nickname: { type: String, default: '' },
 		profile_image: { type: String, default: '' },
 		age_range: { type: String, default: '' },
-		mannerScore: { type: Number, default: 0 },
+		dining_score: { type: Number, default: 0 },
 		dining_spoons_description: { type: String, default: '' },
+	},
+	data: function () {
+		return {
+			config: {
+				rating: 0,
+				isIndicatorActive: false,
+				style: {
+					fullStarColor: '#ffcb00',
+					emptyStarColor: '#737373',
+					starWidth: 20,
+					starHeight: 20,
+				},
+			},
+		};
+	},
+	created() {
+		this.config.rating = this.dining_score;
 	},
 };
 </script>

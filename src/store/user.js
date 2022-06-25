@@ -10,6 +10,7 @@ export const user = {
 				profile_description:
 					'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
 				age_range: '20~30',
+				dining_score: 4.5,
 			},
 		};
 	},
