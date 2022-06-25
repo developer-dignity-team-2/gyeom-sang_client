@@ -17,7 +17,7 @@
 				<h5 class="card-title">{{ itemData.restaurant_name }}</h5>
 				<p class="card-text mb-1">{{ itemData.host_email }}</p>
 				<p class="card-text mb-2">
-					{{ getData() }} ~ {{ itemData.recruit_end_date }}
+					{{ itemData.recruit_start_date }} ~ {{ itemData.recruit_end_date }}
 				</p>
 			</div>
 			<div>
@@ -46,9 +46,7 @@ export default {
 		itemData: Object,
 	},
 
-	methods: {
-		getData() {},
-	},
+	methods: {},
 };
 </script>
 
