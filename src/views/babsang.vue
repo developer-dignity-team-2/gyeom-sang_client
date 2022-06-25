@@ -8,7 +8,10 @@
 					<div class="col">
 						<div class="img-wrap rounded">
 							<img
-								:src="babsangDetailData.dining_thumbnail"
+								:src="
+									'https://nicespoons.com/static/images/' +
+									babsangDetailData.dining_thumbnail
+								"
 								:alt="babsangDetailData.restaurant_name"
 								style="object-fit: cover"
 							/>

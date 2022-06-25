@@ -1,7 +1,7 @@
 <template>
 	<div class="card rounded" style="overflow: hidden; cursor: pointer">
 		<img
-			:src="itemData.dining_thumbnail"
+			:src="'https://nicespoons.com/static/images/' + itemData.dining_thumbnail"
 			class="card-img-center"
 			:alt="itemData.restaurant_name"
 		/>
@@ -55,5 +55,9 @@ export default {
 	position: absolute;
 	top: 0.5rem;
 	right: 0.5rem;
+}
+.card-img-center {
+	max-height: 20rem;
+	object-fit: cover;
 }
 </style>

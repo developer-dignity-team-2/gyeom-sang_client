@@ -37,17 +37,15 @@ export default {
 		},
 		async $upload(url, file) {
 			const formData = new FormData();
-			formData.append('attachment', file);
-			return (
-				await axios
-					.post(url, formData)
-					.then(res => {
-						console.log(res);
-					})
-					.catch(e => {
-						console.log(e);
-					})
-			).data;
+			formData.append('file', file);
+			return await axios
+				.post(url, formData)
+				.then(res => {
+					return res.data;
+				})
+				.catch(e => {
+					console.log(e);
+				});
 		},
 	},
 };
