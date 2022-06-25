@@ -168,8 +168,9 @@ export default {
 			this.babsangDetailData = await this.$get(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}`,
 			);
-			this.babsangDetailData = this.babsangDetailData.result[0];
 			console.log(this.babsangDetailData);
+			this.babsangDetailData = this.babsangDetailData.result[0];
+			// console.log(this.babsangDetailData);
 		},
 	},
 };

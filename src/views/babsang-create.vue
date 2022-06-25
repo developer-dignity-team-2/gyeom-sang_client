@@ -1,29 +1,28 @@
 <template>
 	<div class="container mb" style="max-width: 1000px">
-		<BaseImageInput v-model="imageFile"></BaseImageInput>
 		<!-- 썸네일 추가 -->
-		<!--		<div class="row my-4">-->
-		<!--			<div class="col">-->
-		<!--				<div class="img-wrap rounded">-->
-		<!--					<img-->
-		<!--						src="https://cdn.pixabay.com/photo/2016/09/23/23/23/restaurant-1690696_1280.jpg"-->
-		<!--						alt="food1"-->
-		<!--					/>-->
-		<!--					<button class="btn loadBtn btn-primary m-2">-->
-		<!--						&lt;!&ndash;						<font-awesome-icon icon="fa-solid fa-image" />&ndash;&gt;-->
-		<!--						&lt;!&ndash;						<label for="formFile" class="form-label"></label>&ndash;&gt;-->
-		<!--						<input-->
-		<!--							class="form-control"-->
-		<!--							type="file"-->
-		<!--							id="formFile"-->
-		<!--							@change="onUploadFile"-->
-		<!--						/>-->
-		<!--					</button>-->
-		<!--          -->
-		<!--          -->
-		<!--				</div>-->
-		<!--			</div>-->
-		<!--		</div>-->
+		<!-- <BaseImageInput @imageData="getImageData($event)"></BaseImageInput> -->
+		<div class="row my-4">
+			<div class="col">
+				<div class="img-wrap rounded">
+					<div
+						class="image-input"
+						:style="{ 'background-image': `url(${imageData})` }"
+						@click="chooseImage"
+					>
+						<input
+							class="form-control file-control"
+							ref="fileInput"
+							type="file"
+							@input="onSelectFile"
+						/>
+						<button class="btn loadBtn btn-primary m-2" @click="chooseImage">
+							<font-awesome-icon icon="fa-solid fa-image" />
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<!-- 신청폼 -->
 		<div class="row">
@@ -180,7 +179,9 @@
 					<li>성별 : {{ gender_check }}</li>
 					<li>모집 인원 : {{ dining_count }}</li>
 					<li>소개 : {{ dining_description }}</li>
-					<li>thumbnail : {{ imageFile }}</li>
+					<li>dining_datetime : {{ dining_datetime }}</li>
+					<li>recruit_start_date : {{ recruit_start_date }}</li>
+					<li>recruit_end_date : {{ recruit_end_date }}</li>
 				</ul>
 			</div>
 		</div>
@@ -190,13 +191,13 @@
 <script>
 import userMap from '@/components/userMap.vue';
 import Datepicker from 'vue3-datepicker';
-import BaseImageInput from '@/components/BaseImageInput';
+// import BaseImageInput from '@/components/BaseImageInput';
 // import { ref } from 'vue';
 // const picked = ref(new Date());
 
 export default {
 	name: 'BabsangCreate',
-	components: { userMap, Datepicker, BaseImageInput },
+	components: { userMap, Datepicker },
 	data() {
 		return {
 			sampleData: '',
@@ -208,20 +209,28 @@ export default {
 			dining_description: '',
 			dining_count: '',
 			dining_thumbnail: '',
-			imageFile: null,
+			imageData: '',
 		};
 	},
 	mounted() {},
 	methods: {
 		// thumbnail upload
-		onUploadFile(e) {
-			let files = e.currentTarget.files;
+		chooseImage() {
+			this.$refs.fileInput.click();
+		},
+		onSelectFile() {
+			const input = this.$refs.fileInput;
 
-			if (files.length === 0) {
-				console.log('canceled file selection');
-			} else {
-				this.dining_thumbnail = files[0];
+			const files = input.files;
+			if (files && files[0]) {
+				const reader = new FileReader();
+				reader.onload = e => {
+					this.imageData = e.target.result;
+				};
+				reader.readAsDataURL(files[0]);
 			}
+			this.dining_thumbnail = this.$refs.fileInput.files[0];
+			console.log(this.dining_thumbnail);
 		},
 
 		//밥상 생성하기
@@ -235,7 +244,7 @@ export default {
 					gender_check: this.gender_check,
 					dining_description: this.dining_description,
 					// restaurant_location: this.restaurant_location,
-					// dining_thumbnail: this.dining_thumbnail,
+					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
 					host_email: 'tmddhks0104@naver.com',
 
@@ -247,8 +256,8 @@ export default {
 					// gender_check: 'ALL',
 					// dining_description: '칼국수 너무 맛있을 것 같아요.',
 					restaurant_location: '제주 서귀포시 할매 칼국수',
-					dining_thumbnail:
-						'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
+					// dining_thumbnail:
+					// 	'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
 				},
 			});
 		},
@@ -262,14 +271,41 @@ export default {
 	height: 0;
 	padding-bottom: 56.26%;
 	overflow: hidden;
+	background-color: #f7f7f7;
 }
-.img-wrap img {
+.image-input {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+	display: block;
+	//width: 500px;
+	//height: 100px;
+	cursor: pointer;
+	background-size: cover;
+	background-position: center center;
 }
+.placeholder {
+	background: #f0f0f0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #333;
+	font-size: 18px;
+}
+.file-control {
+	display: none;
+}
+// .img-wrap img {
+// 	position: absolute;
+// 	top: 0;
+// 	left: 0;
+// 	width: 100%;
+// 	height: 100%;
+// }
 .loadBtn {
 	position: absolute;
 	bottom: 0;

@@ -17,7 +17,7 @@
 				<h5 class="card-title">{{ itemData.restaurant_name }}</h5>
 				<p class="card-text mb-1">{{ itemData.host_email }}</p>
 				<p class="card-text mb-2">
-					{{ itemData.recruit_start_date }} ~ {{ itemData.recruit_end_date }}
+					{{ getData() }} ~ {{ itemData.recruit_end_date }}
 				</p>
 			</div>
 			<div>
@@ -38,9 +38,16 @@
 <script>
 export default {
 	name: 'BabsangCard',
-	methods: {},
+	data() {
+		return {};
+	},
+
 	props: {
 		itemData: Object,
+	},
+
+	methods: {
+		getData() {},
 	},
 };
 </script>
