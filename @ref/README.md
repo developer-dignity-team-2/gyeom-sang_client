@@ -1,6 +1,6 @@
 # Ref
-- 서버 주소
-https://nicespoons.com/api/v1/babsang
+- 도메인 주소
+https://nicespoons.com/
 
 - 부트스트랩 기본 grid 사용방법
     - https://getbootstrap.com/docs/5.2/layout/grid/
