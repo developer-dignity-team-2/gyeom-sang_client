@@ -217,16 +217,6 @@ export default {
 			this.imageData = `https://nicespoons.com/static/images/${res.filename}`;
 			console.log(res);
 			this.dining_thumbnail = res.filename;
-
-			// if (files && files[0]) {
-			// 	const reader = new FileReader();
-			// 	reader.onload = e => {
-			// 		this.imageData = e.target.result;
-			// 	};
-			// 	reader.readAsDataURL(files[0]);
-			// }
-			// this.dining_thumbnail = this.$refs.fileInput.files[0];
-			// console.log(this.dining_thumbnail);
 		},
 
 		//밥상 생성하기
@@ -243,6 +233,7 @@ export default {
 					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
 					host_email: 'tmddhks0104@naver.com',
+
 					restaurant_name: '제주 할매 칼국수7',
 					// dining_count: '4',
 					dining_datetime: '2022-06-17 05:24:01',
@@ -254,6 +245,9 @@ export default {
 					// dining_thumbnail:
 					// 	'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
 				},
+			});
+			this.$router.push({
+				path: '/',
 			});
 		},
 	},

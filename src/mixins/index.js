@@ -31,9 +31,12 @@ export default {
 			});
 		},
 		async $delete(url) {
-			return await axios.delete(url).catch(e => {
-				console.log(e);
-			});
+			return await axios
+				.delete(url)
+
+				.catch(e => {
+					console.log(e);
+				});
 		},
 		async $upload(url, file) {
 			const formData = new FormData();
