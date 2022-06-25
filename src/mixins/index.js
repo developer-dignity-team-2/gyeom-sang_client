@@ -40,8 +40,9 @@ export default {
 			formData.append('attachment', file);
 			return (
 				await axios
-					.post(url, formData, {
-						headers: { 'Content-Type': 'multipart/form-data' },
+					.post(url, formData)
+					.then(res => {
+						console.log(res);
 					})
 					.catch(e => {
 						console.log(e);

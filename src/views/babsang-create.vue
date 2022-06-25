@@ -56,30 +56,30 @@
 								placeholder="검색"
 							/>
 							<div id="map">
-								<userMap />
+								<!-- <userMap /> -->
 							</div>
 						</div>
 
 						<!-- datepicker 삽입 -->
-						<div class="form-group">
+						<div class="form-group mt-4">
 							식사 일시
 							<datepicker
 								v-model="dining_datetime"
-								class="form-control py-6 px-36 m-1"
+								class="form-control mt-2"
 								placeholder="식사 일시"
 							/>
 						</div>
 						<!-- datepicker 삽입 -->
-						<div class="form-group">
+						<div class="form-group mt-4">
 							모집 기간
 							<datepicker
 								v-model="recruit_start_date"
-								class="form-control py-6 px-36 m-1"
+								class="form-control my-2"
 								placeholder="모집 시작"
 							/>
 							<datepicker
 								v-model="recruit_end_date"
-								class="form-control py-6 px-36 m-1"
+								class="form-control"
 								placeholder="모집 마감"
 							/>
 						</div>
@@ -151,7 +151,7 @@
 								v-model="dining_description"
 							></textarea>
 						</div>
-						<div class="d-flex justify-content-center mt">
+						<div class="d-flex justify-content-center mt-5">
 							<button type="button" class="btn btn-secondary mx-3">
 								밥상 엎기
 							</button>
@@ -176,14 +176,15 @@
 </template>
 
 <script>
-import userMap from '@/components/UserMap.vue';
+// import userMap from '@/components/UserMap.vue';
 import Datepicker from 'vue3-datepicker';
 
 // import { ref } from 'vue';
 // const picked = ref(new Date());
 export default {
 	name: 'BabsangCreate',
-	components: { userMap, Datepicker },
+	// components: { userMap, Datepicker },
+	components: { Datepicker },
 	data() {
 		return {
 			sampleData: '',
@@ -196,6 +197,7 @@ export default {
 			dining_count: '',
 			dining_thumbnail: '',
 			imageData: '',
+			imgSrc: '',
 		};
 	},
 	mounted() {},
@@ -204,18 +206,21 @@ export default {
 		chooseImage() {
 			this.$refs.fileInput.click();
 		},
-		onSelectFile() {
+		async onSelectFile() {
 			const input = this.$refs.fileInput;
-			const files = input.files;
-			if (files && files[0]) {
-				const reader = new FileReader();
-				reader.onload = e => {
-					this.imageData = e.target.result;
-				};
-				reader.readAsDataURL(files[0]);
-			}
-			this.dining_thumbnail = this.$refs.fileInput.files[0];
-			console.log(this.dining_thumbnail);
+			const files = input.files[0];
+			console.log(files);
+			await this.$upload('https://nicespoons.com/api/v1/upload/image', files);
+
+			// if (files && files[0]) {
+			// 	const reader = new FileReader();
+			// 	reader.onload = e => {
+			// 		this.imageData = e.target.result;
+			// 	};
+			// 	reader.readAsDataURL(files[0]);
+			// }
+			// this.dining_thumbnail = this.$refs.fileInput.files[0];
+			// console.log(this.dining_thumbnail);
 		},
 
 		//밥상 생성하기
@@ -278,9 +283,9 @@ export default {
 	bottom: 0;
 	right: 0;
 }
-#map {
-	width: 500px;
-	height: 500px;
-	margin: 10px auto auto;
-}
+// #map {
+// 	width: 500px;
+// 	height: 500px;
+// 	margin: 10px auto auto;
+// }
 </style>
