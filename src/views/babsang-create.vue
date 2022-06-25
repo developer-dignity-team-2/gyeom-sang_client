@@ -1,7 +1,6 @@
 <template>
 	<div class="container mb" style="max-width: 1000px">
 		<!-- 썸네일 추가 -->
-		<!-- <BaseImageInput @imageData="getImageData($event)"></BaseImageInput> -->
 		<div class="row my-4">
 			<div class="col">
 				<div class="img-wrap rounded">
@@ -11,10 +10,11 @@
 						@click="chooseImage"
 					>
 						<input
+							type="file"
 							class="form-control file-control"
 							ref="fileInput"
-							type="file"
-							@input="onSelectFile"
+							accept="image/png, image/jpeg"
+							@change="onSelectFile"
 						/>
 						<button class="btn loadBtn btn-primary m-2" @click="chooseImage">
 							<font-awesome-icon icon="fa-solid fa-image" />
@@ -59,20 +59,15 @@
 								<userMap />
 							</div>
 						</div>
+
 						<!-- datepicker 삽입 -->
 						<div class="form-group">
-							식사 일시<datepicker
+							식사 일시
+							<datepicker
 								v-model="dining_datetime"
 								class="form-control py-6 px-36 m-1"
 								placeholder="식사 일시"
 							/>
-							<!-- <input
-								type="email"
-								class="form-control"
-								id="exampleInputEmail1"
-								aria-describedby="emailHelp"
-								placeholder="검색"
-							/> -->
 						</div>
 						<!-- datepicker 삽입 -->
 						<div class="form-group">
@@ -87,14 +82,6 @@
 								class="form-control py-6 px-36 m-1"
 								placeholder="모집 마감"
 							/>
-
-							<!-- <input
-								type="email"
-								class="form-control"
-								id="exampleInputEmail1"
-								aria-describedby="emailHelp"
-								placeholder="검색"
-							/> -->
 						</div>
 
 						<div class="form-group">
@@ -191,7 +178,7 @@
 <script>
 import userMap from '@/components/UserMap.vue';
 import Datepicker from 'vue3-datepicker';
-// import BaseImageInput from '@/components/BaseImageInput';
+
 // import { ref } from 'vue';
 // const picked = ref(new Date());
 
@@ -220,7 +207,6 @@ export default {
 		},
 		onSelectFile() {
 			const input = this.$refs.fileInput;
-
 			const files = input.files;
 			if (files && files[0]) {
 				const reader = new FileReader();
@@ -232,6 +218,13 @@ export default {
 			this.dining_thumbnail = this.$refs.fileInput.files[0];
 			console.log(this.dining_thumbnail);
 		},
+		// onSelectFile() {
+		// 	const input = this.$refs.fileInput;
+		// 	const files = input.files;
+		// 	if(files && files[0]){
+		// 		const reader = new FileReader();
+		// 	}
+		// },
 
 		//밥상 생성하기
 		async onSubmitForm() {

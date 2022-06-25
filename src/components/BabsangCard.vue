@@ -1,5 +1,5 @@
 <template>
-	<div class="card rounded" style="overflow: hidden">
+	<div class="card rounded" style="overflow: hidden; cursor: pointer">
 		<img
 			:src="itemData.dining_thumbnail"
 			class="card-img-center"
