@@ -181,7 +181,6 @@ import Datepicker from 'vue3-datepicker';
 
 // import { ref } from 'vue';
 // const picked = ref(new Date());
-
 export default {
 	name: 'BabsangCreate',
 	components: { userMap, Datepicker },
@@ -218,13 +217,6 @@ export default {
 			this.dining_thumbnail = this.$refs.fileInput.files[0];
 			console.log(this.dining_thumbnail);
 		},
-		// onSelectFile() {
-		// 	const input = this.$refs.fileInput;
-		// 	const files = input.files;
-		// 	if(files && files[0]){
-		// 		const reader = new FileReader();
-		// 	}
-		// },
 
 		//밥상 생성하기
 		async onSubmitForm() {
@@ -240,7 +232,6 @@ export default {
 					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
 					host_email: 'tmddhks0104@naver.com',
-
 					restaurant_name: '제주 할매 칼국수7',
 					// dining_count: '4',
 					dining_datetime: '2022-06-17 05:24:01',
