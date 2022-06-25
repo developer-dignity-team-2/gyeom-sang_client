@@ -79,8 +79,8 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/comp-user-profile';
-import MannerCard from '@/components/mannerCard';
+import CompUserProfile from '@/components/CompUserProfile';
+import MannerCard from '@/components/MannerCard';
 
 export default {
 	name: 'MypageScore',

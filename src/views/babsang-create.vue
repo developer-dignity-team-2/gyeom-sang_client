@@ -189,7 +189,7 @@
 </template>
 
 <script>
-import userMap from '@/components/userMap.vue';
+import userMap from '@/components/UserMap.vue';
 import Datepicker from 'vue3-datepicker';
 // import BaseImageInput from '@/components/BaseImageInput';
 // import { ref } from 'vue';

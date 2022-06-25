@@ -112,8 +112,8 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/comp-user-profile';
-import starsRating from '@/components/rating-stars';
+import CompUserProfile from '@/components/CompUserProfile';
+import starsRating from '@/components/RatingStars';
 export default {
 	name: 'MypageProfile',
 	components: { CompUserProfile, starsRating },

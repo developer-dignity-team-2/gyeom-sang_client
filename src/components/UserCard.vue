@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import starsRating from '@/components/rating-stars';
+import starsRating from '@/components/RatingStars';
 export default {
 	components: { starsRating },
 	props: {

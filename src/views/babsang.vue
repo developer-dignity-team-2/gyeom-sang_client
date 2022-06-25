@@ -156,7 +156,7 @@
 </template>
 
 <script>
-import userCard from '@/components/userCard';
+import userCard from '@/components/UserCard';
 export default {
 	name: 'Babsang',
 	components: { userCard },

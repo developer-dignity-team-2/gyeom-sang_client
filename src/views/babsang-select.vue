@@ -160,7 +160,7 @@
 	</div>
 </template>
 <script>
-import userCard from '@/components/userCard';
+import userCard from '@/components/UserCard';
 export default {
 	name: 'BabsangSelect',
 	components: { userCard },

@@ -117,7 +117,7 @@
 	</div>
 </template>
 <script>
-import MannerGiveScoreCard from '@/components/mannerGiveScoreCard';
+import MannerGiveScoreCard from '@/components/MannerGiveScoreCard';
 
 export default {
 	components: { MannerGiveScoreCard },

@@ -9,7 +9,7 @@
 	</div>
 </template>
 <script>
-import BabsangCard from '@/components/babsangCard';
+import BabsangCard from '@/components/BabsangCard';
 export default {
 	name: 'MainCardList',
 	data() {

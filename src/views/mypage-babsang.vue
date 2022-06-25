@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/comp-user-profile';
+import CompUserProfile from '@/components/CompUserProfile';
 import MainCardList from '@/components/main/MainCardList';
 
 export default {
