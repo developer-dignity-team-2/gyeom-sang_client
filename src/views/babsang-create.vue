@@ -286,16 +286,16 @@ export default {
 	background-size: cover;
 	background-position: center center;
 }
-.placeholder {
-	background: #f0f0f0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: #333;
-	font-size: 18px;
-}
+// .placeholder {
+// 	background: #f0f0f0;
+// 	width: 100%;
+// 	height: 100%;
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// 	color: #333;
+// 	font-size: 18px;
+// }
 .file-control {
 	display: none;
 }
