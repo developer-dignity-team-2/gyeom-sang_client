@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/comp-user-profile';
+import CompUserProfile from '@/components/CompUserProfile';
 import MainCardList from '@/components/main/MainCardList';
 
 export default {
@@ -110,4 +110,17 @@ export default {
 	},
 };
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.btn-primary {
+	color: #575757;
+	background-color: #ffcb00;
+	border-color: #ffcb00;
+}
+.btn-outline-primary {
+	color: #575757;
+	border-color: #ffcb00;
+	&:hover {
+		background-color: #ffcb00;
+	}
+}
+</style>

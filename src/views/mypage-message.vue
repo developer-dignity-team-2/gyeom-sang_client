@@ -148,7 +148,7 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/comp-user-profile';
+import CompUserProfile from '@/components/CompUserProfile';
 export default {
 	nickname: 'MypagMessage',
 	components: { CompUserProfile },

@@ -79,8 +79,8 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/comp-user-profile';
-import MannerCard from '@/components/mannerCard';
+import CompUserProfile from '@/components/CompUserProfile';
+import MannerCard from '@/components/MannerCard';
 
 export default {
 	name: 'MypageScore',
@@ -147,3 +147,17 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.btn-primary {
+	color: #575757;
+	background-color: #ffcb00;
+	border-color: #ffcb00;
+}
+.btn-outline-primary {
+	color: #575757;
+	border-color: #ffcb00;
+	&:hover {
+		background-color: #ffcb00;
+	}
+}
+</style>

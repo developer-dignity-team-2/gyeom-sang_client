@@ -1,3 +1,166 @@
+$primary:       #ffcb00 !default;
+$secondary:     #f3969a !default;
+
+// minty color reset
+.btn-primary{
+	color: #575757;
+	background-color: #ffcb00;
+	border-color: #ffcb00;
+}
+.btn-primary:hover {
+  color: #575757;
+  background-color: #ffcb00;
+  border-color: #ffcb00;
+}
+.btn-check:focus + .btn-primary, .btn-primary:focus {
+  color: #575757;
+  background-color: none;
+	border-color: none;
+  box-shadow: none;
+}
+
+.btn-check:checked + .btn-primary,
+.btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+  color: #575757;
+  background-color: none;
+  border-color: none;
+}
+
+.btn-check:checked + .btn-primary:focus,
+.btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: none;
+}
+
+.btn-primary:disabled, .btn-primary.disabled {
+  color: #575757;
+  background-color: none;
+  border-color: none;
+}
+
+
+.btn-secondary{
+	color:#666;
+	background-color:#f4f4f4;
+	border-color:#fff;
+
+}
+.btn-secondary:hover {
+	color:#666;
+	background-color:#f4f4f4;
+	border-color:#fff;
+}
+
+.btn-check:focus + .btn-secondary, .btn-secondary:focus {
+	color:#666;
+	background-color:#f4f4f4;
+	border-color:#fff;
+  box-shadow: none;
+}
+
+.btn-check:checked + .btn-secondary,
+.btn-check:active + .btn-secondary, .btn-secondary:active, .btn-secondary.active,
+.show > .btn-secondary.dropdown-toggle {
+	color:#666;
+	background-color:#f4f4f4;
+	border-color:#fff;
+}
+
+.btn-check:checked + .btn-secondary:focus,
+.btn-check:active + .btn-secondary:focus, .btn-secondary:active:focus, .btn-secondary.active:focus,
+.show > .btn-secondary.dropdown-toggle:focus {
+  box-shadow: none;
+}
+
+.btn-secondary:disabled, .btn-secondary.disabled {
+	color:#666;
+	background-color:#f4f4f4;
+	border-color:#fff;
+}
+.form-control:focus {
+  color: #888;
+  background-color: #fff;
+  border-color: #bce1d6;
+  outline: 0;
+  box-shadow: #fff;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  color: #575757;
+  background-color: #fff9e1;
+}
+
+.dropdown-item.active {
+  color: #575757;
+  text-decoration: none;
+  background-color: #ffcb00;
+}
+.dropdown-item:active {
+  color: #575757;
+  text-decoration: none;
+  background-color:none;
+}
+
+.text-primary {
+  --bs-text-opacity: 1;
+  color: #ffcb00 !important;
+}
+
+.form-control:focus {
+  color: #888;
+  background-color: #fff;
+  border-color: #ffcb00;
+  outline: 0;
+  box-shadow: 0 0 0 0 rgb(255,255,255);
+}
+.form-range:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 0 rgb(255,255,255);
+}
+
+.form-range:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 0 rgb(255,255,255);
+}
+.was-validated .form-control:valid:focus, .form-control.is-valid:focus {
+  border-color: #ffcb00;
+  box-shadow: 0 0 0 0 rgb(255,255,255);
+}
+.was-validated .form-select:valid:focus, .form-select.is-valid:focus {
+  border-color: #ffcb00;
+  box-shadow: 0 0 0 0 rgb(255,255,255);
+}
+.was-validated .form-check-input:valid:focus, .form-check-input.is-valid:focus {
+  box-shadow: 0 0 0 0 rgb(255,255,255);
+}
+.form-select:focus {
+  border-color: #ffcb00;
+  outline: 0;
+  box-shadow: 0 0 0 0 rgb(255,255,255);
+}
+.form-control:disabled, .form-control[readonly] {
+	&:focus{
+		border-color: #ffcb00;
+  	outline: 0;
+  	box-shadow: 0 0 0 0 rgb(255,255,255);
+	}
+  background-color: #f7f7f9;
+  opacity: 1;
+}
+
 dl, dt, dd, ol, ul, li{
 	margin: 0;
 	padding: 0;
@@ -6,19 +169,11 @@ dl, dt, dd, ol, ul, li{
 ol, ul, dl {
 	list-style: none;
 }
-.btn-primary{
-	background-color:#ffcb00;
-	border-color:#fff;
-	color:#575757;
-};
-// .btn-outline-primary{
-// 	border-color:#f6d912;
-// 	color:#f6d912
-// }
-.btn-secondary{
-	background-color:#f4f4f4;
-	color:#666;
-	border-color:#fff;
+
+
+.form-check-input:checked{
+	background-color: #ffcb00;
+	border-color:#ffcb00;
 }
 @font-face {
     font-family: 'GmarketSansLight';

@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<!-- 검색창 -->
-		<div class="row row-cols-1 mt-3" @click="test()">
+		<div class="row row-cols-1 mt-3">
 			<div
 				class="col my-5 d-flex flex-column align-items-center justify-content-center"
 			>
@@ -96,9 +96,7 @@ export default {
 	},
 	methods: {
 		async getBabsangData() {
-			this.babsangData = await this.$get(
-				`https://nicespoons.com/api/v1/babsang`,
-			);
+			this.babsangData = await this.$get('/api/v1/babsang');
 			console.log(this.babsangData);
 		},
 	},

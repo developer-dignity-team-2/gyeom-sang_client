@@ -1,5 +1,5 @@
 import axios from 'axios';
-// axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'https://nicespoons.com';
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
 
@@ -16,9 +16,14 @@ export default {
 			).data;
 		},
 		async $post(url, data) {
-			return await axios.post(url, data).catch(e => {
-				console.log(e);
-			});
+			return await axios
+				.post(url, data)
+				.then(res => {
+					console.log(res);
+				})
+				.catch(e => {
+					console.log(e);
+				});
 		},
 		async $put(url, data) {
 			return await axios.put(url, data).catch(e => {

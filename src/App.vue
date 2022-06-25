@@ -70,11 +70,11 @@
 								class="img-wrap rounded-circle"
 								style="border: 1px solid #d9d9d9"
 							>
-								<img src="@/assets/img/exprofile2.jpg" alt="프로필" />
+								<img :src="user.profile_image" alt="프로필" />
 							</div>
 						</div>
 					</router-link>
-					<p class="m-0 pt-0" style="font-size: 0.6rem">숟갈1</p>
+					<p class="m-0 pt-0" style="font-size: 0.6rem">{{ user.nickname }}</p>
 				</li>
 			</ul>
 			<!-- <button
@@ -92,6 +92,16 @@
 	</nav>
 	<router-view />
 </template>
+<script>
+export default {
+	components: {},
+	computed: {
+		user() {
+			return this.$store.state.user.userInfo;
+		},
+	},
+};
+</script>
 
 <style scoped lang="scss">
 .navbar {

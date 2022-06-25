@@ -15,10 +15,10 @@
 					>
 						<div class="profile me-3" style="width: 16rem">
 							<div class="img-wrap pf rounded-circle">
-								<img :src="user[0].profile_image" alt="프로필" />
+								<img :src="user.profile_image" alt="프로필" />
 							</div>
 						</div>
-						<h4 class="mt-2">{{ user[0].nickname }}</h4>
+						<h4 class="mt-2">{{ user.nickname }}</h4>
 						<fieldset>
 							<div class="form-group">
 								<label class="mt-4 text-primary">성별</label>
@@ -33,7 +33,7 @@
 											disabled
 											checked
 										/>
-										남성
+										<span>남성</span>
 									</label>
 								</div>
 								<div class="form-check disabled">
@@ -47,7 +47,7 @@
 											disabled=""
 											checked
 										/>
-										여성
+										<span>여성</span>
 									</label>
 								</div>
 							</div>
@@ -57,28 +57,10 @@
 									class="form-label mt-4 text-primary"
 									>식사매너</label
 								>
-								<div>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-								</div>
+							</div>
+							<!-- 별점 기능 -->
+							<div>
+								<stars-rating :config="config" />
 							</div>
 							<div class="form-group">
 								<label
@@ -91,8 +73,8 @@
 									style="resize: none"
 									id="exampleTextarea"
 									rows="3"
-									disabled
-									v-model="user[0].dining_spoons_description"
+									:disabled="!modifySave"
+									v-model="user.profile_description"
 								></textarea>
 							</div>
 							<div class="d-flex justify-content-center mt-4">
@@ -130,46 +112,61 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/comp-user-profile';
+import CompUserProfile from '@/components/CompUserProfile';
+import starsRating from '@/components/RatingStars';
 export default {
 	name: 'MypageProfile',
-	components: { CompUserProfile },
+	components: { CompUserProfile, starsRating },
 	data() {
 		return {
-			stars: 0,
 			modifySave: false,
-			user: [
-				{
-					email: 'spoon1@gmail.com',
-					gender: '여자',
-					nickname: '숟갈1',
-					profile_image: require('../assets/img/exprofile2.jpg'),
-					age_range: '20대',
-					mannerScore: 4,
-					dining_spoons_description:
-						'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
+			// user: [
+			// 	{
+			// 		email: 'spoon1@gmail.com',
+			// 		gender: '여자',
+			// 		nickname: '숟갈1',
+			// 		profile_image: require('../assets/img/exprofile2.jpg'),
+			// 		age_range: '20대',
+			// 		mannerScore: 4,
+			// 		dining_spoons_description:
+			// 			'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
+			// 	},
+			// ],
+			config: {
+				rating: 0,
+				isIndicatorActive: false,
+				style: {
+					fullStarColor: '#ffcb00',
+					emptyStarColor: '#737373',
+					starWidth: 50,
+					starHeight: 50,
 				},
-			],
+			},
 		};
 	},
-	setup() {},
-	created() {},
-	mounted() {
-		this.stars = this.user[0].mannerScore;
+	computed: {
+		user() {
+			return this.$store.state.user.userInfo;
+		},
 	},
+	setup() {},
+	created() {
+		this.config.rating = this.user.dining_score;
+	},
+	mounted() {},
 	unmounted() {},
 	methods: {
 		doModifySave() {
-			if (this.modifySave === false) {
-				this.modifySave = true;
-			} else {
+			if (this.modifySave === true) {
 				this.modifySave = false;
+			} else {
+				this.modifySave = true;
 			}
 		},
 	},
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .img-wrap {
 	position: relative;
 	width: 100%;
@@ -189,5 +186,9 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+/* 성별 */
+label {
+	font-size: 1.2rem;
 }
 </style>

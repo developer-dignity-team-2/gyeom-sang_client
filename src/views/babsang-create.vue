@@ -1,16 +1,25 @@
 <template>
-	<div class="container mb-5" style="max-width: 1000px">
+	<div class="container mb" style="max-width: 1000px">
 		<!-- 썸네일 추가 -->
 		<div class="row my-4">
 			<div class="col">
 				<div class="img-wrap rounded">
-					<img
-						src="https://cdn.pixabay.com/photo/2016/09/23/23/23/restaurant-1690696_1280.jpg"
-						alt="food1"
-					/>
-					<button class="btn loadBtn btn-primary m-2">
-						<font-awesome-icon icon="fa-solid fa-image" />
-					</button>
+					<div
+						class="image-input"
+						:style="{ 'background-image': `url(${imageData})` }"
+						@click="chooseImage"
+					>
+						<input
+							type="file"
+							class="form-control file-control"
+							ref="fileInput"
+							accept="image/png, image/jpeg"
+							@change="onSelectFile"
+						/>
+						<button class="btn loadBtn btn-primary m-2" @click="chooseImage">
+							<font-awesome-icon icon="fa-solid fa-image" />
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -50,30 +59,31 @@
 								<userMap />
 							</div>
 						</div>
+
+						<!-- datepicker 삽입 -->
 						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4">
-								식사 일시</label
-							>
-							<input
-								type="email"
-								class="form-control"
-								id="exampleInputEmail1"
-								aria-describedby="emailHelp"
-								placeholder="검색"
+							식사 일시
+							<datepicker
+								v-model="dining_datetime"
+								class="form-control py-6 px-36 m-1"
+								placeholder="식사 일시"
 							/>
 						</div>
+						<!-- datepicker 삽입 -->
 						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4"
-								>모집 기간</label
-							>
-							<input
-								type="email"
-								class="form-control"
-								id="exampleInputEmail1"
-								aria-describedby="emailHelp"
-								placeholder="검색"
+							모집 기간
+							<datepicker
+								v-model="recruit_start_date"
+								class="form-control py-6 px-36 m-1"
+								placeholder="모집 시작"
+							/>
+							<datepicker
+								v-model="recruit_end_date"
+								class="form-control py-6 px-36 m-1"
+								placeholder="모집 마감"
 							/>
 						</div>
+
 						<div class="form-group">
 							<label class="mt-4">성별 선택</label>
 							<div class="form-check">
@@ -81,10 +91,11 @@
 									<input
 										type="radio"
 										class="form-check-input"
-										name="optionsRadios"
-										id="optionsRadios1"
-										value="option1"
+										name="genderPick"
+										id="gender-all"
+										value="ALL"
 										checked=""
+										v-model="gender_check"
 									/>
 									혼성
 								</label>
@@ -94,9 +105,10 @@
 									<input
 										type="radio"
 										class="form-check-input"
-										name="optionsRadios"
-										id="optionsRadios2"
-										value="option2"
+										name="genderPick"
+										id="gender-m"
+										value="M"
+										v-model="gender_check"
 									/>
 									남성
 								</label>
@@ -106,39 +118,42 @@
 									<input
 										type="radio"
 										class="form-check-input"
-										name="optionsRadios"
-										id="optionsRadios3"
-										value="option3"
-										disabled=""
+										name="genderPick"
+										id="gender-f"
+										value="F"
+										v-model="gender_check"
 									/>
 									여성
 								</label>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="exampleSelect1" class="form-label mt-4"
-								>모집 인원</label
+							<label for="diningCount" class="form-label mt-4">모집 인원</label>
+							<select
+								class="form-select"
+								id="diningCount"
+								v-model="dining_count"
 							>
-							<select class="form-select" id="exampleSelect1">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
+								<option disabled value="">모집 인원을 선택해 주세요.</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="exampleTextarea" class="form-label mt-4"
+							<label for="dining_description" class="form-label mt-4"
 								>밥상 소개하기</label
 							>
 							<textarea
 								class="form-control"
-								id="exampleTextarea"
+								id="dining_description"
 								rows="3"
+								v-model="dining_description"
 							></textarea>
 						</div>
-						<div class="d-flex justify-content-center mt-5">
+						<div class="d-flex justify-content-center mt">
 							<button type="button" class="btn btn-secondary mx-3">
-								숟갈 엎기
+								밥상 엎기
 							</button>
 							<button type="submit" class="btn btn-primary mx-3">
 								밥상 차리기
@@ -146,24 +161,64 @@
 						</div>
 					</fieldset>
 				</form>
+				<ul>
+					<li>식당이름</li>
+					<li>성별 : {{ gender_check }}</li>
+					<li>모집 인원 : {{ dining_count }}</li>
+					<li>소개 : {{ dining_description }}</li>
+					<li>dining_datetime : {{ dining_datetime }}</li>
+					<li>recruit_start_date : {{ recruit_start_date }}</li>
+					<li>recruit_end_date : {{ recruit_end_date }}</li>
+				</ul>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import userMap from '@/components/userMap.vue';
+import userMap from '@/components/UserMap.vue';
+import Datepicker from 'vue3-datepicker';
+
+// import { ref } from 'vue';
+// const picked = ref(new Date());
 export default {
 	name: 'BabsangCreate',
-	components: { userMap },
+	components: { userMap, Datepicker },
 	data() {
 		return {
 			sampleData: '',
-			// map: null,
+			picked: '',
+			dining_datetime: '',
+			recruit_start_date: '',
+			recruit_end_date: '',
+			gender_check: 'ALL',
+			dining_description: '',
+			dining_count: '',
+			dining_thumbnail: '',
+			imageData: '',
 		};
 	},
 	mounted() {},
 	methods: {
+		// thumbnail upload
+		chooseImage() {
+			this.$refs.fileInput.click();
+		},
+		onSelectFile() {
+			const input = this.$refs.fileInput;
+			const files = input.files;
+			if (files && files[0]) {
+				const reader = new FileReader();
+				reader.onload = e => {
+					this.imageData = e.target.result;
+				};
+				reader.readAsDataURL(files[0]);
+			}
+			this.dining_thumbnail = this.$refs.fileInput.files[0];
+			console.log(this.dining_thumbnail);
+		},
+
+		//밥상 생성하기
 		async onSubmitForm() {
 			await this.$post('https://nicespoons.com/api/v1/babsang', {
 				param: {
@@ -171,19 +226,22 @@ export default {
 					// dining_datetime: this.dining_datetime,
 					// recruit_start_date: this.recruit_start_date,
 					// recruit_end_date: this.recruit_end_date,
-					// gender_check: this.gender_check,
-					// dining_description: this.dining_description,
+					gender_check: this.gender_check,
+					dining_description: this.dining_description,
 					// restaurant_location: this.restaurant_location,
-					// dining_thumbnail: this.dining_thumbnail,
+					dining_thumbnail: this.dining_thumbnail,
+					dining_count: this.dining_count,
+					host_email: 'tmddhks0104@naver.com',
 					restaurant_name: '제주 할매 칼국수7',
+					// dining_count: '4',
 					dining_datetime: '2022-06-17 05:24:01',
 					recruit_start_date: '2022-06-10 05:00:00',
 					recruit_end_date: '2022-06-15 05:00:00',
-					gender_check: 'ALL',
-					dining_description: '칼국수 너무 맛있을 것 같아요.',
+					// gender_check: 'ALL',
+					// dining_description: '칼국수 너무 맛있을 것 같아요.',
 					restaurant_location: '제주 서귀포시 할매 칼국수',
-					dining_thumbnail:
-						'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
+					// dining_thumbnail:
+					// 	'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
 				},
 			});
 		},
@@ -197,14 +255,24 @@ export default {
 	height: 0;
 	padding-bottom: 56.26%;
 	overflow: hidden;
+	background-color: #f7f7f7;
 }
-.img-wrap img {
+.image-input {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+	display: block;
+	cursor: pointer;
+	background-size: cover;
+	background-position: center center;
 }
+
+.file-control {
+	display: none;
+}
+
 .loadBtn {
 	position: absolute;
 	bottom: 0;
@@ -213,7 +281,6 @@ export default {
 #map {
 	width: 500px;
 	height: 500px;
-	margin: auto;
-	margin-top: 10px;
+	margin: 10px auto auto;
 }
 </style>

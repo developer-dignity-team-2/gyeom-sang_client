@@ -3,39 +3,39 @@
 		<div class="row my-4">
 			<h3>함께 식사할 숟갈을 선택해 주세요!</h3>
 		</div>
-		<!-- 함께할 숟갈 -->
+		<!-- 선택한 숟갈 -->
 		<div style="position: sticky; top: 0; z-index: 1">
 			<div style="opacity: 1; background-color: white">
 				<h5>함께할 숟갈</h5>
-				<div class="col-12 border rounded p-3 text-center">
+				<div
+					class="col-12 border rounded py-4 text-center"
+					style="min-height: 175px"
+				>
 					<div
-						style="display: flex; align-items: center; justify-content: center"
+						style="
+							display: flex;
+							flex-flow: row wrap;
+							justify-content: center;
+							align-item: center;
+						"
 					>
 						<div class="row">
-							<div class="col">
-								<div style="width: 6rem">
-									<div class="img-wrap pf rounded-circle mb-1">
-										<img :src="user[0].profile_image" alt="프로필" />
+							<div
+								class="col"
+								:key="selectedSpoon.email"
+								v-for="selectedSpoon in selectedSpoons"
+								@click="doCancel(selectedSpoon)"
+							>
+								<div>
+									<div style="width: 6rem">
+										<div class="img-wrap pf rounded-circle mb-1">
+											<img :src="selectedSpoon.profile_image" alt="프로필" />
+										</div>
+										<strong>{{ selectedSpoon.nickname }}</strong>
 									</div>
-									<strong>{{ user[0].nickname }}</strong>
 								</div>
 							</div>
-							<div class="col">
-								<div style="width: 6rem">
-									<div class="img-wrap pf rounded-circle mb-1">
-										<img :src="user[1].profile_image" alt="프로필" />
-									</div>
-									<strong>{{ user[1].nickname }}</strong>
-								</div>
-							</div>
-							<div class="col">
-								<div style="width: 6rem">
-									<div class="img-wrap pf rounded-circle mb-1">
-										<img :src="user[2].profile_image" alt="프로필" />
-									</div>
-									<strong>{{ user[2].nickname }}</strong>
-								</div>
-							</div>
+							<!-- </div> -->
 						</div>
 					</div>
 				</div>
@@ -134,12 +134,17 @@
 				</div>
 			</div>
 		</div>
-		<!-- 신청 숟갈 카드 -->
+		<!-- 선택전 숟갈 카드 -->
 		<div class="row">
 			<div
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
+				:class="{
+					disabled: spoon.email === alreadyChk[alreadyChk.indexOf(spoon.email)],
+					enabled: spoon.email !== alreadyChk[alreadyChk.indexOf(spoon.email)],
+				}"
 				:key="spoon.email"
 				v-for="spoon in user"
+				@click="doSelect(spoon)"
 			>
 				<userCard
 					:email="spoon.email"
@@ -147,7 +152,7 @@
 					:nickname="spoon.nickname"
 					:profile_image="spoon.profile_image"
 					:age_range="spoon.age_range"
-					:mannerScore="spoon.mannerScore"
+					:dining_score="spoon.dining_score"
 					:dining_spoons_description="spoon.dining_spoons_description"
 				/>
 			</div>
@@ -155,7 +160,7 @@
 	</div>
 </template>
 <script>
-import userCard from '@/components/userCard';
+import userCard from '@/components/UserCard';
 export default {
 	name: 'BabsangSelect',
 	components: { userCard },
@@ -163,19 +168,22 @@ export default {
 		return {
 			comfirm: false,
 			selectedMessage: '',
+			// alreadyChk: {pointer-events: none},
+			alreadyChk: [],
 			diningTableSpoons: {
 				spoon_email: 'spoon1@gmail.com',
 				nickname: '숟갈1',
 				dining_table_id: 1,
 			},
+			selectedSpoons: [],
 			user: [
 				{
 					email: 'spoon1@gmail.com',
 					gender: '여성',
 					nickname: '숟갈1',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w1.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.2,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -183,9 +191,9 @@ export default {
 					email: 'spoon2@gmail.com',
 					gender: '여성',
 					nickname: '숟갈2',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w2.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.5,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -193,9 +201,9 @@ export default {
 					email: 'spoon3@gmail.com',
 					gender: '여성',
 					nickname: '숟갈3',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w3.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -203,9 +211,9 @@ export default {
 					email: 'spoon4@gmail.com',
 					gender: '여성',
 					nickname: '숟갈4',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w4.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.7,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -213,9 +221,9 @@ export default {
 					email: 'spoon5@gmail.com',
 					gender: '여성',
 					nickname: '숟갈5',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w5.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.6,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -223,9 +231,9 @@ export default {
 					email: 'spoon6@gmail.com',
 					gender: '여성',
 					nickname: '숟갈6',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w6.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.8,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -233,9 +241,9 @@ export default {
 					email: 'spoon7@gmail.com',
 					gender: '여성',
 					nickname: '숟갈7',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w7.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -243,9 +251,9 @@ export default {
 					email: 'spoon8@gmail.com',
 					gender: '여성',
 					nickname: '숟갈8',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w8.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -253,9 +261,9 @@ export default {
 					email: 'spoon9@gmail.com',
 					gender: '여성',
 					nickname: '숟갈9',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w9.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -263,9 +271,9 @@ export default {
 					email: 'spoon10@gmail.com',
 					gender: '여성',
 					nickname: '숟갈10',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w10.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -273,59 +281,119 @@ export default {
 					email: 'spoon11@gmail.com',
 					gender: '여성',
 					nickname: '숟갈11',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/w11.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 				{
 					email: 'spoon12@gmail.com',
-					gender: '여성',
+					gender: '남성',
 					nickname: '숟갈12',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/m1.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 				{
 					email: 'spoon13@gmail.com',
-					gender: '여성',
+					gender: '남성',
 					nickname: '숟갈13',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/m2.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 				{
 					email: 'spoon14@gmail.com',
-					gender: '여성',
+					gender: '남성',
 					nickname: '숟갈14',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/m3.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 				{
 					email: 'spoon15@gmail.com',
-					gender: '여성',
+					gender: '남성',
 					nickname: '숟갈15',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/m4.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 				{
 					email: 'spoon16@gmail.com',
-					gender: '여성',
+					gender: '남성',
 					nickname: '숟갈16',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('../assets/img/users/m5.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon17@gmail.com',
+					gender: '남성',
+					nickname: '숟갈17',
+					profile_image: require('../assets/img/users/m6.png'),
+					age_range: '20대',
+					dining_score: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon18@gmail.com',
+					gender: '남성',
+					nickname: '숟갈18',
+					profile_image: require('../assets/img/users/m7.png'),
+					age_range: '20대',
+					dining_score: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon19@gmail.com',
+					gender: '남성',
+					nickname: '숟갈19',
+					profile_image: require('../assets/img/users/m8.png'),
+					age_range: '20대',
+					dining_score: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon20@gmail.com',
+					gender: '남성',
+					nickname: '숟갈20',
+					profile_image: require('../assets/img/users/m9.png'),
+					age_range: '20대',
+					dining_score: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon21@gmail.com',
+					gender: '남성',
+					nickname: '숟갈21',
+					profile_image: require('../assets/img/users/m10.png'),
+					age_range: '20대',
+					dining_score: 3,
+					dining_spoons_description:
+						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				},
+				{
+					email: 'spoon22@gmail.com',
+					gender: '남성',
+					nickname: '숟갈22',
+					profile_image: require('../assets/img/users/m11.png'),
+					age_range: '20대',
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -348,6 +416,22 @@ export default {
 			} else {
 				this.comfirm = false;
 			}
+		},
+		doSelect(spoon) {
+			if (this.selectedSpoons.length < 3) {
+				console.log('숟갈 선택');
+				this.selectedSpoons.push(spoon);
+				this.alreadyChk.push(spoon.email);
+				console.log(this.alreadyChk);
+			}
+		},
+		doCancel(spoon) {
+			console.log('선택 취소');
+			this.selectedSpoons = this.selectedSpoons.filter(
+				s => s.email !== spoon.email,
+			);
+			this.alreadyChk = this.alreadyChk.filter(email => email !== spoon.email);
+			console.log(this.alreadyChk);
 		},
 	},
 };
@@ -392,5 +476,14 @@ dl {
 }
 dt {
 	margin-right: 1rem;
+}
+// 선택된 숟갈 처리
+.disabled {
+	pointer-events: none;
+	opacity: 0.4;
+}
+.enabled {
+	pointer-events: auto;
+	opacity: 1;
 }
 </style>
