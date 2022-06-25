@@ -20,6 +20,10 @@ ol, ul, dl {
 	color:#666;
 	border-color:#fff;
 }
+.form-check-input:checked{
+	background-color: #ffcb00;
+	border-color:#ffcb00;
+}
 @font-face {
     font-family: 'GmarketSansLight';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');

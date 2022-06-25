@@ -10,6 +10,7 @@
 							<img
 								:src="babsangDetailData.dining_thumbnail"
 								:alt="babsangDetailData.restaurant_name"
+								style="object-fit: cover"
 							/>
 						</div>
 					</div>
