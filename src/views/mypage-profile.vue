@@ -33,7 +33,7 @@
 											disabled
 											checked
 										/>
-										남성
+										<span>남성</span>
 									</label>
 								</div>
 								<div class="form-check disabled">
@@ -47,7 +47,7 @@
 											disabled=""
 											checked
 										/>
-										여성
+										<span>여성</span>
 									</label>
 								</div>
 							</div>
@@ -58,6 +58,7 @@
 									>식사매너</label
 								>
 							</div>
+							<!-- 별점 기능 -->
 							<div>
 								<stars-rating :config="config" />
 							</div>
@@ -72,7 +73,7 @@
 									style="resize: none"
 									id="exampleTextarea"
 									rows="3"
-									disabled
+									:disabled="!modifySave"
 									v-model="user.profile_description"
 								></textarea>
 							</div>
@@ -118,7 +119,6 @@ export default {
 	components: { CompUserProfile, starsRating },
 	data() {
 		return {
-			stars: 0,
 			modifySave: false,
 			// user: [
 			// 	{
@@ -133,8 +133,8 @@ export default {
 			// 	},
 			// ],
 			config: {
-				rating: 4.7,
-				isIndicatorActive: true,
+				rating: 0,
+				isIndicatorActive: false,
 				style: {
 					fullStarColor: '#ffcb00',
 					emptyStarColor: '#737373',
@@ -150,17 +150,17 @@ export default {
 		},
 	},
 	setup() {},
-	created() {},
-	mounted() {
-		this.stars = this.user.mannerScore;
+	created() {
+		this.config.rating = this.user.dining_score;
 	},
+	mounted() {},
 	unmounted() {},
 	methods: {
 		doModifySave() {
-			if (this.modifySave === false) {
-				this.modifySave = true;
-			} else {
+			if (this.modifySave === true) {
 				this.modifySave = false;
+			} else {
+				this.modifySave = true;
 			}
 		},
 	},
@@ -186,5 +186,9 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+/* 성별 */
+label {
+	font-size: 1.2rem;
 }
 </style>

@@ -1,4 +1,5 @@
 <template>
+	<!-- 별점 기능 재사용 콤퍼넌트(https://codesandbox.io/s/9846q4oz4r?file=/src/main.js) -->
 	<div class="star-rating">
 		<div v-for="(star, index) in stars" :key="index" class="star-container">
 			<svg
@@ -43,7 +44,7 @@
 				</defs>
 			</svg>
 		</div>
-		<!-- <div v-if="isIndicatorActive" class="indicator">{{ config.rating }}</div> -->
+		<div v-if="isIndicatorActive" class="indicator">{{ config.rating }}</div>
 	</div>
 </template>
 
@@ -144,7 +145,7 @@ export default {
 				if (this.config.isIndicatorActive) {
 					this.isIndicatorActive = this.config.isIndicatorActive;
 				}
-				console.log('isIndicatorActive: ', this.isIndicatorActive);
+				// console.log('isIndicatorActive: ', this.isIndicatorActive);
 			}
 		},
 		getFullFillColor(starData) {

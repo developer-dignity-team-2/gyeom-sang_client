@@ -91,7 +91,17 @@
 			<div class="col-xl-3 col-sm-12">
 				<div class="row row-cols-1" style="position: sticky; top: 1rem">
 					<!-- 밥장 정보 -->
-					<div class="col border rounded p-3">
+					<div class="row">
+						<userCard
+							:email="babjang[0].email"
+							:gender="babjang[0].gender"
+							:nickname="babjang[0].nickname"
+							:profile_image="babjang[0].profile_image"
+							:age_range="babjang[0].age_range"
+							:dining_score="babjang[0].dining_score"
+							:dining_spoons_description="babjang[0].dining_spoons_description"
+						/>
+						<!-- <div class="col border rounded p-3">
 						<div class="d-flex align-items-center">
 							<div class="profile me-3" style="width: 6rem">
 								<div class="img-wrap pf rounded-circle">
@@ -126,17 +136,18 @@
 							</ul>
 						</div>
 						<div class="p-3">책임감있는 밥장이 될게요! 믿고 맡겨 주세요~!</div>
-					</div>
-					<!-- 숟갈 선택하기 -->
-					<div class="col border rounded mt-3 p-3">
-						<p>지금까지 신청한 숟갈들</p>
-						<p style="font-size: 1.5rem">
-							<font-awesome-icon icon="fa-solid fa-spoon" />
-							<span class="ps-3">7명 !</span>
-						</p>
-						<button class="btn btn-primary" @click="goSelectPage">
-							숟갈 선택
-						</button>
+					</div> -->
+						<!-- 숟갈 선택하기 -->
+						<div class="col border rounded mt-3 p-3">
+							<p>지금까지 신청한 숟갈들</p>
+							<p style="font-size: 1.5rem">
+								<font-awesome-icon icon="fa-solid fa-spoon" />
+								<span class="ps-3">7명 !</span>
+							</p>
+							<button class="btn btn-primary" @click="goSelectPage">
+								숟갈 선택
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -145,12 +156,26 @@
 </template>
 
 <script>
+import userCard from '@/components/userCard';
 export default {
 	name: 'Babsang',
-	components: {},
+	components: { userCard },
 	data() {
 		return {
 			babsangDetailData: [],
+			babjang: [
+				{
+					dining_table_id: 1,
+					email: 'babjang1@gmail.com',
+					gender: '남자',
+					nickname: '밥장9',
+					profile_image: require('../assets/img/users/m9.png'),
+					age_range: '20대',
+					dining_score: 4.7,
+					dining_spoons_description:
+						'책임감있는 밥장이 될게요! 믿고 맡겨 주세요~!',
+				},
+			],
 		};
 	},
 	created() {},

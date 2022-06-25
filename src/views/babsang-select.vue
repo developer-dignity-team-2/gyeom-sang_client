@@ -152,7 +152,7 @@
 					:nickname="spoon.nickname"
 					:profile_image="spoon.profile_image"
 					:age_range="spoon.age_range"
-					:mannerScore="spoon.mannerScore"
+					:dining_score="spoon.dining_score"
 					:dining_spoons_description="spoon.dining_spoons_description"
 				/>
 			</div>
@@ -183,7 +183,7 @@ export default {
 					nickname: '숟갈1',
 					profile_image: require('../assets/img/users/w1.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.2,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -193,7 +193,7 @@ export default {
 					nickname: '숟갈2',
 					profile_image: require('../assets/img/users/w2.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.5,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -203,7 +203,7 @@ export default {
 					nickname: '숟갈3',
 					profile_image: require('../assets/img/users/w3.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -213,7 +213,7 @@ export default {
 					nickname: '숟갈4',
 					profile_image: require('../assets/img/users/w4.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.7,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -223,7 +223,7 @@ export default {
 					nickname: '숟갈5',
 					profile_image: require('../assets/img/users/w5.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.6,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -233,7 +233,7 @@ export default {
 					nickname: '숟갈6',
 					profile_image: require('../assets/img/users/w6.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3.8,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -243,7 +243,7 @@ export default {
 					nickname: '숟갈7',
 					profile_image: require('../assets/img/users/w7.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -253,7 +253,7 @@ export default {
 					nickname: '숟갈8',
 					profile_image: require('../assets/img/users/w8.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -263,7 +263,7 @@ export default {
 					nickname: '숟갈9',
 					profile_image: require('../assets/img/users/w9.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -273,7 +273,7 @@ export default {
 					nickname: '숟갈10',
 					profile_image: require('../assets/img/users/w10.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -283,7 +283,7 @@ export default {
 					nickname: '숟갈11',
 					profile_image: require('../assets/img/users/w11.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -293,7 +293,7 @@ export default {
 					nickname: '숟갈12',
 					profile_image: require('../assets/img/users/m1.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -303,7 +303,7 @@ export default {
 					nickname: '숟갈13',
 					profile_image: require('../assets/img/users/m2.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -313,7 +313,7 @@ export default {
 					nickname: '숟갈14',
 					profile_image: require('../assets/img/users/m3.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -323,7 +323,7 @@ export default {
 					nickname: '숟갈15',
 					profile_image: require('../assets/img/users/m4.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -333,7 +333,7 @@ export default {
 					nickname: '숟갈16',
 					profile_image: require('../assets/img/users/m5.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -343,7 +343,7 @@ export default {
 					nickname: '숟갈17',
 					profile_image: require('../assets/img/users/m6.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -353,7 +353,7 @@ export default {
 					nickname: '숟갈18',
 					profile_image: require('../assets/img/users/m7.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -363,7 +363,7 @@ export default {
 					nickname: '숟갈19',
 					profile_image: require('../assets/img/users/m8.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -373,7 +373,7 @@ export default {
 					nickname: '숟갈20',
 					profile_image: require('../assets/img/users/m9.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -383,7 +383,7 @@ export default {
 					nickname: '숟갈21',
 					profile_image: require('../assets/img/users/m10.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
@@ -393,7 +393,7 @@ export default {
 					nickname: '숟갈22',
 					profile_image: require('../assets/img/users/m11.png'),
 					age_range: '20대',
-					mannerScore: 3,
+					dining_score: 3,
 					dining_spoons_description:
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
