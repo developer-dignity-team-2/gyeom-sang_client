@@ -271,7 +271,9 @@ export default {
 			const result = new Date(this.dining_datetime * 1 + 3600000 * 9)
 				.toISOString()
 				.replace('T', ' ')
-				.replace(/\..*/, '');
+				.replace(/\..*/, '')
+				.toString()
+				.slice(0, 10);
 
 			console.log(result);
 			return result;
@@ -284,14 +286,18 @@ export default {
 			const result = new Date(this.recruit_start_date * 1 + 3600000 * 9)
 				.toISOString()
 				.replace('T', ' ')
-				.replace(/\..*/, '');
+				.replace(/\..*/, '')
+				.toString()
+				.slice(0, 10);
 			return result;
 		},
 		recruitEndDate() {
 			const result = new Date(this.recruit_end_date * 1 + 3600000 * 9)
 				.toISOString()
 				.replace('T', ' ')
-				.replace(/\..*/, '');
+				.replace(/\..*/, '')
+				.toString()
+				.slice(0, 10);
 			return result;
 		},
 
