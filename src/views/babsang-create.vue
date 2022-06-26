@@ -65,6 +65,7 @@
 							식사 일시
 							<datepicker
 								v-model="dining_datetime"
+								:lowerLimit="from"
 								class="form-control mt-2"
 								placeholder="식사 일시"
 							/>
@@ -166,9 +167,9 @@
 					<li>성별 : {{ gender_check }}</li>
 					<li>모집 인원 : {{ dining_count }}</li>
 					<li>소개 : {{ dining_description }}</li>
-					<li>dining_datetime : {{ dining_datetime }}</li>
-					<li>recruit_start_date : {{ recruit_start_date }}</li>
-					<li>recruit_end_date : {{ recruit_end_date }}</li>
+					<li>dining_datetime : {{ diningDatetime() }}</li>
+					<li>recruit_start_date : {{ recruitStartDate() }}</li>
+					<li>recruit_end_date : {{ recruitEndDate() }}</li>
 				</ul>
 			</div>
 		</div>
@@ -178,7 +179,6 @@
 <script>
 // import userMap from '@/components/UserMap.vue';
 import Datepicker from 'vue3-datepicker';
-
 // import { ref } from 'vue';
 // const picked = ref(new Date());
 export default {
@@ -198,10 +198,39 @@ export default {
 			dining_thumbnail: '',
 			imageData: '',
 			imgSrc: '',
+			from: new Date(),
 		};
 	},
 	mounted() {},
 	methods: {
+		diningDatetime() {
+			const result = new Date(this.dining_datetime * 1 + 3600000 * 9)
+				.toISOString()
+				.replace('T', ' ')
+				.replace(/\..*/, '');
+
+			console.log(result);
+			return result;
+
+			// const result = this.dining_datetime.toISOString();
+			// result.slice(0, 19).replace('T', ' ');
+			// return result;
+		},
+		recruitStartDate() {
+			const result = new Date(this.recruit_start_date * 1 + 3600000 * 9)
+				.toISOString()
+				.replace('T', ' ')
+				.replace(/\..*/, '');
+			return result;
+		},
+		recruitEndDate() {
+			const result = new Date(this.recruit_end_date * 1 + 3600000 * 9)
+				.toISOString()
+				.replace('T', ' ')
+				.replace(/\..*/, '');
+			return result;
+		},
+
 		// thumbnail upload
 		chooseImage() {
 			this.$refs.fileInput.click();
@@ -218,7 +247,6 @@ export default {
 			console.log(res);
 			this.dining_thumbnail = res.filename;
 		},
-
 		//밥상 생성하기
 		async onSubmitForm() {
 			await this.$post('https://nicespoons.com/api/v1/babsang', {
@@ -233,7 +261,6 @@ export default {
 					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
 					host_email: 'tmddhks0104@naver.com',
-
 					restaurant_name: '제주 할매 칼국수7',
 					// dining_count: '4',
 					dining_datetime: '2022-06-17 05:24:01',
@@ -273,11 +300,9 @@ export default {
 	background-size: cover;
 	background-position: center center;
 }
-
 .file-control {
 	display: none;
 }
-
 .loadBtn {
 	position: absolute;
 	bottom: 0;
