@@ -1,7 +1,6 @@
 <template>
 	<div class="container mb" style="max-width: 1000px">
 		<!-- 썸네일 추가 -->
-		<!-- <BaseImageInput @imageData="getImageData($event)"></BaseImageInput> -->
 		<div class="row my-4">
 			<div class="col">
 				<div class="img-wrap rounded">
@@ -11,10 +10,11 @@
 						@click="chooseImage"
 					>
 						<input
+							type="file"
 							class="form-control file-control"
 							ref="fileInput"
-							type="file"
-							@input="onSelectFile"
+							accept="image/png, image/jpeg"
+							@change="onSelectFile"
 						/>
 						<button class="btn loadBtn btn-primary m-2" @click="chooseImage">
 							<font-awesome-icon icon="fa-solid fa-image" />
@@ -56,46 +56,33 @@
 								placeholder="검색"
 							/>
 							<div id="map">
-								<userMap />
+								<!-- <userMap /> -->
 							</div>
 						</div>
+
 						<!-- datepicker 삽입 -->
-						<div class="form-group">
-							식사 일시<datepicker
+						<div class="form-group mt-4">
+							식사 일시
+							<datepicker
 								v-model="dining_datetime"
 								:lowerLimit="from"
-								class="form-control py-6 px-36 m-1"
+								class="form-control mt-2"
 								placeholder="식사 일시"
 							/>
-							<!-- <input
-								type="email"
-								class="form-control"
-								id="exampleInputEmail1"
-								aria-describedby="emailHelp"
-								placeholder="검색"
-							/> -->
 						</div>
 						<!-- datepicker 삽입 -->
-						<div class="form-group">
+						<div class="form-group mt-4">
 							모집 기간
 							<datepicker
 								v-model="recruit_start_date"
-								class="form-control py-6 px-36 m-1"
+								class="form-control my-2"
 								placeholder="모집 시작"
 							/>
 							<datepicker
 								v-model="recruit_end_date"
-								class="form-control py-6 px-36 m-1"
+								class="form-control"
 								placeholder="모집 마감"
 							/>
-
-							<!-- <input
-								type="email"
-								class="form-control"
-								id="exampleInputEmail1"
-								aria-describedby="emailHelp"
-								placeholder="검색"
-							/> -->
 						</div>
 
 						<div class="form-group">
@@ -165,7 +152,7 @@
 								v-model="dining_description"
 							></textarea>
 						</div>
-						<div class="d-flex justify-content-center mt">
+						<div class="d-flex justify-content-center mt-5">
 							<button type="button" class="btn btn-secondary mx-3">
 								밥상 엎기
 							</button>
@@ -190,12 +177,14 @@
 </template>
 
 <script>
-import userMap from '@/components/UserMap.vue';
+// import userMap from '@/components/UserMap.vue';
 import Datepicker from 'vue3-datepicker';
-
+// import { ref } from 'vue';
+// const picked = ref(new Date());
 export default {
 	name: 'BabsangCreate',
-	components: { userMap, Datepicker },
+	// components: { userMap, Datepicker },
+	components: { Datepicker },
 	data() {
 		return {
 			sampleData: '',
@@ -208,6 +197,7 @@ export default {
 			dining_count: '',
 			dining_thumbnail: '',
 			imageData: '',
+			imgSrc: '',
 			from: new Date(),
 		};
 	},
@@ -245,18 +235,17 @@ export default {
 		chooseImage() {
 			this.$refs.fileInput.click();
 		},
-		onSelectFile() {
+		async onSelectFile() {
 			const input = this.$refs.fileInput;
-			const files = input.files;
-			if (files && files[0]) {
-				const reader = new FileReader();
-				reader.onload = e => {
-					this.imageData = e.target.result;
-				};
-				reader.readAsDataURL(files[0]);
-			}
-			this.dining_thumbnail = this.$refs.fileInput.files[0];
-			console.log(this.dining_thumbnail);
+			const files = input.files[0];
+			console.log(files);
+			const res = await this.$upload(
+				'https://nicespoons.com/api/v1/upload/image',
+				files,
+			);
+			this.imageData = `https://nicespoons.com/static/images/${res.filename}`;
+			console.log(res);
+			this.dining_thumbnail = res.filename;
 		},
 		//밥상 생성하기
 		async onSubmitForm() {
@@ -284,6 +273,9 @@ export default {
 					// 	'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
 				},
 			});
+			this.$router.push({
+				path: '/',
+			});
 		},
 	},
 };
@@ -304,40 +296,21 @@ export default {
 	width: 100%;
 	height: 100%;
 	display: block;
-	//width: 500px;
-	//height: 100px;
 	cursor: pointer;
 	background-size: cover;
 	background-position: center center;
 }
-// .placeholder {
-// 	background: #f0f0f0;
-// 	width: 100%;
-// 	height: 100%;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// 	color: #333;
-// 	font-size: 18px;
-// }
 .file-control {
 	display: none;
 }
-// .img-wrap img {
-// 	position: absolute;
-// 	top: 0;
-// 	left: 0;
-// 	width: 100%;
-// 	height: 100%;
-// }
 .loadBtn {
 	position: absolute;
 	bottom: 0;
 	right: 0;
 }
-#map {
-	width: 500px;
-	height: 500px;
-	margin: 10px auto auto;
-}
+// #map {
+// 	width: 500px;
+// 	height: 500px;
+// 	margin: 10px auto auto;
+// }
 </style>
