@@ -8,7 +8,10 @@
 					<div class="col">
 						<div class="img-wrap rounded">
 							<img
-								:src="babsangDetailData.dining_thumbnail"
+								:src="
+									'https://nicespoons.com/static/images/' +
+									babsangDetailData.dining_thumbnail
+								"
 								:alt="babsangDetailData.restaurant_name"
 								style="object-fit: cover"
 							/>
@@ -20,10 +23,10 @@
 							<h3 class="me-4">{{ babsangDetailData.restaurant_name }}</h3>
 							<div class="status">
 								<button class="btn btn-primary me-2">
-									{{ babsangDetailData.dining_status }}
+									{{ currentStatus() }}
 								</button>
 								<button class="btn btn-secondary me-2">
-									{{ babsangDetailData.gender_check }}
+									{{ recruitGender() }}
 								</button>
 								<button class="btn btn-secondary">
 									1/{{ babsangDetailData.dining_count }}
@@ -77,7 +80,9 @@
 					<div class="col d-flex justify-content-center my-5">
 						<button class="btn btn-secondary mx-2">수정</button>
 						<button class="btn btn-secondary mx-2">목록</button>
-						<button class="btn btn-secondary mx-2">삭제</button>
+						<button class="btn btn-secondary mx-2" @click="deleteBabsang">
+							삭제
+						</button>
 					</div>
 					<!-- 구분선 -->
 					<div class="col my-3">
@@ -184,6 +189,16 @@ export default {
 		this.getBabsangDetailData();
 	},
 	methods: {
+		async deleteBabsang() {
+			const confirmResult = confirm('밥상을 삭제 하시겠습니까?');
+			if (confirmResult) {
+				const babsangId = this.$route.params.babsangId;
+				await this.$delete(`/api/v1/babsang/${babsangId}`);
+				this.$router.push({
+					path: '/',
+				});
+			}
+		},
 		goSelectPage() {
 			this.$router.push({
 				path: '/babsang-select',
@@ -195,6 +210,30 @@ export default {
 			);
 			this.babsangDetailData = this.babsangDetailData.result[0];
 			console.log(this.babsangDetailData);
+		},
+		currentStatus() {
+			let currentStatus = this.babsangDetailData.dining_status;
+			let status;
+			if (currentStatus === 0) {
+				status = '모집중';
+			} else if (currentStatus === 1) {
+				status = '모집 마감';
+			} else {
+				status = '모집 확정';
+			}
+			return status;
+		},
+		recruitGender() {
+			let gender = this.babsangDetailData.gender_check;
+			let genderStatus;
+			if (gender === 'ALL') {
+				genderStatus = '혼성';
+			} else if (gender === 'F') {
+				genderStatus = '여성';
+			} else {
+				genderStatus = '남성';
+			}
+			return genderStatus;
 		},
 	},
 };

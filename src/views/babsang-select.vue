@@ -11,27 +11,37 @@
 					class="col-12 border rounded py-4 text-center"
 					style="min-height: 175px"
 				>
-					<div
-						style="
-							display: flex;
-							flex-flow: row wrap;
-							justify-content: center;
-							align-item: center;
-						"
-					>
-						<div class="row">
+					<div>
+						<div
+							class="row"
+							style="
+								display: flex;
+								flex-flow: row wrap;
+								justify-content: center;
+							"
+						>
 							<div
-								class="col"
-								:key="selectedSpoon.email"
-								v-for="selectedSpoon in selectedSpoons"
-								@click="doCancel(selectedSpoon)"
+								style="display: flex; flex-flow: row wrap; flex-basis: 50rem"
 							>
-								<div>
-									<div style="width: 6rem">
-										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="selectedSpoon.profile_image" alt="프로필" />
+								<div
+									style="
+										display: flex;
+										justify-content: space-around;
+										align-item: center;
+										cursor: pointer;
+									"
+									class="col"
+									:key="selectedSpoon.email"
+									v-for="selectedSpoon in selectedSpoons"
+									@click="doCancel(selectedSpoon)"
+								>
+									<div>
+										<div style="width: 6rem">
+											<div class="img-wrap pf rounded-circle mb-1">
+												<img :src="selectedSpoon.profile_image" alt="프로필" />
+											</div>
+											<strong>{{ selectedSpoon.nickname }}</strong>
 										</div>
-										<strong>{{ selectedSpoon.nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -481,9 +491,11 @@ dt {
 .disabled {
 	pointer-events: none;
 	opacity: 0.4;
+	cursor: not-allowed;
 }
 .enabled {
 	pointer-events: auto;
 	opacity: 1;
+	cursor: pointer;
 }
 </style>

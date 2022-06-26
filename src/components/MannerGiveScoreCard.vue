@@ -13,7 +13,7 @@
 							:value="manner.id"
 						/><label
 							class="list-group-item rounded-3 py-3"
-							style="text-align: center"
+							style="text-align: center; cursor: pointer"
 							:for="manner.id"
 							>{{ manner.question }}</label
 						>
