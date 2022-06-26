@@ -84,53 +84,114 @@
 								placeholder="모집 마감"
 							/>
 						</div>
-
 						<div class="form-group">
 							<label class="mt-4">성별 선택</label>
-							<div class="form-check">
-								<label class="form-check-label">
+							<div class="row my-2">
+								<div class="col">
 									<input
 										type="radio"
-										class="form-check-input"
+										class="list-group-item-check pe-none"
 										name="genderPick"
 										id="gender-all"
 										value="ALL"
-										checked=""
+										checked
 										v-model="gender_check"
 									/>
-									혼성
-								</label>
-							</div>
-							<div class="form-check">
-								<label class="form-check-label">
+									<label
+										class="list-group-item rounded-3 py-3"
+										style="text-align: center"
+										for="gender-all"
+										>혼성</label
+									>
+								</div>
+								<div class="col">
 									<input
 										type="radio"
-										class="form-check-input"
+										class="list-group-item-check pe-none"
 										name="genderPick"
 										id="gender-m"
 										value="M"
 										v-model="gender_check"
 									/>
-									남성
-								</label>
-							</div>
-							<div class="form-check disabled">
-								<label class="form-check-label">
+									<label
+										class="list-group-item rounded-3 py-3"
+										style="text-align: center"
+										for="gender-m"
+										>남성</label
+									>
+								</div>
+								<div class="col">
 									<input
 										type="radio"
-										class="form-check-input"
+										class="list-group-item-check pe-none"
 										name="genderPick"
 										id="gender-f"
 										value="F"
 										v-model="gender_check"
 									/>
-									여성
-								</label>
+									<label
+										class="list-group-item rounded-3 py-3"
+										style="text-align: center"
+										for="gender-f"
+										>여성</label
+									>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="diningCount" class="form-label mt-4">모집 인원</label>
-							<select
+							<div class="row my-2">
+								<div class="col">
+									<input
+										type="radio"
+										class="list-group-item-check pe-none"
+										name=""
+										id="two-people"
+										value="2"
+										v-model="dining_count"
+									/>
+									<label
+										class="list-group-item rounded-3 py-3"
+										style="text-align: center"
+										for="two-people"
+										>2인</label
+									>
+								</div>
+								<div class="col">
+									<input
+										type="radio"
+										class="list-group-item-check pe-none"
+										name=""
+										id="three-people"
+										value="3"
+										v-model="dining_count"
+									/>
+									<label
+										class="list-group-item rounded-3 py-3"
+										style="text-align: center"
+										for="three-people"
+										>3인</label
+									>
+								</div>
+								<div class="col">
+									<input
+										type="radio"
+										class="list-group-item-check pe-none"
+										name=""
+										id="four-people"
+										value="4"
+										checked
+										v-model="dining_count"
+									/>
+									<label
+										class="list-group-item rounded-3 py-3"
+										style="text-align: center"
+										for="four-people"
+										>4인</label
+									>
+								</div>
+							</div>
+							<!-- <select
 								class="form-select"
 								id="diningCount"
 								v-model="dining_count"
@@ -139,7 +200,7 @@
 								<option value="2">2</option>
 								<option value="3">3</option>
 								<option value="4">4</option>
-							</select>
+							</select> -->
 						</div>
 						<div class="form-group">
 							<label for="dining_description" class="form-label mt-4"
@@ -164,7 +225,7 @@
 				</form>
 				<ul>
 					<li>식당이름</li>
-					<li>성별 : {{ gender_check }}</li>
+					<li>성별 : {{ doGenderCheck() }}</li>
 					<li>모집 인원 : {{ dining_count }}</li>
 					<li>소개 : {{ dining_description }}</li>
 					<li>dining_datetime : {{ diningDatetime() }}</li>
@@ -203,6 +264,15 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		doGenderCheck() {
+			if (this.gender_check === 'M') {
+				return '남성';
+			} else if (this.gender_check === 'F') {
+				return '여성';
+			} else {
+				return '혼성';
+			}
+		},
 		diningDatetime() {
 			const result = new Date(this.dining_datetime * 1 + 3600000 * 9)
 				.toISOString()
@@ -314,4 +384,66 @@ export default {
 // 	height: 500px;
 // 	margin: 10px auto auto;
 // }
+/* 라디오 버튼 스타일 */
+.list-group {
+	// max-width: 460px;
+	margin: 1rem auto;
+}
+
+.form-check-input:checked + .form-checked-content {
+	opacity: 0.5;
+}
+
+.form-check-input-placeholder {
+	border-style: dashed;
+}
+[contenteditable]:focus {
+	outline: 0;
+}
+
+.list-group-checkable .list-group-item {
+	cursor: pointer;
+}
+.list-group-item-check {
+	position: absolute;
+	clip: rect(0, 0, 0, 0);
+}
+.list-group-item-check:hover + .list-group-item {
+	background-color: var(--bs-light);
+}
+.list-group-item-check:checked + .list-group-item {
+	color: #fff;
+	background-color: var(--bs-yellow);
+}
+.list-group-item-check[disabled] + .list-group-item,
+.list-group-item-check:disabled + .list-group-item {
+	pointer-events: none;
+	filter: none;
+	opacity: 0.5;
+}
+
+.list-group-radio .list-group-item {
+	cursor: pointer;
+	border-radius: 0.5rem;
+}
+.list-group-radio .form-check-input {
+	z-index: 2;
+	margin-top: -0.5em;
+}
+.list-group-radio .list-group-item:hover,
+.list-group-radio .list-group-item:focus {
+	background-color: var(--bs-light);
+}
+
+.list-group-radio .form-check-input:checked + .list-group-item {
+	background-color: var(--bs-body);
+	border-color: var(--bs-blue);
+	box-shadow: 0 0 0 2px var(--bs-blue);
+}
+.list-group-radio .form-check-input[disabled] + .list-group-item,
+.list-group-radio .form-check-input:disabled + .list-group-item {
+	pointer-events: none;
+	filter: none;
+	opacity: 0.5;
+}
 </style>
