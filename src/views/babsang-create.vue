@@ -66,6 +66,7 @@
 							<datepicker
 								v-model="dining_datetime"
 								:lowerLimit="from"
+								style="cursor: default"
 								class="form-control mt-2"
 								placeholder="식사 일시"
 							/>
@@ -76,11 +77,13 @@
 							<datepicker
 								v-model="recruit_start_date"
 								class="form-control my-2"
+								style="cursor: default"
 								placeholder="모집 시작"
 							/>
 							<datepicker
 								v-model="recruit_end_date"
 								class="form-control"
+								style="cursor: default"
 								placeholder="모집 마감"
 							/>
 						</div>
