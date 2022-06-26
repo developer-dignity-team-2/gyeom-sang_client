@@ -28,6 +28,7 @@
 										display: flex;
 										justify-content: space-around;
 										align-item: center;
+										cursor: pointer;
 									"
 									class="col"
 									:key="selectedSpoon.email"
@@ -490,9 +491,11 @@ dt {
 .disabled {
 	pointer-events: none;
 	opacity: 0.4;
+	cursor: not-allowed;
 }
 .enabled {
 	pointer-events: auto;
 	opacity: 1;
+	cursor: pointer;
 }
 </style>

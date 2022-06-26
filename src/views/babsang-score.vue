@@ -103,14 +103,14 @@
 					class="btn btn-outline-primary"
 					@click="backScore"
 				>
-					Back
+					이전
 				</button>
 				<button
 					type="button"
 					class="btn btn-outline-primary"
 					@click="nextScore"
 				>
-					Next
+					다음
 				</button>
 			</div>
 		</div>
