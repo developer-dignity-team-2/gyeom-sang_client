@@ -60,28 +60,33 @@
 							</div>
 						</div>
 
-						<!-- datepicker 삽입 -->
+						<!-- datepicker 삽입
+						lowerLimit: 지정한 기준으로 하한인 날은 disable -->
 						<div class="form-group mt-4">
 							식사 일시
 							<datepicker
 								v-model="dining_datetime"
-								:lowerLimit="from"
+								:lowerLimit="new Date()"
 								style="cursor: default"
 								class="form-control mt-2"
 								placeholder="식사 일시"
 							/>
 						</div>
-						<!-- datepicker 삽입 -->
+						<!-- datepicker 삽입
+						upperLimit: 지정한 날짜 기준으로 상한인 날은 disable -->
 						<div class="form-group mt-4">
 							모집 기간
 							<datepicker
 								v-model="recruit_start_date"
+								:upperLimit="this.dining_datetime"
 								class="form-control my-2"
 								style="cursor: default"
 								placeholder="모집 시작"
 							/>
 							<datepicker
 								v-model="recruit_end_date"
+								:upperLimit="this.dining_datetime"
+								:lowerLimit="this.recruit_start_date"
 								class="form-control"
 								style="cursor: default"
 								placeholder="모집 마감"
@@ -243,7 +248,7 @@ export default {
 	data() {
 		return {
 			sampleData: '',
-			picked: '',
+			// picked: '',
 			dining_datetime: '',
 			recruit_start_date: '',
 			recruit_end_date: '',
@@ -253,7 +258,6 @@ export default {
 			dining_thumbnail: '',
 			imageData: '',
 			imgSrc: '',
-			from: new Date(),
 		};
 	},
 	mounted() {},
