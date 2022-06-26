@@ -63,6 +63,7 @@
 						<div class="form-group">
 							식사 일시<datepicker
 								v-model="dining_datetime"
+								:lowerLimit="from"
 								class="form-control py-6 px-36 m-1"
 								placeholder="식사 일시"
 							/>
@@ -179,9 +180,9 @@
 					<li>성별 : {{ gender_check }}</li>
 					<li>모집 인원 : {{ dining_count }}</li>
 					<li>소개 : {{ dining_description }}</li>
-					<li>dining_datetime : {{ dining_datetime }}</li>
-					<li>recruit_start_date : {{ recruit_start_date }}</li>
-					<li>recruit_end_date : {{ recruit_end_date }}</li>
+					<li>dining_datetime : {{ diningDatetime() }}</li>
+					<li>recruit_start_date : {{ recruitStartDate() }}</li>
+					<li>recruit_end_date : {{ recruitEndDate() }}</li>
 				</ul>
 			</div>
 		</div>
@@ -191,9 +192,7 @@
 <script>
 import userMap from '@/components/UserMap.vue';
 import Datepicker from 'vue3-datepicker';
-// import BaseImageInput from '@/components/BaseImageInput';
-// import { ref } from 'vue';
-// const picked = ref(new Date());
+
 export default {
 	name: 'BabsangCreate',
 	components: { userMap, Datepicker },
@@ -209,10 +208,39 @@ export default {
 			dining_count: '',
 			dining_thumbnail: '',
 			imageData: '',
+			from: new Date(),
 		};
 	},
 	mounted() {},
 	methods: {
+		diningDatetime() {
+			const result = new Date(this.dining_datetime * 1 + 3600000 * 9)
+				.toISOString()
+				.replace('T', ' ')
+				.replace(/\..*/, '');
+
+			console.log(result);
+			return result;
+
+			// const result = this.dining_datetime.toISOString();
+			// result.slice(0, 19).replace('T', ' ');
+			// return result;
+		},
+		recruitStartDate() {
+			const result = new Date(this.recruit_start_date * 1 + 3600000 * 9)
+				.toISOString()
+				.replace('T', ' ')
+				.replace(/\..*/, '');
+			return result;
+		},
+		recruitEndDate() {
+			const result = new Date(this.recruit_end_date * 1 + 3600000 * 9)
+				.toISOString()
+				.replace('T', ' ')
+				.replace(/\..*/, '');
+			return result;
+		},
+
 		// thumbnail upload
 		chooseImage() {
 			this.$refs.fileInput.click();
