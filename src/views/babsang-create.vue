@@ -102,7 +102,7 @@
 									/>
 									<label
 										class="list-group-item rounded-3 py-3"
-										style="text-align: center"
+										style="text-align: center; cursor: pointer"
 										for="gender-all"
 										>혼성</label
 									>
@@ -118,7 +118,7 @@
 									/>
 									<label
 										class="list-group-item rounded-3 py-3"
-										style="text-align: center"
+										style="text-align: center; cursor: pointer"
 										for="gender-m"
 										>남성</label
 									>
@@ -134,7 +134,7 @@
 									/>
 									<label
 										class="list-group-item rounded-3 py-3"
-										style="text-align: center"
+										style="text-align: center; cursor: pointer"
 										for="gender-f"
 										>여성</label
 									>
@@ -155,7 +155,7 @@
 									/>
 									<label
 										class="list-group-item rounded-3 py-3"
-										style="text-align: center"
+										style="text-align: center; cursor: pointer"
 										for="two-people"
 										>2인</label
 									>
@@ -171,7 +171,7 @@
 									/>
 									<label
 										class="list-group-item rounded-3 py-3"
-										style="text-align: center"
+										style="text-align: center; cursor: pointer"
 										for="three-people"
 										>3인</label
 									>
@@ -188,7 +188,7 @@
 									/>
 									<label
 										class="list-group-item rounded-3 py-3"
-										style="text-align: center"
+										style="text-align: center; cursor: pointer"
 										for="four-people"
 										>4인</label
 									>
