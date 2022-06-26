@@ -223,15 +223,6 @@
 						</div>
 					</fieldset>
 				</form>
-				<ul>
-					<li>식당이름</li>
-					<li>성별 : {{ doGenderCheck() }}</li>
-					<li>모집 인원 : {{ dining_count }}</li>
-					<li>소개 : {{ dining_description }}</li>
-					<li>dining_datetime : {{ diningDatetime() }}</li>
-					<li>recruit_start_date : {{ recruitStartDate() }}</li>
-					<li>recruit_end_date : {{ recruitEndDate() }}</li>
-				</ul>
 			</div>
 		</div>
 	</div>
@@ -332,14 +323,14 @@ export default {
 					dining_count: this.dining_count,
 					host_email: 'tmddhks0104@naver.com',
 
-					restaurant_name: '제주 할매 칼국수7',
+					restaurant_name: '애월빵공장',
 					// dining_count: '4',
 					// dining_datetime: '2022-06-17 05:24:01',
 					// recruit_start_date: '2022-06-10 05:00:00',
 					// recruit_end_date: '2022-06-15 05:00:00',
 					// gender_check: 'ALL',
 					// dining_description: '칼국수 너무 맛있을 것 같아요.',
-					restaurant_location: '제주 서귀포시 할매 칼국수',
+					restaurant_location: '제주 제주시 애월읍 금성5길 42-15',
 					// dining_thumbnail:
 					// 	'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
 				},

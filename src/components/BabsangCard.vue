@@ -33,7 +33,7 @@
 				</h5>
 				<!-- <p class="card-text mb-1">{{ itemData.nickname }}</p> -->
 				<p class="card-text mb-2">
-					<i class="bi bi-geo-alt"></i> 제주시 연관읍 행복로 27
+					<i class="bi bi-geo-alt"></i>제주시 애월읍 금성5길 42-15
 				</p>
 				<p class="card-text mb-4">
 					<i class="bi bi-calendar-check me-2"></i>{{ startDate() }} ~
@@ -156,7 +156,7 @@ export default {
 }
 .card-img-center {
 	width: 100%;
-	max-height: 16rem;
+	height: 16rem;
 	object-fit: cover;
 }
 </style>
