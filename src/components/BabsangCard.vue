@@ -135,7 +135,7 @@ export default {
 			left: 0;
 			bottom: 0;
 			background: linear-gradient(transparent, #000000e3);
-			opacity: 0.35;
+			opacity: 0.5;
 		}
 		img.card-img-center {
 			transition: all 0.4s ease;
