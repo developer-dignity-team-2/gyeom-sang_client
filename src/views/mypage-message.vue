@@ -285,4 +285,45 @@ export default {
 	},
 };
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.favorite {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+}
+.img-wrap {
+	position: relative;
+	width: 100%;
+	height: 0;
+	padding-bottom: 56.26%;
+	overflow: hidden;
+}
+.img-wrap.map-wrap {
+	padding-bottom: 40%;
+}
+.img-wrap.pf {
+	padding-bottom: 100%;
+}
+.img-wrap img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+ul,
+dl {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+li {
+	display: block;
+}
+dl {
+	display: flex;
+}
+dt {
+	margin-right: 1rem;
+}
+</style>
