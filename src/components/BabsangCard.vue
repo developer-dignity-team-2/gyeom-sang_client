@@ -16,9 +16,7 @@
 			<div>
 				<h5 class="card-title">{{ itemData.restaurant_name }}</h5>
 				<p class="card-text mb-1">{{ itemData.nickname }}</p>
-				<p class="card-text mb-2">
-					{{ itemData.recruit_start_date }} ~ {{ itemData.recruit_end_date }}
-				</p>
+				<p class="card-text mb-2">{{ startDate() }} ~ {{ endDate() }}</p>
 			</div>
 			<div>
 				<button type="button" class="btn btn-primary me-2">
@@ -69,6 +67,12 @@ export default {
 				genderStatus = '남성';
 			}
 			return genderStatus;
+		},
+		startDate() {
+			return this.itemData.recruit_start_date.toString().slice(0, 10);
+		},
+		endDate() {
+			return this.itemData.recruit_end_date.toString().slice(0, 10);
 		},
 	},
 };
