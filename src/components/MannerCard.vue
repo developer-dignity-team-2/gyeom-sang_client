@@ -4,7 +4,14 @@
 			<h5>{{ mannerTitle }}</h5>
 			<ul :key="i" v-for="(manner, i) in myManners">
 				<li class="mb-3">
-					<div class="dropdown-item rounded-2 active">
+					<!-- <div class="dropdown-item rounded-2 activeNega"> -->
+					<div
+						class="rounded-2"
+						:class="[
+							{ 'highlighter-active': highlighter === true },
+							{ 'highlighter-active-nega': highlighter === false },
+						]"
+					>
 						<div class="row">
 							<div class="col-1">{{ i + 1 }}.</div>
 							<div class="col-7">
@@ -32,6 +39,7 @@ export default {
 				return [];
 			},
 		},
+		highlighter: { Boolean },
 	},
 };
 </script>

@@ -45,12 +45,14 @@
 								<MannerCard
 									:mannerTitle="myManners[0][0].mannerTitle"
 									:myManners="myManners[0][1]"
+									:highlighter="true"
 								/>
 							</div>
 							<div class="col-xl-6 col-md-12 col-sm-12">
 								<MannerCard
 									:mannerTitle="myManners[1][0].mannerTitle"
 									:myManners="myManners[1][1]"
+									:highlighter="false"
 								/>
 							</div>
 						</div>
@@ -62,12 +64,14 @@
 								<MannerCard
 									:mannerTitle="myManners[2][0].mannerTitle"
 									:myManners="myManners[2][1]"
+									:highlighter="true"
 								/>
 							</div>
 							<div class="col-xl-6 col-md-12 col-sm-12">
 								<MannerCard
 									:mannerTitle="myManners[3][0].mannerTitle"
 									:myManners="myManners[3][1]"
+									:highlighter="false"
 								/>
 							</div>
 						</div>
