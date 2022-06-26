@@ -97,7 +97,10 @@ export default {
 	methods: {
 		async getBabsangData() {
 			this.babsangData = await this.$get('/api/v1/babsang');
-			console.log(this.babsangData);
+			this.babsangData.result.sort(function (a, b) {
+				return b.id - a.id;
+			});
+			console.log(this.babsangData.result);
 		},
 	},
 };
