@@ -15,13 +15,6 @@
 				<li>
 					<stars-rating :config="config" />
 				</li>
-				<!-- <li>
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
-					<font-awesome-icon icon="fa-solid fa-star" style="color: #ffd24c" />
-				</li> -->
 			</ul>
 		</div>
 		<div class="p-1">{{ dining_spoons_description }}</div>
