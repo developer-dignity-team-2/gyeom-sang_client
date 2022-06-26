@@ -86,8 +86,8 @@
 						</div>
 						<div class="form-group">
 							<label class="mt-4">성별 선택</label>
-							<div class="row my-2">
-								<div class="col">
+							<div class="row mt-2">
+								<div class="col-xl-4 col-md-4 col-sm-12 mb-2">
 									<input
 										type="radio"
 										class="list-group-item-check pe-none"
@@ -104,7 +104,7 @@
 										>혼성</label
 									>
 								</div>
-								<div class="col">
+								<div class="col-xl-4 col-md-4 col-sm-12 mb-2">
 									<input
 										type="radio"
 										class="list-group-item-check pe-none"
@@ -120,7 +120,7 @@
 										>남성</label
 									>
 								</div>
-								<div class="col">
+								<div class="col-xl-4 col-md-4 col-sm-12">
 									<input
 										type="radio"
 										class="list-group-item-check pe-none"
@@ -140,8 +140,8 @@
 						</div>
 						<div class="form-group">
 							<label for="diningCount" class="form-label mt-4">모집 인원</label>
-							<div class="row my-2">
-								<div class="col">
+							<div class="row">
+								<div class="col-xl-4 col-md-4 col-sm-12 mb-2">
 									<input
 										type="radio"
 										class="list-group-item-check pe-none"
@@ -157,7 +157,7 @@
 										>2인</label
 									>
 								</div>
-								<div class="col">
+								<div class="col-xl-4 col-md-4 col-sm-12 mb-2">
 									<input
 										type="radio"
 										class="list-group-item-check pe-none"
@@ -173,7 +173,7 @@
 										>3인</label
 									>
 								</div>
-								<div class="col">
+								<div class="col-xl-4 col-md-4 col-sm-12">
 									<input
 										type="radio"
 										class="list-group-item-check pe-none"
