@@ -2,6 +2,7 @@
 	<div class="container row">
 		<!-- 댓글생성 -->
 		<div class="text-end">
+			<!-- 비밀댓글 체크여부 -->
 			<input
 				class="form-check-input"
 				style="margin: auto"
@@ -17,6 +18,7 @@
 				비밀댓글
 			</label>
 		</div>
+		<!-- 댓글내용 입력 -->
 		<form name="content">
 			<div class="form-group">
 				<textarea
