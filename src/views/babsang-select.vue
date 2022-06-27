@@ -58,15 +58,18 @@
 						</button>
 					</div>
 				</div>
-				<div class="col-12 mt-2" v-show="showButton()">
-					<textarea
-						class="form-control"
-						style="resize: none"
-						id="exampleTextarea"
-						rows="3"
-						v-model="babsangMessage"
-					></textarea>
-				</div>
+				<!-- 메시지 입력 -->
+				<transition name="nested" :duration="550">
+					<div class="col-12 mt-2 outer" v-show="showButton()">
+						<textarea
+							class="form-control inner"
+							style="resize: none"
+							id="exampleTextarea"
+							rows="3"
+							v-model="babsangMessage"
+						></textarea>
+					</div>
+				</transition>
 				<div
 					style="
 						background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
@@ -501,5 +504,16 @@ dt {
 	pointer-events: auto;
 	opacity: 1;
 	cursor: pointer;
+}
+// 메시지 입력창 애니메이션
+.nested-enter-active .inner,
+.nested-leave-active .inner {
+	transition: all 0.3s ease-in-out;
+}
+
+.nested-enter-from .inner,
+.nested-leave-to .inner {
+	transform: translateY(-30px);
+	opacity: 0;
 }
 </style>
