@@ -283,4 +283,17 @@ dl {
 dt {
 	margin-right: 1rem;
 }
+// 버튼
+.btn-primary {
+	color: #575757;
+	background-color: #ffcb00;
+	border-color: #ffcb00;
+}
+.btn-outline-primary {
+	color: #575757;
+	border-color: #ffcb00;
+	&:hover {
+		background-color: #ffcb00;
+	}
+}
 </style>
