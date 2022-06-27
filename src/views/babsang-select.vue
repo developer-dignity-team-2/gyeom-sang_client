@@ -55,7 +55,7 @@
 						style="resize: none"
 						id="exampleTextarea"
 						rows="3"
-						v-model="selectedMessage"
+						v-model="rtChkdNickname"
 					></textarea>
 				</div>
 			</div>
@@ -149,8 +149,10 @@
 			<div
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
 				:class="{
-					disabled: spoon.email === alreadyChk[alreadyChk.indexOf(spoon.email)],
-					enabled: spoon.email !== alreadyChk[alreadyChk.indexOf(spoon.email)],
+					disabled:
+						spoon.email === checkedEmail[checkedEmail.indexOf(spoon.email)],
+					enabled:
+						spoon.email !== checkedEmail[checkedEmail.indexOf(spoon.email)],
 				}"
 				:key="spoon.email"
 				v-for="spoon in user"
@@ -178,14 +180,15 @@ export default {
 		return {
 			comfirm: false,
 			selectedMessage: '',
-			// alreadyChk: {pointer-events: none},
-			alreadyChk: [],
 			diningTableSpoons: {
 				spoon_email: 'spoon1@gmail.com',
 				nickname: '숟갈1',
 				dining_table_id: 1,
+				dining_count: 3,
 			},
 			selectedSpoons: [],
+			checkedNickname: [],
+			checkedEmail: [],
 			user: [
 				{
 					email: 'spoon1@gmail.com',
@@ -410,16 +413,22 @@ export default {
 			],
 		};
 	},
+	computed: {
+		rtChkdNickname() {
+			return (
+				'축하합니다 ^O^ ' +
+				this.checkedNickname.join(', ') +
+				'님은 ' +
+				this.diningTableSpoons.dining_table_id +
+				'번 밥상의 숟갈로 선정되셨습니다.'
+			);
+		},
+	},
 	setup() {},
 	created() {},
-	mounted() {
-		this.initialMessage();
-	},
+	mounted() {},
 	unmounted() {},
 	methods: {
-		initialMessage() {
-			this.selectedMessage = `축하합니다 ^O^ ${this.diningTableSpoons.nickname}님은 ${this.diningTableSpoons.dining_table_id}번 밥상의 숟갈로 선정되셨습니다.`;
-		},
 		doComfirm() {
 			if (this.comfirm === false) {
 				this.comfirm = true;
@@ -428,11 +437,11 @@ export default {
 			}
 		},
 		doSelect(spoon) {
-			if (this.selectedSpoons.length < 3) {
+			if (this.selectedSpoons.length < this.diningTableSpoons.dining_count) {
 				console.log('숟갈 선택');
 				this.selectedSpoons.push(spoon);
-				this.alreadyChk.push(spoon.email);
-				console.log(this.alreadyChk);
+				this.checkedEmail.push(spoon.email);
+				this.checkedNickname.push(spoon.nickname);
 			}
 		},
 		doCancel(spoon) {
@@ -440,8 +449,12 @@ export default {
 			this.selectedSpoons = this.selectedSpoons.filter(
 				s => s.email !== spoon.email,
 			);
-			this.alreadyChk = this.alreadyChk.filter(email => email !== spoon.email);
-			console.log(this.alreadyChk);
+			this.checkedEmail = this.checkedEmail.filter(
+				email => email !== spoon.email,
+			);
+			this.checkedNickname = this.checkedNickname.filter(
+				nickname => nickname !== spoon.nickname,
+			);
 		},
 	},
 };
