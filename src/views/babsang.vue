@@ -84,15 +84,15 @@
 							삭제
 						</button>
 					</div>
+					<h5>댓글</h5>
 					<!-- 구분선 -->
-					<div class="col my-3">
+					<div class="col">
 						<hr style="background-color: #999" />
 					</div>
 					<!-- 댓글 -->
-					<div class="col">
-						댓글 test
-
+					<div class="col my-3">
 						<CommentList />
+						<CommentCreate />
 					</div>
 				</div>
 			</div>
@@ -166,10 +166,11 @@
 
 <script>
 import userCard from '@/components/UserCard';
+import CommentCreate from '@/components/CommentCreate';
 import CommentList from '@/components/CommentList';
 export default {
 	name: 'Babsang',
-	components: { userCard, CommentList },
+	components: { userCard, CommentCreate, CommentList },
 	data() {
 		return {
 			babsangDetailData: [],
