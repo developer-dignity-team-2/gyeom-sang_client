@@ -39,7 +39,7 @@ export default {
 				return [];
 			},
 		},
-		highlighter: { Boolean },
+		highlighter: { Boolean, default: '' },
 	},
 };
 </script>

@@ -11,6 +11,7 @@
 							name=""
 							:id="manner.id"
 							:value="manner.id"
+							v-model="checkedQuestion"
 						/><label
 							class="list-group-item rounded-3 py-3"
 							style="text-align: center; cursor: pointer"
@@ -18,9 +19,9 @@
 							>{{ manner.question }}</label
 						>
 					</li>
-					<span></span>
 				</ul>
 			</div>
+			<button type="button" @click="AddBabsangScore">Test</button>
 		</div>
 	</div>
 </template>
@@ -34,6 +35,23 @@ export default {
 			default: function () {
 				return [];
 			},
+		},
+	},
+	computed: {
+		scoreResult() {
+			return this.$store.state.score.scoreResult;
+		},
+	},
+	data() {
+		return {
+			checkedQuestion: [],
+		};
+	},
+	mounted() {},
+	methods: {
+		AddBabsangScore() {
+			this.$store.commit('score/babsangScore', this.checkedQuestion);
+			console.log(this.scoreResult);
 		},
 	},
 };
