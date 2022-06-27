@@ -222,9 +222,7 @@ export default {
 	},
 	setup() {},
 	created() {},
-	mounted() {
-		console.log(this.user.email);
-	},
+	mounted() {},
 	unmounted() {},
 	methods: {
 		nextScore() {
