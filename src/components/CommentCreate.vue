@@ -1,24 +1,47 @@
 <template>
 	<div class="container row">
 		<!-- 댓글생성 -->
-		<div class="form-group">
-			<textarea
-				class="form-control"
-				id="Textarea"
-				rows="3"
-				style="height: 128px; resize: none"
-				placeholder="댓글 내용"
-			></textarea>
+		<div class="text-end">
+			<input
+				class="form-check-input"
+				style="margin: auto"
+				type="checkbox"
+				value=""
+				id="flexCheckDefault"
+			/>
+			<label
+				class="form-check-label"
+				for="flexCheckDefault"
+				style="margin: auto"
+			>
+				비밀댓글
+			</label>
+		</div>
+		<form name="content">
+			<div class="form-group">
+				<textarea
+					class="form-control"
+					id="Textarea"
+					rows="3"
+					style="height: 128px; resize: none"
+					placeholder="댓글 내용"
+				></textarea>
+			</div>
+		</form>
+
+		<!-- <div class="form-check d-flex justify-content-between"> -->
+
+		<div class="col text-end">
+			<button
+				type="button"
+				class="btn btn-primary"
+				style="margin: auto; margin-top: 15px"
+			>
+				댓글 등록
+			</button>
 		</div>
 	</div>
-
-	<!-- 레이아웃 부족 -->
-	<input class="form-check-input" type="checkbox" value="" />
-	<label class="form-check-label"> 비밀글 </label>
-
-	<div class="col text-end">
-		<button type="button" class="btn btn-primary">댓글 등록</button>
-	</div>
+	<!-- </div> -->
 </template>
 <script>
 export default {
