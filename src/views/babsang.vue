@@ -89,7 +89,11 @@
 						<hr style="background-color: #999" />
 					</div>
 					<!-- 댓글 -->
-					<div class="col">댓글 부분</div>
+					<div class="col">
+						댓글 test
+
+						<CommentList />
+					</div>
 				</div>
 			</div>
 			<!-- 정보 영역 -->
@@ -162,9 +166,10 @@
 
 <script>
 import userCard from '@/components/UserCard';
+import CommentList from '@/components/CommentList';
 export default {
 	name: 'Babsang',
-	components: { userCard },
+	components: { userCard, CommentList },
 	data() {
 		return {
 			babsangDetailData: [],
