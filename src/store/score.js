@@ -10,7 +10,10 @@ export const score = {
 
 	mutations: {
 		babsangScore(state, data) {
-			state.scoreResult.push(data);
+			let tmp = [];
+			tmp.push(data);
+			console.log(tmp);
+			state.scoreResult.push(tmp);
 		},
 	},
 
