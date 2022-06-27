@@ -59,10 +59,10 @@
 					</div>
 				</div>
 				<!-- 메시지 입력 -->
-				<transition name="nested" :duration="550">
-					<div class="col-12 mt-2 outer" v-show="showButton()">
+				<transition name="nested" :duration="200">
+					<div class="col-12 mt-2" v-show="showButton()">
 						<textarea
-							class="form-control inner"
+							class="form-control"
 							style="resize: none"
 							id="exampleTextarea"
 							rows="3"
@@ -506,13 +506,13 @@ dt {
 	cursor: pointer;
 }
 // 메시지 입력창 애니메이션
-.nested-enter-active .inner,
-.nested-leave-active .inner {
-	transition: all 0.3s ease-in-out;
+.nested-enter-active,
+.nested-leave-active {
+	transition: 0.3s;
 }
 
-.nested-enter-from .inner,
-.nested-leave-to .inner {
+.nested-enter-from,
+.nested-leave-to {
 	transform: translateY(-30px);
 	opacity: 0;
 }
