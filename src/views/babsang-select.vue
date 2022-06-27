@@ -45,56 +45,44 @@
 									</div>
 								</div>
 							</div>
-							<!-- </div> -->
 						</div>
 					</div>
-				</div>
-				<div class="col-12 mt-2" v-show="comfirm">
-					<textarea
-						class="form-control"
-						style="resize: none"
-						id="exampleTextarea"
-						rows="3"
-						v-model="rtChkdNickname"
-					></textarea>
-				</div>
-			</div>
-			<!-- 확정(메시지 발송) -->
-			<div
-				style="
-					background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
-				"
-			>
-				<div
-					class="col-12"
-					style="display: flex; align-items: center; justify-content: center"
-				>
-					<button
-						type="button"
-						class="btn btn-primary mt-1 mx-3"
-						v-show="!comfirm"
-						@click="doComfirm()"
-					>
-						선택 완료
-					</button>
-					<div v-show="comfirm">
+					<!-- 선택 완료, 메시지 발송 버튼 -->
+					<div v-show="showButton()">
 						<button
 							type="button"
 							class="btn btn-primary mt-1 mx-3"
 							@click="doComfirm()"
 						>
-							확정(메시지 발송)
-						</button>
-						<button
-							type="submit"
-							class="btn btn-secondary mt-1"
-							@click="doComfirm()"
-						>
-							취소
+							선택 완료(메시지 발송)
 						</button>
 					</div>
 				</div>
+				<!-- 메시지 입력 -->
+				<transition name="nested" :duration="200">
+					<div class="col-12 mt-2" v-show="showButton()">
+						<textarea
+							class="form-control"
+							style="resize: none"
+							id="exampleTextarea"
+							rows="3"
+							v-model="babsangMessage"
+						></textarea>
+					</div>
+				</transition>
+				<div
+					style="
+						background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
+					"
+				></div>
 			</div>
+			<!-- 확정(메시지 발송) -->
+			<div
+				class="col-12 border:none rounded pb-4 text-center"
+				style="
+					background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
+				"
+			></div>
 		</div>
 		<div class="mt-4 mb-3">
 			<h5>신청한 숟갈</h5>
@@ -178,8 +166,8 @@ export default {
 	components: { userCard },
 	data() {
 		return {
-			comfirm: false,
-			selectedMessage: '',
+			// comfirm: false,
+			babsangMessage: '',
 			diningTableSpoons: {
 				spoon_email: 'spoon1@gmail.com',
 				nickname: '숟갈1',
@@ -413,22 +401,26 @@ export default {
 			],
 		};
 	},
-	computed: {
-		rtChkdNickname() {
-			return (
-				'축하합니다 ^O^ ' +
-				this.checkedNickname.join(', ') +
-				'님은 ' +
-				this.diningTableSpoons.dining_table_id +
-				'번 밥상의 숟갈로 선정되셨습니다.'
-			);
-		},
-	},
 	setup() {},
 	created() {},
 	mounted() {},
 	unmounted() {},
 	methods: {
+		writeMessage() {
+			this.babsangMessage =
+				'축하합니다 ^O^ ' +
+				this.checkedNickname.join(', ') +
+				'님은 ' +
+				this.diningTableSpoons.dining_table_id +
+				'번 밥상의 숟갈로 선정되셨습니다.';
+		},
+		showButton() {
+			if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
+				return true;
+			} else {
+				return false;
+			}
+		},
 		doComfirm() {
 			if (this.comfirm === false) {
 				this.comfirm = true;
@@ -442,6 +434,7 @@ export default {
 				this.selectedSpoons.push(spoon);
 				this.checkedEmail.push(spoon.email);
 				this.checkedNickname.push(spoon.nickname);
+				this.writeMessage();
 			}
 		},
 		doCancel(spoon) {
@@ -455,6 +448,7 @@ export default {
 			this.checkedNickname = this.checkedNickname.filter(
 				nickname => nickname !== spoon.nickname,
 			);
+			this.writeMessage();
 		},
 	},
 };
@@ -510,5 +504,16 @@ dt {
 	pointer-events: auto;
 	opacity: 1;
 	cursor: pointer;
+}
+// 메시지 입력창 애니메이션
+.nested-enter-active,
+.nested-leave-active {
+	transition: 0.3s;
+}
+
+.nested-enter-from,
+.nested-leave-to {
+	transform: translateY(-30px);
+	opacity: 0;
 }
 </style>

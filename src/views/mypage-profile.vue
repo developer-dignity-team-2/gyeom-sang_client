@@ -20,52 +20,23 @@
 						</div>
 						<h4 class="mt-2">{{ user.nickname }}</h4>
 						<fieldset>
-							<div class="form-group">
-								<label class="mt-4 text-primary">성별</label>
-								<div class="form-check">
-									<label class="form-check-label">
-										<input
-											type="radio"
-											class="form-check-input"
-											name="optionsRadios"
-											id="optionsRadios2"
-											value="option2"
-											disabled
-											checked
-										/>
-										<span>남성</span>
-									</label>
-								</div>
-								<div class="form-check disabled">
-									<label class="form-check-label">
-										<input
-											type="radio"
-											class="form-check-input"
-											name="optionsRadios"
-											id="optionsRadios3"
-											value="option3"
-											disabled=""
-											checked
-										/>
-										<span>여성</span>
-									</label>
-								</div>
+							<div class="form-group mt-4">
+								<label class="form-label">
+									{{ user.age_range }}대
+									{{ user.gender === M ? '남성' : '여성' }}
+								</label>
 							</div>
 							<div class="form-group">
-								<label
-									for="exampleTextarea"
-									class="form-label mt-4 text-primary"
+								<label for="exampleTextarea" class="form-label mt-4"
 									>식사매너</label
 								>
 							</div>
-							<!-- 별점 기능 -->
+							<!-- 식사매너 별점 -->
 							<div>
 								<stars-rating :config="config" />
 							</div>
 							<div class="form-group">
-								<label
-									for="exampleTextarea"
-									class="form-label mt-4 text-primary"
+								<label for="exampleTextarea" class="form-label mt-4"
 									>자기소개</label
 								>
 								<textarea
