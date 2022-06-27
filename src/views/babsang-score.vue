@@ -31,12 +31,14 @@
 							<MannerGiveScoreCard
 								:mannerTitle="giveScore[2][0].mannerTitle"
 								:giveScore="giveScore[2][1]"
+								ref="manner_give_score_card1"
 							/>
 						</div>
 						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
 							<MannerGiveScoreCard
 								:mannerTitle="giveScore[3][0].mannerTitle"
 								:giveScore="giveScore[3][1]"
+								ref="manner_give_score_card2"
 							/>
 						</div>
 					</div>
@@ -46,12 +48,14 @@
 							<MannerGiveScoreCard
 								:mannerTitle="giveScore[0][0].mannerTitle"
 								:giveScore="giveScore[0][1]"
+								ref="manner_give_score_card3"
 							/>
 						</div>
 						<div class="col-xl-6 col-md-12 col-sm-12">
 							<MannerGiveScoreCard
 								:mannerTitle="giveScore[1][0].mannerTitle"
 								:giveScore="giveScore[1][1]"
+								ref="manner_give_score_card4"
 							/>
 						</div>
 					</div>
@@ -112,6 +116,14 @@
 				>
 					다음
 				</button>
+				<button
+					type="button"
+					class="btn btn-outline-primary"
+					@click="doSaveScore"
+				>
+					테스트
+				</button>
+				{{ scoreResult }}
 			</div>
 		</div>
 	</div>
@@ -219,6 +231,9 @@ export default {
 		user() {
 			return this.$store.state.user.userInfo;
 		},
+		scoreResult() {
+			return this.$store.state.score.scoreResult;
+		},
 	},
 	setup() {},
 	created() {},
@@ -236,6 +251,13 @@ export default {
 			if (this.userIndex > 0) {
 				this.userIndex--;
 			}
+		},
+		doSaveScore() {
+			this.$store.commit('score/babsangScore', this.babjang);
+			this.$refs.manner_give_score_card1.AddBabsangScore();
+			this.$refs.manner_give_score_card2.AddBabsangScore();
+			this.$refs.manner_give_score_card3.AddBabsangScore();
+			this.$refs.manner_give_score_card4.AddBabsangScore();
 		},
 	},
 };
