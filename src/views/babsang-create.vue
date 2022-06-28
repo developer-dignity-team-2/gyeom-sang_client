@@ -79,6 +79,7 @@
 							<datepicker
 								v-model="recruit_start_date"
 								:upperLimit="this.dining_datetime"
+								:lowerLimit="new Date()"
 								class="form-control my-2"
 								style="cursor: default"
 								placeholder="모집 시작"
