@@ -29,15 +29,17 @@
 					<div class="row">
 						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
 							<MannerGiveScoreCard
-								:mannerTitle="giveScore[2][0].mannerTitle"
-								:giveScore="giveScore[2][1]"
+								:mannerTitle="mannerQuestions[2][0].mannerTitle"
+								:mannerQuestions="mannerQuestions[2][1]"
+								:babsangScore="thisBabsangScore"
 								ref="manner_give_score_card1"
 							/>
 						</div>
 						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
 							<MannerGiveScoreCard
-								:mannerTitle="giveScore[3][0].mannerTitle"
-								:giveScore="giveScore[3][1]"
+								:mannerTitle="mannerQuestions[3][0].mannerTitle"
+								:mannerQuestions="mannerQuestions[3][1]"
+								:babsangScore="thisBabsangScore"
 								ref="manner_give_score_card2"
 							/>
 						</div>
@@ -46,15 +48,17 @@
 					<div class="row">
 						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
 							<MannerGiveScoreCard
-								:mannerTitle="giveScore[0][0].mannerTitle"
-								:giveScore="giveScore[0][1]"
+								:mannerTitle="mannerQuestions[0][0].mannerTitle"
+								:mannerQuestions="mannerQuestions[0][1]"
+								:babsangScore="thisBabsangScore"
 								ref="manner_give_score_card3"
 							/>
 						</div>
 						<div class="col-xl-6 col-md-12 col-sm-12">
 							<MannerGiveScoreCard
-								:mannerTitle="giveScore[1][0].mannerTitle"
-								:giveScore="giveScore[1][1]"
+								:mannerTitle="mannerQuestions[1][0].mannerTitle"
+								:mannerQuestions="mannerQuestions[1][1]"
+								:babsangScore="thisBabsangScore"
 								ref="manner_give_score_card4"
 							/>
 						</div>
@@ -87,14 +91,14 @@
 						<div class="row">
 							<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
 								<MannerGiveScoreCard
-									:mannerTitle="giveScore[0][0].mannerTitle"
-									:giveScore="giveScore[0][1]"
+									:mannerTitle="mannerQuestions[0][0].mannerTitle"
+									:mannerQuestions="mannerQuestions[0][1]"
 								/>
 							</div>
 							<div class="col-xl-6 col-md-12 col-sm-12">
 								<MannerGiveScoreCard
-									:mannerTitle="giveScore[1][0].mannerTitle"
-									:giveScore="giveScore[1][1]"
+									:mannerTitle="mannerQuestions[1][0].mannerTitle"
+									:mannerQuestions="mannerQuestions[1][1]"
 								/>
 							</div>
 						</div>
@@ -123,7 +127,6 @@
 				>
 					테스트
 				</button>
-				{{ scoreResult }}
 			</div>
 		</div>
 	</div>
@@ -185,7 +188,7 @@ export default {
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 			],
-			giveScore: [
+			mannerQuestions: [
 				[
 					{ mannerTitle: '금매너' },
 					[
@@ -225,14 +228,12 @@ export default {
 					],
 				],
 			],
+			thisBabsangScore: [],
 		};
 	},
 	computed: {
 		user() {
 			return this.$store.state.user.userInfo;
-		},
-		scoreResult() {
-			return this.$store.state.score.scoreResult;
 		},
 	},
 	setup() {},
@@ -240,8 +241,9 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
+		// 버튼(이전/다음)
 		nextScore() {
-			if (this.userIndex < this.giveScore.length - 2) {
+			if (this.userIndex < this.mannerQuestions.length - 2) {
 				this.userIndex++;
 			} else {
 				this.$router.push('/');
@@ -252,13 +254,21 @@ export default {
 				this.userIndex--;
 			}
 		},
+		// 밥상 점수 설문 취합
 		doSaveScore() {
-			this.$store.commit('score/babsangScore', this.babjang);
-			this.$refs.manner_give_score_card1.AddBabsangScore();
-			this.$refs.manner_give_score_card2.AddBabsangScore();
-			this.$refs.manner_give_score_card3.AddBabsangScore();
-			this.$refs.manner_give_score_card4.AddBabsangScore();
+			const tmpArr = [];
+			tmpArr.push(this.$refs.manner_give_score_card1.checkedQuestion);
+			tmpArr.push(this.$refs.manner_give_score_card2.checkedQuestion);
+			tmpArr.push(this.$refs.manner_give_score_card3.checkedQuestion);
+			tmpArr.push(this.$refs.manner_give_score_card4.checkedQuestion);
+			const tmpArr2 = tmpArr.reduce(function (acc, cur) {
+				return acc.concat(cur);
+			});
+			const tmpObj = { user: this.babjang[0], score: tmpArr2 };
+			this.thisBabsangScore.push(tmpObj);
+			console.log(this.thisBabsangScore);
 		},
+		doReadScore() {},
 	},
 };
 </script>
