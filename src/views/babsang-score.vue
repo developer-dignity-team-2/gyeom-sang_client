@@ -33,10 +33,10 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions0[2][0].mannerTitle }}</h5>
+										<h5>{{ mannerQuestions[2][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions0[2][1]"
+											v-for="manner in mannerQuestions[2][1]"
 										>
 											<li>
 												<input
@@ -64,10 +64,10 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions0[3][0].mannerTitle }}</h5>
+										<h5>{{ mannerQuestions[3][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions0[3][1]"
+											v-for="manner in mannerQuestions[3][1]"
 										>
 											<li>
 												<input
@@ -98,10 +98,10 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions0[0][0].mannerTitle }}</h5>
+										<h5>{{ mannerQuestions[0][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions0[0][1]"
+											v-for="manner in mannerQuestions[0][1]"
 										>
 											<li>
 												<input
@@ -129,10 +129,10 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions0[1][0].mannerTitle }}</h5>
+										<h5>{{ mannerQuestions[1][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions0[1][1]"
+											v-for="manner in mannerQuestions[1][1]"
 										>
 											<li>
 												<input
@@ -187,10 +187,10 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions1[0][0].mannerTitle }}</h5>
+										<h5>{{ mannerQuestions[0][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions1[0][1]"
+											v-for="manner in mannerQuestions[0][1]"
 										>
 											<li>
 												<input
@@ -218,10 +218,10 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions1[1][0].mannerTitle }}</h5>
+										<h5>{{ mannerQuestions[1][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions1[1][1]"
+											v-for="manner in mannerQuestions[1][1]"
 										>
 											<li>
 												<input
@@ -276,10 +276,10 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions2[0][0].mannerTitle }}</h5>
+										<h5>{{ mannerQuestions[0][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions2[0][1]"
+											v-for="manner in mannerQuestions[0][1]"
 										>
 											<li>
 												<input
@@ -307,10 +307,10 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions2[1][0].mannerTitle }}</h5>
+										<h5>{{ mannerQuestions[1][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions2[1][1]"
+											v-for="manner in mannerQuestions[1][1]"
 										>
 											<li>
 												<input
@@ -444,9 +444,9 @@ export default {
 			],
 			babsangScore: [],
 
-			mannerQuestions0: [],
-			mannerQuestions1: [],
-			mannerQuestions2: [],
+			// mannerQuestions0: [],
+			// mannerQuestions1: [],
+			// mannerQuestions2: [],
 
 			checkedBabjangManner: [],
 			checkedSpoonManner1: [],
@@ -460,15 +460,15 @@ export default {
 	},
 	setup() {},
 	created() {
-		this.mannerQuestions0 = this.mannerQuestions;
-		this.mannerQuestions1 = this.mannerQuestions;
-		this.mannerQuestions2 = this.mannerQuestions;
+		// this.mannerQuestions0 = this.mannerQuestions;
+		// this.mannerQuestions1 = this.mannerQuestions;
+		// this.mannerQuestions2 = this.mannerQuestions;
 	},
 	mounted() {
-		console.log(this.mannerQuestions);
-		console.log(this.mannerQuestions0);
-		console.log(this.mannerQuestions1);
-		console.log(this.mannerQuestions2);
+		// console.log(this.mannerQuestions);
+		// console.log(this.mannerQuestions0);
+		// console.log(this.mannerQuestions1);
+		// console.log(this.mannerQuestions2);
 	},
 	unmounted() {},
 	methods: {
