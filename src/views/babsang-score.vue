@@ -28,78 +28,308 @@
 					<h4>밥장의 매너는 어땠나요?</h4>
 					<div class="row">
 						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
-							<MannerGiveScoreCard
-								:mannerTitle="mannerQuestions[2][0].mannerTitle"
-								:mannerQuestions="mannerQuestions[2][1]"
-								:babsangScore="thisBabsangScore"
-								ref="manner_give_score_card1"
-							/>
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ mannerQuestions[2][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.id"
+											v-for="manner in mannerQuestions[2][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner0"
+													:value="manner.id"
+													v-model="checkedBabjangManner"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.id"
+													>{{ manner.question }}</label
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
-							<MannerGiveScoreCard
-								:mannerTitle="mannerQuestions[3][0].mannerTitle"
-								:mannerQuestions="mannerQuestions[3][1]"
-								:babsangScore="thisBabsangScore"
-								ref="manner_give_score_card2"
-							/>
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ mannerQuestions[3][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.id"
+											v-for="manner in mannerQuestions[3][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner.id"
+													:value="manner.id"
+													v-model="checkedBabjangManner"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.id"
+													>{{ manner.question }}</label
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 					<h4>밥장의 밥상 매너는 어땠나요?</h4>
 					<div class="row">
 						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
-							<MannerGiveScoreCard
-								:mannerTitle="mannerQuestions[0][0].mannerTitle"
-								:mannerQuestions="mannerQuestions[0][1]"
-								:babsangScore="thisBabsangScore"
-								ref="manner_give_score_card3"
-							/>
-						</div>
-						<div class="col-xl-6 col-md-12 col-sm-12">
-							<MannerGiveScoreCard
-								:mannerTitle="mannerQuestions[1][0].mannerTitle"
-								:mannerQuestions="mannerQuestions[1][1]"
-								:babsangScore="thisBabsangScore"
-								ref="manner_give_score_card4"
-							/>
-						</div>
-					</div>
-				</div>
-				<!-- 숟갈 점수 주기 -->
-				<div :key="i" v-for="(spoon, i) in spoons">
-					<div v-if="user.email !== spoon.email && userIndex === i++">
-						<div class="col-12 border rounded p-3 text-center mb-4">
-							<div
-								style="
-									display: flex;
-									align-items: center;
-									justify-content: center;
-								"
-							>
-								<div class="row">
-									<div class="col">
-										<div style="width: 12rem">
-											<div class="img-wrap pf rounded-circle mb-1">
-												<img :src="spoon.profile_image" alt="프로필" />
-											</div>
-											<strong>{{ spoon.nickname }}</strong>
-										</div>
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ mannerQuestions[0][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.id"
+											v-for="manner in mannerQuestions[0][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner.id"
+													:value="manner.id"
+													v-model="checkedBabjangManner"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.id"
+													>{{ manner.question }}</label
+												>
+											</li>
+										</ul>
 									</div>
 								</div>
 							</div>
 						</div>
-						<h4>숟갈의 밥상 매너는 어땠나요?</h4>
-						<div class="row">
-							<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
-								<MannerGiveScoreCard
-									:mannerTitle="mannerQuestions[0][0].mannerTitle"
-									:mannerQuestions="mannerQuestions[0][1]"
-								/>
+						<div class="col-xl-6 col-md-12 col-sm-12">
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ mannerQuestions[1][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.id"
+											v-for="manner in mannerQuestions[1][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner.id"
+													:value="manner.id"
+													v-model="checkedBabjangManner"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.id"
+													>{{ manner.question }}</label
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
 							</div>
-							<div class="col-xl-6 col-md-12 col-sm-12">
-								<MannerGiveScoreCard
-									:mannerTitle="mannerQuestions[1][0].mannerTitle"
-									:mannerQuestions="mannerQuestions[1][1]"
-								/>
+						</div>
+					</div>
+				</div>
+				<!-- 숟갈1 점수 주기 -->
+				<div>
+					<!-- <div v-show="this.userIndex === 1"> -->
+					<div class="col-12 border rounded p-3 text-center mb-4">
+						<div
+							style="
+								display: flex;
+								align-items: center;
+								justify-content: center;
+							"
+						>
+							<div class="row">
+								<div class="col">
+									<div style="width: 12rem">
+										<div class="img-wrap pf rounded-circle mb-1">
+											<img :src="spoons[0].profile_image" alt="프로필" />
+										</div>
+										<strong>{{ spoons[0].nickname }}</strong>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h4>숟갈의 밥상 매너는 어땠나요?</h4>
+					<div class="row">
+						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ mannerQuestions[0][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.id"
+											v-for="manner in mannerQuestions[0][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner.id"
+													:value="manner.id"
+													v-model="checkedSpoonManner1"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.id"
+													>{{ manner.question }}</label
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-12 col-sm-12">
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ mannerQuestions[1][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.id"
+											v-for="manner in mannerQuestions[1][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner.id"
+													:value="manner.id"
+													v-model="checkedSpoonManner1"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.id"
+													>{{ manner.question }}</label
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 숟갈2 점수 주기 -->
+				<div>
+					<!-- <div v-show="this.userIndex === 2"> -->
+					<div class="col-12 border rounded p-3 text-center mb-4">
+						<div
+							style="
+								display: flex;
+								align-items: center;
+								justify-content: center;
+							"
+						>
+							<div class="row">
+								<div class="col">
+									<div style="width: 12rem">
+										<div class="img-wrap pf rounded-circle mb-1">
+											<img :src="spoons[1].profile_image" alt="프로필" />
+										</div>
+										<strong>{{ spoons[1].nickname }}</strong>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h4>숟갈의 밥상 매너는 어땠나요?</h4>
+					<div class="row">
+						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ mannerQuestions[0][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.id"
+											v-for="manner in mannerQuestions[0][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner.id"
+													:value="manner.id"
+													v-model="checkedSpoonManner2"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.id"
+													>{{ manner.question }}</label
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-12 col-sm-12">
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ mannerQuestions[1][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.id"
+											v-for="manner in mannerQuestions[1][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner.id"
+													:value="manner.id"
+													v-model="checkedSpoonManner2"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.id"
+													>{{ manner.question }}</label
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -121,15 +351,16 @@
 				>
 					다음
 				</button>
+				<button type="button" class="btn btn-outline-primary" @click="doTest">
+					테스트
+				</button>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
-import MannerGiveScoreCard from '@/components/MannerGiveScoreCard';
-
 export default {
-	components: { MannerGiveScoreCard },
+	components: {},
 	data() {
 		return {
 			showCard: true,
@@ -148,17 +379,6 @@ export default {
 				},
 			],
 			spoons: [
-				{
-					dining_table_id: 1,
-					email: 'spoon1@gmail.com',
-					gender: '여성',
-					nickname: '숟갈1',
-					profile_image: require('../assets/img/users/w1.png'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
 				{
 					dining_table_id: 1,
 					email: 'spoon6@gmail.com',
@@ -222,7 +442,10 @@ export default {
 					],
 				],
 			],
-			thisBabsangScore: [],
+			babsangScore: [],
+			checkedBabjangManner: [],
+			checkedSpoonManner1: [],
+			checkedSpoonManner2: [],
 		};
 	},
 	computed: {
@@ -249,23 +472,44 @@ export default {
 				this.userIndex--;
 			}
 		},
+		doTest() {
+			console.log(this.checkedBabjangManner);
+			console.log(this.checkedSpoonManner1);
+			console.log(this.checkedSpoonManner2);
+		},
 		// 밥상 점수 설문 취합
 		doSaveScore(i) {
-			const tmpArr = [];
-			tmpArr.push(this.$refs.manner_give_score_card1.checkedQuestion);
-			tmpArr.push(this.$refs.manner_give_score_card2.checkedQuestion);
-			tmpArr.push(this.$refs.manner_give_score_card3.checkedQuestion);
-			tmpArr.push(this.$refs.manner_give_score_card4.checkedQuestion);
-			let tmpArr2 = tmpArr.reduce(function (acc, cur) {
-				return acc.concat(cur);
-			});
-			const set = new Set(tmpArr2);
-			tmpArr2 = [...set];
-			const tmpObj = { user: this.babjang[0], score: tmpArr2 };
-			this.thisBabsangScore.splice(i - 1, 1, tmpObj);
-			// console.log(this.thisBabsangScore);
+			// let tmpArr = [];
+			console.log('userIndex: ' + this.userIndex);
+			console.log('i: ' + i);
+
+			// if (i - 1 < 1) {
+			// 	tmpArr.push(this.$refs.manner_give_score_card1.checkedQuestion);
+			// 	tmpArr.push(this.$refs.manner_give_score_card2.checkedQuestion);
+			// 	tmpArr.push(this.$refs.manner_give_score_card3.checkedQuestion);
+			// 	tmpArr.push(this.$refs.manner_give_score_card4.checkedQuestion);
+			// 	let tmpArr2 = tmpArr.reduce(function (acc, cur) {
+			// 		return acc.concat(cur);
+			// 	});
+			// 	let set = new Set(tmpArr2);
+			// 	tmpArr2 = [...set];
+			// 	let tmpObj = { user: this.babjang[i - 1], score: tmpArr2 };
+			// 	this.babsangScore.splice(i - 1, 1, tmpObj);
+			// 	console.log(this.babsangScore);
+			// } else {
+			// 	tmpArr.push(this.$refs.manner_give_score_card5.checkedQuestion);
+			// 	tmpArr.push(this.$refs.manner_give_score_card6.checkedQuestion);
+			// 	console.log(tmpArr);
+			// let tmpArr2 = tmpArr.reduce(function (acc, cur) {
+			// 	return acc.concat(cur);
+			// });
+			// let set = new Set(tmpArr2);
+			// tmpArr2 = [...set];
+			// let tmpObj = { user: this.spoons[i - 2], score: tmpArr2 };
+			// this.babsangScore.splice(i - 1, 1, tmpObj);
+			// console.log(this.babsangScore);
+			// }
 		},
-		doReadScore() {},
 	},
 };
 </script>
@@ -322,5 +566,67 @@ dt {
 	&:hover {
 		background-color: #ffcb00;
 	}
+}
+/* 매너 질문 스타일 */
+.list-group {
+	// max-width: 460px;
+	margin: 1rem auto;
+}
+
+.form-check-input:checked + .form-checked-content {
+	opacity: 0.5;
+}
+
+.form-check-input-placeholder {
+	border-style: dashed;
+}
+[contenteditable]:focus {
+	outline: 0;
+}
+
+.list-group-checkable .list-group-item {
+	cursor: pointer;
+}
+.list-group-item-check {
+	position: absolute;
+	clip: rect(0, 0, 0, 0);
+}
+.list-group-item-check:hover + .list-group-item {
+	background-color: var(--bs-light);
+}
+.list-group-item-check:checked + .list-group-item {
+	color: #fff;
+	background-color: var(--bs-yellow);
+}
+.list-group-item-check[disabled] + .list-group-item,
+.list-group-item-check:disabled + .list-group-item {
+	pointer-events: none;
+	filter: none;
+	opacity: 0.5;
+}
+
+.list-group-radio .list-group-item {
+	cursor: pointer;
+	border-radius: 0.5rem;
+}
+.list-group-radio .form-check-input {
+	z-index: 2;
+	margin-top: -0.5em;
+}
+.list-group-radio .list-group-item:hover,
+.list-group-radio .list-group-item:focus {
+	background-color: var(--bs-light);
+}
+
+.list-group-radio .form-check-input:checked + .list-group-item {
+	background-color: var(--bs-body);
+	border-color: var(--bs-blue);
+	box-shadow: 0 0 0 2px var(--bs-blue);
+}
+.list-group-radio .form-check-input[disabled] + .list-group-item,
+.list-group-radio .form-check-input:disabled + .list-group-item {
+	pointer-events: none;
+	filter: none;
+	opacity: 0.5;
 }
 </style>
