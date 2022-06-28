@@ -33,7 +33,6 @@
 				{{ comment_description }}
 			</div>
 		</form>
-
 		<div class="col text-end">
 			<button
 				type="button"
