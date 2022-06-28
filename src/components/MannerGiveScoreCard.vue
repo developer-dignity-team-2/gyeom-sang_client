@@ -3,7 +3,7 @@
 		<div>
 			<div class="list-group list-group-checkable d-grid gap-3 border-0 w-auto">
 				<h5>{{ mannerTitle }}</h5>
-				<ul :key="manner.id" v-for="manner in giveScore">
+				<ul :key="manner.id" v-for="manner in mannerQuestions">
 					<li>
 						<input
 							type="checkbox"
@@ -21,7 +21,6 @@
 					</li>
 				</ul>
 			</div>
-			<button type="button" @click="AddBabsangScore">Test</button>
 		</div>
 	</div>
 </template>
@@ -30,30 +29,32 @@
 export default {
 	props: {
 		mannerTitle: { type: String, default: '' },
-		giveScore: {
+		mannerQuestions: {
 			type: Array,
 			default: function () {
 				return [];
 			},
 		},
-	},
-	computed: {
-		scoreResult() {
-			return this.$store.state.score.scoreResult;
+		babsangScore: {
+			type: Object,
+			default: function () {
+				return {};
+			},
 		},
 	},
+	computed: {},
 	data() {
 		return {
 			checkedQuestion: [],
 		};
 	},
-	mounted() {},
-	methods: {
-		AddBabsangScore() {
-			this.$store.commit('score/babsangScore', this.checkedQuestion);
-			console.log(this.scoreResult);
-		},
+	mounted() {
+		if (this.babsangScore.length > 0) {
+			this.checkedQuestion = this.babsangScore[0].score;
+			console.log(this.checkedQuestion);
+		}
 	},
+	methods: {},
 };
 </script>
 <style scoped lang="scss">
