@@ -36,9 +36,9 @@ export default {
 			},
 		},
 		babsangScore: {
-			type: Array,
+			type: Object,
 			default: function () {
-				return [];
+				return {};
 			},
 		},
 	},
@@ -48,7 +48,12 @@ export default {
 			checkedQuestion: [],
 		};
 	},
-	mounted() {},
+	mounted() {
+		if (this.babsangScore.length > 0) {
+			this.checkedQuestion = this.babsangScore[0].score;
+			console.log(this.checkedQuestion);
+		}
+	},
 	methods: {},
 };
 </script>

@@ -110,6 +110,7 @@
 					type="button"
 					class="btn btn-outline-primary"
 					@click="backScore"
+					:disabled="userIndex < 1"
 				>
 					이전
 				</button>
@@ -119,13 +120,6 @@
 					@click="nextScore"
 				>
 					다음
-				</button>
-				<button
-					type="button"
-					class="btn btn-outline-primary"
-					@click="doSaveScore"
-				>
-					테스트
 				</button>
 			</div>
 		</div>
@@ -248,6 +242,7 @@ export default {
 			} else {
 				this.$router.push('/');
 			}
+			this.doSaveScore(this.userIndex);
 		},
 		backScore() {
 			if (this.userIndex > 0) {
@@ -255,18 +250,20 @@ export default {
 			}
 		},
 		// 밥상 점수 설문 취합
-		doSaveScore() {
+		doSaveScore(i) {
 			const tmpArr = [];
 			tmpArr.push(this.$refs.manner_give_score_card1.checkedQuestion);
 			tmpArr.push(this.$refs.manner_give_score_card2.checkedQuestion);
 			tmpArr.push(this.$refs.manner_give_score_card3.checkedQuestion);
 			tmpArr.push(this.$refs.manner_give_score_card4.checkedQuestion);
-			const tmpArr2 = tmpArr.reduce(function (acc, cur) {
+			let tmpArr2 = tmpArr.reduce(function (acc, cur) {
 				return acc.concat(cur);
 			});
+			const set = new Set(tmpArr2);
+			tmpArr2 = [...set];
 			const tmpObj = { user: this.babjang[0], score: tmpArr2 };
-			this.thisBabsangScore.push(tmpObj);
-			console.log(this.thisBabsangScore);
+			this.thisBabsangScore.splice(i - 1, 1, tmpObj);
+			// console.log(this.thisBabsangScore);
 		},
 		doReadScore() {},
 	},
