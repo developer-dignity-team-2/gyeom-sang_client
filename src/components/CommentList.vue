@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="col-md-12 container">
-			<!-- 댓글목록 -->
-			<div v-for="list in commentList" :key="list.dining_table_id">
+			<!-- 댓글목록 (for문으로 데이터 보여줌) -->
+			<div v-for="list in commentList" :key="list.comment_id">
 				<div class="media-block d-flex">
 					<!-- 유저프로필 정보 -->
 					<img
@@ -19,9 +19,10 @@
 								style="text-decoration: none; color: inherit"
 								>{{ list.email }}</a
 							>
+							<p class="text-muted">{{ list.create_date }}</p>
 						</div>
 					</div>
-					<p class="text-muted">{{ list.create_date }}</p>
+					<!-- 수정/삭제 넣기 -->
 				</div>
 
 				<!-- 댓글 내용 -->
@@ -48,34 +49,31 @@ export default {
 		return {
 			commentList: [
 				{
-					dining_table_id: 1,
-					email: '김민수',
+					comment_id: 1,
+					dining_id: 1,
+					email: '김준현',
 					comment_description: '안녕하세요. 초코빵도 같이 먹을수있나요?',
-					create_date: '2000-12-12',
+					create_date: '2022-12-12',
+					secret_check: false,
+					commet_parent_id: null,
 				},
 				{
-					dining_table_id: 2,
+					comment_id: 2,
+					dining_id: 1,
 					comment_description: '배고프네요',
-					create_date: '2000-12-12',
-					email: '원신희',
+					create_date: '2022-12-12',
+					email: '문세윤',
+					secret_check: false,
+					commet_parent_id: null,
 				},
 				{
-					dining_table_id: 3,
+					comment_id: 3,
+					dining_id: 1,
 					comment_description: '혹시 25~26 여행하시면 칼국수도 같이 먹을까요?',
-					create_date: '2000-12-12',
-					email: '양세영',
-				},
-				{
-					dining_table_id: 4,
-					comment_description: '치즈돈까스도 먹나요?',
-					create_date: '2000-12-12',
-					email: '유승완',
-				},
-				{
-					dining_table_id: 5,
-					comment_description: '혹시 25~26 여행하시면 칼국수도 같이 먹을까요?',
-					create_date: '2000-12-12',
-					email: '윤여진',
+					create_date: '2022-12-12',
+					email: '부끄뚱',
+					secret_check: false,
+					commet_parent_id: null,
 				},
 			],
 		};

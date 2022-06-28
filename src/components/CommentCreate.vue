@@ -23,42 +23,46 @@
 			<div class="form-group">
 				<textarea
 					class="form-control"
+					v-model="comment_description"
 					id="Textarea"
 					rows="3"
 					style="height: 128px; resize: none"
 					placeholder="댓글 내용"
 				></textarea>
+				{{ comment_description }}
 			</div>
 		</form>
-
-		<!-- <div class="form-check d-flex justify-content-between"> -->
 
 		<div class="col text-end">
 			<button
 				type="button"
 				class="btn btn-primary"
 				style="margin: auto; margin-top: 15px"
+				@click="createComment"
 			>
 				댓글 등록
 			</button>
 		</div>
 	</div>
-	<!-- </div> -->
 </template>
 <script>
 export default {
-	name: 'WriteComment',
+	name: 'CommentCreate',
 	components: {},
 	data() {
 		return {
-			sampleData: '',
+			comment_description: '',
+			secret_check: false,
+			create_date: '',
 		};
 	},
 	setup() {},
 	created() {},
 	mounted() {},
 	unmounted() {},
-	methods: {},
+	methods: {
+		createComment() {},
+	},
 };
 </script>
 <style scoped lang="scss">
