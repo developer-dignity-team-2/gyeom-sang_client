@@ -157,7 +157,6 @@
 					</div>
 				</div>
 				<!-- 숟갈1 점수 주기 -->
-				<!-- <div> -->
 				<div v-if="this.userIndex === 1">
 					<div class="col-12 border rounded p-3 text-center mb-4">
 						<div
@@ -246,7 +245,6 @@
 					</div>
 				</div>
 				<!-- 숟갈2 점수 주기 -->
-				<!-- <div> -->
 				<div v-if="this.userIndex === 2">
 					<div class="col-12 border rounded p-3 text-center mb-4">
 						<div
@@ -442,15 +440,12 @@ export default {
 					],
 				],
 			],
-			babsangScore: [],
-
-			// mannerQuestions0: [],
-			// mannerQuestions1: [],
-			// mannerQuestions2: [],
-
+			// 로그인 사용자가 평가한 각 유저의 매너 평가 결과
 			checkedBabjangManner: [],
 			checkedSpoonManner1: [],
 			checkedSpoonManner2: [],
+			// DB로 보낼 이 밥상의 매너 평가 결과
+			mannerResultArr: [],
 		};
 	},
 	computed: {
@@ -459,17 +454,8 @@ export default {
 		},
 	},
 	setup() {},
-	created() {
-		// this.mannerQuestions0 = this.mannerQuestions;
-		// this.mannerQuestions1 = this.mannerQuestions;
-		// this.mannerQuestions2 = this.mannerQuestions;
-	},
-	mounted() {
-		// console.log(this.mannerQuestions);
-		// console.log(this.mannerQuestions0);
-		// console.log(this.mannerQuestions1);
-		// console.log(this.mannerQuestions2);
-	},
+	created() {},
+	mounted() {},
 	unmounted() {},
 	methods: {
 		// 버튼(이전/다음)
@@ -478,8 +464,8 @@ export default {
 				this.userIndex++;
 			} else {
 				this.$router.push('/');
+				this.cumputeResult();
 			}
-			this.doSaveScore(this.userIndex);
 		},
 		backScore() {
 			if (this.userIndex > 0) {
@@ -487,42 +473,37 @@ export default {
 			}
 		},
 		doTest() {
+			this.cumputeResult(this.userIndex);
+
 			console.log(this.checkedBabjangManner);
 			console.log(this.checkedSpoonManner1);
 			console.log(this.checkedSpoonManner2);
+			this.cumputeResult();
 		},
 		// 밥상 점수 설문 취합
-		doSaveScore(i) {
-			// let tmpArr = [];
-			console.log('userIndex: ' + this.userIndex);
-			console.log('i: ' + i);
-
-			// if (i - 1 < 1) {
-			// 	tmpArr.push(this.$refs.manner_give_score_card1.checkedQuestion);
-			// 	tmpArr.push(this.$refs.manner_give_score_card2.checkedQuestion);
-			// 	tmpArr.push(this.$refs.manner_give_score_card3.checkedQuestion);
-			// 	tmpArr.push(this.$refs.manner_give_score_card4.checkedQuestion);
-			// 	let tmpArr2 = tmpArr.reduce(function (acc, cur) {
-			// 		return acc.concat(cur);
-			// 	});
-			// 	let set = new Set(tmpArr2);
-			// 	tmpArr2 = [...set];
-			// 	let tmpObj = { user: this.babjang[i - 1], score: tmpArr2 };
-			// 	this.babsangScore.splice(i - 1, 1, tmpObj);
-			// 	console.log(this.babsangScore);
-			// } else {
-			// 	tmpArr.push(this.$refs.manner_give_score_card5.checkedQuestion);
-			// 	tmpArr.push(this.$refs.manner_give_score_card6.checkedQuestion);
-			// 	console.log(tmpArr);
-			// let tmpArr2 = tmpArr.reduce(function (acc, cur) {
-			// 	return acc.concat(cur);
-			// });
-			// let set = new Set(tmpArr2);
-			// tmpArr2 = [...set];
-			// let tmpObj = { user: this.spoons[i - 2], score: tmpArr2 };
-			// this.babsangScore.splice(i - 1, 1, tmpObj);
-			// console.log(this.babsangScore);
-			// }
+		cumputeResult() {
+			let tmpArr = [];
+			let tmpObj = {
+				user: this.babjang[0],
+				getQuestion: this.checkedBabjangManner,
+				getScore: 0,
+			};
+			tmpArr.push(tmpObj);
+			tmpObj = {
+				user: this.spoons[0],
+				getQuestion: this.checkedSpoonManner1,
+				getScore: 0,
+			};
+			tmpArr.push(tmpObj);
+			tmpObj = {
+				user: this.spoons[1],
+				getQuestion: this.checkedSpoonManner2,
+				getScore: 0,
+			};
+			tmpArr.push(tmpObj);
+			this.mannerResultArr = JSON.stringify(tmpArr);
+			console.log(tmpArr);
+			console.log('mannerResultArr: ' + this.mannerResultArr);
 		},
 	},
 };
