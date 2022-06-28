@@ -43,7 +43,7 @@
 													type="checkbox"
 													class="list-group-item-check pe-none"
 													name=""
-													:id="manner0"
+													:id="manner.id"
 													:value="manner.id"
 													v-model="checkedBabjangManner"
 												/><label
