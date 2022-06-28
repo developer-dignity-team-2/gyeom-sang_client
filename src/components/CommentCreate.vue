@@ -5,17 +5,18 @@
 			<!-- 비밀댓글 체크여부 -->
 			<input
 				class="form-check-input"
-				style="margin: auto"
+				v-model="secret_check"
 				type="checkbox"
 				value=""
 				id="flexCheckDefault"
+				style="margin: auto"
 			/>
 			<label
 				class="form-check-label"
 				for="flexCheckDefault"
 				style="margin: auto"
 			>
-				비밀댓글
+				비밀댓글 {{ secret_check }}
 			</label>
 		</div>
 		<!-- 댓글내용 입력 -->
