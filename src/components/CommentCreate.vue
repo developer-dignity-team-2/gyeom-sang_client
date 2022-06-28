@@ -54,7 +54,6 @@ export default {
 		return {
 			comment_description: '',
 			secret_check: false,
-			create_date: '',
 		};
 	},
 	setup() {},
@@ -62,7 +61,20 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
-		createComment() {},
+		async createComment() {
+			await this.$post('https://nicespoons.com/api/v1/comment', {
+				param: {
+					comment_id: 4,
+					dining_id: 1,
+					email: '김준현',
+					comment_description: this.comment_description,
+					create_date: '2022-12-12',
+					secret_check: this.secret_check,
+					commet_parent_id: null,
+				},
+			});
+			this.comment_description = '';
+		},
 	},
 };
 </script>

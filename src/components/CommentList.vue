@@ -22,9 +22,22 @@
 							<p class="text-muted">{{ list.create_date }}</p>
 						</div>
 					</div>
-					<!-- 수정/삭제 넣기 -->
+					<div class="mar-btm">
+						<a
+							href="#"
+							class="btn-link text-semibold fs-5"
+							style="text-decoration: none; color: inherit"
+							>수정</a
+						>
+						|
+						<a
+							href="#"
+							class="btn-link text-semibold fs-5"
+							style="text-decoration: none; color: inherit"
+							>삭제</a
+						>
+					</div>
 				</div>
-
 				<!-- 댓글 내용 -->
 				<div>
 					{{ list.comment_description }}
@@ -48,33 +61,33 @@ export default {
 	data() {
 		return {
 			commentList: [
-				{
-					comment_id: 1,
-					dining_id: 1,
-					email: '김준현',
-					comment_description: '안녕하세요. 초코빵도 같이 먹을수있나요?',
-					create_date: '2022-12-12',
-					secret_check: false,
-					commet_parent_id: null,
-				},
-				{
-					comment_id: 2,
-					dining_id: 1,
-					comment_description: '배고프네요',
-					create_date: '2022-12-12',
-					email: '문세윤',
-					secret_check: false,
-					commet_parent_id: null,
-				},
-				{
-					comment_id: 3,
-					dining_id: 1,
-					comment_description: '혹시 25~26 여행하시면 칼국수도 같이 먹을까요?',
-					create_date: '2022-12-12',
-					email: '부끄뚱',
-					secret_check: false,
-					commet_parent_id: null,
-				},
+				// {
+				// 	comment_id: 1,
+				// 	dining_id: 1,
+				// 	email: '김준현',
+				// 	comment_description: '안녕하세요. 초코빵도 같이 먹을수있나요?',
+				// 	create_date: '2022-12-12',
+				// 	secret_check: false,
+				// 	commet_parent_id: null,
+				// },
+				// {
+				// 	comment_id: 2,
+				// 	dining_id: 1,
+				// 	comment_description: '배고프네요',
+				// 	create_date: '2022-12-12',
+				// 	email: '문세윤',
+				// 	secret_check: false,
+				// 	commet_parent_id: null,
+				// },
+				// {
+				// 	comment_id: 3,
+				// 	dining_id: 1,
+				// 	comment_description: '혹시 25~26 여행하시면 칼국수도 같이 먹을까요?',
+				// 	create_date: '2022-12-12',
+				// 	email: '부끄뚱',
+				// 	secret_check: false,
+				// 	commet_parent_id: null,
+				// },
 			],
 		};
 	},
@@ -82,7 +95,11 @@ export default {
 	created() {},
 	mounted() {},
 	unmounted() {},
-	methods: {},
+	methods: {
+		async getCommentList() {
+			this.commentList = await this.$get('/api/v1/comment/1');
+		},
+	},
 };
 </script>
 <style scoped lang="scss">
