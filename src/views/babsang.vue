@@ -162,6 +162,7 @@ export default {
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		this.getBabsangDetailData();
 	},
+
 	methods: {
 		test(arg) {
 			console.log(arg);
