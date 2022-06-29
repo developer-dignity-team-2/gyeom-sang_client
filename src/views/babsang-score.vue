@@ -460,7 +460,7 @@ export default {
 	methods: {
 		// 버튼(이전/다음)
 		nextScore() {
-			if (this.userIndex < this.mannerQuestions.length - 2) {
+			if (this.userIndex < this.spoons.length) {
 				this.userIndex++;
 				this.computeResult();
 			} else {
