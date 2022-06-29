@@ -404,39 +404,39 @@ export default {
 				[
 					{ mannerTitle: '금매너' },
 					[
-						{ id: 'sg1', question: '식사 후 냅킨을 챙겨줘요.', count: 1 },
-						{ id: 'sg2', question: '수저를 챙겨줘요.', count: 9 },
-						{ id: 'sg3', question: '물을 따라줘요.', count: 1 },
-						{ id: 'sg4', question: '부족한 반찬, 음식을 챙겨줘요.', count: 1 },
-						{ id: 'sg5', question: '분위기를 편하게 만들어요.', count: 1 },
+						{ id: 'sg1', question: '식사 후 냅킨을 챙겨줘요.', score: 1 },
+						{ id: 'sg2', question: '수저를 챙겨줘요.', score: 1 },
+						{ id: 'sg3', question: '물을 따라줘요.', score: 1 },
+						{ id: 'sg4', question: '부족한 반찬, 음식을 챙겨줘요.', score: 1 },
+						{ id: 'sg5', question: '분위기를 편하게 만들어요.', score: 1 },
 					],
 				],
 				[
 					{ mannerTitle: '똥매너' },
 					[
-						{ id: 'sd1', question: '약속 시간을 안 지켜요.', count: 1 },
-						{ id: 'sd2', question: '음식을 지저분하게 먹어요.', count: 1 },
+						{ id: 'sb1', question: '약속 시간을 안 지켜요.', score: -1 },
+						{ id: 'sb2', question: '음식을 지저분하게 먹어요.', score: -1 },
 						{
 							id: 'sd3',
 							question: '맛있는 음식을 지나치게 가져가요.',
 							count: 1,
 						},
-						{ id: 'sd4', question: '식사 중 대화 예의가 없어요.', count: 1 },
-						{ id: 'sd5', question: '돈 정산이 깔끔하지 않아요.', count: 1 },
+						{ id: 'sb4', question: '식사 중 대화 예의가 없어요.', score: -1 },
+						{ id: 'sb5', question: '돈 정산이 깔끔하지 않아요.', score: -1 },
 					],
 				],
 				[
 					{ mannerTitle: '금매너' },
 					[
-						{ id: 'bg1', question: '당신은 겸상 매너요정 이에요.', count: 9 },
-						{ id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', count: 10 },
+						{ id: 'bg1', question: '당신은 겸상 매너요정 이에요.', score: 1 },
+						{ id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', score: 1 },
 					],
 				],
 				[
 					{ mannerTitle: '똥매너' },
 					[
-						{ id: 'bd1', question: '밥장이 사람을 차별해요.', count: 2 },
-						{ id: 'bd2', question: '밥장이 독단적으로 행동해요.', count: 1 },
+						{ id: 'bb1', question: '밥장이 사람을 차별해요.', score: -1 },
+						{ id: 'bb2', question: '밥장이 독단적으로 행동해요.', score: -1 },
 					],
 				],
 			],
@@ -462,9 +462,10 @@ export default {
 		nextScore() {
 			if (this.userIndex < this.mannerQuestions.length - 2) {
 				this.userIndex++;
+				this.computeResult();
 			} else {
 				this.$router.push('/');
-				this.cumputeResult();
+				this.computeResult();
 			}
 		},
 		backScore() {
@@ -473,15 +474,15 @@ export default {
 			}
 		},
 		doTest() {
-			this.cumputeResult(this.userIndex);
+			this.computeResult(this.userIndex);
 
 			console.log(this.checkedBabjangManner);
 			console.log(this.checkedSpoonManner1);
 			console.log(this.checkedSpoonManner2);
-			this.cumputeResult();
+			this.computeResult();
 		},
 		// 밥상 점수 설문 취합
-		cumputeResult() {
+		computeResult() {
 			let tmpArr = [];
 			let tmpObj = {
 				user: this.babjang[0],
@@ -503,7 +504,10 @@ export default {
 			tmpArr.push(tmpObj);
 			this.mannerResultArr = JSON.stringify(tmpArr);
 			console.log(tmpArr);
-			console.log('mannerResultArr: ' + this.mannerResultArr);
+			// console.log('mannerResultArr: ' + this.mannerResultArr);
+		},
+		doCompute() {
+			console.log('');
 		},
 	},
 };
