@@ -494,7 +494,7 @@ export default {
 			tmpObj = {
 				user: this.spoons[1],
 				getQuestion: this.checkedSpoonManner2,
-				getScore: 0,
+				getScore: this.computeScore(this.checkedSpoonManner2),
 			};
 			tmpArr.push(tmpObj);
 			this.mannerResultArr = JSON.stringify(tmpArr);
