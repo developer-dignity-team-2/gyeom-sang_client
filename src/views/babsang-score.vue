@@ -349,9 +349,9 @@
 				>
 					다음
 				</button>
-				<button type="button" class="btn btn-outline-primary" @click="doTest">
-					테스트
-				</button>
+				<!-- <button type="button" class="btn btn-outline-primary" @click="doTest">
+					테스트(임시)
+				</button> -->
 			</div>
 		</div>
 	</div>
