@@ -44,7 +44,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -75,7 +75,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -109,7 +109,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -140,7 +140,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -197,7 +197,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedSpoonManner1"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -228,7 +228,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedSpoonManner1"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -285,7 +285,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedSpoonManner2"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -316,7 +316,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedSpoonManner2"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -474,11 +474,6 @@ export default {
 			}
 		},
 		doTest() {
-			this.computeResult(this.userIndex);
-
-			console.log(this.checkedBabjangManner);
-			console.log(this.checkedSpoonManner1);
-			console.log(this.checkedSpoonManner2);
 			this.computeResult();
 		},
 		// 밥상 점수 설문 취합
@@ -487,13 +482,13 @@ export default {
 			let tmpObj = {
 				user: this.babjang[0],
 				getQuestion: this.checkedBabjangManner,
-				getScore: 0,
+				getScore: this.computeScore(this.checkedBabjangManner),
 			};
 			tmpArr.push(tmpObj);
 			tmpObj = {
 				user: this.spoons[0],
 				getQuestion: this.checkedSpoonManner1,
-				getScore: 0,
+				getScore: this.computeScore(this.checkedSpoonManner1),
 			};
 			tmpArr.push(tmpObj);
 			tmpObj = {
@@ -503,11 +498,15 @@ export default {
 			};
 			tmpArr.push(tmpObj);
 			this.mannerResultArr = JSON.stringify(tmpArr);
-			console.log(tmpArr);
-			// console.log('mannerResultArr: ' + this.mannerResultArr);
+			// console.log(tmpArr);
+			console.log('mannerResultArr: ' + this.mannerResultArr);
 		},
-		doCompute() {
-			console.log('');
+		// 매너 점수 계산
+		computeScore(chk) {
+			const sumAll = chk
+				.map(item => item.score)
+				.reduce((prev, curr) => prev + curr, 0);
+			return sumAll;
 		},
 	},
 };
