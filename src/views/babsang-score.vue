@@ -503,7 +503,20 @@ export default {
 		},
 		// 매너 점수 계산
 		computeScore(chk) {
-			const sumAll = chk
+			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): 0.02, 숟갈 금매너(sg): 0.02, 숟갈 똥 매너(sb): 0.03)
+			const updatedMannerQuestion = chk.map(p =>
+				p.id.slice(0, 2) === 'bg'
+					? { ...p, score: p.score * 0.03 }
+					: p.id.slice(0, 2) === 'bb'
+					? { ...p, score: p.score * 0.02 }
+					: p.id.slice(0, 2) === 'sg'
+					? { ...p, score: p.score * 0.02 }
+					: p.id.slice(0, 2) === 'sb'
+					? { ...p, score: p.score * 0.03 }
+					: p,
+			);
+			// 가중치 적용된 점수 합계
+			const sumAll = updatedMannerQuestion
 				.map(item => item.score)
 				.reduce((prev, curr) => prev + curr, 0);
 			return sumAll;
