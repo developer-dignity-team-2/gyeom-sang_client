@@ -16,16 +16,32 @@
 							accept="image/png, image/jpeg"
 							@change="onSelectFile"
 						/>
-						<button class="btn loadBtn btn-primary m-2" @click="chooseImage">
-							<font-awesome-icon icon="fa-solid fa-image" />
-						</button>
+						<div
+							class="upload-background"
+							@click="chooseImage"
+							v-if="!imageData"
+						>
+							<font-awesome-icon
+								icon="fa-regular fa-image"
+								style="color: rgba(0, 0, 0, 0.3); font-size: 2rem"
+							/>
+							<span
+								class="mt-2"
+								style="
+									font-weight: bold;
+									color: rgba(0, 0, 0, 0.3);
+									display: block;
+								"
+								>밥상 사진을 업로드 해주세요 !</span
+							>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- 신청폼 -->
-		<div class="row">
+		<div class="row" style="margin-bottom: 4rem">
 			<div class="col">
 				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
 					<fieldset>
@@ -363,7 +379,9 @@ export default {
 	height: 0;
 	padding-bottom: 56.26%;
 	overflow: hidden;
-	background-color: #f7f7f7;
+	// background-color: rgb(181 181 181 / 10%);
+	border: 2px dashed rgb(149 149 149 / 20%);
+	// box-shadow: 0 5px 20px rgb(35 38 45 / 10%);
 }
 .image-input {
 	position: absolute;
@@ -379,10 +397,12 @@ export default {
 .file-control {
 	display: none;
 }
-.loadBtn {
+.upload-background {
+	text-align: center;
 	position: absolute;
-	bottom: 0;
-	right: 0;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
 }
 // #map {
 // 	width: 500px;
