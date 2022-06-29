@@ -167,6 +167,7 @@ export default {
 	data() {
 		return {
 			// comfirm: false,
+			babsang: 0,
 			babsangMessage: '',
 			diningTableSpoons: {
 				spoon_email: 'spoon1@gmail.com',
@@ -409,8 +410,8 @@ export default {
 		writeMessage() {
 			this.babsangMessage =
 				'축하합니다 ^O^ ' +
-				this.checkedNickname.join(', ') +
-				'님은 ' +
+				// this.checkedNickname.join(', ') +
+				// '님은 ' +
 				this.diningTableSpoons.dining_table_id +
 				'번 밥상의 숟갈로 선정되셨습니다.';
 		},
@@ -448,7 +449,6 @@ export default {
 			this.checkedNickname = this.checkedNickname.filter(
 				nickname => nickname !== spoon.nickname,
 			);
-			this.writeMessage();
 		},
 	},
 };
@@ -508,7 +508,7 @@ dt {
 // 메시지 입력창 애니메이션
 .nested-enter-active,
 .nested-leave-active {
-	transition: 0.3s;
+	transition: 0.5s;
 }
 
 .nested-enter-from,

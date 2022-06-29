@@ -21,8 +21,8 @@
 			<div class="shadow"></div>
 			<div class="author">
 				<div class="author-image">
-					<img src="../assets/img/users/m2.png" alt="" />
-					<span>유승완</span>
+					<img src="../assets/img/users/m9.png" alt="" />
+					<span>밥장9</span>
 				</div>
 			</div>
 		</div>

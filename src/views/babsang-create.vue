@@ -1,5 +1,5 @@
 <template>
-	<div class="container mb" style="max-width: 1000px">
+	<div class="container mb" style="max-width: 900px">
 		<!-- 썸네일 추가 -->
 		<div class="row my-4">
 			<div class="col">
@@ -16,18 +16,38 @@
 							accept="image/png, image/jpeg"
 							@change="onSelectFile"
 						/>
-						<button class="btn loadBtn btn-primary m-2" @click="chooseImage">
-							<font-awesome-icon icon="fa-solid fa-image" />
-						</button>
+						<div
+							class="upload-background"
+							@click="chooseImage"
+							v-if="!imageData"
+						>
+							<font-awesome-icon
+								icon="fa-regular fa-image"
+								style="color: rgba(0, 0, 0, 0.3); font-size: 2rem"
+							/>
+							<span
+								class="mt-2"
+								style="
+									font-weight: bold;
+									color: rgba(0, 0, 0, 0.3);
+									display: block;
+								"
+								>밥상 사진을 업로드 해주세요 !</span
+							>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- 신청폼 -->
-		<div class="row">
+		<div class="row" style="margin-bottom: 4rem">
 			<div class="col">
-				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
+				<form
+					class="border rounded p-4"
+					@submit.prevent="onSubmitForm"
+					novalidate
+				>
 					<fieldset>
 						<!-- <legend>밥상 준비하기</legend> -->
 						<div class="form-group">
@@ -218,12 +238,16 @@
 							<textarea
 								class="form-control"
 								id="dining_description"
-								rows="3"
 								v-model="dining_description"
+								style="resize: none; height: 10rem"
 							></textarea>
 						</div>
 						<div class="d-flex justify-content-center mt-5">
-							<button type="button" class="btn btn-secondary mx-3">
+							<button
+								type="button"
+								class="btn btn-secondary mx-3"
+								@click="$goBack"
+							>
 								밥상 엎기
 							</button>
 							<button type="submit" class="btn btn-primary mx-3">
@@ -255,10 +279,11 @@ export default {
 			recruit_end_date: '',
 			gender_check: 'ALL',
 			dining_description: '',
-			dining_count: '',
+			dining_count: 4,
 			dining_thumbnail: '',
 			imageData: '',
 			imgSrc: '',
+			babsangId: '',
 		};
 	},
 	mounted() {},
@@ -282,10 +307,6 @@ export default {
 
 			console.log(result);
 			return result;
-
-			// const result = this.dining_datetime.toISOString();
-			// result.slice(0, 19).replace('T', ' ');
-			// return result;
 		},
 		recruitStartDate() {
 			const result = new Date(this.recruit_start_date * 1 + 3600000 * 9)
@@ -314,43 +335,35 @@ export default {
 			const input = this.$refs.fileInput;
 			const files = input.files[0];
 			console.log(files);
-			const res = await this.$upload(
-				'https://nicespoons.com/api/v1/upload/image',
-				files,
-			);
+			const res = await this.$upload('/upload/image', files);
 			this.imageData = `https://nicespoons.com/static/images/${res.filename}`;
 			console.log(res);
 			this.dining_thumbnail = res.filename;
 		},
 		//밥상 생성하기
 		async onSubmitForm() {
-			await this.$post('https://nicespoons.com/api/v1/babsang', {
+			await this.$post('/babsang', {
 				param: {
-					// restaurant_name: this.restaurant_name,
 					dining_datetime: this.diningDatetime(),
 					recruit_start_date: this.recruitStartDate(),
 					recruit_end_date: this.recruitEndDate(),
 					gender_check: this.gender_check,
 					dining_description: this.dining_description,
-					// restaurant_location: this.restaurant_location,
 					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
 					host_email: 'tmddhks0104@naver.com',
 
+					// restaurant_name: this.restaurant_name,
+					// restaurant_location: this.restaurant_location,
 					restaurant_name: '애월빵공장',
-					// dining_count: '4',
-					// dining_datetime: '2022-06-17 05:24:01',
-					// recruit_start_date: '2022-06-10 05:00:00',
-					// recruit_end_date: '2022-06-15 05:00:00',
-					// gender_check: 'ALL',
-					// dining_description: '칼국수 너무 맛있을 것 같아요.',
 					restaurant_location: '제주 제주시 애월읍 금성5길 42-15',
-					// dining_thumbnail:
-					// 	'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
 				},
 			});
+			this.babsangId = await this.$get('/babsang');
+			const idArr = this.babsangId.result.map(item => item.id);
+			const idMax = Math.max(...idArr);
 			this.$router.push({
-				path: '/',
+				path: `/babsang/${idMax}`,
 			});
 		},
 	},
@@ -363,7 +376,9 @@ export default {
 	height: 0;
 	padding-bottom: 56.26%;
 	overflow: hidden;
-	background-color: #f7f7f7;
+	// background-color: rgb(181 181 181 / 10%);
+	border: 2px dashed rgb(149 149 149 / 20%);
+	// box-shadow: 0 5px 20px rgb(35 38 45 / 10%);
 }
 .image-input {
 	position: absolute;
@@ -379,10 +394,12 @@ export default {
 .file-control {
 	display: none;
 }
-.loadBtn {
+.upload-background {
+	text-align: center;
 	position: absolute;
-	bottom: 0;
-	right: 0;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
 }
 // #map {
 // 	width: 500px;
