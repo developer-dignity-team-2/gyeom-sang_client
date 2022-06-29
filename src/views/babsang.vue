@@ -91,7 +91,7 @@
 					</div>
 					<!-- 댓글 -->
 					<div class="col my-3">
-						<CommentList />
+						<CommentList @test="test" />
 						<CommentCreate />
 					</div>
 				</div>
@@ -195,6 +195,9 @@ export default {
 		this.getBabsangDetailData();
 	},
 	methods: {
+		test(arg) {
+			console.log(arg);
+		},
 		async deleteBabsang() {
 			const confirmResult = confirm('밥상을 삭제 하시겠습니까?');
 			if (confirmResult) {

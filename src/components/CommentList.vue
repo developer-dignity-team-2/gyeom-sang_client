@@ -25,14 +25,14 @@
 					<div class="mar-btm">
 						<a
 							href="#"
-							class="btn-link text-semibold"
+							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
 							>수정</a
 						>
 						|
 						<a
 							href="#"
-							class="btn-link text-semibold"
+							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
 							>삭제</a
 						>
@@ -61,24 +61,24 @@ export default {
 	data() {
 		return {
 			commentList: [
-				// {
-				// 	comment_id: 1,
-				// 	dining_id: 1,
-				// 	email: '김준현',
-				// 	comment_description: '안녕하세요. 초코빵도 같이 먹을수있나요?',
-				// 	create_date: '2022-12-12',
-				// 	secret_check: false,
-				// 	commet_parent_id: null,
-				// },
-				// {
-				// 	comment_id: 2,
-				// 	dining_id: 1,
-				// 	comment_description: '배고프네요',
-				// 	create_date: '2022-12-12',
-				// 	email: '문세윤',
-				// 	secret_check: false,
-				// 	commet_parent_id: null,
-				// },
+				{
+					comment_id: 1,
+					dining_id: 1,
+					email: '김준현',
+					comment_description: '안녕하세요. 초코빵도 같이 먹을수있나요?',
+					create_date: '2022-12-12',
+					secret_check: false,
+					commet_parent_id: null,
+				},
+				{
+					comment_id: 2,
+					dining_id: 1,
+					comment_description: '배고프네요',
+					create_date: '2022-12-12',
+					email: '문세윤',
+					secret_check: false,
+					commet_parent_id: null,
+				},
 				{
 					comment_id: 3,
 					dining_id: 1,
@@ -92,12 +92,19 @@ export default {
 		};
 	},
 	setup() {},
-	created() {},
+	created() {
+		this.getCommentList();
+	},
 	mounted() {},
 	unmounted() {},
 	methods: {
 		async getCommentList() {
-			this.commentList = await this.$get('/api/v1/comment/1');
+			this.commentList = await this.$get(
+				`https://nicespoons.com/api/v1/comment/1/`,
+			);
+			this.commentList = this.commentList.result[0];
+			console.log(this.commentList);
+			this.$emit('test', '이건 테스트입니당');
 		},
 	},
 };
