@@ -43,7 +43,11 @@
 		<!-- 신청폼 -->
 		<div class="row" style="margin-bottom: 4rem">
 			<div class="col">
-				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
+				<form
+					class="border rounded p-4"
+					@submit.prevent="onSubmitForm"
+					novalidate
+				>
 					<fieldset>
 						<!-- <legend>밥상 준비하기</legend> -->
 						<div class="form-group">
@@ -234,8 +238,8 @@
 							<textarea
 								class="form-control"
 								id="dining_description"
-								rows="3"
 								v-model="dining_description"
+								style="resize: none; height: 10rem"
 							></textarea>
 						</div>
 						<div class="d-flex justify-content-center mt-5">
