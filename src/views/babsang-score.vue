@@ -44,7 +44,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -75,7 +75,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -109,7 +109,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -140,7 +140,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -197,7 +197,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedSpoonManner1"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -228,7 +228,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedSpoonManner1"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -285,7 +285,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedSpoonManner2"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -316,7 +316,7 @@
 													class="list-group-item-check pe-none"
 													name=""
 													:id="manner.id"
-													:value="manner.id"
+													:value="manner"
 													v-model="checkedSpoonManner2"
 												/><label
 													class="list-group-item rounded-3 py-3"
@@ -349,9 +349,9 @@
 				>
 					다음
 				</button>
-				<button type="button" class="btn btn-outline-primary" @click="doTest">
-					테스트
-				</button>
+				<!-- <button type="button" class="btn btn-outline-primary" @click="doTest">
+					테스트(임시)
+				</button> -->
 			</div>
 		</div>
 	</div>
@@ -404,39 +404,39 @@ export default {
 				[
 					{ mannerTitle: '금매너' },
 					[
-						{ id: 'sg1', question: '식사 후 냅킨을 챙겨줘요.', count: 1 },
-						{ id: 'sg2', question: '수저를 챙겨줘요.', count: 9 },
-						{ id: 'sg3', question: '물을 따라줘요.', count: 1 },
-						{ id: 'sg4', question: '부족한 반찬, 음식을 챙겨줘요.', count: 1 },
-						{ id: 'sg5', question: '분위기를 편하게 만들어요.', count: 1 },
+						{ id: 'sg1', question: '식사 후 냅킨을 챙겨줘요.', score: 1 },
+						{ id: 'sg2', question: '수저를 챙겨줘요.', score: 1 },
+						{ id: 'sg3', question: '물을 따라줘요.', score: 1 },
+						{ id: 'sg4', question: '부족한 반찬, 음식을 챙겨줘요.', score: 1 },
+						{ id: 'sg5', question: '분위기를 편하게 만들어요.', score: 1 },
 					],
 				],
 				[
 					{ mannerTitle: '똥매너' },
 					[
-						{ id: 'sd1', question: '약속 시간을 안 지켜요.', count: 1 },
-						{ id: 'sd2', question: '음식을 지저분하게 먹어요.', count: 1 },
+						{ id: 'sb1', question: '약속 시간을 안 지켜요.', score: -1 },
+						{ id: 'sb2', question: '음식을 지저분하게 먹어요.', score: -1 },
 						{
 							id: 'sd3',
 							question: '맛있는 음식을 지나치게 가져가요.',
 							count: 1,
 						},
-						{ id: 'sd4', question: '식사 중 대화 예의가 없어요.', count: 1 },
-						{ id: 'sd5', question: '돈 정산이 깔끔하지 않아요.', count: 1 },
+						{ id: 'sb4', question: '식사 중 대화 예의가 없어요.', score: -1 },
+						{ id: 'sb5', question: '돈 정산이 깔끔하지 않아요.', score: -1 },
 					],
 				],
 				[
 					{ mannerTitle: '금매너' },
 					[
-						{ id: 'bg1', question: '당신은 겸상 매너요정 이에요.', count: 9 },
-						{ id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', count: 10 },
+						{ id: 'bg1', question: '당신은 겸상 매너요정 이에요.', score: 1 },
+						{ id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', score: 1 },
 					],
 				],
 				[
 					{ mannerTitle: '똥매너' },
 					[
-						{ id: 'bd1', question: '밥장이 사람을 차별해요.', count: 2 },
-						{ id: 'bd2', question: '밥장이 독단적으로 행동해요.', count: 1 },
+						{ id: 'bb1', question: '밥장이 사람을 차별해요.', score: -1 },
+						{ id: 'bb2', question: '밥장이 독단적으로 행동해요.', score: -1 },
 					],
 				],
 			],
@@ -460,11 +460,12 @@ export default {
 	methods: {
 		// 버튼(이전/다음)
 		nextScore() {
-			if (this.userIndex < this.mannerQuestions.length - 2) {
+			if (this.userIndex < this.spoons.length) {
 				this.userIndex++;
+				this.computeResult();
 			} else {
 				this.$router.push('/');
-				this.cumputeResult();
+				this.computeResult();
 			}
 		},
 		backScore() {
@@ -473,26 +474,21 @@ export default {
 			}
 		},
 		doTest() {
-			this.cumputeResult(this.userIndex);
-
-			console.log(this.checkedBabjangManner);
-			console.log(this.checkedSpoonManner1);
-			console.log(this.checkedSpoonManner2);
-			this.cumputeResult();
+			this.computeResult();
 		},
 		// 밥상 점수 설문 취합
-		cumputeResult() {
+		computeResult() {
 			let tmpArr = [];
 			let tmpObj = {
 				user: this.babjang[0],
 				getQuestion: this.checkedBabjangManner,
-				getScore: 0,
+				getScore: this.computeScore(this.checkedBabjangManner),
 			};
 			tmpArr.push(tmpObj);
 			tmpObj = {
 				user: this.spoons[0],
 				getQuestion: this.checkedSpoonManner1,
-				getScore: 0,
+				getScore: this.computeScore(this.checkedSpoonManner1),
 			};
 			tmpArr.push(tmpObj);
 			tmpObj = {
@@ -502,8 +498,28 @@ export default {
 			};
 			tmpArr.push(tmpObj);
 			this.mannerResultArr = JSON.stringify(tmpArr);
-			console.log(tmpArr);
+			// console.log(tmpArr);
 			console.log('mannerResultArr: ' + this.mannerResultArr);
+		},
+		// 매너 점수 계산
+		computeScore(chk) {
+			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): 0.02, 숟갈 금매너(sg): 0.02, 숟갈 똥 매너(sb): 0.03)
+			const updatedMannerQuestion = chk.map(p =>
+				p.id.slice(0, 2) === 'bg'
+					? { ...p, score: p.score * 0.03 }
+					: p.id.slice(0, 2) === 'bb'
+					? { ...p, score: p.score * 0.02 }
+					: p.id.slice(0, 2) === 'sg'
+					? { ...p, score: p.score * 0.02 }
+					: p.id.slice(0, 2) === 'sb'
+					? { ...p, score: p.score * 0.03 }
+					: p,
+			);
+			// 가중치 적용된 점수 합계
+			const sumAll = updatedMannerQuestion
+				.map(item => item.score)
+				.reduce((prev, curr) => prev + curr, 0);
+			return sumAll;
 		},
 	},
 };
