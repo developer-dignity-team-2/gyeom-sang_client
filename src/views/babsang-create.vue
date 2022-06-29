@@ -334,10 +334,7 @@ export default {
 			const input = this.$refs.fileInput;
 			const files = input.files[0];
 			console.log(files);
-			const res = await this.$upload(
-				'https://nicespoons.com/api/v1/upload/image',
-				files,
-			);
+			const res = await this.$upload('/upload/image', files);
 			this.imageData = `https://nicespoons.com/static/images/${res.filename}`;
 			console.log(res);
 			this.dining_thumbnail = res.filename;

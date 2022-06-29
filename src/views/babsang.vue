@@ -110,42 +110,7 @@
 							:dining_score="babjang[0].dining_score"
 							:dining_spoons_description="babjang[0].dining_spoons_description"
 						/>
-						<!-- <div class="col border rounded p-3">
-						<div class="d-flex align-items-center">
-							<div class="profile me-3" style="width: 6rem">
-								<div class="img-wrap pf rounded-circle">
-									<img src="@/assets/img/exProfile.jpg" alt="프로필" />
-								</div>
-							</div>
-							<ul>
-								<li class="mb-1"><strong>밥장</strong></li>
-								<li class="mb-1">김민수</li>
-								<li>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-								</li>
-							</ul>
-						</div>
-						<div class="p-3">책임감있는 밥장이 될게요! 믿고 맡겨 주세요~!</div>
-					</div> -->
+
 						<!-- 숟갈 선택하기 -->
 						<div class="col border rounded mt-3 p-3">
 							<p>지금까지 신청한 숟갈들</p>
@@ -191,7 +156,7 @@ export default {
 	},
 	created() {},
 	mounted() {
-		console.log(this.$route.params);
+		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		this.getBabsangDetailData();
 	},
 	methods: {
@@ -215,7 +180,7 @@ export default {
 		},
 		async getBabsangDetailData() {
 			this.babsangDetailData = await this.$get(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}`,
+				'/babsang/' + this.$route.params.babsangId,
 			);
 			this.babsangDetailData = this.babsangDetailData.result[0];
 			console.log(this.babsangDetailData);

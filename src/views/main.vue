@@ -96,7 +96,7 @@ export default {
 	},
 	methods: {
 		async getBabsangData() {
-			this.babsangData = await this.$get('/api/v1/babsang');
+			this.babsangData = await this.$get('/babsang');
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
 			});
