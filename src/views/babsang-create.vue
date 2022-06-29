@@ -279,10 +279,11 @@ export default {
 			recruit_end_date: '',
 			gender_check: 'ALL',
 			dining_description: '',
-			dining_count: '',
+			dining_count: 4,
 			dining_thumbnail: '',
 			imageData: '',
 			imgSrc: '',
+			babsangId: '',
 		};
 	},
 	mounted() {},
@@ -341,7 +342,7 @@ export default {
 		},
 		//밥상 생성하기
 		async onSubmitForm() {
-			await this.$post('https://nicespoons.com/api/v1/babsang', {
+			await this.$post('/babsang', {
 				param: {
 					dining_datetime: this.diningDatetime(),
 					recruit_start_date: this.recruitStartDate(),
@@ -358,8 +359,11 @@ export default {
 					restaurant_location: '제주 제주시 애월읍 금성5길 42-15',
 				},
 			});
+			this.babsangId = await this.$get('/babsang');
+			const idArr = this.babsangId.result.map(item => item.id);
+			const idMax = Math.max(...idArr);
 			this.$router.push({
-				path: '/',
+				path: `/babsang/${idMax}`,
 			});
 		},
 	},

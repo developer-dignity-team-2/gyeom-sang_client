@@ -79,7 +79,9 @@
 					</div>
 					<div class="col d-flex justify-content-center my-5">
 						<button class="btn btn-secondary mx-2">수정</button>
-						<button class="btn btn-secondary mx-2">목록</button>
+						<button class="btn btn-secondary mx-2" @click="$goMain">
+							목록
+						</button>
 						<button class="btn btn-secondary mx-2" @click="deleteBabsang">
 							삭제
 						</button>
@@ -156,6 +158,7 @@ export default {
 	},
 	created() {},
 	mounted() {
+		window.scrollTo(0, 0);
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		this.getBabsangDetailData();
 	},
@@ -167,10 +170,8 @@ export default {
 			const confirmResult = confirm('밥상을 삭제 하시겠습니까?');
 			if (confirmResult) {
 				const babsangId = this.$route.params.babsangId;
-				await this.$delete(`/api/v1/babsang/${babsangId}`);
-				this.$router.push({
-					path: '/',
-				});
+				await this.$delete('/babsang/' + babsangId);
+				this.$goMain();
 			}
 		},
 		goSelectPage() {

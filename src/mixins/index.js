@@ -55,5 +55,10 @@ export default {
 		$goBack() {
 			this.$router.go(-1);
 		},
+		$goMain() {
+			this.$router.push({
+				path: '/',
+			});
+		},
 	},
 };
