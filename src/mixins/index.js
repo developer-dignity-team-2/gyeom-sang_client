@@ -50,5 +50,10 @@ export default {
 					console.log(e);
 				});
 		},
+
+		// router mixins
+		$goBack() {
+			this.$router.go(-1);
+		},
 	},
 };

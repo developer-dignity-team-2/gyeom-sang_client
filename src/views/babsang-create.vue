@@ -1,5 +1,5 @@
 <template>
-	<div class="container mb" style="max-width: 1000px">
+	<div class="container mb" style="max-width: 900px">
 		<!-- 썸네일 추가 -->
 		<div class="row my-4">
 			<div class="col">
@@ -243,7 +243,11 @@
 							></textarea>
 						</div>
 						<div class="d-flex justify-content-center mt-5">
-							<button type="button" class="btn btn-secondary mx-3">
+							<button
+								type="button"
+								class="btn btn-secondary mx-3"
+								@click="$goBack"
+							>
 								밥상 엎기
 							</button>
 							<button type="submit" class="btn btn-primary mx-3">
@@ -302,10 +306,6 @@ export default {
 
 			console.log(result);
 			return result;
-
-			// const result = this.dining_datetime.toISOString();
-			// result.slice(0, 19).replace('T', ' ');
-			// return result;
 		},
 		recruitStartDate() {
 			const result = new Date(this.recruit_start_date * 1 + 3600000 * 9)
@@ -343,27 +343,19 @@ export default {
 		async onSubmitForm() {
 			await this.$post('https://nicespoons.com/api/v1/babsang', {
 				param: {
-					// restaurant_name: this.restaurant_name,
 					dining_datetime: this.diningDatetime(),
 					recruit_start_date: this.recruitStartDate(),
 					recruit_end_date: this.recruitEndDate(),
 					gender_check: this.gender_check,
 					dining_description: this.dining_description,
-					// restaurant_location: this.restaurant_location,
 					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
 					host_email: 'tmddhks0104@naver.com',
 
+					// restaurant_name: this.restaurant_name,
+					// restaurant_location: this.restaurant_location,
 					restaurant_name: '애월빵공장',
-					// dining_count: '4',
-					// dining_datetime: '2022-06-17 05:24:01',
-					// recruit_start_date: '2022-06-10 05:00:00',
-					// recruit_end_date: '2022-06-15 05:00:00',
-					// gender_check: 'ALL',
-					// dining_description: '칼국수 너무 맛있을 것 같아요.',
 					restaurant_location: '제주 제주시 애월읍 금성5길 42-15',
-					// dining_thumbnail:
-					// 	'https://blog.kakaocdn.net/dn/tBMCo/btqYbImU0BW/4VqVmsfuvQd1w3JbbdFJck/img.png',
 				},
 			});
 			this.$router.push({
