@@ -79,17 +79,23 @@
 					</div>
 					<div class="col d-flex justify-content-center my-5">
 						<button class="btn btn-secondary mx-2">수정</button>
-						<button class="btn btn-secondary mx-2">목록</button>
+						<button class="btn btn-secondary mx-2" @click="$goMain">
+							목록
+						</button>
 						<button class="btn btn-secondary mx-2" @click="deleteBabsang">
 							삭제
 						</button>
 					</div>
+					<h5>댓글</h5>
 					<!-- 구분선 -->
-					<div class="col my-3">
+					<div class="col">
 						<hr style="background-color: #999" />
 					</div>
 					<!-- 댓글 -->
-					<div class="col">댓글 부분</div>
+					<div class="col my-3">
+						<CommentList @test="test" />
+						<CommentCreate />
+					</div>
 				</div>
 			</div>
 			<!-- 정보 영역 -->
@@ -106,42 +112,7 @@
 							:dining_score="babjang[0].dining_score"
 							:dining_spoons_description="babjang[0].dining_spoons_description"
 						/>
-						<!-- <div class="col border rounded p-3">
-						<div class="d-flex align-items-center">
-							<div class="profile me-3" style="width: 6rem">
-								<div class="img-wrap pf rounded-circle">
-									<img src="@/assets/img/exProfile.jpg" alt="프로필" />
-								</div>
-							</div>
-							<ul>
-								<li class="mb-1"><strong>밥장</strong></li>
-								<li class="mb-1">김민수</li>
-								<li>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-									<font-awesome-icon
-										icon="fa-solid fa-star"
-										style="color: #ffd24c"
-									/>
-								</li>
-							</ul>
-						</div>
-						<div class="p-3">책임감있는 밥장이 될게요! 믿고 맡겨 주세요~!</div>
-					</div> -->
+
 						<!-- 숟갈 선택하기 -->
 						<div class="col border rounded mt-3 p-3">
 							<p>지금까지 신청한 숟갈들</p>
@@ -162,9 +133,11 @@
 
 <script>
 import userCard from '@/components/UserCard';
+import CommentCreate from '@/components/CommentCreate';
+import CommentList from '@/components/CommentList';
 export default {
 	name: 'Babsang',
-	components: { userCard },
+	components: { userCard, CommentCreate, CommentList },
 	data() {
 		return {
 			babsangDetailData: [],
@@ -185,18 +158,21 @@ export default {
 	},
 	created() {},
 	mounted() {
-		console.log(this.$route.params);
+		window.scrollTo(0, 0);
+		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		this.getBabsangDetailData();
 	},
+
 	methods: {
+		test(arg) {
+			console.log(arg);
+		},
 		async deleteBabsang() {
 			const confirmResult = confirm('밥상을 삭제 하시겠습니까?');
 			if (confirmResult) {
 				const babsangId = this.$route.params.babsangId;
-				await this.$delete(`/api/v1/babsang/${babsangId}`);
-				this.$router.push({
-					path: '/',
-				});
+				await this.$delete('/babsang/' + babsangId);
+				this.$goMain();
 			}
 		},
 		goSelectPage() {
@@ -206,7 +182,7 @@ export default {
 		},
 		async getBabsangDetailData() {
 			this.babsangDetailData = await this.$get(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}`,
+				'/babsang/' + this.$route.params.babsangId,
 			);
 			this.babsangDetailData = this.babsangDetailData.result[0];
 			console.log(this.babsangDetailData);

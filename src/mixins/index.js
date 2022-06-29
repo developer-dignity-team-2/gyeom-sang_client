@@ -1,5 +1,5 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://nicespoons.com';
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
 
@@ -49,6 +49,16 @@ export default {
 				.catch(e => {
 					console.log(e);
 				});
+		},
+
+		// router mixins
+		$goBack() {
+			this.$router.go(-1);
+		},
+		$goMain() {
+			this.$router.push({
+				path: '/',
+			});
 		},
 	},
 };
