@@ -27,6 +27,7 @@
 							href="#"
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
+							@click="commentChange()"
 							>수정</a
 						>
 						|
@@ -34,6 +35,7 @@
 							href="#"
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
+							@click="deleteComment()"
 							>삭제</a
 						>
 					</div>
@@ -48,7 +50,7 @@
 					<button
 						type="button"
 						class="btn btn-outline-primary btn-sm"
-						@click="ReComment()"
+						@click="CeateToggle()"
 					>
 						답글
 					</button>
@@ -86,6 +88,7 @@
 								href="#"
 								class="btn-link text-small"
 								style="text-decoration: none; color: inherit"
+								@click="commentChange()"
 								>수정</a
 							>
 							|
@@ -93,6 +96,7 @@
 								href="#"
 								class="btn-link text-small"
 								style="text-decoration: none; color: inherit"
+								@click="deleteComment()"
 								>삭제</a
 							>
 						</div>
@@ -112,11 +116,12 @@ export default {
 	components: {},
 	data() {
 		return {
+			commentCeateToggle: false,
 			comment_parent_id: '',
 			commentList: [
 				{
 					id: 1,
-					dining_id: 1,
+					dining_id: 32,
 					user_email: '김준현',
 					comment_description: '안녕하세요. 초코빵도 같이 먹을수있나요?',
 					create_date: '2022-12-12',
@@ -160,19 +165,30 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
-		// async getCommentList() {
-		//    this.commentList = await this.$get(
-		//       `https://nicespoons.com/api/v1/comment/1/`,
-		//    );
-		//    this.commentList = this.commentList.result[0];
-		//    console.log(this.commentList);
-		//    this.$emit('test', '이건 테스트입니당');
-		// },
-
-		ReComment() {
-			this.comment_parent_id = this.commentList.id;
-			console.log(this.comment_parent_id);
+		// 대댓글 나오게 하는 함수
+		CeateToggle() {
+			this.commentCeateToggle = !this.commentCeateToggle;
+			if (this.commentCeateToggle) {
+				console.log(this.commentCeateToggle);
+			}
 		},
+
+		// async getCommentList() {
+		// 	this.commentList = await this.$get(
+		// 		`https://nicespoons.com/api/v1/comment/1/`,
+		// 	);
+		// 	// this.commentList = this.commentList.result[0];
+		// 	// console.log(this.commentList);
+		// 	this.$emit('test', '이건 테스트입니당');
+		// },
+		// async deleteComment() {
+		// 	const confirmResult = confirm('댓글을 삭제 하시겠습니까?');
+		// 	if (confirmResult) {
+		// 		const id = this.$route.params.id;
+		// 		await this.$delete('/comment/1' + id);
+		// 	}
+		// },
+		commentChange() {},
 	},
 };
 </script>
