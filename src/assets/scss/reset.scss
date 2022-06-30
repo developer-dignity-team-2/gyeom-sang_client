@@ -115,6 +115,13 @@ $secondary:     #f3969a !default;
   text-decoration: none;
   background-color:none;
 }
+// 마이페이지 네브 타이틀
+.dropdown-item.title {
+  // color: #575757;
+  color: #575757;
+  text-decoration: none;
+  background-color: #f4f4f4;
+}
 
 // 내 정보 > 식사 매너 점수: start
 .highlighter-active {

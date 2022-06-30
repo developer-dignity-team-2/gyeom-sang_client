@@ -13,31 +13,55 @@
 		<ul
 			class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 mb-3 shadow w-220px"
 		>
-			<li><div class="dropdown-item rounded-2 active">내 정보</div></li>
 			<li>
-				<div class="dropdown-item rounded-2 cursor" @click="userProfile()">
+				<div class="dropdown-item rounded-2 title">내 정보</div>
+			</li>
+			<li>
+				<div
+					class="dropdown-item rounded-2 cursor"
+					:class="{ active: $route.path == '/mypage/profile' }"
+					@click="userProfile()"
+				>
 					프로필 정보
 				</div>
 			</li>
 			<li>
-				<div class="dropdown-item rounded-2 cursor" @click="score()">
+				<div
+					class="dropdown-item rounded-2 cursor"
+					:class="{ active: $route.path == '/mypage/score' }"
+					@click="score()"
+				>
 					식사 매너 점수
 				</div>
 			</li>
-			<li><div class="dropdown-item rounded-2 active">밥상 정보</div></li>
 			<li>
-				<div class="dropdown-item rounded-2 cursor" @click="joinBabsang()">
+				<div class="dropdown-item rounded-2 title">밥상 정보</div>
+			</li>
+			<li>
+				<div
+					class="dropdown-item rounded-2 cursor"
+					:class="{ active: $route.path == '/mypage/babsang' }"
+					@click="joinBabsang()"
+				>
 					참여한 밥상 목록
 				</div>
 			</li>
 			<li>
-				<div class="dropdown-item rounded-2 cursor" @click="favoriteBabsang()">
+				<div
+					class="dropdown-item rounded-2 cursor"
+					:class="{ active: $route.path == '/mypage/favorites' }"
+					@click="favoriteBabsang()"
+				>
 					찜한 밥상
 				</div>
 			</li>
 			<li><hr class="dropdown-divider" /></li>
 			<li>
-				<strong class="dropdown-item rounded-2 cursor" @click="message()">
+				<strong
+					class="dropdown-item rounded-2 cursor"
+					:class="{ active: $route.path == '/mypage/message' }"
+					@click="message()"
+				>
 					메시지함
 				</strong>
 			</li>
@@ -96,5 +120,9 @@ export default {
 }
 .cursor {
 	cursor: pointer;
+}
+
+.font-color {
+	color: white;
 }
 </style>
