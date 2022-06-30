@@ -60,7 +60,7 @@
 							</div>
 							<!-- 밥상카드 -->
 							<div class="row">
-								<MainCardList :babsangData="babsangData.result" />
+								<BabsangCardList :babsangData="babsangData.result" />
 							</div>
 						</div>
 					</div>
@@ -71,12 +71,12 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/CompUserProfile';
-import MainCardList from '@/components/main/MainCardList';
+import CompUserProfile from '@/components/profile/CompUserProfile';
+import BabsangCardList from '@/components/profile/BabsangCardList';
 
 export default {
 	name: 'MypageProfile',
-	components: { CompUserProfile, MainCardList },
+	components: { CompUserProfile, BabsangCardList },
 	data() {
 		return {
 			babsangData: [],

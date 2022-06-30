@@ -79,7 +79,7 @@ export default {
 					email: 'spoon1@gmail.com',
 					gender: '여성',
 					nickname: '숟갈1',
-					profile_image: require('../assets/img/exprofile2.jpg'),
+					profile_image: require('@/assets/img/exprofile2.jpg'),
 					age_range: '20대',
 					mannerScore: 4,
 					dining_spoons_description:
