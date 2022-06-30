@@ -60,20 +60,20 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
-		// async createComment() {
-		// 	await this.$post('/comment', {
-		// 		param: {
-		// 			dining_id: this.$route.params.babsangId,
-		// 			user_email: '김준현',
-		// 			comment_description: this.comment_description,
-		// 			create_date: new Date(),
-		// 			update_date: '',
-		// 			secret_check: this.secret_check,
-		// 			comment_parent_id: '',
-		// 		},
-		// 	});
-		// 	this.comment_description = '';
-		// },
+		async createComment() {
+			await this.$post('/comment', {
+				param: {
+					dining_id: this.$route.params.babsangId,
+					user_email: '김준현',
+					comment_description: this.comment_description,
+					create_date: '2022-12-12',
+					update_date: '2022-12-12',
+					secret_check: this.secret_check,
+					comment_parent_id: null,
+				},
+			});
+			this.comment_description = '';
+		},
 	},
 };
 </script>

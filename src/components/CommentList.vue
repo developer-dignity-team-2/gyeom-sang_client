@@ -4,7 +4,6 @@
 		<div v-for="list in commentList" :key="list.id">
 			<div class="media-block" v-if="list.comment_parent_id === null">
 				<!-- 유저프로필 정보 -->
-
 				<div class="d-flex">
 					<img
 						class="img-circle img-sm"
@@ -27,7 +26,8 @@
 							href="#"
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
-							@click="commentChange()"
+							v-show="!commentSave"
+							@click="doCommentSave()"
 							>수정</a
 						>
 						|
@@ -39,10 +39,36 @@
 							>삭제</a
 						>
 					</div>
+					<div v-show="commentSave">
+						<button
+							type="button"
+							class="btn btn-primary mx-3"
+							@click="doCommentPut()"
+						>
+							저장
+						</button>
+						<button
+							type="submit"
+							class="btn btn-secondary"
+							@click="doCommentSave()"
+						>
+							취소
+						</button>
+					</div>
 				</div>
 
 				<!-- 댓글 내용 -->
-				<div>
+
+				<div class="form-group">
+					<textarea
+						:disabled="!commentSave"
+						class="form-control"
+						v-model="list.comment_description"
+						id="Textarea"
+						rows="3"
+						style="height: 128px; resize: none"
+						placeholder="댓글 내용"
+					></textarea>
 					{{ list.comment_description }}
 				</div>
 
@@ -50,6 +76,7 @@
 					<button
 						type="button"
 						class="btn btn-outline-primary btn-sm"
+						style="margin-top: 8px"
 						@click="CeateToggle()"
 					>
 						답글
@@ -116,8 +143,8 @@ export default {
 	components: {},
 	data() {
 		return {
+			commentSave: false,
 			commentCeateToggle: false,
-			comment_parent_id: '',
 			commentList: [
 				{
 					id: 1,
@@ -165,30 +192,50 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
-		// 대댓글 나오게 하는 함수
-		CeateToggle() {
-			this.commentCeateToggle = !this.commentCeateToggle;
-			if (this.commentCeateToggle) {
-				console.log(this.commentCeateToggle);
+		// 댓글 수정/취소하는 함수
+		doCommentSave() {
+			if (this.commentSave === true) {
+				this.commentSave = false;
+			} else {
+				this.commentSave = true;
 			}
+		},
+		// 수정한 댓글 값 보내는 함수
+		async doCommentPut() {
+			await this.$put('comment/1', {
+				param: {
+					comment_description: this.comment_description,
+				},
+			});
+			console.log(this.comment_description);
+			this.commentSave = false;
 		},
 
 		// async getCommentList() {
 		// 	this.commentList = await this.$get(
 		// 		`https://nicespoons.com/api/v1/comment/1/`,
 		// 	);
-		// 	// this.commentList = this.commentList.result[0];
-		// 	// console.log(this.commentList);
+		// 	this.commentList = this.commentList.result[0];
+		// 	console.log(this.commentList);
 		// 	this.$emit('test', '이건 테스트입니당');
 		// },
-		// async deleteComment() {
-		// 	const confirmResult = confirm('댓글을 삭제 하시겠습니까?');
-		// 	if (confirmResult) {
-		// 		const id = this.$route.params.id;
-		// 		await this.$delete('/comment/1' + id);
+
+		// 댓글 삭제하는 함수
+		async deleteComment() {
+			const confirmResult = confirm('댓글을 삭제 하시겠습니까?');
+			if (confirmResult) {
+				const id = this.id;
+				await this.$delete('/comment/1' + id);
+			}
+		},
+
+		// 대댓글 나오게 하는 함수
+		// CeateToggle() {
+		// 	this.commentCeateToggle = !this.commentCeateToggle;
+		// 	if (this.commentCeateToggle) {
+		// 		console.log(this.commentCeateToggle);
 		// 	}
 		// },
-		commentChange() {},
 	},
 };
 </script>
