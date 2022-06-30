@@ -21,8 +21,9 @@
 			<div class="shadow"></div>
 			<div class="author">
 				<div class="author-image">
-					<img src="../assets/img/users/m9.png" alt="" />
-					<span>밥장9</span>
+					<!-- 서버에서 받은 데이터 중 프로필 사진 필드가 빠져 있어요 -->
+					<img :src="itemData.profile_image" alt="" />
+					<span>{{ itemData.nickname }}</span>
 				</div>
 			</div>
 		</div>
@@ -33,7 +34,7 @@
 				</h5>
 				<!-- <p class="card-text mb-1">{{ itemData.nickname }}</p> -->
 				<p class="card-text mb-2">
-					<i class="bi bi-geo-alt"></i>제주시 애월읍 금성5길 42-15
+					<i class="bi bi-geo-alt"></i>{{ itemData.restaurant_location }}
 				</p>
 				<p class="card-text mb-4">
 					<i class="bi bi-calendar-check me-2"></i>{{ startDate() }} ~

@@ -123,8 +123,8 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/CompUserProfile';
-import MannerCard from '@/components/MannerCard';
+import CompUserProfile from '@/components/profile/CompUserProfile';
+import MannerCard from '@/components/profile/MannerCard';
 
 export default {
 	name: 'MypageScore',

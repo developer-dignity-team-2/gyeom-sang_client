@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/CompUserProfile';
+import CompUserProfile from '@/components/profile/CompUserProfile';
 import starsRating from '@/components/RatingStars';
 export default {
 	name: 'MypageProfile',
