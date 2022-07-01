@@ -23,7 +23,7 @@
 					</div>
 					<div class="mar-btm">
 						<a
-							href="#"
+							onclick=""
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
 							v-show="!commentSave"
@@ -44,7 +44,7 @@
 					<button
 						type="button"
 						class="btn btn-primary mx-3"
-						@click="doCommentPut(list.id)"
+						@click="doCommentPut(list.id, list.comment_description)"
 					>
 						저장
 					</button>
@@ -158,6 +158,7 @@ export default {
 	methods: {
 		// 댓글 수정/취소하는 함수 o
 		doCommentSave(ListId) {
+			console.log(ListId);
 			if (this.commentSave === true) {
 				console.log(ListId);
 				this.commentSave = false;
@@ -167,11 +168,12 @@ export default {
 			}
 		},
 		// 수정한 댓글 값 보내는 함수
-		async doCommentPut(commentId) {
+		async doCommentPut(commentId, comment_description) {
 			console.log(commentId);
+			console.log(comment_description);
 			await this.$put('/comment/' + commentId, {
 				param: {
-					comment_description: this.commentList.comment_description,
+					comment_description: comment_description,
 				},
 			});
 			console.log(this.commentList.comment_description);
