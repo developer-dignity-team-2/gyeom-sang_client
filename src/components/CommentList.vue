@@ -39,22 +39,22 @@
 							>삭제</a
 						>
 					</div>
-					<div v-show="commentSave">
-						<button
-							type="button"
-							class="btn btn-primary mx-3"
-							@click="doCommentPut()"
-						>
-							저장
-						</button>
-						<button
-							type="submit"
-							class="btn btn-secondary"
-							@click="doCommentSave()"
-						>
-							취소
-						</button>
-					</div>
+				</div>
+				<div v-show="commentSave">
+					<button
+						type="button"
+						class="btn btn-primary mx-3"
+						@click="doCommentPut()"
+					>
+						저장
+					</button>
+					<button
+						type="submit"
+						class="btn btn-secondary"
+						@click="doCommentSave()"
+					>
+						취소
+					</button>
 				</div>
 
 				<!-- 댓글 내용 -->
@@ -143,51 +143,16 @@ export default {
 	components: {},
 	data() {
 		return {
+			comment_description: '',
+			comment_parent_id: '',
 			commentSave: false,
 			commentCeateToggle: false,
-			commentList: [
-				{
-					id: 1,
-					dining_id: 32,
-					user_email: '김준현',
-					comment_description: '안녕하세요. 초코빵도 같이 먹을수있나요?',
-					create_date: '2022-12-12',
-					secret_check: false,
-					comment_parent_id: null,
-				},
-				{
-					id: 2,
-					dining_id: 1,
-					user_email: '문세윤',
-					comment_description: '네 저도 초코빵 좋아해요',
-					create_date: '2022-12-12',
-					secret_check: false,
-					comment_parent_id: 1, // 부모댓글의 id
-				},
-				{
-					id: 3,
-					dining_id: 1,
-					user_email: '부끄뚱',
-					comment_description: '혹시 25~26 여행하시면 칼국수도 같이 먹을까요?',
-					create_date: '2022-12-12',
-					secret_check: false,
-					comment_parent_id: null,
-				},
-				{
-					id: 4,
-					dining_id: 1,
-					user_email: '배고파',
-					comment_description: '만약 밥장님이 안되신다고 하면 저랑 드실래여?',
-					create_date: '2022-12-12',
-					secret_check: false,
-					comment_parent_id: 3, // 부모댓글의 id
-				},
-			],
+			commentList: [],
 		};
 	},
 	setup() {},
 	created() {
-		// this.getCommentList();
+		this.getCommentList();
 	},
 	mounted() {},
 	unmounted() {},
@@ -204,38 +169,39 @@ export default {
 		async doCommentPut() {
 			await this.$put('comment/1', {
 				param: {
-					comment_description: this.comment_description,
+					comment_description: this.commentList[0].comment_description,
 				},
 			});
-			console.log(this.comment_description);
+			console.log(this.commentList[0].comment_description);
 			this.commentSave = false;
 		},
-
-		// async getCommentList() {
-		// 	this.commentList = await this.$get(
-		// 		`https://nicespoons.com/api/v1/comment/1/`,
-		// 	);
-		// 	this.commentList = this.commentList.result[0];
-		// 	console.log(this.commentList);
-		// 	this.$emit('test', '이건 테스트입니당');
-		// },
+		// 댓글 불러오는 함수
+		async getCommentList() {
+			this.commentList = await this.$get(
+				`https://nicespoons.com/api/v1/comment/1/`,
+			);
+			this.commentList = this.commentList.result[0];
+			console.log(this.commentList);
+			this.$emit('test', '이건 테스트입니당');
+		},
 
 		// 댓글 삭제하는 함수
 		async deleteComment() {
 			const confirmResult = confirm('댓글을 삭제 하시겠습니까?');
 			if (confirmResult) {
-				const id = this.id;
+				const id = this.commentList[0].id;
 				await this.$delete('/comment/1' + id);
 			}
 		},
 
-		// 대댓글 나오게 하는 함수
-		// CeateToggle() {
-		// 	this.commentCeateToggle = !this.commentCeateToggle;
-		// 	if (this.commentCeateToggle) {
-		// 		console.log(this.commentCeateToggle);
-		// 	}
-		// },
+		// 대댓글 나오게 하는 함수(아직안함)
+		CeateToggle() {
+			this.commentCeateToggle = !this.commentCeateToggle;
+			if (this.commentCeateToggle) {
+				this.comment_parent_id = this.commentList[0].id;
+				this.console.log(this.comment_parent_id);
+			}
+		},
 	},
 };
 </script>

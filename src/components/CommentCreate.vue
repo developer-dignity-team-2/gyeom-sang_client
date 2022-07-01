@@ -64,12 +64,8 @@ export default {
 			await this.$post('/comment', {
 				param: {
 					dining_id: this.$route.params.babsangId,
-					user_email: '김준현',
+					user_email: 'qg@ilyah.com',
 					comment_description: this.comment_description,
-					create_date: '2022-12-12',
-					update_date: '2022-12-12',
-					secret_check: this.secret_check,
-					comment_parent_id: null,
 				},
 			});
 			this.comment_description = '';
