@@ -22,8 +22,28 @@
 						</div>
 					</div>
 					<div class="mar-btm">
-						<a
-							href="#"
+						<div
+							class="btn-group btn-group-sm"
+							role="group"
+							v-show="!commentSave"
+							style="cursor: pointer; margin-right: 5px"
+							@click="doCommentSave(list.id)"
+						>
+							수정 |
+						</div>
+
+						<div
+							class="btn-group btn-group-sm"
+							role="group"
+							v-show="!commentSave"
+							style="cursor: pointer"
+							@click="deleteComment(list.id)"
+						>
+							삭제
+						</div>
+
+						<!-- <a
+							onclick=""
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
 							v-show="!commentSave"
@@ -37,14 +57,14 @@
 							style="text-decoration: none; color: inherit"
 							@click="deleteComment(list.id)"
 							>삭제</a
-						>
+						> -->
 					</div>
 				</div>
-				<div v-show="commentSave">
+				<div v-show="commentSave" style="float: right">
 					<button
 						type="button"
 						class="btn btn-primary mx-3"
-						@click="doCommentPut(list.id)"
+						@click="doCommentPut(list.id, list.comment_description)"
 					>
 						저장
 					</button>
@@ -158,6 +178,7 @@ export default {
 	methods: {
 		// 댓글 수정/취소하는 함수 o
 		doCommentSave(ListId) {
+			console.log(ListId);
 			if (this.commentSave === true) {
 				console.log(ListId);
 				this.commentSave = false;
@@ -167,11 +188,12 @@ export default {
 			}
 		},
 		// 수정한 댓글 값 보내는 함수
-		async doCommentPut(commentId) {
+		async doCommentPut(commentId, comment_description) {
 			console.log(commentId);
+			console.log(comment_description);
 			await this.$put('/comment/' + commentId, {
 				param: {
-					comment_description: this.commentList.comment_description,
+					comment_description: comment_description,
 				},
 			});
 			console.log(this.commentList.comment_description);
@@ -202,6 +224,7 @@ export default {
 				console.log(this.commentCeateToggle);
 				this.comment_parent_id = recommentId;
 				console.log(this.comment_parent_id);
+				return this.comment_parent_id;
 			}
 		},
 	},
