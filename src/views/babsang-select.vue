@@ -89,45 +89,45 @@
 			<div class="col">
 				<div class="row">
 					<!-- 정렬 버튼 -->
-					<div
-						class="btn-group"
-						role="group"
-						aria-label="Button group with nested dropdown"
-					>
-						<button type="button" class="btn btn-primary">
-							식사 매너 점수
-						</button>
-						<div class="btn-group" role="group">
+					<div class="col-6 btn-group">
+						<Transition name="slide-up" mode="out-in">
 							<button
-								id="btnGroupDrop1"
 								type="button"
-								class="btn btn-primary dropdown-toggle"
-								data-bs-toggle="dropdown"
-								aria-haspopup="true"
-								aria-expanded="false"
-							></button>
-							<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-								<a class="dropdown-item" href="#">높은 순</a>
-							</div>
-						</div>
-						<button type="button" class="btn btn-success">신청순</button>
-						<div class="btn-group" role="group">
-							<button
-								id="btnGroupDrop2"
-								type="button"
-								class="btn btn-success dropdown-toggle"
-								data-bs-toggle="dropdown"
-								aria-haspopup="true"
-								aria-expanded="false"
-							></button>
-							<div
-								class="dropdown-menu"
-								aria-labelledby="btnGroupDrop2"
-								style=""
+								class="btn btn-primary"
+								v-if="sortMannerScore === 'H'"
+								@click="sortMannerScore = 'L'"
 							>
-								<a class="dropdown-item" href="#">빠름</a>
-							</div>
-						</div>
+								식사 매너 점수 높은 순
+							</button>
+							<button
+								type="button"
+								class="btn btn-primary"
+								v-else-if="sortMannerScore === 'L'"
+								@click="sortMannerScore = 'H'"
+							>
+								식사 매너 점수 낮은 순
+							</button>
+						</Transition>
+					</div>
+					<div class="col-6 btn-group">
+						<Transition name="slide-up" mode="out-in">
+							<button
+								type="button"
+								class="btn btn-primary"
+								v-if="sortrecruitDate === 'F'"
+								@click="sortrecruitDate = 'S'"
+							>
+								신청이 빠른 순
+							</button>
+							<button
+								type="button"
+								class="btn btn-primary"
+								v-else-if="sortrecruitDate === 'S'"
+								@click="sortrecruitDate = 'F'"
+							>
+								신청이 느린 순
+							</button>
+						</Transition>
 					</div>
 				</div>
 			</div>
@@ -166,6 +166,10 @@ export default {
 	components: { userCard },
 	data() {
 		return {
+			// trasition 버튼 용: 시작
+			sortMannerScore: 'H', // 식사 매너 점수 높은 순 H, 식사 매너 점수 낮은 순 L
+			sortrecruitDate: 'F', // 신청이 빠른 순 F, 신청이 느린 순 S
+			// trasition 버튼 용: 끝
 			// comfirm: false,
 			babsang: 0,
 			babsangMessage: '',
@@ -515,5 +519,30 @@ dt {
 .nested-leave-to {
 	transform: translateY(-30px);
 	opacity: 0;
+}
+// transition 버튼
+.btn-container {
+	display: inline-block;
+	position: relative;
+	height: 1em;
+}
+
+button {
+	position: absolute;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+	transition: all 0.1s ease-out;
+}
+
+.slide-up-enter-from {
+	opacity: 0;
+	transform: translateY(10px);
+}
+
+.slide-up-leave-to {
+	opacity: 0;
+	transform: translateY(-10px);
 }
 </style>
