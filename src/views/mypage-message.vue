@@ -11,12 +11,12 @@
 					<h3>메세지함</h3>
 
 					<!-- 버튼 -->
-					<div class="row mt-4 mb-2">
+					<div class="row mt-4 mb-4">
 						<!-- 받은메세지, 보낸메시지 -->
-						<div class="col-xl-6 col-12">
+						<div class="col-xl-6 col-12 mb-2">
 							<div class="row">
 								<div
-									class="col-12 mb-2 btn-group"
+									class="col-12 btn-group"
 									role="group"
 									aria-label="Basic example"
 								>
@@ -47,59 +47,14 @@
 						<!-- 모집중/모집 마감/전체 보기, 최신순/오래된 순 -->
 						<div class="col-xl-6 col-12">
 							<div class="row">
-								<div class="col-4 mb-2 btn-group">
-									<!-- <div class="col btn-container"> -->
-									<Transition name="slide-up" mode="out-in">
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-if="diningStatus === 'O'"
-											@click="diningStatus = 'C'"
-										>
-											모집 중
-										</button>
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-else-if="diningStatus === 'C'"
-											@click="diningStatus = 'T'"
-										>
-											모집 마감
-										</button>
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-else-if="diningStatus === 'T'"
-											@click="diningStatus = 'O'"
-										>
-											전체 보기
-										</button>
-									</Transition>
-								</div>
-								<div class="col-4 mb-2 btn-group">
-									<!-- <div class="col btn-container"> -->
-									<Transition name="slide-up" mode="out-in">
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-if="recruitDate === 'L'"
-											@click="recruitDate = 'O'"
-										>
-											최신순
-										</button>
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-else-if="recruitDate === 'O'"
-											@click="recruitDate = 'L'"
-										>
-											오래된 순
-										</button>
-									</Transition>
+								<div class="col-8">
+									<div class="row">
+										<ButtonModule />
+									</div>
 								</div>
 								<!-- 삭제 -->
 								<div
-									class="col-4 mb-2 btn-group"
+									class="col-4 btn-group"
 									role="group"
 									aria-label="Basic example"
 								>
@@ -190,15 +145,12 @@
 
 <script>
 import CompUserProfile from '@/components/profile/CompUserProfile';
+import ButtonModule from '@/components/profile/ButtonModule';
 export default {
 	nickname: 'MypagMessage',
-	components: { CompUserProfile },
+	components: { CompUserProfile, ButtonModule },
 	data() {
 		return {
-			// trasition 버튼 용: 시작
-			diningStatus: 'O', // 모집 중 O, 모집 마감 C, 전체 보기 T
-			recruitDate: 'L', // 최신 순 L, 오래된 순 O
-			// trasition 버튼 용: 끝
 			showMessage: 'R', // 받은 메시지 R, 보낸 메시지 S
 			checked_all: false,
 			checked: [],
