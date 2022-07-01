@@ -11,7 +11,7 @@
 					class="col-12 border rounded py-4 text-center"
 					style="min-height: 175px"
 				>
-					<div>
+					<div class="col">
 						<div
 							class="row"
 							style="
@@ -28,14 +28,12 @@
 										display: flex;
 										justify-content: space-around;
 										align-item: center;
-										cursor: pointer;
 									"
 									class="col"
 									:key="selectedSpoon.email"
 									v-for="selectedSpoon in selectedSpoons"
-									@click="doCancel(selectedSpoon)"
 								>
-									<div>
+									<div style="cursor: pointer" @click="doCancel(selectedSpoon)">
 										<div style="width: 6rem">
 											<div class="img-wrap pf rounded-circle mb-1">
 												<img :src="selectedSpoon.profile_image" alt="프로필" />
@@ -48,12 +46,12 @@
 						</div>
 					</div>
 					<!-- 선택 완료, 메시지 발송 버튼 -->
-					<div v-show="showButton()">
-						<button
-							type="button"
-							class="btn btn-primary mt-1 mx-3"
-							@click="doComfirm()"
-						>
+					<div
+						class="col mt-2 mb-4"
+						style="display: flex; justify-content: center"
+						v-show="showButton()"
+					>
+						<button type="button" class="btn btn-primary" @click="doComfirm()">
 							선택 완료(메시지 발송)
 						</button>
 					</div>
@@ -101,7 +99,7 @@
 							</button>
 							<button
 								type="button"
-								class="btn btn-primary"
+								class="btn btn-light"
 								v-else-if="sortMannerScore === 'L'"
 								@click="sortMannerScore = 'H'"
 							>
@@ -121,7 +119,7 @@
 							</button>
 							<button
 								type="button"
-								class="btn btn-primary"
+								class="btn btn-light"
 								v-else-if="sortrecruitDate === 'S'"
 								@click="sortrecruitDate = 'F'"
 							>
