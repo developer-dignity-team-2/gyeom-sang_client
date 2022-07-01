@@ -265,6 +265,12 @@ export default {
 			],
 		};
 	},
+	setup() {},
+	created() {
+		this.getMessages();
+	},
+	mounted() {},
+	unmounted() {},
 	methods: {
 		messageView() {
 			this.$router.push('/mypage/message-view');
@@ -285,6 +291,19 @@ export default {
 		},
 		selectMessagesSent() {
 			this.showMessage = 'S';
+		},
+		async getMessages() {
+			const userMessages = await this.$get('/message');
+			console.log(userMessages);
+		},
+		async createMessages() {
+			await this.$post('/message', {
+				param: {
+					dining_table_id: 12,
+					message_type: 'S',
+					message_description: '메시지 내용입니다.',
+				},
+			});
 		},
 	},
 };
