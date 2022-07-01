@@ -22,7 +22,6 @@
 						</div>
 					</div>
 					<div class="mar-btm">
-<<<<<<< HEAD
 						<div
 							class="btn-group btn-group-sm"
 							role="group"
@@ -44,9 +43,6 @@
 						</div>
 
 						<!-- <a
-=======
-						<a
->>>>>>> 9308c7b74edc2f95f341f86fa6d6efbda2b2618b
 							onclick=""
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
