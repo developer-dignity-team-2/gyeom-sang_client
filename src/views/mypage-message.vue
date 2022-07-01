@@ -63,6 +63,7 @@
 										class="btn btn-danger"
 										:disabled="checked.length === 0"
 									>
+										<i class="bi bi-trash3-fill"></i>
 										삭제
 									</button>
 								</div>
