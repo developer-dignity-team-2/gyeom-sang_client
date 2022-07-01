@@ -6,20 +6,23 @@
 				<CompUserProfile />
 			</div>
 			<!-- 본문 -->
-			<button
-				type="button"
-				class="btn btn-primary"
-				style="margin-bottom: 10px"
-				:disabled="checked.length === 0"
-			>
-				삭제
-			</button>
 			<div class="col-xl-9 col-md-8 col-sm-12">
 				<div class="col border rounded p-3">
 					<h3>메세지함</h3>
 
-					<!-- 받은메세지, 보낸메시지 -->
+					<!-- 버튼 -->
 					<div class="row mt-4">
+						<!-- 삭제 -->
+						<div class="col-xl-1 col-md-12 col-sm-12 mb-4">
+							<button
+								type="button"
+								class="btn btn-primary"
+								:disabled="checked.length === 0"
+							>
+								삭제
+							</button>
+						</div>
+						<!-- 받은메세지, 보낸메시지 -->
 						<div class="col-xl-8 col-md-12 col-sm-12 mb-4">
 							<div class="row">
 								<div class="btn-group" role="group" aria-label="Basic example">
@@ -32,73 +35,60 @@
 								</div>
 							</div>
 						</div>
-						<!-- 모집중, 최신순 -->
-						<div class="col-xl-4 col-md-12 col-sm-12 mb-4">
+						<!-- 모집중/모집 마감/전체 보기, 최신순/오래된 순 -->
+						<div class="col-xl-3 col-md-12 col-sm-12">
 							<div class="row">
-								<div class="btn-container">
+								<div class="col-xl-6 btn-group">
+									<!-- <div class="col btn-container"> -->
 									<!-- <Transition name="slide-up"> -->
 									<Transition name="slide-up" mode="out-in">
 										<button
-											v-if="docState === 'saved'"
-											@click="docState = 'edited'"
+											type="button"
+											class="btn btn-primary"
+											v-if="diningStatus === 'ing'"
+											@click="diningStatus = 'end'"
 										>
-											Edit
+											모집 중
 										</button>
 										<button
-											v-else-if="docState === 'edited'"
-											@click="docState = 'editing'"
+											type="button"
+											class="btn btn-primary"
+											v-else-if="diningStatus === 'end'"
+											@click="diningStatus = 'total'"
 										>
-											Save
+											모집 마감
 										</button>
 										<button
-											v-else-if="docState === 'editing'"
-											@click="docState = 'saved'"
+											type="button"
+											class="btn btn-primary"
+											v-else-if="diningStatus === 'total'"
+											@click="diningStatus = 'ing'"
 										>
-											Cancel
+											전체 보기
 										</button>
 									</Transition>
 								</div>
-								<div
-									class="btn-group"
-									role="group"
-									aria-label="Button group with nested dropdown"
-								>
-									<button type="button" class="btn btn-primary">모집 중</button>
-									<div class="btn-group" role="group">
+								<div class="col-xl-6 btn-group">
+									<!-- <div class="col btn-container"> -->
+									<!-- <Transition name="slide-up"> -->
+									<Transition name="slide-up" mode="out-in">
 										<button
-											email="btnGroupDrop4"
 											type="button"
-											class="btn btn-primary dropdown-toggle"
-											data-bs-toggle="dropdown"
-											aria-haspopup="true"
-											aria-expanded="false"
-										></button>
-										<div
-											class="dropdown-menu"
-											aria-labelledby="btnGroupDrop4"
-											style=""
+											class="btn btn-primary"
+											v-if="recruitDate === 'L'"
+											@click="recruitDate = 'O'"
 										>
-											<a class="dropdown-item" href="#">모집 마감</a>
-										</div>
-									</div>
-									<button type="button" class="btn btn-primary">최신순</button>
-									<div class="btn-group" role="group">
+											최신순
+										</button>
 										<button
-											email="btnGroupDrop4"
 											type="button"
-											class="btn btn-primary dropdown-toggle"
-											data-bs-toggle="dropdown"
-											aria-haspopup="true"
-											aria-expanded="false"
-										></button>
-										<div
-											class="dropdown-menu"
-											aria-labelledby="btnGroupDrop4"
-											style=""
+											class="btn btn-primary"
+											v-else-if="recruitDate === 'O'"
+											@click="recruitDate = 'L'"
 										>
-											<a class="dropdown-item" href="#">오래된 순</a>
-										</div>
-									</div>
+											오래된 순
+										</button>
+									</Transition>
 								</div>
 							</div>
 						</div>
@@ -184,7 +174,10 @@ export default {
 	components: { CompUserProfile },
 	data() {
 		return {
-			docState: 'saved',
+			// trasition 버튼 용: 시작
+			diningStatus: 'ing',
+			recruitDate: 'L',
+			// trasition 버튼 용: 끝
 			checked_all: false,
 			checked: [],
 			Headers: [
