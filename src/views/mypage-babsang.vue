@@ -168,6 +168,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+// 식사 매너/밥장 매너 선택 버튼
 .btn-primary {
 	color: #575757;
 	background-color: #ffcb00;
