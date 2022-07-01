@@ -152,12 +152,12 @@ export default {
 	},
 	setup() {},
 	created() {
-		this.getCommentList();
+		this.commentList = this.getCommentList();
 	},
 	mounted() {},
 	unmounted() {},
 	methods: {
-		// 댓글 수정/취소하는 함수
+		// 댓글 수정/취소하는 함수 o
 		doCommentSave() {
 			if (this.commentSave === true) {
 				this.commentSave = false;
@@ -167,38 +167,38 @@ export default {
 		},
 		// 수정한 댓글 값 보내는 함수
 		async doCommentPut() {
-			await this.$put('comment/1', {
+			await this.$put('comment/' + this.$route.params.babsangId, {
 				param: {
-					comment_description: this.commentList[0].comment_description,
+					comment_description: this.commentList.comment_description,
 				},
 			});
-			console.log(this.commentList[0].comment_description);
+			console.log(this.commentList.comment_description);
 			this.commentSave = false;
-		},
-		// 댓글 불러오는 함수
-		async getCommentList() {
-			this.commentList = await this.$get(
-				`https://nicespoons.com/api/v1/comment/1/`,
-			);
-			this.commentList = this.commentList.result[0];
-			console.log(this.commentList);
-			this.$emit('test', '이건 테스트입니당');
 		},
 
 		// 댓글 삭제하는 함수
 		async deleteComment() {
 			const confirmResult = confirm('댓글을 삭제 하시겠습니까?');
 			if (confirmResult) {
-				const id = this.commentList[0].id;
-				await this.$delete('/comment/1' + id);
+				const id = this.commentList.id;
+				await this.$delete('/comment/' + id);
 			}
 		},
 
-		// 대댓글 나오게 하는 함수(아직안함)
+		// 댓글 불러오는 함수 o
+		async getCommentList() {
+			this.commentList = await this.$get(
+				`https://nicespoons.com/api/v1/comment/` + this.$route.params.babsangId,
+			);
+			this.commentList = this.commentList.result;
+			console.log(this.commentList);
+		},
+
+		// 대댓글 나오게 하는 함수
 		CeateToggle() {
 			this.commentCeateToggle = !this.commentCeateToggle;
 			if (this.commentCeateToggle) {
-				this.comment_parent_id = this.commentList[0].id;
+				this.comment_parent_id = this.commentList.id;
 				this.console.log(this.comment_parent_id);
 			}
 		},
