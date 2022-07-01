@@ -27,7 +27,7 @@
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
 							v-show="!commentSave"
-							@click="doCommentSave()"
+							@click="doCommentSave(list.id)"
 							>수정</a
 						>
 						|
@@ -44,7 +44,7 @@
 					<button
 						type="button"
 						class="btn btn-primary mx-3"
-						@click="doCommentPut()"
+						@click="doCommentPut(list.id)"
 					>
 						저장
 					</button>
@@ -69,7 +69,6 @@
 						style="height: 128px; resize: none"
 						placeholder="댓글 내용"
 					></textarea>
-					{{ list.comment_description }}
 				</div>
 
 				<div class="pad-ver text-end pe-4">
@@ -77,7 +76,7 @@
 						type="button"
 						class="btn btn-outline-primary btn-sm"
 						style="margin-top: 8px"
-						@click="CeateToggle()"
+						@click="CeateToggle(list.id)"
 					>
 						답글
 					</button>
@@ -158,16 +157,19 @@ export default {
 	unmounted() {},
 	methods: {
 		// 댓글 수정/취소하는 함수 o
-		doCommentSave() {
+		doCommentSave(ListId) {
 			if (this.commentSave === true) {
+				console.log(ListId);
 				this.commentSave = false;
 			} else {
+				console.log(ListId);
 				this.commentSave = true;
 			}
 		},
 		// 수정한 댓글 값 보내는 함수
-		async doCommentPut() {
-			await this.$put('comment/' + this.$route.params.babsangId, {
+		async doCommentPut(commentId) {
+			console.log(commentId);
+			await this.$put('/comment/' + commentId, {
 				param: {
 					comment_description: this.commentList.comment_description,
 				},
@@ -194,11 +196,12 @@ export default {
 			console.log(this.commentList);
 		},
 		// 대댓글 나오게 하는 함수
-		CeateToggle() {
+		CeateToggle(recommentId) {
 			this.commentCeateToggle = !this.commentCeateToggle;
 			if (this.commentCeateToggle) {
-				this.comment_parent_id = this.commentList.id;
-				this.console.log(this.comment_parent_id);
+				console.log(this.commentCeateToggle);
+				this.comment_parent_id = recommentId;
+				console.log(this.comment_parent_id);
 			}
 		},
 	},
