@@ -16,7 +16,7 @@
 								href="#"
 								class="btn-link text-semibold fs-5"
 								style="text-decoration: none; color: inherit"
-								>{{ list.user_email }}</a
+								>{{ list.user_email }} {{ list.id }}</a
 							>
 							<p class="text-muted">{{ list.create_date }}</p>
 						</div>
@@ -35,7 +35,7 @@
 							href="#"
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
-							@click="deleteComment()"
+							@click="deleteComment(list.id)"
 							>삭제</a
 						>
 					</div>
@@ -175,25 +175,24 @@ export default {
 			console.log(this.commentList.comment_description);
 			this.commentSave = false;
 		},
-
 		// 댓글 삭제하는 함수
-		async deleteComment() {
+		async deleteComment(commentListId) {
+			console.log(commentListId);
 			const confirmResult = confirm('댓글을 삭제 하시겠습니까?');
 			if (confirmResult) {
-				const id = this.commentList.id;
-				await this.$delete('/comment/' + id);
+				// const id = this.commentList.id;
+				await this.$delete('/comment/' + commentListId);
 			}
 		},
-
 		// 댓글 불러오는 함수 o
 		async getCommentList() {
 			this.commentList = await this.$get(
 				`https://nicespoons.com/api/v1/comment/` + this.$route.params.babsangId,
 			);
 			this.commentList = this.commentList.result;
+			console.log('------------commentList------------');
 			console.log(this.commentList);
 		},
-
 		// 대댓글 나오게 하는 함수
 		CeateToggle() {
 			this.commentCeateToggle = !this.commentCeateToggle;
