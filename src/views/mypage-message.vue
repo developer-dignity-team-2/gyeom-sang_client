@@ -11,7 +11,7 @@
 					<h3>메세지함</h3>
 
 					<!-- 버튼 -->
-					<div class="row mt-4">
+					<div class="row mt-4 mb-2">
 						<!-- 받은메세지, 보낸메시지 -->
 						<div class="col-xl-6 col-12">
 							<div class="row">
