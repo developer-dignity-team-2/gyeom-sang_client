@@ -3,12 +3,12 @@
 		<!-- 찜 기능 -->
 		<div class="favorite" style="z-index: 1" @click="addFavorite">
 			<i
-				v-show="favorite === 'n'"
+				v-show="favorite === 'N'"
 				class="bi bi-heart pt-3 pe-2"
 				style="font-size: 1.5rem; color: #ffcb00; cursor: pointer"
 			></i>
 			<i
-				v-show="favorite === 'y'"
+				v-show="favorite === 'Y'"
 				class="bi bi-heart-fill pt-3 pe-2"
 				style="font-size: 1.5rem; color: #ffcb00; cursor: pointer"
 			></i>
@@ -82,7 +82,7 @@ export default {
 	name: 'BabsangCard',
 	data() {
 		return {
-			favorite: 'n',
+			favorite: 'N',
 		};
 	},
 	props: {
@@ -122,10 +122,10 @@ export default {
 		},
 		// 찜 여부 표시
 		addFavorite() {
-			if (this.favorite === 'n') {
-				this.favorite = 'y';
+			if (this.favorite === 'N') {
+				this.favorite = 'Y';
 			} else {
-				this.favorite = 'n';
+				this.favorite = 'N';
 			}
 			console.log(this.favorite);
 		},

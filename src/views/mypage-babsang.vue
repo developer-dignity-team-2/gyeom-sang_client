@@ -10,68 +10,51 @@
 				<div class="col border rounded p-3">
 					<h3>참여한 밥상 목록</h3>
 					<!-- 버튼 -->
-					<div class="row mt-4">
-						<div class="col-xl-8 col-md-12 col-sm-12 mb-4">
+					<div class="row mt-4 mb-3">
+						<div class="col-xl-8 col-12 mb-2">
 							<div class="row">
-								<div class="btn-group" role="group" aria-label="Basic example">
-									<button type="button" class="btn btn-outline-primary">
+								<div
+									class="col-12 btn-group"
+									role="group"
+									aria-label="Basic example"
+								>
+									<button
+										type="button"
+										:class="{
+											'btn btn-primary': showBabsang === 'A',
+											'btn btn-outline-primary': showBabsang !== 'A',
+										}"
+										@click="showAppliedBabsang"
+									>
 										숟갈 얹은 밥상
 									</button>
-									<button type="button" class="btn btn-outline-primary">
+									<button
+										type="button"
+										:class="{
+											'btn btn-primary': showBabsang === 'M',
+											'btn btn-outline-primary': showBabsang !== 'M',
+										}"
+										@click="showMadeBabsang"
+									>
 										차려 놓은 밥상
 									</button>
-									<button type="button" class="btn btn-outline-primary">
+									<button
+										type="button"
+										:class="{
+											'btn btn-primary': showBabsang === 'C',
+											'btn btn-outline-primary': showBabsang !== 'C',
+										}"
+										@click="showChosenBabsang"
+									>
 										선정된 밥상
 									</button>
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-4 col-md-12 col-sm-12 mb-4">
+						<div class="col-xl-4 col-12">
+							<!-- 모집중, 최신순 -->
 							<div class="row">
-								<!-- 모집중, 최신순 -->
-								<div
-									class="btn-group"
-									role="group"
-									aria-label="Button group with nested dropdown"
-								>
-									<button type="button" class="btn btn-primary">모집중</button>
-									<div class="btn-group" role="group">
-										<button
-											id="btnGroupDrop4"
-											type="button"
-											class="btn btn-primary dropdown-toggle"
-											data-bs-toggle="dropdown"
-											aria-haspopup="true"
-											aria-expanded="false"
-										></button>
-										<div
-											class="dropdown-menu"
-											aria-labelledby="btnGroupDrop4"
-											style=""
-										>
-											<a class="dropdown-item" href="#">모집마감</a>
-										</div>
-									</div>
-
-									<button type="button" class="btn btn-primary">최신순</button>
-									<div class="btn-group" role="group">
-										<button
-											id="btnGroupDrop4"
-											type="button"
-											class="btn btn-primary dropdown-toggle"
-											data-bs-toggle="dropdown"
-											aria-haspopup="true"
-											aria-expanded="false"
-										></button>
-										<div
-											class="dropdown-menu"
-											aria-labelledby="btnGroupDrop4"
-											style=""
-										>
-											<a class="dropdown-item" href="#">오래된순</a>
-										</div>
-									</div>
-								</div>
+								<ButtonModule />
 							</div>
 						</div>
 					</div>
@@ -88,12 +71,13 @@
 <script>
 import CompUserProfile from '@/components/profile/CompUserProfile';
 import BabsangCardList from '@/components/profile/BabsangCardList';
-
+import ButtonModule from '@/components/profile/ButtonModule';
 export default {
 	name: 'MypageProfile',
-	components: { CompUserProfile, BabsangCardList },
+	components: { CompUserProfile, BabsangCardList, ButtonModule },
 	data() {
 		return {
+			showBabsang: 'A', // 숟갈 얹은 밥상 A, 차려 놓은 밥상 M, 선정된 밥상 C
 			babsangData: [
 				{
 					create_date: '2022-06-26 17:46:53',
@@ -154,17 +138,18 @@ export default {
 		};
 	},
 	computed: {},
-	mounted() {
-		// this.getBabsangData();
+	mounted() {},
+	methods: {
+		showAppliedBabsang() {
+			this.showBabsang = 'A';
+		},
+		showMadeBabsang() {
+			this.showBabsang = 'M';
+		},
+		showChosenBabsang() {
+			this.showBabsang = 'C';
+		},
 	},
-	// methods: {
-	// 	async getBabsangData() {
-	// 		this.babsangData = await this.$get(
-	// 			`https://nicespoons.com/api/v1/babsang`,
-	// 		);
-	// 		console.log(this.babsangData);
-	// 	},
-	// },
 };
 </script>
 <style scoped lang="scss">

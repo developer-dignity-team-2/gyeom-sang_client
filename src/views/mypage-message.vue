@@ -11,84 +11,60 @@
 					<h3>메세지함</h3>
 
 					<!-- 버튼 -->
-					<div class="row mt-4">
-						<!-- 삭제 -->
-						<div class="col-xl-1 col-md-12 col-sm-12 mb-4">
-							<button
-								type="button"
-								class="btn btn-primary"
-								:disabled="checked.length === 0"
-							>
-								삭제
-							</button>
-						</div>
+					<div class="row mt-4 mb-4">
 						<!-- 받은메세지, 보낸메시지 -->
-						<div class="col-xl-8 col-md-12 col-sm-12 mb-4">
+						<div class="col-xl-6 col-12 mb-2">
 							<div class="row">
-								<div class="btn-group" role="group" aria-label="Basic example">
-									<button type="button" class="btn btn-outline-primary">
+								<div
+									class="col-12 btn-group"
+									role="group"
+									aria-label="Basic example"
+								>
+									<button
+										type="button"
+										:class="{
+											'btn btn-primary': showMessage === 'R',
+											'btn btn-outline-primary': showMessage === 'S',
+										}"
+										@click="selectMessageReceived"
+									>
+										<!-- <button type="button" class="btn btn-outline-primary"> -->
 										받은 메세지
 									</button>
-									<button type="button" class="btn btn-outline-primary">
+									<button
+										type="button"
+										:class="{
+											'btn btn-primary': showMessage === 'S',
+											'btn btn-outline-primary': showMessage === 'R',
+										}"
+										@click="selectMessagesSent"
+									>
 										보낸 메세지
 									</button>
 								</div>
 							</div>
 						</div>
 						<!-- 모집중/모집 마감/전체 보기, 최신순/오래된 순 -->
-						<div class="col-xl-3 col-md-12 col-sm-12">
+						<div class="col-xl-6 col-12">
 							<div class="row">
-								<div class="col-xl-6 btn-group">
-									<!-- <div class="col btn-container"> -->
-									<!-- <Transition name="slide-up"> -->
-									<Transition name="slide-up" mode="out-in">
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-if="diningStatus === 'ing'"
-											@click="diningStatus = 'end'"
-										>
-											모집 중
-										</button>
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-else-if="diningStatus === 'end'"
-											@click="diningStatus = 'total'"
-										>
-											모집 마감
-										</button>
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-else-if="diningStatus === 'total'"
-											@click="diningStatus = 'ing'"
-										>
-											전체 보기
-										</button>
-									</Transition>
+								<div class="col-8">
+									<div class="row">
+										<ButtonModule />
+									</div>
 								</div>
-								<div class="col-xl-6 btn-group">
-									<!-- <div class="col btn-container"> -->
-									<!-- <Transition name="slide-up"> -->
-									<Transition name="slide-up" mode="out-in">
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-if="recruitDate === 'L'"
-											@click="recruitDate = 'O'"
-										>
-											최신순
-										</button>
-										<button
-											type="button"
-											class="btn btn-primary"
-											v-else-if="recruitDate === 'O'"
-											@click="recruitDate = 'L'"
-										>
-											오래된 순
-										</button>
-									</Transition>
+								<!-- 삭제 -->
+								<div
+									class="col-4 btn-group"
+									role="group"
+									aria-label="Basic example"
+								>
+									<button
+										type="button"
+										class="btn btn-danger"
+										:disabled="checked.length === 0"
+									>
+										삭제
+									</button>
 								</div>
 							</div>
 						</div>
@@ -169,15 +145,13 @@
 
 <script>
 import CompUserProfile from '@/components/profile/CompUserProfile';
+import ButtonModule from '@/components/profile/ButtonModule';
 export default {
 	nickname: 'MypagMessage',
-	components: { CompUserProfile },
+	components: { CompUserProfile, ButtonModule },
 	data() {
 		return {
-			// trasition 버튼 용: 시작
-			diningStatus: 'ing',
-			recruitDate: 'L',
-			// trasition 버튼 용: 끝
+			showMessage: 'R', // 받은 메시지 R, 보낸 메시지 S
 			checked_all: false,
 			checked: [],
 			Headers: [
@@ -306,6 +280,12 @@ export default {
 				}
 			}
 		},
+		selectMessageReceived() {
+			this.showMessage = 'R';
+		},
+		selectMessagesSent() {
+			this.showMessage = 'S';
+		},
 	},
 };
 </script>
@@ -378,16 +358,16 @@ button {
 
 .slide-up-enter-active,
 .slide-up-leave-active {
-	transition: all 0.25s ease-out;
+	transition: all 0.1s ease-out;
 }
 
 .slide-up-enter-from {
 	opacity: 0;
-	transform: translateY(30px);
+	transform: translateY(10px);
 }
 
 .slide-up-leave-to {
 	opacity: 0;
-	transform: translateY(-30px);
+	transform: translateY(-10px);
 }
 </style>
