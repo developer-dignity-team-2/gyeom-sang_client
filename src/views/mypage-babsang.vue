@@ -60,7 +60,8 @@
 					</div>
 					<!-- 밥상카드 -->
 					<div class="row">
-						<BabsangCardList :babsangData="babsangData" />
+						<!-- <BabsangCardList :babsangData="babsangData" /> -->
+						<BabsangCardList :babsangData="babsangData.result" />
 					</div>
 				</div>
 			</div>
@@ -78,67 +79,14 @@ export default {
 	data() {
 		return {
 			showBabsang: 'A', // 숟갈 얹은 밥상 A, 차려 놓은 밥상 M, 선정된 밥상 C
-			babsangData: [
-				{
-					create_date: '2022-06-26 17:46:53',
-					dining_count: 3,
-					dining_datetime: '2022-06-30 00:00:00',
-					dining_description: '제주도 카페 같이가요~!',
-					dining_status: 0,
-					dining_thumbnail: '1656233181253.jpg',
-					gender_check: 'ALL',
-					host_email: 'tmddhks0104@naver.com',
-					id: 1,
-					nickname: '밥장1',
-					profile_image: require('../assets/img/users/m1.png'),
-
-					recruit_end_date: '2022-06-05 00:00:00',
-					recruit_start_date: '2022-06-01 00:00:00',
-					restaurant_location: '제주 제주시 애월읍 애월북서길 56',
-					restaurant_name: '하이엔드제주',
-					update_date: '2022-06-26 17:46:53',
-				},
-				{
-					create_date: '2022-06-26 17:46:53',
-					dining_count: 3,
-					dining_datetime: '2022-06-30 00:00:00',
-					dining_description: '제주도 카페 같이가요~!',
-					dining_status: 0,
-					dining_thumbnail: '1656233181253.jpg',
-					gender_check: 'ALL',
-					host_email: 'tmddhks0104@naver.com',
-					id: 12,
-					nickname: '밥장2',
-					profile_image: require('../assets/img/users/m2.png'),
-					recruit_end_date: '2022-06-05 00:00:00',
-					recruit_start_date: '2022-06-01 00:00:00',
-					restaurant_location: '제주 제주시 애월읍 애월북서길 66',
-					restaurant_name: '하이엔드제주',
-					update_date: '2022-06-26 17:46:53',
-				},
-				{
-					create_date: '2022-06-26 17:46:53',
-					dining_count: 3,
-					dining_datetime: '2022-06-30 00:00:00',
-					dining_description: '제주도 카페 같이가요~!',
-					dining_status: 0,
-					dining_thumbnail: '1656233181253.jpg',
-					gender_check: 'ALL',
-					host_email: 'tmddhks0104@naver.com',
-					id: 3,
-					nickname: '밥장3',
-					profile_image: require('../assets/img/users/m3.png'),
-					recruit_end_date: '2022-06-05 00:00:00',
-					recruit_start_date: '2022-06-01 00:00:00',
-					restaurant_location: '제주 제주시 애월읍 애월북서길 76',
-					restaurant_name: '하이엔드제주',
-					update_date: '2022-06-26 17:46:53',
-				},
-			],
+			babsangData: [],
 		};
 	},
 	computed: {},
-	mounted() {},
+	mounted() {
+		this.getBabsangData();
+		this.getAppliedBabsangList();
+	},
 	methods: {
 		showAppliedBabsang() {
 			this.showBabsang = 'A';
@@ -148,6 +96,24 @@ export default {
 		},
 		showChosenBabsang() {
 			this.showBabsang = 'C';
+		},
+		async getBabsangData() {
+			const babsangData = await this.$get('/babsang');
+			babsangData.result.sort(function (a, b) {
+				return b.id - a.id;
+			});
+			console.log(babsangData.result);
+			this.babsangData = babsangData;
+		},
+		async getAppliedBabsangList() {
+			let raw = {
+				email: 'wqeqg@y.omc',
+			};
+			const babsangData = await this.$getParam(
+				'https://nicespoons.com/api/v1/babsang/get?type=appliedList',
+				raw,
+			);
+			console.log(babsangData);
 		},
 	},
 };

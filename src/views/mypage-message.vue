@@ -26,7 +26,7 @@
 											'btn btn-primary': showMessage === 'R',
 											'btn btn-outline-primary': showMessage === 'S',
 										}"
-										@click="selectMessageReceived"
+										@click="selectReceivedMessage"
 									>
 										<!-- <button type="button" class="btn btn-outline-primary"> -->
 										받은 메세지
@@ -37,7 +37,7 @@
 											'btn btn-primary': showMessage === 'S',
 											'btn btn-outline-primary': showMessage === 'R',
 										}"
-										@click="selectMessagesSent"
+										@click="selectSentMessages"
 									>
 										보낸 메세지
 									</button>
@@ -90,8 +90,29 @@
 								</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr :key="i" v-for="(user, i) in userData">
+						<tbody v-if="showMessage === 'R'">
+							<tr :key="i" v-for="(user, i) in receivedMessage">
+								<td scope="row">
+									<input
+										class="form-check-input"
+										type="checkbox"
+										:value="user.email"
+										v-model="checked"
+										@change="doSelect"
+									/>
+								</td>
+								<td
+									v-for="th in Headers"
+									:key="th.key"
+									class="text-left"
+									@click="messageView()"
+								>
+									{{ user[th.key] }}
+								</td>
+							</tr>
+						</tbody>
+						<tbody v-if="showMessage === 'S'">
+							<tr :key="i" v-for="(user, i) in sentMessage">
 								<td scope="row">
 									<input
 										class="form-check-input"
@@ -160,9 +181,9 @@ export default {
 					title: '닉네임',
 					key: 'nickname',
 				},
-				{ title: '내용', key: 'message' },
+				{ title: '내용', key: 'message_description' },
 				{ title: '장소', key: 'restaurant_location' },
-				{ title: '날짜', key: 'data' },
+				{ title: '날짜', key: 'create_date' },
 			],
 			userData: [
 				{
@@ -264,6 +285,8 @@ export default {
 					data: '2022.06.06',
 				},
 			],
+			receivedMessage: [],
+			sentMessage: [],
 		};
 	},
 	setup() {},
@@ -287,24 +310,23 @@ export default {
 				}
 			}
 		},
-		selectMessageReceived() {
+		selectReceivedMessage() {
 			this.showMessage = 'R';
 		},
-		selectMessagesSent() {
+		selectSentMessages() {
 			this.showMessage = 'S';
 		},
 		async getMessages() {
-			const userMessages = await this.$get('/message');
-			console.log(userMessages);
-		},
-		async createMessages() {
-			await this.$post('/message', {
-				param: {
-					dining_table_id: 12,
-					message_type: 'S',
-					message_description: '메시지 내용입니다.',
-				},
-			});
+			const userMessages = await this.$get(
+				'https://nicespoons.com/api/v1/message',
+			);
+			this.receivedMessage = userMessages.result.filter(
+				r => r.message_type === 'R',
+			);
+			console.log(this.receivedMessage);
+			this.sentMessage = userMessages.result.filter(
+				r => r.message_type === 'S',
+			);
 		},
 	},
 };
