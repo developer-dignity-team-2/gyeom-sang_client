@@ -29,32 +29,6 @@
 							>매너 평가
 						</router-link>
 					</li>
-
-					<!-- <li class="nav-item">
-						<router-link to="/mypage/babsang" class="nav-link"
-							>6 참여 밥상
-						</router-link>
-					</li>
-					<li class="nav-item">
-						<router-link to="/mypage/favorites" class="nav-link"
-							>7 찜한 밥상
-						</router-link>
-					</li>
-					<li class="nav-item">
-						<router-link to="/mypage/message" class="nav-link"
-							>8 메세지
-						</router-link>
-					</li>
-					<li class="nav-item">
-						<router-link to="/mypage/message-view" class="nav-link"
-							>9 메세지 상세
-						</router-link>
-					</li>
-					<li class="nav-item">
-						<router-link to="/mypage/score" class="nav-link"
-							>10 매너점수
-						</router-link>
-					</li> -->
 				</ul>
 			</div>
 			<ul class="nav-r d-flex justify-content-center align-items-center me-2">
@@ -67,19 +41,38 @@
 						<i class="bi bi-bell" style="color: #5a5a5a; font-size: 1.3rem"></i>
 					</a>
 				</li> -->
-
+				<li>
+					<p
+						v-if="user.email === undefined"
+						@click="kakaoLogin"
+						style="display: inline; cursor: pointer; vertical-align: middle"
+					>
+						로그인
+					</p>
+					<p
+						v-else
+						class="pe-3"
+						@click="kakaoLogout"
+						style="display: inline; cursor: pointer; vertical-align: middle"
+					>
+						로그아웃
+					</p>
+				</li>
 				<li class="d-flex flex-column align-items-center mt-1">
-					<router-link to="/mypage/profile">
+					<router-link to="/mypage/profile" v-if="user.email !== undefined">
 						<div class="pf-wrap" style="width: 2.5rem">
-							<div
-								class="img-wrap rounded-circle"
-								style="border: 1px solid #d9d9d9"
-							>
-								<img :src="user.profile_image" alt="프로필" />
+							<div class="img-wrap rounded-circle">
+								<img :src="user.profile.profile_image_url" alt="프로필" />
 							</div>
 						</div>
 					</router-link>
-					<p class="m-0 pt-0" style="font-size: 0.6rem">{{ user.nickname }}</p>
+					<p
+						class="m-0 pt-0"
+						style="font-size: 0.6rem"
+						v-if="user.email !== undefined"
+					>
+						{{ user.profile.nickname }}
+					</p>
 				</li>
 			</ul>
 			<!-- <button
@@ -98,11 +91,64 @@
 	<router-view />
 </template>
 <script>
+import axios from 'axios';
+
 export default {
 	components: {},
 	computed: {
 		user() {
-			return this.$store.state.user.userInfo;
+			return this.$store.state.user.user;
+		},
+	},
+	methods: {
+		watchLoginData() {
+			if (this.$store.state.user.user) {
+				console.log('유저정보');
+			}
+		},
+		kakaoLogin() {
+			window.Kakao.Auth.login({
+				scope:
+					'openid, profile_nickname, profile_image, account_email, gender, age_range',
+				success: this.getProfile,
+			});
+		},
+		getProfile(authObj) {
+			console.log(authObj);
+			window.localStorage.setItem('access_token', authObj.access_token);
+			window.Kakao.API.request({
+				url: '/v2/user/me',
+				success: res => {
+					const kakao_account = res.kakao_account;
+					console.log(kakao_account);
+					this.login(kakao_account);
+					alert('로그인 성공!');
+				},
+			});
+		},
+		async login(kakao_account) {
+			const res = await axios.post('/auth/kakao/signup', {
+				param: {
+					email: kakao_account.email,
+					nickname: kakao_account.profile.nickname,
+					gender: kakao_account.gender,
+					profile_image: kakao_account.profile.profile_image_url,
+					age_range: kakao_account.age_range,
+				},
+			});
+			// console.log(res.data.jwt);
+			localStorage.setItem('jwt', res.data.jwt);
+
+			this.$store.commit('user/getUserData', kakao_account);
+			console.log('----------login store-----------');
+			console.log(this.$store.state.user.user);
+		},
+		kakaoLogout() {
+			window.Kakao.Auth.logout(response => {
+				console.log(response);
+				this.$store.commit('user/getUserData', {});
+				alert('로그아웃 되었습니다');
+			});
 		},
 	},
 };
