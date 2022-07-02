@@ -12,12 +12,17 @@ export const user = {
 				age_range: '20~30',
 				dining_score: 4.5,
 			},
+			user: {},
 		};
 	},
 
 	getters: {},
 
-	mutations: {},
+	mutations: {
+		getUserData(state, data) {
+			state.user = data;
+		},
+	},
 
 	actions: {},
 };
