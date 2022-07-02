@@ -20,7 +20,9 @@ import { faImage } from '@fortawesome/free-regular-svg-icons';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faSpoon } from '@fortawesome/free-solid-svg-icons';
 import { faBowlFood } from '@fortawesome/free-solid-svg-icons';
+import dotenv from 'dotenv';
 
+dotenv.config();
 /* add icons to the library */
 library.add(faStar, faImage, faLocationDot, faSpoon, faBowlFood);
 
@@ -31,4 +33,4 @@ createApp(App)
 	.mixin(mixins)
 	.mount('#app');
 
-window.Kakao.init(`'${process.env.VUE_APP_KAKAO_API_KEY}'`);
+window.Kakao.init(process.env.VUE_APP_KAKAO_API_KEY);
