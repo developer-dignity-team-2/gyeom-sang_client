@@ -220,16 +220,6 @@
 									>
 								</div>
 							</div>
-							<!-- <select
-								class="form-select"
-								id="diningCount"
-								v-model="dining_count"
-							>
-								<option disabled value="">모집 인원을 선택해 주세요.</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-							</select> -->
 						</div>
 						<div class="form-group">
 							<label for="dining_description" class="form-label mt-4"
@@ -359,6 +349,7 @@ export default {
 					restaurant_location: '제주 제주시 애월읍 금성5길 42-15',
 				},
 			});
+			// 생성한 밥상 게시물로 이동
 			this.babsangId = await this.$get('/babsang');
 			const idArr = this.babsangId.result.map(item => item.id);
 			const idMax = Math.max(...idArr);
