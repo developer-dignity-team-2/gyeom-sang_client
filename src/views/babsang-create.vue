@@ -1,6 +1,7 @@
 <template>
 	<div class="container mb" style="max-width: 900px">
 		<!-- 썸네일 추가 -->
+		<!-- <p v-if="checkUserData">{{ checkUserData }}</p> -->
 		<div class="row my-4">
 			<div class="col">
 				<div class="img-wrap rounded">
@@ -260,6 +261,11 @@ export default {
 	name: 'BabsangCreate',
 	// components: { userMap, Datepicker },
 	components: { Datepicker },
+	computed: {
+		// checkUserData() {
+		// 	return this.$store.user.user.email;
+		// },
+	},
 	data() {
 		return {
 			sampleData: '',
@@ -275,6 +281,10 @@ export default {
 			imgSrc: '',
 			babsangId: '',
 		};
+	},
+	beforeMount() {
+		console.log('--------------현재 유저 정보--------------');
+		console.log(this.$store.state.user.user);
 	},
 	mounted() {},
 	methods: {
@@ -341,7 +351,7 @@ export default {
 					dining_description: this.dining_description,
 					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
-					host_email: 'tmddhks0104@naver.com',
+					host_email: this.$store.state.user.user.email,
 
 					// restaurant_name: this.restaurant_name,
 					// restaurant_location: this.restaurant_location,
