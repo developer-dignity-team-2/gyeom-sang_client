@@ -2,7 +2,11 @@ import axios from 'axios';
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-
+const instance = axios.create({
+	headers: {
+		authorization: `Bearer ${localStorage.getItem('jwt')}`,
+	},
+});
 export default {
 	data() {
 		return {};
@@ -10,13 +14,13 @@ export default {
 	methods: {
 		async $get(url) {
 			return (
-				await axios.get(url).catch(e => {
+				await instance.get(url).catch(e => {
 					console.log(e);
 				})
 			).data;
 		},
 		async $post(url, data) {
-			return await axios
+			return await instance
 				.post(url, data)
 				.then(res => {
 					console.log(res);
