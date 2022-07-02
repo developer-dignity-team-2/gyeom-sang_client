@@ -25,15 +25,15 @@
 import starsRating from '@/components/RatingStars';
 export default {
 	components: { starsRating },
-	props: {
-		email: { type: String, default: '' },
-		gender: { type: String, default: '' },
-		nickname: { type: String, default: '' },
-		profile_image: { type: String, default: '' },
-		age_range: { type: String, default: '' },
-		dining_score: { type: Number, default: 0 },
-		dining_spoons_description: { type: String, default: '' },
-	},
+	props: [
+		'email',
+		'gender',
+		'nickname',
+		'profile_image',
+		'age_range',
+		'dining_score',
+		'dining_spoons_description',
+	],
 	data: function () {
 		return {
 			config: {

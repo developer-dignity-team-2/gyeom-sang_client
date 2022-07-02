@@ -93,7 +93,7 @@
 					</div>
 					<!-- 댓글 -->
 					<div class="col my-3">
-						<CommentList @test="test" />
+						<CommentList />
 						<CommentCreate />
 					</div>
 				</div>
@@ -103,14 +103,14 @@
 				<div class="row row-cols-1" style="position: sticky; top: 1rem">
 					<!-- 밥장 정보 -->
 					<div class="row">
-						<userCard
-							:email="babjang[0].email"
-							:gender="babjang[0].gender"
-							:nickname="babjang[0].nickname"
-							:profile_image="babjang[0].profile_image"
-							:age_range="babjang[0].age_range"
-							:dining_score="babjang[0].dining_score"
-							:dining_spoons_description="babjang[0].dining_spoons_description"
+						<UserCard
+							:email="leaderInfo.email"
+							:gender="leaderInfo.gender"
+							:nickname="leaderInfo.nickname"
+							:profile_image="leaderInfo.profile_image"
+							:age_range="leaderInfo.age_range"
+							:dining_score="leaderInfo.dining_score"
+							:dining_spoons_description="leaderInfo.profile_description"
 						/>
 
 						<!-- 숟갈 선택하기 -->
@@ -132,12 +132,12 @@
 </template>
 
 <script>
-import userCard from '@/components/UserCard';
+import UserCard from '@/components/UserCard';
 import CommentCreate from '@/components/CommentCreate';
 import CommentList from '@/components/CommentList';
 export default {
 	name: 'Babsang',
-	components: { userCard, CommentCreate, CommentList },
+	components: { UserCard, CommentCreate, CommentList },
 	data() {
 		return {
 			babsangDetailData: [],
@@ -154,18 +154,28 @@ export default {
 						'책임감있는 밥장이 될게요! 믿고 맡겨 주세요~!',
 				},
 			],
+			leaderInfo: '',
 		};
+	},
+	computed: {
+		// BabsangInfo() {
+		// 	return this.$store.state.user.user;
+		// },
 	},
 	created() {},
 	mounted() {
-		window.scrollTo(0, 0);
+		// window.scrollTo(0, 0);
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		this.getBabsangDetailData();
+		this.getLeaderInfo();
 	},
 
 	methods: {
-		test(arg) {
-			console.log(arg);
+		async getLeaderInfo() {
+			this.leaderInfo = await this.$get('/user');
+			console.log('----------leader Info----------');
+			console.log(this.leaderInfo.result);
+			this.leaderInfo = this.leaderInfo.result;
 		},
 		async deleteBabsang() {
 			const confirmResult = confirm('밥상을 삭제 하시겠습니까?');

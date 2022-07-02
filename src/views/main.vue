@@ -92,7 +92,9 @@ export default {
 	computed: {},
 	created() {},
 	mounted() {
-		window.scrollTo(0, 0);
+		console.log('-------------current user store-------------');
+		console.log(this.$store.state.user.user);
+		// window.scrollTo(0, 0);
 		this.getBabsangData();
 	},
 	methods: {
@@ -101,6 +103,7 @@ export default {
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
 			});
+			console.log('-------------basang data list-------------');
 			console.log(this.babsangData.result);
 		},
 	},
