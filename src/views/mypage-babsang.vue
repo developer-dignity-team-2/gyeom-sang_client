@@ -85,7 +85,7 @@ export default {
 	computed: {},
 	mounted() {
 		this.getBabsangData();
-		this.getAppliedBabsangList();
+		// this.getAppliedBabsangList();
 	},
 	methods: {
 		showAppliedBabsang() {
@@ -99,21 +99,20 @@ export default {
 		},
 		async getBabsangData() {
 			const babsangData = await this.$get('/babsang');
-			babsangData.result.sort(function (a, b) {
-				return b.id - a.id;
-			});
+			this.doAscOrder(babsangData.result, 'id');
 			console.log(babsangData.result);
 			this.babsangData = babsangData;
 		},
-		async getAppliedBabsangList() {
-			let raw = {
-				email: 'wqeqg@y.omc',
-			};
-			const babsangData = await this.$getParam(
-				'https://nicespoons.com/api/v1/babsang/get?type=appliedList',
-				raw,
-			);
-			console.log(babsangData);
+		// 밥상 정렬(모집중/마감/잔체, 최신순/오래된순)
+		doAscOrder(data) {
+			this.babsangData = data.sort(function (a, b) {
+				return a.dining_datetime - b.dining_datetime;
+			});
+		},
+		doDescOrder(data) {
+			this.babsangData = data.sort(function (a, b) {
+				return b.dining_datetime - a.dining_datetime;
+			});
 		},
 	},
 };
