@@ -18,7 +18,7 @@
 							class="fw-bold"
 							style="color: orange"
 						>
-							Try!
+							Try it out!
 						</router-link>
 					</p>
 					<!-- <button class="btn btn-secondary" type="submit">Search</button> -->
