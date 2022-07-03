@@ -431,7 +431,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .error-msg {
-	color: red;
+	color: #ffad00;
 	padding: 0.5rem;
 }
 .img-wrap {

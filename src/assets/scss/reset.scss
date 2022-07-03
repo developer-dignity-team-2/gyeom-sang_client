@@ -79,11 +79,11 @@ $secondary:     #f3969a !default;
 	border-color:#fff;
 }
 .form-control:focus {
-  color: #888;
+  color: #575757;
   background-color: #fff;
-  border-color: #bce1d6;
+  border-color: #ffcb00!important;
   outline: 0;
-  box-shadow: #fff;
+  box-shadow: 0 0 0 0 rgb(255,255,255)!important;
 }
 
 .dropdown-item {
