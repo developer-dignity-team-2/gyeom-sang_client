@@ -169,6 +169,7 @@ export default {
 			],
 		};
 	},
+
 	computed: {
 		// 밥장/숟갈/게스트 분기처리
 		isLeader() {
@@ -193,6 +194,8 @@ export default {
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		console.log('---------------밥상 data---------------');
 		this.getBabsangDetailData();
+		console.log('---------------isUser---------------');
+		console.log(this.$store.state.user.isUser);
 	},
 
 	methods: {

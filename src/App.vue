@@ -128,6 +128,7 @@ export default {
 
 			// vuex에 해당 유저정보를 저장
 			this.$store.commit('user/getUserData', kakao_account);
+			this.$store.commit('user/userCheck', true);
 			console.log('----------login store-----------');
 			console.log(this.$store.state.user.userData);
 		},
@@ -135,6 +136,7 @@ export default {
 			window.Kakao.Auth.logout(response => {
 				console.log(response);
 				this.$store.commit('user/getUserData', {});
+				this.$store.commit('user/userCheck', false);
 				localStorage.removeItem('jwt');
 				alert('로그아웃 되었습니다');
 			});

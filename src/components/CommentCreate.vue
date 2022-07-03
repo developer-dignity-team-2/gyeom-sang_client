@@ -1,5 +1,6 @@
 <template>
-	<div class="container row" v-if="this.$store.state.user.isUser">
+	<!--	<div class="container row" v-if="this.$store.state.user.isUser">-->
+	<div class="container row">
 		<!-- 댓글생성 -->
 		<div class="text-end">
 			<!-- 비밀댓글 체크여부 -->

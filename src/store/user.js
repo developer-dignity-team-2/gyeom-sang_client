@@ -13,20 +13,19 @@ export const user = {
 				dining_score: 4.5,
 			},
 			userData: {},
-			//로그인한 유저인지 게스인트인지 체크
 			isUser: false,
 		};
 	},
 
-	getters: {
-		userCheck(state) {
-			state.isUser = state.userData !== undefined;
-		},
-	},
+	getters: {},
 
 	mutations: {
 		getUserData(state, data) {
 			state.userData = data;
+		},
+		// guest와 user 분기처리
+		userCheck(state, payload) {
+			state.isUser = payload;
 		},
 	},
 
