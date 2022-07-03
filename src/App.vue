@@ -49,14 +49,6 @@
 					>
 						로그인
 					</p>
-					<p
-						v-else
-						class="pe-3"
-						@click="kakaoLogout"
-						style="display: inline; cursor: pointer; vertical-align: middle"
-					>
-						로그아웃
-					</p>
 				</li>
 				<li class="d-flex flex-column align-items-center mt-1">
 					<router-link to="/mypage/profile" v-if="user.email !== undefined">
@@ -131,15 +123,6 @@ export default {
 			this.$store.commit('user/userCheck', true);
 			console.log('----------login store-----------');
 			console.log(this.$store.state.user.userData);
-		},
-		kakaoLogout() {
-			window.Kakao.Auth.logout(response => {
-				console.log(response);
-				this.$store.commit('user/getUserData', {});
-				this.$store.commit('user/userCheck', false);
-				localStorage.removeItem('jwt');
-				alert('로그아웃 되었습니다');
-			});
 		},
 	},
 };

@@ -65,6 +65,11 @@
 					메시지함
 				</strong>
 			</li>
+			<li>
+				<div class="dropdown-item rounded-2 cursor" @click="kakaoLogout()">
+					로그아웃
+				</div>
+			</li>
 		</ul>
 	</div>
 </template>
@@ -93,6 +98,15 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
+		kakaoLogout() {
+			window.Kakao.Auth.logout(response => {
+				console.log(response);
+				this.$store.commit('user/getUserData', {});
+				this.$store.commit('user/userCheck', false);
+				localStorage.removeItem('jwt');
+				alert('로그아웃 되었습니다');
+			});
+		},
 		userProfile() {
 			this.$router.push('/mypage/profile');
 		},
