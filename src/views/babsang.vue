@@ -38,15 +38,21 @@
 							<li>
 								<dl>
 									<dt>식사 일시</dt>
-									<dd>{{ babsangDetailData.dining_datetime }}</dd>
+									<dd>
+										{{ String(babsangDetailData.dining_datetime).slice(0, 10) }}
+									</dd>
 								</dl>
 							</li>
 							<li>
 								<dl>
 									<dt>모집기간</dt>
 									<dd>
-										{{ babsangDetailData.recruit_start_date }}~{{
-											babsangDetailData.recruit_end_date
+										{{
+											String(babsangDetailData.recruit_start_date).slice(0, 10)
+										}}
+										~
+										{{
+											String(babsangDetailData.recruit_end_date).slice(0, 10)
 										}}
 									</dd>
 								</dl>
@@ -157,11 +163,7 @@ export default {
 			leaderInfo: '',
 		};
 	},
-	computed: {
-		// BabsangInfo() {
-		// 	return this.$store.state.user.user;
-		// },
-	},
+	computed: {},
 	created() {},
 	mounted() {
 		// window.scrollTo(0, 0);
