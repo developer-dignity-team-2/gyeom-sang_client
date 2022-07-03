@@ -63,7 +63,7 @@
 				<div v-show="commentSave" style="float: right">
 					<button
 						type="button"
-						class="btn btn-primary mx-3"
+						class="btn btn-primary mx-2"
 						@click="doCommentPut(list.id, list.comment_description)"
 					>
 						저장
@@ -101,6 +101,7 @@
 						답글
 					</button>
 				</div>
+				<CommentCreate />
 			</div>
 
 			<hr />
@@ -158,8 +159,9 @@
 	</div>
 </template>
 <script>
+import CommentCreate from '@/components/CommentCreate';
 export default {
-	components: {},
+	components: { CommentCreate },
 	data() {
 		return {
 			comment_description: '',
@@ -218,15 +220,15 @@ export default {
 			console.log(this.commentList);
 		},
 		// 대댓글 나오게 하는 함수
-		CeateToggle(recommentId) {
-			this.commentCeateToggle = !this.commentCeateToggle;
-			if (this.commentCeateToggle) {
-				console.log(this.commentCeateToggle);
-				this.comment_parent_id = recommentId;
-				console.log(this.comment_parent_id);
-				return this.comment_parent_id;
-			}
-		},
+		// CeateToggle(recommentId) {
+		// 	this.commentCeateToggle = !this.commentCeateToggle;
+		// 	if (this.commentCeateToggle) {
+		// 		console.log(this.commentCeateToggle);
+		// 		this.comment_parent_id = recommentId;
+		// 		console.log(this.comment_parent_id);
+		// 		return this.comment_parent_id;
+		// 	}
+		// },
 	},
 };
 </script>
