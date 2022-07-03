@@ -22,8 +22,8 @@
 						<fieldset>
 							<div class="form-group mt-4">
 								<label class="form-label">
-									{{ user.age_range }}대
-									{{ user.gender === M ? '남성' : '여성' }}
+									{{ ageRangeForm() }}
+									{{ user.gender === 'M' ? '남성' : '여성' }}
 								</label>
 							</div>
 							<div class="form-group">
@@ -113,25 +113,54 @@ export default {
 					starHeight: 50,
 				},
 			},
+			user: '',
 		};
 	},
 	computed: {
-		user() {
-			return this.$store.state.user.userInfo;
-		},
+		// user() {
+		// 	return this.$store.state.user.userInfo;
+		// },
 	},
 	setup() {},
 	created() {
 		this.config.rating = this.user.dining_score;
 	},
-	mounted() {},
+	mounted() {
+		this.getProfileData();
+	},
 	unmounted() {},
 	methods: {
+		async getProfileData() {
+			const user = await this.$get('/user');
+			this.user = user.result[0];
+			console.log('---------------profile data---------------');
+			console.log(this.user);
+		},
 		doModifySave() {
 			if (this.modifySave === true) {
 				this.modifySave = false;
 			} else {
 				this.modifySave = true;
+			}
+		},
+		ageRangeForm() {
+			const front = String(this.user.age_range).slice(0, 1);
+			if (front == 1) {
+				return '10대';
+			} else if (front == 2) {
+				return '20대';
+			} else if (front == 3) {
+				return '30대';
+			} else if (front == 4) {
+				return '40대';
+			} else if (front == 5) {
+				return '50대';
+			} else if (front == 6) {
+				return '60대';
+			} else if (front == 7) {
+				return '70대';
+			} else {
+				return '80대';
 			}
 		},
 	},
