@@ -92,9 +92,6 @@ export default {
 	computed: {},
 	created() {},
 	mounted() {
-		console.log('-------------current user store-------------');
-		console.log(this.$store.state.user.user);
-		// window.scrollTo(0, 0);
 		this.getBabsangData();
 	},
 	methods: {

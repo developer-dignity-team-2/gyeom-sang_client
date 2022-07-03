@@ -71,7 +71,7 @@
 						</div>
 					</div>
 					<!-- 메세지 테이블 -->
-					<table
+					<!-- <table
 						class="table table-hover"
 						style="margin-left: auto; margin-right: auto"
 					>
@@ -132,32 +132,14 @@
 								</td>
 							</tr>
 						</tbody>
-					</table>
+					</table> -->
 					<!-- pagination -->
 					<div>
-						<ul class="pagination justify-content-center">
-							<li class="page-item disabled">
-								<a class="page-link" href="#">&laquo;</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">1</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">2</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">3</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">4</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">5</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">&raquo;</a>
-							</li>
-						</ul>
+						<grid-pagination
+							:headers="headers"
+							:items="userMessages"
+							@click-buttons="handleClickButtons"
+						/>
 					</div>
 				</div>
 			</div>
@@ -168,15 +150,17 @@
 <script>
 import CompUserProfile from '@/components/profile/CompUserProfile';
 import ButtonModule from '@/components/profile/ButtonModule';
+import GridPagination from '@/components/pagination/GridPagination';
 export default {
 	nickname: 'MypagMessage',
-	components: { CompUserProfile, ButtonModule },
+	components: { CompUserProfile, ButtonModule, GridPagination },
 	data() {
 		return {
+			userMessages: [],
 			showMessage: 'R', // 받은 메시지 R, 보낸 메시지 S
-			checked_all: false,
+			// checked_all: false,
 			checked: [],
-			Headers: [
+			headers: [
 				{
 					title: '닉네임',
 					key: 'nickname',
@@ -187,106 +171,778 @@ export default {
 			],
 			userData: [
 				{
-					email: 0,
-					nickname: '개발자의품격',
-					message: '메세지가 도착하였습니다',
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 1,
-					nickname: '김민수',
-					message: '메세지가 도착하였습니다',
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 2,
-					nickname: '원신희',
-					message: '메세지가 도착하였습니다',
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 3,
-					nickname: '양세영',
-					message: '메세지가 도착하였습니다',
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 4,
-					nickname: '유승완',
-					message: '메세지가 도착하였습니다',
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 5,
-					nickname: '윤여진',
-					message: '메세지가 도착하였습니다',
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 6,
-					nickname: '김준현',
-					message: '메세지가 도착하였습니다',
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 7,
-					nickname: '차은우',
-					message: '메세지가 도착하였습니다',
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 8,
-					nickname: '이민형',
-					message: '메세지가 도착하였습니다',
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 9,
-					nickname: '정재현',
-					message: '메세지가 도착하였습니다',
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 10,
-					nickname: '황민현',
-					message: '메세지가 도착하였습니다',
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 11,
-					nickname: '연준',
-					message: '메세지가 도착하였습니다',
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 12,
-					nickname: '문세윤',
-					message: '메세지가 도착하였습니다',
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
 				},
 				{
-					email: 13,
-					nickname: '배고파',
-					message: '메세지가 도착하였습니다',
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
 					restaurant_location: '제주도 할매 칼국수',
-					data: '2022.06.06',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc1@gmail.com',
+					nickname: '숟갈1',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc2@gmail.com',
+					nickname: '숟갈2',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc3@gmail.com',
+					nickname: '숟갈3',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc4@gmail.com',
+					nickname: '숟갈4',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc5@gmail.com',
+					nickname: '숟갈5',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc6@gmail.com',
+					nickname: '숟갈6',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc7@gmail.com',
+					nickname: '숟갈7',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc8@gmail.com',
+					nickname: '숟갈8',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc9@gmail.com',
+					nickname: '숟갈9',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
+				},
+				{
+					email: 'abc10@gmail.com',
+					nickname: '숟갈10',
+					message_description: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					create_date: '2022.06.06',
 				},
 			],
-			receivedMessage: [],
-			sentMessage: [],
+			// receivedMessage: [],
+			// sentMessage: [],
 		};
 	},
 	setup() {},
@@ -296,21 +952,32 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
-		messageView() {
-			// this.$router.push('/mypage/message-view');
-			this.getMessageDetail();
-		},
-		doSelect() {
-			console.log(this.checked);
-		},
-		doSelectAll() {
-			this.checked = [];
-			if (this.checked_all) {
-				for (let i in this.userData) {
-					this.checked.push(this.userData[i].email);
-				}
+		// pagination
+		handleClickButtons(method, id) {
+			if (method === 'showEditModal') {
+				this.modalDetailPayload.id = id;
+				this.showEditModal();
+			} else if (method === 'showEList') {
+				this.showEList(id);
+			} else if (method === 'sendMessage') {
+				this.sendMessage(id);
 			}
 		},
+		// messageView() {
+		// 	// this.$router.push('/mypage/message-view');
+		// 	this.getMessageDetail();
+		// },
+		// doSelect() {
+		// 	console.log(this.checked);
+		// },
+		// doSelectAll() {
+		// 	this.checked = [];
+		// 	if (this.checked_all) {
+		// 		for (let i in this.userData) {
+		// 			this.checked.push(this.userData[i].email);
+		// 		}
+		// 	}
+		// },
 		selectReceivedMessage() {
 			this.showMessage = 'R';
 		},
@@ -318,23 +985,24 @@ export default {
 			this.showMessage = 'S';
 		},
 		async getMessages() {
-			const userMessages = await this.$get(
-				'https://nicespoons.com/api/v1/message',
-			);
-			this.receivedMessage = userMessages.result.filter(
-				r => r.message_type === 'R',
-			);
-			console.log(this.receivedMessage);
-			this.sentMessage = userMessages.result.filter(
-				r => r.message_type === 'S',
-			);
+			// const userMessages = await this.$get(
+			// 	'https://nicespoons.com/api/v1/message',
+			// );
+			// this.receivedMessage = userMessages.result.filter(
+			// 	r => r.message_type === 'R',
+			// );
+			// console.log(this.receivedMessage);
+			// this.sentMessage = userMessages.result.filter(
+			// 	r => r.message_type === 'S',
+			// );
+			this.userMessages = this.userData;
 		},
-		async getMessageDetail() {
-			const userMessages = await this.$get(
-				'https://nicespoons.com/api/v1/message/13',
-			);
-			console.log(userMessages);
-		},
+		// async getMessageDetail() {
+		// 	const userMessages = await this.$get(
+		// 		'https://nicespoons.com/api/v1/message/13',
+		// 	);
+		// 	console.log(userMessages);
+		// },
 	},
 };
 </script>
@@ -390,7 +1058,7 @@ dt {
 	color: #575757;
 	border-color: #ffcb00;
 	&:hover {
-		background-color: #ffcb00;
+		background-color: #fff9e1;
 	}
 }
 

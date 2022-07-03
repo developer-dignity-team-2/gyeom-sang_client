@@ -211,7 +211,7 @@ export default {
 	color: #575757;
 	border-color: #ffcb00;
 	&:hover {
-		background-color: #ffcb00;
+		background-color: #fff9e1;
 	}
 }
 </style>

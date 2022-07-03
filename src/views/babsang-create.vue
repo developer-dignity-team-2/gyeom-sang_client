@@ -1,7 +1,6 @@
 <template>
 	<div class="container mb" style="max-width: 900px">
 		<!-- 썸네일 추가 -->
-		<!-- <p v-if="checkUserData">{{ checkUserData }}</p> -->
 		<div class="row my-4">
 			<div class="col">
 				<div class="img-wrap rounded">
@@ -39,16 +38,15 @@
 					</div>
 				</div>
 			</div>
+			<div v-if="v$.dining_thumbnail.$error" class="error-msg">
+				밥상에 대한 사진을 업로드해주세요.
+			</div>
 		</div>
 
 		<!-- 신청폼 -->
 		<div class="row" style="margin-bottom: 4rem">
 			<div class="col">
-				<form
-					class="border rounded p-4"
-					@submit.prevent="onSubmitForm"
-					novalidate
-				>
+				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
 					<fieldset>
 						<!-- <legend>밥상 준비하기</legend> -->
 						<div class="form-group">
@@ -93,27 +91,41 @@
 								placeholder="식사 일시"
 							/>
 						</div>
+						<div class="error-msg" v-if="v$.dining_datetime.$error">
+							식사 일시를 선택해 주세요.
+						</div>
 						<!-- datepicker 삽입
 						upperLimit: 지정한 날짜 기준으로 상한인 날은 disable -->
-						<div class="form-group mt-4">
-							모집 기간
-							<datepicker
-								v-model="recruit_start_date"
-								:upperLimit="this.dining_datetime"
-								:lowerLimit="new Date()"
-								class="form-control my-2"
-								style="cursor: default"
-								placeholder="모집 시작"
-							/>
-							<datepicker
-								v-model="recruit_end_date"
-								:upperLimit="this.dining_datetime"
-								:lowerLimit="this.recruit_start_date"
-								class="form-control"
-								style="cursor: default"
-								placeholder="모집 마감"
-							/>
+						<div class="form-group mt-4 row">
+							<div class="col-12 mb-1">모집 기간</div>
+							<div class="col">
+								<datepicker
+									v-model="recruit_start_date"
+									:upperLimit="this.dining_datetime"
+									:lowerLimit="new Date()"
+									class="form-control"
+									style="cursor: default"
+									placeholder="모집 시작"
+								/>
+							</div>
+							<div class="col">
+								<datepicker
+									v-model="recruit_end_date"
+									:upperLimit="this.dining_datetime"
+									:lowerLimit="this.recruit_start_date"
+									class="form-control"
+									style="cursor: default"
+									placeholder="모집 마감"
+								/>
+							</div>
 						</div>
+						<div
+							class="error-msg"
+							v-if="v$.recruit_start_date.$error || v$.recruit_end_date.$error"
+						>
+							모집 기간을 선택해 주세요.
+						</div>
+
 						<div class="form-group">
 							<label class="mt-4">성별 선택</label>
 							<div class="row mt-2">
@@ -124,7 +136,6 @@
 										name="genderPick"
 										id="gender-all"
 										value="ALL"
-										checked
 										v-model="gender_check"
 									/>
 									<label
@@ -166,6 +177,13 @@
 										>여성</label
 									>
 								</div>
+							</div>
+							<div
+								v-if="v$.gender_check.$error"
+								class="error-msg ms-1"
+								style="padding: 0"
+							>
+								모집할 숟갈의 성별을 선택해 주세요.
 							</div>
 						</div>
 						<div class="form-group">
@@ -210,7 +228,6 @@
 										name=""
 										id="four-people"
 										value="4"
-										checked
 										v-model="dining_count"
 									/>
 									<label
@@ -220,6 +237,13 @@
 										>4인</label
 									>
 								</div>
+							</div>
+							<div
+								v-if="v$.dining_count.$error"
+								class="error-msg ms-1"
+								style="padding: 0"
+							>
+								모집할 인원을 선택해 주세요.
 							</div>
 						</div>
 						<div class="form-group">
@@ -232,6 +256,9 @@
 								v-model="dining_description"
 								style="resize: none; height: 10rem"
 							></textarea>
+							<div class="error-msg" v-if="v$.dining_description.$error">
+								밥장님의 밥상을 소개해 주세요.
+							</div>
 						</div>
 						<div class="d-flex justify-content-center mt-5">
 							<button
@@ -254,6 +281,8 @@
 
 <script>
 // import userMap from '@/components/UserMap.vue';
+import useVuelidate from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import Datepicker from 'vue3-datepicker';
 // import { ref } from 'vue';
 // const picked = ref(new Date());
@@ -261,6 +290,11 @@ export default {
 	name: 'BabsangCreate',
 	// components: { userMap, Datepicker },
 	components: { Datepicker },
+	setup() {
+		return {
+			v$: useVuelidate(),
+		};
+	},
 	data() {
 		return {
 			sampleData: '',
@@ -268,13 +302,38 @@ export default {
 			dining_datetime: '',
 			recruit_start_date: '',
 			recruit_end_date: '',
-			gender_check: 'ALL',
+			gender_check: '',
 			dining_description: '',
-			dining_count: 4,
+			dining_count: '',
 			dining_thumbnail: '',
 			imageData: '',
 			imgSrc: '',
 			babsangId: '',
+		};
+	},
+	validations() {
+		return {
+			dining_description: {
+				required,
+			},
+			dining_datetime: {
+				required,
+			},
+			recruit_start_date: {
+				required,
+			},
+			recruit_end_date: {
+				required,
+			},
+			dining_thumbnail: {
+				required,
+			},
+			gender_check: {
+				required,
+			},
+			dining_count: {
+				required,
+			},
 		};
 	},
 	beforeMount() {
@@ -337,6 +396,11 @@ export default {
 		},
 		//밥상 생성하기
 		async onSubmitForm() {
+			const isFormCorrect = await this.v$.$validate();
+			if (!isFormCorrect) {
+				window.scrollTo(0, 0);
+				return;
+			}
 			await this.$post('/babsang', {
 				param: {
 					dining_datetime: this.diningDatetime(),
@@ -366,6 +430,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.error-msg {
+	color: #ffad00;
+	padding: 0.5rem;
+}
 .img-wrap {
 	position: relative;
 	width: 100%;
