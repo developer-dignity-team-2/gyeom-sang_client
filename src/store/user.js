@@ -12,7 +12,7 @@ export const user = {
 				age_range: '20~30',
 				dining_score: 4.5,
 			},
-			user: {},
+			userData: {},
 		};
 	},
 
@@ -20,7 +20,7 @@ export const user = {
 
 	mutations: {
 		getUserData(state, data) {
-			state.user = data;
+			state.userData = data;
 		},
 	},
 

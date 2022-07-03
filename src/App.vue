@@ -75,17 +75,6 @@
 					</p>
 				</li>
 			</ul>
-			<!-- <button
-				class="navbar-toggler"
-				type="button"
-				data-bs-toggle="collapse"
-				data-bs-target="#navbarColor03"
-				aria-controls="navbarColor03"
-				aria-expanded="false"
-				aria-label="Toggle navigation"
-			>
-				<span class="navbar-toggler-icon"></span>
-			</button> -->
 		</div>
 	</nav>
 	<router-view />
@@ -97,15 +86,11 @@ export default {
 	components: {},
 	computed: {
 		user() {
-			return this.$store.state.user.user;
+			return this.$store.state.user.userData;
 		},
 	},
 	methods: {
-		watchLoginData() {
-			if (this.$store.state.user.user) {
-				console.log('유저정보');
-			}
-		},
+		/* 카카오톡 로그인 */
 		kakaoLogin() {
 			window.Kakao.Auth.login({
 				scope:
@@ -114,12 +99,13 @@ export default {
 			});
 		},
 		getProfile(authObj) {
+			console.log('---------------authObj data---------------');
 			console.log(authObj);
-			window.localStorage.setItem('access_token', authObj.access_token);
 			window.Kakao.API.request({
 				url: '/v2/user/me',
 				success: res => {
 					const kakao_account = res.kakao_account;
+					console.log('---------------kakao account---------------');
 					console.log(kakao_account);
 					this.login(kakao_account);
 					alert('로그인 성공!');
@@ -136,17 +122,23 @@ export default {
 					age_range: kakao_account.age_range,
 				},
 			});
-			// console.log(res.data.jwt);
+			// ??? 여기서 요청했을 때 서버쪽에서 해당 유저 정보에 대한 jwt를 만들어서 결과값으로 던져주는거죠??
+			// 그래서 response의 data에 jwt가 담겨져 오는거고?
+			console.log('---------------res.data---------------');
+			console.log(res.data);
 			localStorage.setItem('jwt', res.data.jwt);
 
+			// vuex에 해당 유저정보를 저장
 			this.$store.commit('user/getUserData', kakao_account);
 			console.log('----------login store-----------');
-			console.log(this.$store.state.user.user);
+			console.log(this.$store.state.user.userData);
 		},
 		kakaoLogout() {
 			window.Kakao.Auth.logout(response => {
 				console.log(response);
 				this.$store.commit('user/getUserData', {});
+				// ??? 로그아웃하거나, 창을 닫았을때는 로컬스토리지에 있는 jwt를 지워주는게 맞는거죠?
+				localStorage.removeItem('jwt');
 				alert('로그아웃 되었습니다');
 			});
 		},
