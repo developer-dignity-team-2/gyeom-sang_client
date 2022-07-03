@@ -54,7 +54,7 @@ export default {
 
 	methods: {
 		ageRangeForm() {
-			const front = String(this.age_range).slice(0, 1);
+			const front = this.age_range.toString().slice(0, 1);
 			if (front == 1) {
 				return '10대';
 			} else if (front == 2) {
