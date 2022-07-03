@@ -170,16 +170,26 @@ export default {
 		};
 	},
 	computed: {
+		// 밥장/숟갈/게스트 분기처리
 		isLeader() {
-			return (
+			// 유저 정보가 없을 때 false
+			if (this.$store.state.user.userData === undefined) {
+				return false;
+			}
+			// 현재 유저 정보와 밥상 이메일정보가 일치하면 true
+			if (
 				this.$store.state.user.userData.email ===
 				this.babsangDetailData.host_email
-			);
+			) {
+				return true;
+			} else {
+				return false;
+			}
 		},
 	},
 	created() {},
 	mounted() {
-		// window.scrollTo(0, 0);
+		window.scrollTo(0, 0);
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		console.log('---------------밥상 data---------------');
 		this.getBabsangDetailData();
