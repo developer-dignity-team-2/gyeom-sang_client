@@ -297,7 +297,8 @@ export default {
 	unmounted() {},
 	methods: {
 		messageView() {
-			this.$router.push('/mypage/message-view');
+			// this.$router.push('/mypage/message-view');
+			this.getMessageDetail();
 		},
 		doSelect() {
 			console.log(this.checked);
@@ -327,6 +328,12 @@ export default {
 			this.sentMessage = userMessages.result.filter(
 				r => r.message_type === 'S',
 			);
+		},
+		async getMessageDetail() {
+			const userMessages = await this.$get(
+				'https://nicespoons.com/api/v1/message/13',
+			);
+			console.log(userMessages);
 		},
 	},
 };
