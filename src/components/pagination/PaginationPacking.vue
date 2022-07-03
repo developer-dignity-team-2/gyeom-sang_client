@@ -137,3 +137,70 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.pagination {
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  background-color: #ffcb00;
+  border: 1px solid #ffcb00;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-link {
+    transition: none;
+  }
+}
+
+.page-link:hover {
+  z-index: 2;
+  color: #fff;
+  // background-color: #f3969a;
+  background-color: #FF7851;
+  // border-color: #f3969a;
+  border-color: #FF7851;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  // background-color: #f3969a;
+  background-color: #FFA78E;
+  // border-color: #f3969a;
+  border-color: #FFA78E;
+}
+
+.page-item.disabled .page-link {
+  color: #fff;
+  pointer-events: none;
+  // background-color: #cce8e0;
+  background-color: #FFDF9C;
+  // background-color: #FFF9E1;
+  // border-color: #f4f4f4;
+  border-color: #FFDF9C;
+  // border-color: #FFF9E1;
+}
+
+.page-link {
+  padding: 0.375rem 0.75rem;
+}
+
+// .page-item:first-child .page-link {
+//   border-top-left-radius: 0.4rem;
+//   border-bottom-left-radius: 0.4rem;
+// }
+
+// .page-item:last-child .page-link {
+//   border-top-right-radius: 0.4rem;
+//   border-bottom-right-radius: 0.4rem;
+// }
+</style>
