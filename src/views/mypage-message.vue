@@ -71,7 +71,7 @@
 						</div>
 					</div>
 					<!-- 메세지 테이블 -->
-					<table
+					<!-- <table
 						class="table table-hover"
 						style="margin-left: auto; margin-right: auto"
 					>
@@ -132,32 +132,14 @@
 								</td>
 							</tr>
 						</tbody>
-					</table>
+					</table> -->
 					<!-- pagination -->
 					<div>
-						<ul class="pagination justify-content-center">
-							<li class="page-item disabled">
-								<a class="page-link" href="#">&laquo;</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">1</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">2</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">3</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">4</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">5</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">&raquo;</a>
-							</li>
-						</ul>
+						<grid-pagination
+							:headers="headers"
+							:items="userData"
+							@click-buttons="handleClickButtons"
+						/>
 					</div>
 				</div>
 			</div>
@@ -168,15 +150,16 @@
 <script>
 import CompUserProfile from '@/components/profile/CompUserProfile';
 import ButtonModule from '@/components/profile/ButtonModule';
+import GridPagination from '@/components/pagination/GridPagination';
 export default {
 	nickname: 'MypagMessage',
-	components: { CompUserProfile, ButtonModule },
+	components: { CompUserProfile, ButtonModule, GridPagination },
 	data() {
 		return {
 			showMessage: 'R', // 받은 메시지 R, 보낸 메시지 S
 			checked_all: false,
 			checked: [],
-			Headers: [
+			headers: [
 				{
 					title: '닉네임',
 					key: 'nickname',
@@ -284,6 +267,958 @@ export default {
 					restaurant_location: '제주도 할매 칼국수',
 					data: '2022.06.06',
 				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 0,
+					nickname: '개발자의품격',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 1,
+					nickname: '김민수',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 2,
+					nickname: '원신희',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 3,
+					nickname: '양세영',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 4,
+					nickname: '유승완',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 5,
+					nickname: '윤여진',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 6,
+					nickname: '김준현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 7,
+					nickname: '차은우',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 8,
+					nickname: '이민형',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 9,
+					nickname: '정재현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 10,
+					nickname: '황민현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 11,
+					nickname: '연준',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 12,
+					nickname: '문세윤',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 0,
+					nickname: '개발자의품격',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 1,
+					nickname: '김민수',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 2,
+					nickname: '원신희',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 3,
+					nickname: '양세영',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 4,
+					nickname: '유승완',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 5,
+					nickname: '윤여진',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 6,
+					nickname: '김준현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 7,
+					nickname: '차은우',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 8,
+					nickname: '이민형',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 9,
+					nickname: '정재현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 10,
+					nickname: '황민현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 11,
+					nickname: '연준',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 12,
+					nickname: '문세윤',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 0,
+					nickname: '개발자의품격',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 1,
+					nickname: '김민수',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 2,
+					nickname: '원신희',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 3,
+					nickname: '양세영',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 4,
+					nickname: '유승완',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 5,
+					nickname: '윤여진',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 6,
+					nickname: '김준현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 7,
+					nickname: '차은우',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 8,
+					nickname: '이민형',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 9,
+					nickname: '정재현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 10,
+					nickname: '황민현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 11,
+					nickname: '연준',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 12,
+					nickname: '문세윤',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 0,
+					nickname: '개발자의품격',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 1,
+					nickname: '김민수',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 2,
+					nickname: '원신희',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 3,
+					nickname: '양세영',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 4,
+					nickname: '유승완',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 5,
+					nickname: '윤여진',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 6,
+					nickname: '김준현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 7,
+					nickname: '차은우',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 8,
+					nickname: '이민형',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 9,
+					nickname: '정재현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 10,
+					nickname: '황민현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 11,
+					nickname: '연준',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 12,
+					nickname: '문세윤',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 0,
+					nickname: '개발자의품격',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 1,
+					nickname: '김민수',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 2,
+					nickname: '원신희',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 3,
+					nickname: '양세영',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 4,
+					nickname: '유승완',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 5,
+					nickname: '윤여진',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 6,
+					nickname: '김준현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 7,
+					nickname: '차은우',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 8,
+					nickname: '이민형',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 9,
+					nickname: '정재현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 10,
+					nickname: '황민현',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 11,
+					nickname: '연준',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 12,
+					nickname: '문세윤',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
+				{
+					email: 13,
+					nickname: '배고파',
+					message: '메세지가 도착하였습니다',
+					restaurant_location: '제주도 할매 칼국수',
+					data: '2022.06.06',
+				},
 			],
 			receivedMessage: [],
 			sentMessage: [],
@@ -296,6 +1231,17 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
+		// pagination
+		handleClickButtons(method, id) {
+			if (method === 'showEditModal') {
+				this.modalDetailPayload.id = id;
+				this.showEditModal();
+			} else if (method === 'showEList') {
+				this.showEList(id);
+			} else if (method === 'sendMessage') {
+				this.sendMessage(id);
+			}
+		},
 		messageView() {
 			// this.$router.push('/mypage/message-view');
 			this.getMessageDetail();
@@ -318,16 +1264,17 @@ export default {
 			this.showMessage = 'S';
 		},
 		async getMessages() {
-			const userMessages = await this.$get(
-				'https://nicespoons.com/api/v1/message',
-			);
-			this.receivedMessage = userMessages.result.filter(
-				r => r.message_type === 'R',
-			);
-			console.log(this.receivedMessage);
-			this.sentMessage = userMessages.result.filter(
-				r => r.message_type === 'S',
-			);
+			// const userMessages = await this.$get(
+			// 	'https://nicespoons.com/api/v1/message',
+			// );
+			// this.receivedMessage = userMessages.result.filter(
+			// 	r => r.message_type === 'R',
+			// );
+			// console.log(this.receivedMessage);
+			// this.sentMessage = userMessages.result.filter(
+			// 	r => r.message_type === 'S',
+			// );
+			this.receivedMessage = this.userData;
 		},
 		async getMessageDetail() {
 			const userMessages = await this.$get(
