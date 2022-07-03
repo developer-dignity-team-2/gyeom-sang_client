@@ -138,16 +138,26 @@ export default {
     },
     doSelect() {
 			console.log(this.checked);
-		},
-		doSelectAll() {
-			this.checked = [];
-			if (this.checked_all) {
-				for (let i in this.items) {
-					this.checked.push(this.items[i].email);
-				}
+	},
+	doSelectAll() {
+		this.checked = [];
+		if (this.checked_all) {
+			for (let i in this.items) {
+				this.checked.push(this.items[i].email);
 			}
-      console.log(this.checked)
-		},
+		}
+	console.log(this.checked)
+	},
+	async getMessageDetail() {
+		const userMessages = await this.$get(
+			'https://nicespoons.com/api/v1/message/13',
+		);
+		console.log(userMessages);
+	},
+	messageView() {
+		this.$router.push('/mypage/message-view');
+		this.getMessageDetail();
+	},
   }
 }
 </script>
