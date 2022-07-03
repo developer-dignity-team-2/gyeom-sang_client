@@ -110,13 +110,13 @@
 					<!-- 밥장 정보 -->
 					<div class="row">
 						<UserCard
-							:email="leaderInfo.email"
-							:gender="leaderInfo.gender"
-							:nickname="leaderInfo.nickname"
-							:profile_image="leaderInfo.profile_image"
-							:age_range="leaderInfo.age_range"
-							:dining_score="leaderInfo.dining_score"
-							:dining_spoons_description="leaderInfo.profile_description"
+							:email="babsangDetailData.host_email"
+							:gender="babsangDetailData.gender"
+							:nickname="babsangDetailData.nickname"
+							:profile_image="babsangDetailData.profile_image"
+							:age_range="babsangDetailData.age_range"
+							:dining_score="babsangDetailData.dining_score"
+							:dining_spoons_description="babsangDetailData.profile_description"
 						/>
 
 						<!-- 숟갈 선택하기 -->
@@ -126,8 +126,15 @@
 								<font-awesome-icon icon="fa-solid fa-spoon" />
 								<span class="ps-3">7명 !</span>
 							</p>
-							<button class="btn btn-primary" @click="goSelectPage">
+							<button
+								class="btn btn-primary"
+								@click="goSelectPage"
+								v-if="isLeader"
+							>
 								숟갈 선택
+							</button>
+							<button class="btn btn-primary" @click="openApplyForm" v-else>
+								신청하기
 							</button>
 						</div>
 					</div>
@@ -161,13 +168,22 @@ export default {
 				},
 			],
 			leaderInfo: '',
+			// isLeader: false,
 		};
 	},
-	computed: {},
+	computed: {
+		isLeader() {
+			return (
+				this.$store.state.user.userData.email ===
+				this.babsangDetailData.host_email
+			);
+		},
+	},
 	created() {},
 	mounted() {
 		// window.scrollTo(0, 0);
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
+		console.log('---------------밥상 data---------------');
 		this.getBabsangDetailData();
 		this.getLeaderInfo();
 	},
@@ -222,6 +238,9 @@ export default {
 				genderStatus = '남성';
 			}
 			return genderStatus;
+		},
+		openApplyForm() {
+			alert('신청하기');
 		},
 	},
 };

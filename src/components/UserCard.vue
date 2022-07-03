@@ -10,7 +10,7 @@
 				<li class="mb-1">
 					<strong>{{ nickname }}</strong>
 				</li>
-				<li class="mb-1">{{ gender }}{{ age_range }}</li>
+				<li class="mb-1">{{ gender }}{{ ageRangeForm() }}</li>
 				<!-- 별점 기능 -->
 				<li>
 					<stars-rating :config="config" />
@@ -50,6 +50,29 @@ export default {
 	},
 	created() {
 		this.config.rating = this.dining_score;
+	},
+
+	methods: {
+		ageRangeForm() {
+			const front = String(this.age_range).slice(0, 1);
+			if (front == 1) {
+				return '10대';
+			} else if (front == 2) {
+				return '20대';
+			} else if (front == 3) {
+				return '30대';
+			} else if (front == 4) {
+				return '40대';
+			} else if (front == 5) {
+				return '50대';
+			} else if (front == 6) {
+				return '60대';
+			} else if (front == 7) {
+				return '70대';
+			} else {
+				return '80대';
+			}
+		},
 	},
 };
 </script>

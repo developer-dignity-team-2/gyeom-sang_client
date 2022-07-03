@@ -169,7 +169,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="diningCount" class="form-label mt-4">모집 인원</label>
+							<label class="form-label mt-4">모집 인원</label>
 							<div class="row">
 								<div class="col-xl-4 col-md-4 col-sm-12 mb-2">
 									<input
@@ -261,11 +261,6 @@ export default {
 	name: 'BabsangCreate',
 	// components: { userMap, Datepicker },
 	components: { Datepicker },
-	computed: {
-		// checkUserData() {
-		// 	return this.$store.user.user.email;
-		// },
-	},
 	data() {
 		return {
 			sampleData: '',
@@ -284,7 +279,7 @@ export default {
 	},
 	beforeMount() {
 		console.log('--------------현재 유저 정보--------------');
-		console.log(this.$store.state.user.user);
+		console.log(this.$store.state.user.userData);
 	},
 	mounted() {},
 	methods: {
@@ -351,7 +346,7 @@ export default {
 					dining_description: this.dining_description,
 					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
-					host_email: this.$store.state.user.user.email,
+					host_email: this.$store.state.user.userData.email,
 
 					// restaurant_name: this.restaurant_name,
 					// restaurant_location: this.restaurant_location,
