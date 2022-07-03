@@ -122,8 +122,6 @@ export default {
 					age_range: kakao_account.age_range,
 				},
 			});
-			// ??? 여기서 요청했을 때 서버쪽에서 해당 유저 정보에 대한 jwt를 만들어서 결과값으로 던져주는거죠??
-			// 그래서 response의 data에 jwt가 담겨져 오는거고?
 			console.log('---------------res.data---------------');
 			console.log(res.data);
 			localStorage.setItem('jwt', res.data.jwt);
@@ -137,7 +135,6 @@ export default {
 			window.Kakao.Auth.logout(response => {
 				console.log(response);
 				this.$store.commit('user/getUserData', {});
-				// ??? 로그아웃하거나, 창을 닫았을때는 로컬스토리지에 있는 jwt를 지워주는게 맞는거죠?
 				localStorage.removeItem('jwt');
 				alert('로그아웃 되었습니다');
 			});

@@ -5,6 +5,8 @@ axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 const instance = axios.create({
 	headers: {
 		authorization: `Bearer ${localStorage.getItem('jwt')}`,
+		// 어떤 요청을 보내든지 항상 jwt를 헤더에 가지고 다니게 될텐데
+		// 서버에서는 이 jwt로 무엇을 하는가??
 	},
 });
 export default {
