@@ -2,7 +2,13 @@ import axios from 'axios';
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
-
+const instance = axios.create({
+	headers: {
+		authorization: `Bearer ${localStorage.getItem('jwt')}`,
+		// 어떤 요청을 보내든지 항상 jwt를 헤더에 가지고 다니게 될텐데
+		// 서버에서는 이 jwt로 무엇을 하는가??
+	},
+});
 export default {
 	data() {
 		return {};
@@ -10,13 +16,13 @@ export default {
 	methods: {
 		async $get(url) {
 			return (
-				await axios.get(url).catch(e => {
+				await instance.get(url).catch(e => {
 					console.log(e);
 				})
 			).data;
 		},
 		async $post(url, data) {
-			return await axios
+			return await instance
 				.post(url, data)
 				.then(res => {
 					console.log(res);

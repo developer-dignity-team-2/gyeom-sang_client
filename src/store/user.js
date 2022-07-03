@@ -12,12 +12,22 @@ export const user = {
 				age_range: '20~30',
 				dining_score: 4.5,
 			},
+			userData: {},
+			isUser: false,
 		};
 	},
 
 	getters: {},
 
-	mutations: {},
+	mutations: {
+		getUserData(state, data) {
+			state.userData = data;
+		},
+		// guest와 user 분기처리
+		userCheck(state, payload) {
+			state.isUser = payload;
+		},
+	},
 
 	actions: {},
 };

@@ -1,6 +1,7 @@
 <template>
 	<div class="container mb" style="max-width: 900px">
 		<!-- 썸네일 추가 -->
+		<!-- <p v-if="checkUserData">{{ checkUserData }}</p> -->
 		<div class="row my-4">
 			<div class="col">
 				<div class="img-wrap rounded">
@@ -168,7 +169,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="diningCount" class="form-label mt-4">모집 인원</label>
+							<label class="form-label mt-4">모집 인원</label>
 							<div class="row">
 								<div class="col-xl-4 col-md-4 col-sm-12 mb-2">
 									<input
@@ -220,16 +221,6 @@
 									>
 								</div>
 							</div>
-							<!-- <select
-								class="form-select"
-								id="diningCount"
-								v-model="dining_count"
-							>
-								<option disabled value="">모집 인원을 선택해 주세요.</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-							</select> -->
 						</div>
 						<div class="form-group">
 							<label for="dining_description" class="form-label mt-4"
@@ -285,6 +276,10 @@ export default {
 			imgSrc: '',
 			babsangId: '',
 		};
+	},
+	beforeMount() {
+		console.log('--------------현재 유저 정보--------------');
+		console.log(this.$store.state.user.userData);
 	},
 	mounted() {},
 	methods: {
@@ -351,7 +346,7 @@ export default {
 					dining_description: this.dining_description,
 					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
-					host_email: 'tmddhks0104@naver.com',
+					host_email: this.$store.state.user.userData.email,
 
 					// restaurant_name: this.restaurant_name,
 					// restaurant_location: this.restaurant_location,
@@ -359,6 +354,7 @@ export default {
 					restaurant_location: '제주 제주시 애월읍 금성5길 42-15',
 				},
 			});
+			// 생성한 밥상 게시물로 이동
 			this.babsangId = await this.$get('/babsang');
 			const idArr = this.babsangId.result.map(item => item.id);
 			const idMax = Math.max(...idArr);

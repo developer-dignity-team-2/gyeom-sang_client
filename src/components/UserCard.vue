@@ -10,7 +10,7 @@
 				<li class="mb-1">
 					<strong>{{ nickname }}</strong>
 				</li>
-				<li class="mb-1">{{ gender }}{{ age_range }}</li>
+				<li class="mb-1">{{ gender }}{{ ageRangeForm() }}</li>
 				<!-- 별점 기능 -->
 				<li>
 					<stars-rating :config="config" />
@@ -25,15 +25,15 @@
 import starsRating from '@/components/RatingStars';
 export default {
 	components: { starsRating },
-	props: {
-		email: { type: String, default: '' },
-		gender: { type: String, default: '' },
-		nickname: { type: String, default: '' },
-		profile_image: { type: String, default: '' },
-		age_range: { type: String, default: '' },
-		dining_score: { type: Number, default: 0 },
-		dining_spoons_description: { type: String, default: '' },
-	},
+	props: [
+		'email',
+		'gender',
+		'nickname',
+		'profile_image',
+		'age_range',
+		'dining_score',
+		'dining_spoons_description',
+	],
 	data: function () {
 		return {
 			config: {
@@ -50,6 +50,29 @@ export default {
 	},
 	created() {
 		this.config.rating = this.dining_score;
+	},
+
+	methods: {
+		ageRangeForm() {
+			const front = String(this.age_range).slice(0, 1);
+			if (front == 1) {
+				return '10대';
+			} else if (front == 2) {
+				return '20대';
+			} else if (front == 3) {
+				return '30대';
+			} else if (front == 4) {
+				return '40대';
+			} else if (front == 5) {
+				return '50대';
+			} else if (front == 6) {
+				return '60대';
+			} else if (front == 7) {
+				return '70대';
+			} else {
+				return '80대';
+			}
+		},
 	},
 };
 </script>

@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import CompUserProfile from '@/components/CompUserProfile';
+import CompUserProfile from '@/components/profile/CompUserProfile';
 export default {
 	name: 'MypageMessageView',
 	components: { CompUserProfile },

@@ -38,15 +38,21 @@
 							<li>
 								<dl>
 									<dt>식사 일시</dt>
-									<dd>{{ babsangDetailData.dining_datetime }}</dd>
+									<dd>
+										{{ String(babsangDetailData.dining_datetime).slice(0, 10) }}
+									</dd>
 								</dl>
 							</li>
 							<li>
 								<dl>
 									<dt>모집기간</dt>
 									<dd>
-										{{ babsangDetailData.recruit_start_date }}~{{
-											babsangDetailData.recruit_end_date
+										{{
+											String(babsangDetailData.recruit_start_date).slice(0, 10)
+										}}
+										~
+										{{
+											String(babsangDetailData.recruit_end_date).slice(0, 10)
 										}}
 									</dd>
 								</dl>
@@ -93,7 +99,7 @@
 					</div>
 					<!-- 댓글 -->
 					<div class="col my-3">
-						<CommentList @test="test" />
+						<CommentList />
 						<CommentCreate />
 					</div>
 				</div>
@@ -103,14 +109,14 @@
 				<div class="row row-cols-1" style="position: sticky; top: 1rem">
 					<!-- 밥장 정보 -->
 					<div class="row">
-						<userCard
-							:email="babjang[0].email"
-							:gender="babjang[0].gender"
-							:nickname="babjang[0].nickname"
-							:profile_image="babjang[0].profile_image"
-							:age_range="babjang[0].age_range"
-							:dining_score="babjang[0].dining_score"
-							:dining_spoons_description="babjang[0].dining_spoons_description"
+						<UserCard
+							:email="babsangDetailData.host_email"
+							:gender="babsangDetailData.gender"
+							:nickname="babsangDetailData.nickname"
+							:profile_image="babsangDetailData.profile_image"
+							:age_range="babsangDetailData.age_range"
+							:dining_score="babsangDetailData.dining_score"
+							:dining_spoons_description="babsangDetailData.profile_description"
 						/>
 
 						<!-- 숟갈 선택하기 -->
@@ -120,8 +126,15 @@
 								<font-awesome-icon icon="fa-solid fa-spoon" />
 								<span class="ps-3">7명 !</span>
 							</p>
-							<button class="btn btn-primary" @click="goSelectPage">
+							<button
+								class="btn btn-primary"
+								@click="goSelectPage"
+								v-if="isLeader"
+							>
 								숟갈 선택
+							</button>
+							<button class="btn btn-primary" @click="openApplyForm" v-else>
+								신청하기
 							</button>
 						</div>
 					</div>
@@ -132,12 +145,12 @@
 </template>
 
 <script>
-import userCard from '@/components/UserCard';
+import UserCard from '@/components/UserCard';
 import CommentCreate from '@/components/CommentCreate';
 import CommentList from '@/components/CommentList';
 export default {
 	name: 'Babsang',
-	components: { userCard, CommentCreate, CommentList },
+	components: { UserCard, CommentCreate, CommentList },
 	data() {
 		return {
 			babsangDetailData: [],
@@ -156,17 +169,36 @@ export default {
 			],
 		};
 	},
+
+	computed: {
+		// 밥장/숟갈/게스트 분기처리
+		isLeader() {
+			// 유저 정보가 없을 때 false
+			if (this.$store.state.user.userData === undefined) {
+				return false;
+			}
+			// 현재 유저 정보와 밥상 이메일정보가 일치하면 true
+			if (
+				this.$store.state.user.userData.email ===
+				this.babsangDetailData.host_email
+			) {
+				return true;
+			} else {
+				return false;
+			}
+		},
+	},
 	created() {},
 	mounted() {
 		window.scrollTo(0, 0);
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
+		console.log('---------------밥상 data---------------');
 		this.getBabsangDetailData();
+		console.log('---------------isUser---------------');
+		console.log(this.$store.state.user.isUser);
 	},
 
 	methods: {
-		test(arg) {
-			console.log(arg);
-		},
 		async deleteBabsang() {
 			const confirmResult = confirm('밥상을 삭제 하시겠습니까?');
 			if (confirmResult) {
@@ -210,6 +242,9 @@ export default {
 				genderStatus = '남성';
 			}
 			return genderStatus;
+		},
+		openApplyForm() {
+			alert('신청하기');
 		},
 	},
 };

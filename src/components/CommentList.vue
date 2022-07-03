@@ -1,32 +1,53 @@
 <template>
-	<div>
-		<div class="col-md-12 container">
-			<!-- 댓글목록 (for문으로 데이터 보여줌) -->
-			<div v-for="list in commentList" :key="list.comment_id">
-				<div class="media-block d-flex">
-					<!-- 유저프로필 정보 -->
+	<div class="col-md-12 container">
+		<!-- 댓글 for문으로 가져옴/ if로 댓글 대댓글 구분 -->
+		<div v-for="list in commentList" :key="list.id">
+			<div class="media-block" v-if="list.comment_parent_id === null">
+				<!-- 유저프로필 정보 -->
+				<div class="d-flex">
 					<img
 						class="img-circle img-sm"
 						alt="Profile"
 						src="../assets/img/users/m9.png"
 					/>
-
 					<div class="media-body flex-fill">
 						<div class="mar-btm">
 							<a
 								href="#"
 								class="btn-link text-semibold fs-5"
 								style="text-decoration: none; color: inherit"
-								>{{ list.email }}</a
+								>{{ list.user_email }} {{ list.id }}</a
 							>
 							<p class="text-muted">{{ list.create_date }}</p>
 						</div>
 					</div>
 					<div class="mar-btm">
-						<a
-							href="#"
+						<div
+							class="btn-group btn-group-sm"
+							role="group"
+							v-show="!commentSave"
+							style="cursor: pointer; margin-right: 5px"
+							@click="doCommentSave(list.id)"
+						>
+							수정 |
+						</div>
+
+						<div
+							class="btn-group btn-group-sm"
+							role="group"
+							v-show="!commentSave"
+							style="cursor: pointer"
+							@click="deleteComment(list.id)"
+						>
+							삭제
+						</div>
+
+						<!-- <a
+							onclick=""
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
+							v-show="!commentSave"
+							@click="doCommentSave(list.id)"
 							>수정</a
 						>
 						|
@@ -34,78 +55,180 @@
 							href="#"
 							class="btn-link text-small"
 							style="text-decoration: none; color: inherit"
+							@click="deleteComment(list.id)"
 							>삭제</a
-						>
+						> -->
 					</div>
 				</div>
-				<!-- 댓글 내용 -->
-				<div>
-					{{ list.comment_description }}
+				<div v-show="commentSave" style="float: right">
+					<button
+						type="button"
+						class="btn btn-primary mx-2"
+						@click="doCommentPut(list.id, list.comment_description)"
+					>
+						저장
+					</button>
+					<button
+						type="submit"
+						class="btn btn-secondary"
+						@click="doCommentSave()"
+					>
+						취소
+					</button>
 				</div>
+
+				<!-- 댓글 내용 -->
+
+				<div class="form-group">
+					<textarea
+						:disabled="!commentSave"
+						class="form-control"
+						v-model="list.comment_description"
+						id="Textarea"
+						rows="3"
+						style="height: 128px; resize: none"
+						placeholder="댓글 내용"
+					></textarea>
+				</div>
+
 				<div class="pad-ver text-end pe-4">
-					<button type="button" class="btn btn-outline-primary btn-sm">
+					<button
+						type="button"
+						class="btn btn-outline-primary btn-sm"
+						style="margin-top: 8px"
+						@click="CeateToggle(list.id)"
+					>
 						답글
 					</button>
 				</div>
-				<!-- 구분선 -->
-				<div class="col my-3">
-					<hr style="background-color: #999" />
+				<CommentCreate />
+			</div>
+
+			<hr />
+			<!-- 대댓글  -->
+			<div v-for="recomment in commentList" :key="recomment.id">
+				<div
+					class="media-block col-md-11"
+					style="margin-left: auto"
+					v-if="recomment.comment_parent_id === list.id"
+				>
+					<!-- 유저프로필 정보 -->
+					<div class="d-flex">
+						<img
+							class="img-circle img-sm"
+							alt="Profile"
+							src="../assets/img/users/m9.png"
+						/>
+						<div class="media-body flex-fill">
+							<div class="mar-btm">
+								<a
+									href="#"
+									class="btn-link text-semibold fs-5"
+									style="text-decoration: none; color: inherit"
+									>{{ recomment.user_email }}</a
+								>
+								<p class="text-muted">{{ recomment.create_date }}</p>
+							</div>
+						</div>
+						<div class="mar-btm">
+							<a
+								href="#"
+								class="btn-link text-small"
+								style="text-decoration: none; color: inherit"
+								@click="commentChange()"
+								>수정</a
+							>
+							|
+							<a
+								href="#"
+								class="btn-link text-small"
+								style="text-decoration: none; color: inherit"
+								@click="deleteComment()"
+								>삭제</a
+							>
+						</div>
+					</div>
+
+					<!-- 댓글 내용 -->
+					<div>
+						{{ recomment.comment_description }}
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
+import CommentCreate from '@/components/CommentCreate';
 export default {
-	components: {},
+	components: { CommentCreate },
 	data() {
 		return {
-			commentList: [
-				{
-					comment_id: 1,
-					dining_id: 1,
-					email: '김준현',
-					comment_description: '안녕하세요. 초코빵도 같이 먹을수있나요?',
-					create_date: '2022-12-12',
-					secret_check: false,
-					commet_parent_id: null,
-				},
-				{
-					comment_id: 2,
-					dining_id: 1,
-					comment_description: '배고프네요',
-					create_date: '2022-12-12',
-					email: '문세윤',
-					secret_check: false,
-					commet_parent_id: null,
-				},
-				{
-					comment_id: 3,
-					dining_id: 1,
-					comment_description: '혹시 25~26 여행하시면 칼국수도 같이 먹을까요?',
-					create_date: '2022-12-12',
-					email: '부끄뚱',
-					secret_check: false,
-					commet_parent_id: null,
-				},
-			],
+			comment_description: '',
+			comment_parent_id: '',
+			commentSave: false,
+			commentCeateToggle: false,
+			commentList: [],
 		};
 	},
 	setup() {},
 	created() {
-		this.getCommentList();
+		this.commentList = this.getCommentList();
 	},
 	mounted() {},
 	unmounted() {},
 	methods: {
+		// 댓글 수정/취소하는 함수 o
+		doCommentSave(ListId) {
+			console.log(ListId);
+			if (this.commentSave === true) {
+				console.log(ListId);
+				this.commentSave = false;
+			} else {
+				console.log(ListId);
+				this.commentSave = true;
+			}
+		},
+		// 수정한 댓글 값 보내는 함수
+		async doCommentPut(commentId, comment_description) {
+			console.log(commentId);
+			console.log(comment_description);
+			await this.$put('/comment/' + commentId, {
+				param: {
+					comment_description: comment_description,
+				},
+			});
+			console.log(this.commentList.comment_description);
+			this.commentSave = false;
+		},
+		// 댓글 삭제하는 함수
+		async deleteComment(commentListId) {
+			console.log(commentListId);
+			const confirmResult = confirm('댓글을 삭제 하시겠습니까?');
+			if (confirmResult) {
+				// const id = this.commentList.id;
+				await this.$delete('/comment/' + commentListId);
+			}
+		},
+		// 댓글 불러오는 함수 o
 		async getCommentList() {
 			this.commentList = await this.$get(
-				`https://nicespoons.com/api/v1/comment/1/`,
+				`https://nicespoons.com/api/v1/comment/` + this.$route.params.babsangId,
 			);
-			this.commentList = this.commentList.result[0];
+			this.commentList = this.commentList.result;
+			console.log('------------commentList------------');
 			console.log(this.commentList);
-			this.$emit('test', '이건 테스트입니당');
 		},
+		// 대댓글 나오게 하는 함수
+		// CeateToggle(recommentId) {
+		// 	this.commentCeateToggle = !this.commentCeateToggle;
+		// 	if (this.commentCeateToggle) {
+		// 		console.log(this.commentCeateToggle);
+		// 		this.comment_parent_id = recommentId;
+		// 		console.log(this.comment_parent_id);
+		// 		return this.comment_parent_id;
+		// 	}
+		// },
 	},
 };
 </script>

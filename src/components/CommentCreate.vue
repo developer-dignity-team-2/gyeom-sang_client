@@ -1,4 +1,5 @@
 <template>
+	<!--	<div class="container row" v-if="this.$store.state.user.isUser">-->
 	<div class="container row">
 		<!-- 댓글생성 -->
 		<div class="text-end">
@@ -61,15 +62,11 @@ export default {
 	unmounted() {},
 	methods: {
 		async createComment() {
-			await this.$post('https://nicespoons.com/api/v1/comment', {
+			await this.$post('/comment', {
 				param: {
-					comment_id: 4,
-					dining_id: 1,
-					email: '김준현',
+					dining_id: this.$route.params.babsangId,
+					user_email: 'qg@ilyah.com',
 					comment_description: this.comment_description,
-					create_date: '2022-12-12',
-					secret_check: this.secret_check,
-					commet_parent_id: null,
 				},
 			});
 			this.comment_description = '';

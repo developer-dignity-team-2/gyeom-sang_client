@@ -1,55 +1,77 @@
 <template>
 	<div class="card rounded" style="overflow: hidden">
-		<div class="img-wrap">
-			<img
-				:src="
-					'https://nicespoons.com/static/images/' + itemData.dining_thumbnail
-				"
-				class="card-img-center"
-				:alt="itemData.restaurant_name"
-			/>
-			<div class="favorite">
-				<i
+		<!-- 찜 기능 -->
+		<div class="favorite" style="z-index: 1" @click="addFavorite">
+			<i
+				v-show="favorite === 'N'"
+				class="bi bi-heart pt-3 pe-2"
+				style="font-size: 1.5rem; color: #ffcb00; cursor: pointer"
+			></i>
+			<i
+				v-show="favorite === 'Y'"
+				class="bi bi-heart-fill pt-3 pe-2"
+				style="font-size: 1.5rem; color: #ffcb00; cursor: pointer"
+			></i>
+			<!-- 빨간색 찜 버튼 -->
+			<!-- <i
+					v-show="favorite === 'n'"
 					class="bi bi-heart pt-3 pe-2"
-					style="font-size: 1.5rem; color: rgb(255 72 95)"
+					style="font-size: 1.5rem; color: rgb(255 72 95); cursor: pointer"
 				></i>
-				<!-- <font-awesome-icon
+				<i
+					v-show="favorite === 'y'"
+					class="bi bi-heart-fill pt-3 pe-2"
+					style="font-size: 1.5rem; color: rgb(255 72 95); cursor: pointer"
+				></i> -->
+			<!-- <font-awesome-icon
 					icon="fa-solid fa-star"
 					style="color: #ffd24c; font-size: 1.5rem; cursor: pointer"
 				/> -->
-			</div>
-			<div class="shadow"></div>
-			<div class="author">
-				<div class="author-image">
-					<img src="../assets/img/users/m9.png" alt="" />
-					<span>밥장9</span>
+		</div>
+		<div @click="detail(itemData.id)">
+			<div class="img-wrap">
+				<img
+					:src="
+						'https://nicespoons.com/static/images/' + itemData.dining_thumbnail
+					"
+					class="card-img-center"
+					:alt="itemData.restaurant_name"
+				/>
+
+				<div class="shadow"></div>
+				<div class="author">
+					<div class="author-image">
+						<!-- 서버에서 받은 데이터 중 프로필 사진 필드가 빠져 있어요 -->
+						<img :src="itemData.profile_image" alt="" />
+						<span>{{ itemData.nickname }}</span>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="card-body" style="cursor: pointer; padding: 2.3rem 2rem">
-			<div>
-				<h5 class="card-title" style="font-weight: bold">
-					{{ itemData.restaurant_name }}
-				</h5>
-				<!-- <p class="card-text mb-1">{{ itemData.nickname }}</p> -->
-				<p class="card-text mb-2">
-					<i class="bi bi-geo-alt"></i>제주시 애월읍 금성5길 42-15
-				</p>
-				<p class="card-text mb-4">
-					<i class="bi bi-calendar-check me-2"></i>{{ startDate() }} ~
-					{{ endDate() }}
-				</p>
-			</div>
-			<div>
-				<button type="button" class="btn btn-primary me-2">
-					{{ currentStatus() }}
-				</button>
-				<button type="button" class="btn btn-secondary me-2">
-					{{ recruitGender() }}
-				</button>
-				<button type="button" class="btn btn-secondary">
-					1/{{ itemData.dining_count }}
-				</button>
+			<div class="card-body" style="cursor: pointer; padding: 2.3rem 2rem">
+				<div>
+					<h5 class="card-title" style="font-weight: bold">
+						{{ itemData.restaurant_name }}
+					</h5>
+					<!-- <p class="card-text mb-1">{{ itemData.nickname }}</p> -->
+					<p class="card-text mb-2">
+						<i class="bi bi-geo-alt"></i>{{ itemData.restaurant_location }}
+					</p>
+					<p class="card-text mb-4">
+						<i class="bi bi-calendar-check me-2"></i>{{ startDate() }} ~
+						{{ endDate() }}
+					</p>
+				</div>
+				<div>
+					<button type="button" class="btn btn-primary me-2">
+						{{ currentStatus() }}
+					</button>
+					<button type="button" class="btn btn-secondary me-2">
+						{{ recruitGender() }}
+					</button>
+					<button type="button" class="btn btn-secondary">
+						1/{{ itemData.dining_count }}
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -59,7 +81,9 @@
 export default {
 	name: 'BabsangCard',
 	data() {
-		return {};
+		return {
+			favorite: 'N',
+		};
 	},
 	props: {
 		itemData: Object,
@@ -95,6 +119,21 @@ export default {
 		},
 		endDate() {
 			return this.itemData.recruit_end_date.toString().slice(0, 10);
+		},
+		// 찜 여부 표시
+		addFavorite() {
+			if (this.favorite === 'N') {
+				this.favorite = 'Y';
+			} else {
+				this.favorite = 'N';
+			}
+			console.log(this.favorite);
+		},
+		detail(id) {
+			this.$router.push({
+				name: 'Babsang',
+				params: { babsangId: id },
+			});
 		},
 	},
 };
