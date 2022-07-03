@@ -167,8 +167,6 @@ export default {
 						'책임감있는 밥장이 될게요! 믿고 맡겨 주세요~!',
 				},
 			],
-			leaderInfo: '',
-			// isLeader: false,
 		};
 	},
 	computed: {
@@ -185,16 +183,9 @@ export default {
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		console.log('---------------밥상 data---------------');
 		this.getBabsangDetailData();
-		this.getLeaderInfo();
 	},
 
 	methods: {
-		async getLeaderInfo() {
-			this.leaderInfo = await this.$get('/user');
-			console.log('----------leader Info----------');
-			console.log(this.leaderInfo.result);
-			this.leaderInfo = this.leaderInfo.result;
-		},
 		async deleteBabsang() {
 			const confirmResult = confirm('밥상을 삭제 하시겠습니까?');
 			if (confirmResult) {
