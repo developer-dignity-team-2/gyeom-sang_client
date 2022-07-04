@@ -148,9 +148,9 @@ export default {
 .page-link {
   position: relative;
   display: block;
-  color: #fff;
+  color: #575757;
   text-decoration: none;
-  background-color: #ffcb00;
+  background-color: white;
   border: 1px solid #ffcb00;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -163,20 +163,20 @@ export default {
 
 .page-link:hover {
   z-index: 2;
-  color: #fff;
+  color: #575757;
   // background-color: #f3969a;
-  background-color: #FF7851;
+  background-color: #fff9e1;
   // border-color: #f3969a;
-  border-color: #FF7851;
+  border-color: #ffcb00;
 }
 
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
   // background-color: #f3969a;
-  background-color: #FFA78E;
+  background-color: #ffcb00;
   // border-color: #f3969a;
-  border-color: #FFA78E;
+  border-color: #ffcb00;
 }
 
 .page-item.disabled .page-link {

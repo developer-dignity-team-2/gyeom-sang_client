@@ -430,6 +430,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+// datepicker 스타일
 ::v-deep {
 	.form-control:focus {
 		color: #575757;
@@ -437,6 +438,34 @@ export default {
 		border-color: #ffcb00 !important;
 		outline: 0;
 		box-shadow: 0 0 0 0 rgb(255, 255, 255) !important;
+	}
+	.v3dp__datepicker {
+		--popout-bg-color: var(--vdp-bg-color, #fff);
+		--box-shadow: var(
+			--vdp-box-shadow,
+			0 4px 10px 0 rgba(128, 144, 160, 0.1),
+			0 0 1px 0 rgba(128, 144, 160, 0.81)
+		);
+		--text-color: var(--vdp-text-color, #000000);
+		--border-radius: var(--vdp-border-radius, 3px);
+		--heading-size: var(--vdp-heading-size, 2.5em); /* 40px for 16px font */
+		--heading-weight: var(--vdp-heading-weight, bold);
+		--heading-hover-color: var(--vdp-heading-hover-color, #eeeeee);
+		--arrow-color: var(--vdp-arrow-color, currentColor);
+
+		--elem-color: var(--vdp-elem-color, currentColor);
+		--elem-disabled-color: var(--vdp-disabled-color, #d5d9e0);
+		--elem-hover-color: var(--vdp-hover-color, #fff);
+		--elem-hover-bg-color: var(--vdp-hover-bg-color, #ffcb00);
+		--elem-selected-color: var(--vdp-selected-color, #fff);
+		--elem-selected-bg-color: var(--vdp-selected-bg-color, #ffcb00);
+
+		--elem-font-size: var(--vdp-elem-font-size, 0.8em);
+		--elem-border-radius: var(--vdp-elem-border-radius, 3px);
+
+		--divider-color: var(--vdp-divider-color, var(--elem-disabled-color));
+
+		position: relative;
 	}
 }
 .error-msg {
