@@ -59,7 +59,11 @@
 			<li>
 				<strong
 					class="dropdown-item rounded-2 cursor"
-					:class="{ active: $route.path == '/mypage/message' }"
+					:class="{
+						active:
+							$route.path == '/mypage/message' ||
+							$route.path == '/mypage/message-view',
+					}"
 					@click="message()"
 				>
 					메시지함
