@@ -13,7 +13,7 @@
 					<!-- 버튼 -->
 					<div class="row mt-4 mb-4">
 						<!-- 받은메세지, 보낸메시지 -->
-						<div class="col-xl-6 col-12 mb-2">
+						<div class="col-xl-4 col-12 mb-2">
 							<div class="row">
 								<div
 									class="col-12 btn-group"
@@ -26,6 +26,7 @@
 											'btn btn-primary': showMessage === 'R',
 											'btn btn-outline-primary': showMessage === 'S',
 										}"
+										style="width: 100%"
 										@click="selectReceivedMessage"
 									>
 										<!-- <button type="button" class="btn btn-outline-primary"> -->
@@ -37,6 +38,7 @@
 											'btn btn-primary': showMessage === 'S',
 											'btn btn-outline-primary': showMessage === 'R',
 										}"
+										style="width: 100%"
 										@click="selectSentMessages"
 									>
 										보낸 메세지
@@ -44,17 +46,17 @@
 								</div>
 							</div>
 						</div>
-						<!-- 모집중/모집 마감/전체 보기, 최신순/오래된 순 -->
-						<div class="col-xl-6 col-12">
+						<!-- 모집중/모집 마감/전체 보기, 최신순/오래된 순, 삭제 -->
+						<div class="col-xl-8 col-12 mb-3">
 							<div class="row">
-								<div class="col-8">
+								<div class="col-xl-10 col-md-12 col-sm-12 mb-2">
 									<div class="row">
 										<ButtonModule />
 									</div>
 								</div>
 								<!-- 삭제 -->
 								<div
-									class="col-4 btn-group"
+									class="col-xl-2 col-md-3btn-group"
 									role="group"
 									aria-label="Basic example"
 								>
