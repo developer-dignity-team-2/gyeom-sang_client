@@ -419,7 +419,7 @@ export default {
 						{
 							id: 'sd3',
 							question: '맛있는 음식을 지나치게 가져가요.',
-							count: 1,
+							score: 1,
 						},
 						{ id: 'sb4', question: '식사 중 대화 예의가 없어요.', score: -1 },
 						{ id: 'sb5', question: '돈 정산이 깔끔하지 않아요.', score: -1 },

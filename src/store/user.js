@@ -13,7 +13,7 @@ export const user = {
 			// 	dining_score: 4.5,
 			// },
 			userData: {},
-			isUser: false,
+			isUser: false, // 로그인 여부
 		};
 	},
 
