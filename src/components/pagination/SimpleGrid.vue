@@ -1,6 +1,6 @@
 <template>
 	<div style="overflow: auto">
-		<table class="table table-striped" v-if="items.length > 0">
+		<table class="table table-hover" v-if="items.length > 0">
 			<thead>
 				<tr>
 					<th scope="col" style="text-align: center">
