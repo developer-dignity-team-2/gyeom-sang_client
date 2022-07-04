@@ -2,7 +2,21 @@
 	<div class="container row" v-if="this.$store.state.user.isUser">
 		<!--	<div class="container row">-->
 		<!-- 댓글생성 -->
-		<div class="text-end">
+
+		<!-- 댓글내용 입력 -->
+		<form name="content">
+			<div class="form-group">
+				<textarea
+					class="form-control"
+					v-model="comment_description"
+					id="Textarea"
+					rows="3"
+					style="height: 128px; resize: none"
+					placeholder="댓글 내용"
+				></textarea>
+			</div>
+		</form>
+		<div class="d-flex justify-content-between">
 			<!-- 비밀댓글 체크여부 -->
 			<input
 				class="form-check-input"
@@ -19,30 +33,17 @@
 			>
 				비밀댓글 {{ secret_check }}
 			</label>
-		</div>
-		<!-- 댓글내용 입력 -->
-		<form name="content">
-			<div class="form-group">
-				<textarea
-					class="form-control"
-					v-model="comment_description"
-					id="Textarea"
-					rows="3"
-					style="height: 128px; resize: none"
-					placeholder="댓글 내용"
-				></textarea>
-				{{ comment_description }}
+
+			<div class="col text-end">
+				<button
+					type="button"
+					class="btn btn-primary"
+					style="margin: auto; margin-top: 15px"
+					@click="createComment"
+				>
+					댓글 등록
+				</button>
 			</div>
-		</form>
-		<div class="col text-end">
-			<button
-				type="button"
-				class="btn btn-primary"
-				style="margin: auto; margin-top: 15px"
-				@click="createComment"
-			>
-				댓글 등록
-			</button>
 		</div>
 	</div>
 </template>
@@ -65,7 +66,7 @@ export default {
 			await this.$post('/comment', {
 				param: {
 					dining_id: this.$route.params.babsangId,
-					user_email: this.$store.state.user.userData.email,
+					user_email: 'qg@ilyah.com',
 					comment_description: this.comment_description,
 				},
 			});

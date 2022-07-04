@@ -96,15 +96,17 @@
 						type="button"
 						class="btn btn-outline-primary btn-sm"
 						style="margin-top: 8px"
+						v-show="!recommentSave"
 						@click="CeateToggle(list.id)"
 					>
 						답글
 					</button>
 				</div>
-				<CommentCreate />
+				<div v-show="recommentSave" style="margin-top: 15px">
+					<CommentCreate />
+				</div>
+				<hr />
 			</div>
-
-			<hr />
 			<!-- 대댓글  -->
 			<div v-for="recomment in commentList" :key="recomment.id">
 				<div
@@ -167,6 +169,7 @@ export default {
 			comment_description: '',
 			comment_parent_id: '',
 			commentSave: false,
+			recommentSave: false,
 			commentCeateToggle: false,
 			commentList: [],
 		};
@@ -182,10 +185,8 @@ export default {
 		doCommentSave(ListId) {
 			console.log(ListId);
 			if (this.commentSave === true) {
-				console.log(ListId);
 				this.commentSave = false;
 			} else {
-				console.log(ListId);
 				this.commentSave = true;
 			}
 		},
@@ -220,14 +221,27 @@ export default {
 			console.log(this.commentList);
 		},
 		// 대댓글 나오게 하는 함수
-		// CeateToggle(recommentId) {
-		// 	this.commentCeateToggle = !this.commentCeateToggle;
-		// if (this.commentCeateToggle) {
-		// 	console.log(this.commentCeateToggle);
-		// 	this.comment_parent_id = recommentId;
-		// 	console.log(this.comment_parent_id);
-		// 	return this.comment_parent_id;
-		// }
+		CeateToggle(recommentId) {
+			this.commentCeateToggle = !this.commentCeateToggle;
+			if (this.commentCeateToggle) {
+				console.log(this.commentCeateToggle);
+				if (this.recommentSave === true) {
+					this.recommentSave = false;
+				} else {
+					this.recommentSave = true;
+				}
+				this.comment_parent_id = recommentId;
+				console.log(this.comment_parent_id);
+				return this.comment_parent_id;
+			}
+		},
+		// 	doCommentSave(ListId) {
+		// 	console.log(ListId);
+		// 	if (this.recommentSave === true) {
+		// 		this.recommentSave = false;
+		// 	} else {
+		// 		this.recommentSave = true;
+		// 	}
 		// },
 	},
 };
