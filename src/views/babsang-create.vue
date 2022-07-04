@@ -495,7 +495,8 @@ export default {
 	clip: rect(0, 0, 0, 0);
 }
 .list-group-item-check:hover + .list-group-item {
-	background-color: var(--bs-light);
+	// background-color: var(--bs-light);
+	background-color: #fff9e1;
 }
 .list-group-item-check:checked + .list-group-item {
 	color: #fff;
@@ -518,6 +519,7 @@ export default {
 }
 .list-group-radio .list-group-item:hover,
 .list-group-radio .list-group-item:focus {
+	// background-color: #fff9e1;
 	background-color: var(--bs-light);
 }
 
