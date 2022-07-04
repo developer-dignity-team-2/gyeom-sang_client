@@ -87,46 +87,7 @@
 			<div class="col">
 				<div class="row">
 					<!-- 정렬 버튼 -->
-					<div class="col-6 btn-group">
-						<Transition name="slide-up" mode="out-in">
-							<button
-								type="button"
-								class="btn btn-primary"
-								v-if="sortMannerScore === 'H'"
-								@click="sortMannerScore = 'L'"
-							>
-								식사 매너 점수 높은 순
-							</button>
-							<button
-								type="button"
-								class="btn btn-light"
-								v-else-if="sortMannerScore === 'L'"
-								@click="sortMannerScore = 'H'"
-							>
-								식사 매너 점수 낮은 순
-							</button>
-						</Transition>
-					</div>
-					<div class="col-6 btn-group">
-						<Transition name="slide-up" mode="out-in">
-							<button
-								type="button"
-								class="btn btn-primary"
-								v-if="sortrecruitDate === 'F'"
-								@click="sortrecruitDate = 'S'"
-							>
-								신청이 빠른 순
-							</button>
-							<button
-								type="button"
-								class="btn btn-light"
-								v-else-if="sortrecruitDate === 'S'"
-								@click="sortrecruitDate = 'F'"
-							>
-								신청이 느린 순
-							</button>
-						</Transition>
-					</div>
+					<ButtonModuleForSelectSpoon />
 				</div>
 			</div>
 		</div>
@@ -158,10 +119,11 @@
 	</div>
 </template>
 <script>
+import ButtonModuleForSelectSpoon from '@/components/babsangselect/ButtonModuleForSelectSpoon';
 import userCard from '@/components/UserCard';
 export default {
 	name: 'BabsangSelect',
-	components: { userCard },
+	components: { userCard, ButtonModuleForSelectSpoon },
 	data() {
 		return {
 			// trasition 버튼 용: 시작
