@@ -419,12 +419,12 @@ export default {
 				},
 			});
 			// 생성한 밥상 게시물로 이동
-			this.babsangId = await this.$get('/babsang');
-			const idArr = this.babsangId.result.map(item => item.id);
-			const idMax = Math.max(...idArr);
-			this.$router.push({
-				path: `/babsang/${idMax}`,
-			});
+			// this.babsangId = await this.$get('/babsang');
+			// const idArr = this.babsangId.result.map(item => item.id);
+			// const idMax = Math.max(...idArr);
+			// this.$router.push({
+			// path: `/babsang/${idMax}`,
+			// });
 		},
 	},
 };

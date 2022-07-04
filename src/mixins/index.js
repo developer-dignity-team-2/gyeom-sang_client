@@ -23,6 +23,7 @@ export default {
 			return await instance
 				.post(url, data)
 				.then(res => {
+					console.log('-----------post response-----------');
 					console.log(res);
 				})
 				.catch(e => {
