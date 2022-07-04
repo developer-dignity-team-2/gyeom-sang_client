@@ -213,7 +213,7 @@ export default {
 		// 댓글 불러오는 함수 o
 		async getCommentList() {
 			this.commentList = await this.$get(
-				`https://nicespoons.com/api/v1/comment/` + this.$route.params.babsangId,
+				'/comment/' + this.$route.params.babsangId,
 			);
 			this.commentList = this.commentList.result;
 			console.log('------------commentList------------');
@@ -222,12 +222,12 @@ export default {
 		// 대댓글 나오게 하는 함수
 		// CeateToggle(recommentId) {
 		// 	this.commentCeateToggle = !this.commentCeateToggle;
-		// 	if (this.commentCeateToggle) {
-		// 		console.log(this.commentCeateToggle);
-		// 		this.comment_parent_id = recommentId;
-		// 		console.log(this.comment_parent_id);
-		// 		return this.comment_parent_id;
-		// 	}
+		// if (this.commentCeateToggle) {
+		// 	console.log(this.commentCeateToggle);
+		// 	this.comment_parent_id = recommentId;
+		// 	console.log(this.comment_parent_id);
+		// 	return this.comment_parent_id;
+		// }
 		// },
 	},
 };

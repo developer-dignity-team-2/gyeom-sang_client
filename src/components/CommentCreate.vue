@@ -1,6 +1,6 @@
 <template>
-	<!--	<div class="container row" v-if="this.$store.state.user.isUser">-->
-	<div class="container row">
+	<div class="container row" v-if="this.$store.state.user.isUser">
+		<!--	<div class="container row">-->
 		<!-- 댓글생성 -->
 		<div class="text-end">
 			<!-- 비밀댓글 체크여부 -->
@@ -65,11 +65,12 @@ export default {
 			await this.$post('/comment', {
 				param: {
 					dining_id: this.$route.params.babsangId,
-					user_email: 'qg@ilyah.com',
+					user_email: this.$store.state.user.userData.email,
 					comment_description: this.comment_description,
 				},
 			});
 			this.comment_description = '';
+			this.$router.go();
 		},
 	},
 };
