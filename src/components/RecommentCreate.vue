@@ -12,7 +12,7 @@
 					id="Textarea"
 					rows="3"
 					style="height: 128px; resize: none"
-					placeholder="댓글 내용"
+					placeholder="대댓글 입력해야해요"
 				></textarea>
 			</div>
 		</form>
@@ -51,6 +51,11 @@
 export default {
 	name: 'CommentCreate',
 	components: {},
+	props: {
+		parent_id: {
+			type: Number,
+		},
+	},
 	data() {
 		return {
 			comment_description: '',
@@ -66,10 +71,12 @@ export default {
 			await this.$post('/comment', {
 				param: {
 					dining_id: this.$route.params.babsangId,
-					user_email: 'qg@ilyah.com',
+					user_email: this.$store.state.user.userData.email,
 					comment_description: this.comment_description,
+					comment_parent_id: this.parent_id,
 				},
 			});
+			console.log(this.comment_parent_id);
 			this.comment_description = '';
 			this.$router.go();
 		},

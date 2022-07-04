@@ -16,8 +16,8 @@
 								href="#"
 								class="btn-link text-semibold fs-5"
 								style="text-decoration: none; color: inherit"
-								>{{ list.user_email }} {{ list.id }}</a
-							>
+								>{{ list.user_email }}
+							</a>
 							<p class="text-muted">{{ list.create_date }}</p>
 						</div>
 					</div>
@@ -43,21 +43,21 @@
 						</div>
 
 						<!-- <a
-							onclick=""
-							class="btn-link text-small"
-							style="text-decoration: none; color: inherit"
-							v-show="!commentSave"
-							@click="doCommentSave(list.id)"
-							>수정</a
-						>
-						|
-						<a
-							href="#"
-							class="btn-link text-small"
-							style="text-decoration: none; color: inherit"
-							@click="deleteComment(list.id)"
-							>삭제</a
-						> -->
+                     onclick=""
+                     class="btn-link text-small"
+                     style="text-decoration: none; color: inherit"
+                     v-show="!commentSave"
+                     @click="doCommentSave(list.id)"
+                     >수정</a
+                  >
+                  |
+                  <a
+                     href="#"
+                     class="btn-link text-small"
+                     style="text-decoration: none; color: inherit"
+                     @click="deleteComment(list.id)"
+                     >삭제</a
+                  > -->
 					</div>
 				</div>
 				<div v-show="commentSave" style="float: right">
@@ -102,13 +102,17 @@
 						답글
 					</button>
 				</div>
+				<!-- RecommentCreate에 parent_id를 넘겨주는 부분  -->
 				<div v-show="recommentSave" style="margin-top: 15px">
-					<CommentCreate />
+					<RecommentCreate :parent_id="(this.comment_parent_id = list.id)" />
 				</div>
-				<hr />
 			</div>
 			<!-- 대댓글  -->
-			<div v-for="recomment in commentList" :key="recomment.id">
+			<div
+				v-for="recomment in commentList"
+				:key="recomment.id"
+				style="margin-top: 10px"
+			>
 				<div
 					class="media-block col-md-11"
 					style="margin-left: auto"
@@ -153,17 +157,25 @@
 
 					<!-- 댓글 내용 -->
 					<div>
-						{{ recomment.comment_description }}
+						<textarea
+							class="form-control"
+							v-model="recomment.comment_description"
+							id="Textarea"
+							rows="3"
+							style="height: 128px; resize: none"
+							placeholder="댓글 내용"
+						></textarea>
 					</div>
 				</div>
 			</div>
+			<hr />
 		</div>
 	</div>
 </template>
 <script>
-import CommentCreate from '@/components/CommentCreate';
+import RecommentCreate from '@/components/RecommentCreate';
 export default {
-	components: { CommentCreate },
+	components: { RecommentCreate },
 	data() {
 		return {
 			comment_description: '',
@@ -221,28 +233,28 @@ export default {
 			console.log(this.commentList);
 		},
 		// 대댓글 나오게 하는 함수
-		CeateToggle(recommentId) {
-			this.commentCeateToggle = !this.commentCeateToggle;
-			if (this.commentCeateToggle) {
-				console.log(this.commentCeateToggle);
-				if (this.recommentSave === true) {
-					this.recommentSave = false;
-				} else {
-					this.recommentSave = true;
-				}
-				this.comment_parent_id = recommentId;
-				console.log(this.comment_parent_id);
-				return this.comment_parent_id;
+		// CeateToggle(recommentId) {
+		//    this.commentCeateToggle = !this.commentCeateToggle;
+		//    if (this.commentCeateToggle) {
+		//       console.log(this.commentCeateToggle);
+		//       if (this.recommentSave === true) {
+		//          this.recommentSave = false;
+		//       } else {
+		//          this.recommentSave = true;
+		//       }
+		//       this.comment_parent_id = recommentId;
+		//       console.log(this.comment_parent_id);
+		//       return this.comment_parent_id;
+		//    }
+		// },
+		CeateToggle(ListId) {
+			console.log(ListId);
+			if (this.recommentSave === true) {
+				this.recommentSave = false;
+			} else {
+				this.recommentSave = true;
 			}
 		},
-		// 	doCommentSave(ListId) {
-		// 	console.log(ListId);
-		// 	if (this.recommentSave === true) {
-		// 		this.recommentSave = false;
-		// 	} else {
-		// 		this.recommentSave = true;
-		// 	}
-		// },
 	},
 };
 </script>
