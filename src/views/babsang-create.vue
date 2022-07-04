@@ -430,6 +430,15 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+::v-deep {
+	.form-control:focus {
+		color: #575757;
+		background-color: #fff;
+		border-color: #ffcb00 !important;
+		outline: 0;
+		box-shadow: 0 0 0 0 rgb(255, 255, 255) !important;
+	}
+}
 .error-msg {
 	color: #ffad00;
 	padding: 0.5rem;
