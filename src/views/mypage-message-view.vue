@@ -9,7 +9,7 @@
 				<div class="col border rounded p-3">
 					<h3>메세지 내용</h3>
 					<!-- 밥상메세지 -->
-					<div class="card border-primary mb-3" style="max-width: 80rem">
+					<div class="card border mb-3" style="max-width: 80rem">
 						<div class="card-body">
 							<div class="card-text" style="height: 8rem">
 								<h5>밥상이 차려졌습니다.</h5>
@@ -24,7 +24,7 @@
 					</div>
 					<div class="row">
 						<!-- 밥상 -->
-						<div class="col-8 col-sm-8">
+						<div class="col-xl-8 col-sm-12">
 							<div class="card mb-3">
 								<div class="card-body">
 									<div class="d-flex justify-content-between">
@@ -57,57 +57,34 @@
 							</div>
 						</div>
 						<!-- 밥장프로필 -->
-						<div class="col-4 col-sm-4">
-							<div class="col border rounded p-3">
-								<div class="d-flex align-items-center">
-									<div class="profile me-3" style="width: 6rem">
-										<div class="img-wrap pf rounded-circle">
-											<img src="@/assets/img/exProfile.jpg" alt="프로필" />
-										</div>
-									</div>
-									<ul>
-										<li class="mb-1"><strong>밥장</strong></li>
-										<li class="mb-1">김민수</li>
-										<li>
-											<font-awesome-icon
-												icon="fa-solid fa-star"
-												style="color: #ffd24c"
-											/>
-											<font-awesome-icon
-												icon="fa-solid fa-star"
-												style="color: #ffd24c"
-											/>
-											<font-awesome-icon
-												icon="fa-solid fa-star"
-												style="color: #ffd24c"
-											/>
-											<font-awesome-icon
-												icon="fa-solid fa-star"
-												style="color: #ffd24c"
-											/>
-											<font-awesome-icon
-												icon="fa-solid fa-star"
-												style="color: #ffd24c"
-											/>
-										</li>
-									</ul>
-								</div>
-								<div class="p-3">
-									책임감있는 밥장이 될게요! 믿고 맡겨 주세요~!
-								</div>
-							</div>
+						<div class="col-xl-4 col-sm-12 mb-3">
+							<UserCard
+								:email="babsangDetailData.host_email"
+								:gender="babsangDetailData.gender"
+								:nickname="babsangDetailData.nickname"
+								:profile_image="babsangDetailData.profile_image"
+								:age_range="babsangDetailData.age_range"
+								:dining_score="babsangDetailData.dining_score"
+								:dining_spoons_description="
+									babsangDetailData.profile_description
+								"
+							/>
 						</div>
-					</div>
-					<!-- 목록 , 삭제( 불필요할 것같아서 일단 주석처리 )버튼 -->
-					<div id="wrapper">
-						<button
-							type="button"
-							class="btn btn-outline-primary"
-							@click="message()"
-						>
-							목록
-						</button>
-						<!-- <button type="button" class="btn btn-outline-primary">삭제</button> -->
+						<!-- 목록 , 삭제 버튼 -->
+						<div class="d-flex justify-content-center">
+							<button
+								type="button"
+								class="btn btn-primary me-3"
+								style="width: 80px"
+								@click="message()"
+							>
+								목록
+							</button>
+							<button type="button" class="btn btn-danger" style="width: 80px">
+								<i class="bi bi-trash3-fill"></i>
+								삭제
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -116,18 +93,55 @@
 </template>
 
 <script>
+import UserCard from '@/components/UserCard';
 import CompUserProfile from '@/components/profile/CompUserProfile';
 export default {
 	name: 'MypageMessageView',
-	components: { CompUserProfile },
+	components: { CompUserProfile, UserCard },
+	data() {
+		return {
+			babsangDetailData: [],
+		};
+	},
+	computed: {
+		// 밥장/숟갈/게스트 분기처리
+		isLeader() {
+			// 유저 정보가 없을 때 false
+			if (this.$store.state.user.userData === undefined) {
+				return false;
+			}
+			// 현재 유저 정보와 밥상 이메일정보가 일치하면 true
+			if (
+				this.$store.state.user.userData.email ===
+				this.babsangDetailData.host_email
+			) {
+				return true;
+			} else {
+				return false;
+			}
+		},
+	},
 	methods: {
 		message() {
 			this.$router.push('/mypage/message');
 		},
 	},
 };
+//
 </script>
 <style scoped lang="scss">
+.btn-primary {
+	color: #575757;
+	background-color: #ffcb00;
+	border-color: #ffcb00;
+}
+.btn-outline-primary {
+	color: #575757;
+	border-color: #ffcb00;
+	&:hover {
+		background-color: #ffcb00;
+	}
+}
 .img-wrap {
 	position: relative;
 	width: 100%;
