@@ -100,8 +100,7 @@ export default {
       return this.items.slice(this.sliceStart, this.sliceEnd)
     }
   },
-  mounted() {console.log(this.items)
-  console.log(this.headers);},
+  mounted() {},
   unmounted() {},
   methods: {
     changePage(start, end) {

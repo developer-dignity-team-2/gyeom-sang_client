@@ -88,7 +88,7 @@ export default {
 	computed: {},
 	mounted() {
 		this.getBabsangData();
-		// this.getAppliedBabsangList();
+		this.getBabsangDataTest();
 	},
 	methods: {
 		showAppliedBabsang() {
@@ -103,8 +103,14 @@ export default {
 		async getBabsangData() {
 			const babsangData = await this.$get('/babsang');
 			this.doAscOrder(babsangData.result, 'id');
-			console.log(babsangData.result);
+			// console.log(babsangData.result);
 			this.babsangData = babsangData;
+		},
+		async getBabsangDataTest() {
+			const babsangData = await this.$get('/babsang/get?type=appliedList');
+			// this.doAscOrder(babsangData.result, 'id');
+			console.log(babsangData.result);
+			// this.babsangData = babsangData;
 		},
 		// 밥상 정렬(모집중/마감/잔체, 최신순/오래된순)
 		doAscOrder(data) {
