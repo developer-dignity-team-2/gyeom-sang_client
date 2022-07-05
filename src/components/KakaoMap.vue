@@ -101,7 +101,11 @@ export default {
 		},
 		showPlace(place) {
 			const moveLatLon = new kakao.maps.LatLng(place.y, place.x);
+			const marker = new kakao.maps.Marker({
+				position: moveLatLon,
+			});
 			this.mapInstance.setCenter(moveLatLon);
+			marker.setMap(this.mapInstance);
 		},
 		zoomIn() {
 			const level = this.mapInstance.getLevel();
@@ -117,33 +121,6 @@ export default {
 			const levelEl = document.getElementById('maplevel');
 			levelEl.innerHTML = '현재 지도 레벨은' + this.mapInstance.getLevel();
 		},
-
-		// placesSearchCB(data, status) {
-		// 	if (status === kakao.maps.services.status.ok) {
-		// 		this.bounds = new kakao.maps.LatLngBounds();
-
-		// 		for (let i = 0; i < data.length; i++) {
-		// 			this.displayMarker(data[i]);
-		// 			this.bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-		// 		}
-		// 		this.map.setBounds(this.bounds);
-		// 	}
-		// },
-		// displayMarker(place) {
-		// 	const marker = new kakao.maps.Marker({
-		// 		map: this.map,
-		// 		position: new kakao.maps.LatLng(place.y, place.x),
-		// 	});
-
-		// 	marker.addEventListener('click', function () {
-		// 		this.infowindow.setContent(
-		// 			'<div style="padding:5px;font-size:12px;">' +
-		// 				place.place_name +
-		// 				'</div>',
-		// 		);
-		// 		this.infowindow.open(this.map, marker);
-		// 	});
-		// },
 	},
 };
 </script>
