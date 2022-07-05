@@ -74,9 +74,6 @@
 								aria-describedby="emailHelp"
 								placeholder="검색"
 							/>
-							<div id="map">
-								<!-- <userMap /> -->
-							</div>
 						</div>
 
 						<!-- datepicker 삽입
@@ -276,20 +273,19 @@
 				</form>
 			</div>
 		</div>
+		<KakaoMap />
 	</div>
 </template>
 
 <script>
-// import userMap from '@/components/UserMap.vue';
+import KakaoMap from '@/components/KakaoMap.vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Datepicker from 'vue3-datepicker';
-// import { ref } from 'vue';
-// const picked = ref(new Date());
+
 export default {
 	name: 'BabsangCreate',
-	// components: { userMap, Datepicker },
-	components: { Datepicker },
+	components: { Datepicker, KakaoMap },
 	setup() {
 		return {
 			v$: useVuelidate(),
