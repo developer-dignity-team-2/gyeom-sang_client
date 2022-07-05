@@ -51,7 +51,7 @@
 							<div class="row">
 								<div class="col-xl-10 col-md-12 col-sm-12 mb-2">
 									<div class="row">
-										<ButtonModule />
+										<ButtonModule @send-message="sendMessage" />
 									</div>
 								</div>
 								<!-- 삭제 -->
@@ -72,74 +72,18 @@
 							</div>
 						</div>
 					</div>
-					<!-- 메세지 테이블 -->
-					<!-- <table
-						class="table table-hover"
-						style="margin-left: auto; margin-right: auto"
-					>
-						<thead>
-							<tr>
-								<th scope="col">
-									<input
-										class="form-check-input"
-										type="checkbox"
-										v-model="checked_all"
-										@change="doSelectAll"
-									/>
-								</th>
-								<th v-for="th in Headers" :key="th.key" class="text-left">
-									{{ th.title }}
-								</th>
-							</tr>
-						</thead>
-						<tbody v-if="showMessage === 'R'">
-							<tr :key="i" v-for="(user, i) in receivedMessage">
-								<td scope="row">
-									<input
-										class="form-check-input"
-										type="checkbox"
-										:value="user.email"
-										v-model="checked"
-										@change="doSelect"
-									/>
-								</td>
-								<td
-									v-for="th in Headers"
-									:key="th.key"
-									class="text-left"
-									@click="messageView()"
-								>
-									{{ user[th.key] }}
-								</td>
-							</tr>
-						</tbody>
-						<tbody v-if="showMessage === 'S'">
-							<tr :key="i" v-for="(user, i) in sentMessage">
-								<td scope="row">
-									<input
-										class="form-check-input"
-										type="checkbox"
-										:value="user.email"
-										v-model="checked"
-										@change="doSelect"
-									/>
-								</td>
-								<td
-									v-for="th in Headers"
-									:key="th.key"
-									class="text-left"
-									@click="messageView()"
-								>
-									{{ user[th.key] }}
-								</td>
-							</tr>
-						</tbody>
-					</table> -->
 					<!-- pagination -->
-					<div>
+					<div v-if="showMessage === 'R'">
 						<grid-pagination
 							:headers="headers"
-							:items="userMessages"
+							:items="receivedMessage[0]"
+							@click-buttons="handleClickButtons"
+						/>
+					</div>
+					<div v-if="showMessage === 'S'">
+						<grid-pagination
+							:headers="headers"
+							:items="sentMessage[0]"
 							@click-buttons="handleClickButtons"
 						/>
 					</div>
@@ -159,6 +103,8 @@ export default {
 	data() {
 		return {
 			userMessages: [],
+			receivedMessage: [],
+			sentMessage: [],
 			showMessage: 'R', // 받은 메시지 R, 보낸 메시지 S
 			// checked_all: false,
 			checked: [],
@@ -171,8 +117,6 @@ export default {
 				{ title: '장소', key: 'restaurant_location' },
 				{ title: '날짜', key: 'create_date' },
 			],
-			// receivedMessage: [],
-			// sentMessage: [],
 		};
 	},
 	setup() {},
@@ -182,6 +126,27 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
+		sendMessage(data) {
+			if (this.showMessage === 'R') {
+				if (data === 'L') {
+					console.log(data);
+					this.receivedMessage = this.receivedMessage.sort(function (a, b) {
+						return b.create_date - a.create_date;
+					});
+					console.log(this.receivedMessage);
+				} else if (data === 'O') {
+					console.log(data);
+					this.receivedMessage = this.receivedMessage.sort(function (a, b) {
+						return a.create_date - b.create_date;
+					});
+					console.log(this.receivedMessage);
+				} else {
+					console.log(data);
+				}
+			} else {
+				console.log(data);
+			}
+		},
 		// pagination
 		handleClickButtons(method, id) {
 			if (method === 'showEditModal') {
@@ -193,21 +158,6 @@ export default {
 				this.sendMessage(id);
 			}
 		},
-		// messageView() {
-		// 	// this.$router.push('/mypage/message-view');
-		// 	this.getMessageDetail();
-		// },
-		// doSelect() {
-		// 	console.log(this.checked);
-		// },
-		// doSelectAll() {
-		// 	this.checked = [];
-		// 	if (this.checked_all) {
-		// 		for (let i in this.userData) {
-		// 			this.checked.push(this.userData[i].email);
-		// 		}
-		// 	}
-		// },
 		selectReceivedMessage() {
 			this.showMessage = 'R';
 		},
@@ -217,18 +167,24 @@ export default {
 		async getMessages() {
 			const userMessages = await this.$get(
 				'https://nicespoons.com/api/v1/message',
-				// 'http://localhost:3000/api/v1/message',
 			);
-			// this.receivedMessage = userMessages.result.filter(
-			// 	r => r.message_type === 'R',
-			// );
-			// console.log(this.receivedMessage);
-			// this.sentMessage = userMessages.result.filter(
-			// 	r => r.message_type === 'S',
-			// );
-			// this.userMessages = this.userData;
 			this.userMessages = userMessages.result;
-			console.log(this.userMessages);
+			// console.log(this.userMessages);
+			console.log(this.$store.state.user.userData.email);
+			this.sentMessage.push(
+				this.userMessages.filter(
+					message =>
+						message.sender_email === this.$store.state.user.userData.email,
+				),
+			);
+			console.log(this.sentMessage);
+			this.receivedMessage.push(
+				this.userMessages.filter(
+					message =>
+						message.sender_email !== this.$store.state.user.userData.email,
+				),
+			);
+			console.log(this.receivedMessage);
 		},
 		// async getMessageDetail() {
 		// 	const userMessages = await this.$get(

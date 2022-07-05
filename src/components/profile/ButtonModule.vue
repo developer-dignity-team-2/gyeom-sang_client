@@ -77,15 +77,19 @@ export default {
 		changeOperationBabsang() {
 			if (this.showOperationBabsang === 'O') {
 				this.showOperationBabsang = 'C';
+				this.$emit('send-message', this.showOperationBabsang);
 			} else {
 				this.showOperationBabsang = 'O';
+				this.$emit('send-message', this.showOperationBabsang);
 			}
 		},
 		changePeriodBabsang() {
 			if (this.showPeriodBabsang === 'L') {
 				this.showPeriodBabsang = 'O';
+				this.$emit('send-message', this.showPeriodBabsang);
 			} else {
 				this.showPeriodBabsang = 'L';
+				this.$emit('send-message', this.showPeriodBabsang);
 			}
 		},
 	},

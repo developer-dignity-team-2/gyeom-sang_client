@@ -35,7 +35,7 @@
 						<input
 							class="form-check-input"
 							type="checkbox"
-							:value="user.email"
+							:value="user.id"
 							v-model="checked"
 							@change="doSelect"
 						/>
@@ -118,7 +118,7 @@ export default {
 		this.checked = [];
 		if (this.checked_all) {
 			for (let i in this.items) {
-				this.checked.push(this.items[i].email);
+				this.checked.push(this.items[i].id);
 			}
 		}
 	console.log(this.checked)
