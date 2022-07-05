@@ -1,13 +1,6 @@
 <template>
 	<div style="overflow: auto">
 		<table class="table table-hover" v-if="items.length > 0">
-			<!-- <colgroup>
-				<col width="5%" />
-				<col width="15%" />
-				<col width="45%" />
-				<col width="25%" />
-				<col width="10%" />
-			</colgroup> -->
 			<thead>
 				<tr>
 					<th scope="col" style="text-align: center">
@@ -145,17 +138,14 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-// td 말줄임 처리
+// 메시지 말줄임 처리
 .nickname-width{
-	// min-width: 200px;
 	max-width: 120px;
 }
 .description-width{
-	// min-width: 200px;
 	max-width: 320px;
 }
 .location-width{
-	// min-width: 200px;
 	max-width: 160px;
 }
 td

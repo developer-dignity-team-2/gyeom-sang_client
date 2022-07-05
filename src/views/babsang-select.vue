@@ -51,8 +51,17 @@
 						style="display: flex; justify-content: center"
 						v-show="showButton()"
 					>
-						<button type="button" class="btn btn-primary" @click="doComfirm()">
-							선택 완료(메시지 발송)
+						<button
+							type="button"
+							:class="{
+								'btn btn-primary': buttonSignal === 0,
+								'btn btn-outline-primary': buttonSignal !== 0,
+							}"
+							@click="doComfirm()"
+						>
+							총 {{ diningTableSpoons.dining_count }}명 중
+							{{ selectedSpoons.length + fixedSpoons.length }}명 확정(메시지
+							발송)
 						</button>
 					</div>
 				</div>
@@ -97,8 +106,10 @@
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
 				:class="{
 					disabled:
-						spoon.email === checkedEmail[checkedEmail.indexOf(spoon.email)],
+						spoon.email === checkedEmail[checkedEmail.indexOf(spoon.email)] ||
+						spoon.email === fixedSpoons[fixedSpoons.indexOf(spoon.email)],
 					enabled:
+						spoon.email !== fixedSpoons[fixedSpoons.indexOf(spoon.email)] &&
 						spoon.email !== checkedEmail[checkedEmail.indexOf(spoon.email)],
 				}"
 				:key="spoon.email"
@@ -126,19 +137,14 @@ export default {
 	components: { userCard, ButtonModuleForSelectSpoon },
 	data() {
 		return {
-			// trasition 버튼 용: 시작
-			sortMannerScore: 'H', // 식사 매너 점수 높은 순 H, 식사 매너 점수 낮은 순 L
-			sortrecruitDate: 'F', // 신청이 빠른 순 F, 신청이 느린 순 S
-			// trasition 버튼 용: 끝
-			// comfirm: false,
-			babsang: 0,
 			babsangMessage: '',
 			diningTableSpoons: {
 				spoon_email: 'spoon1@gmail.com',
 				nickname: '숟갈1',
 				dining_table_id: 1,
-				dining_count: 3,
+				dining_count: 3, // 4인상으로 가정
 			},
+			fixedSpoons: ['spoon1@gmail.com'],
 			selectedSpoons: [],
 			checkedNickname: [],
 			checkedEmail: [],
@@ -366,9 +372,20 @@ export default {
 			],
 		};
 	},
+	computed: {
+		buttonSignal: function () {
+			return (
+				this.fixedSpoons.length +
+				this.selectedSpoons.length -
+				this.diningTableSpoons.dining_count
+			);
+		},
+	},
 	setup() {},
 	created() {},
-	mounted() {},
+	mounted() {
+		console.log(this.fixedSpoons[0]);
+	},
 	unmounted() {},
 	methods: {
 		writeMessage() {
@@ -380,26 +397,27 @@ export default {
 				'번 밥상의 숟갈로 선정되셨습니다.';
 		},
 		showButton() {
-			if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
+			// if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
+			if (this.selectedSpoons.length > 0) {
 				return true;
 			} else {
 				return false;
 			}
 		},
 		doComfirm() {
-			if (this.comfirm === false) {
-				this.comfirm = true;
-			} else {
-				this.comfirm = false;
-			}
+			console.log(this.selectedSpoons);
+			console.log(this.checkedEmail);
 		},
 		doSelect(spoon) {
-			if (this.selectedSpoons.length < this.diningTableSpoons.dining_count) {
-				console.log('숟갈 선택');
+			if (
+				this.selectedSpoons.length + this.fixedSpoons.length <
+				this.diningTableSpoons.dining_count
+			) {
 				this.selectedSpoons.push(spoon);
 				this.checkedEmail.push(spoon.email);
 				this.checkedNickname.push(spoon.nickname);
 				this.writeMessage();
+				console.log(this.checkedEmail);
 			}
 		},
 		doCancel(spoon) {
@@ -504,5 +522,19 @@ button {
 .slide-up-leave-to {
 	opacity: 0;
 	transform: translateY(-10px);
+}
+
+// 메시지 발송 버튼
+.btn-primary {
+	color: #575757;
+	background-color: #ffcb00;
+	border-color: #ffcb00;
+}
+.btn-outline-primary {
+	color: #575757;
+	border-color: #ffcb00;
+	&:hover {
+		background-color: #fff9e1;
+	}
 }
 </style>
