@@ -174,9 +174,10 @@ export default {
 			userData: [
 				{
 					email: 'abc1@gmail.com',
-					nickname: '숟갈1',
-					message_description: '메세지가 도착하였습니다',
-					restaurant_location: '제주도 할매 칼국수',
+					nickname: '먹방 국가 대표 칼국수 덕후',
+					message_description: `메세지가 도착하였습니다. 메세지가 도착하였습니다메세지가 도착하였습니다메세지가 도착하였습니다\n메세지가 도착하였습니다메세지가 도착하였습니다 메세지가 도착하였습니다메세지가 도착하였습니다 메세지가 도착하였습니다메세지가 도착하였습니다 메세지가 도착하였습니다\n메세지가 도착하였습니다
+						메세지가 도착하였습니다메세지가 도착하였습니다`,
+					restaurant_location: '여기는 제주도 할매 칼국수 입니다',
 					create_date: '2022.06.06',
 				},
 				{

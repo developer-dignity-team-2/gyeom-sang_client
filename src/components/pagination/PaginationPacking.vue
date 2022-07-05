@@ -150,7 +150,7 @@ export default {
   display: block;
   color: #575757;
   text-decoration: none;
-  background-color: white;
+  background-color: #fff;
   border: 1px solid #ffcb00;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -173,6 +173,7 @@ export default {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
+  // color: #575757;
   // background-color: #f3969a;
   background-color: #ffcb00;
   // border-color: #f3969a;
@@ -180,6 +181,7 @@ export default {
 }
 
 .page-item.disabled .page-link {
+  // color: #575757;
   color: #fff;
   pointer-events: none;
   // background-color: #cce8e0;
