@@ -91,20 +91,14 @@ export default {
 	data() {
 		return {
 			modifySave: false,
-			// user: [
-			// 	{
-			// 		email: 'spoon1@gmail.com',
-			// 		gender: '여자',
-			// 		nickname: '숟갈1',
-			// 		profile_image: require('../assets/img/exprofile2.jpg'),
-			// 		age_range: '20대',
-			// 		mannerScore: 4,
-			// 		dining_spoons_description:
-			// 			'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
-			// 	},
-			// ],
-			config: {
-				rating: 0,
+			user: {},
+		};
+	},
+	computed: {
+		config: function () {
+			let tmp = {
+				rating: this.user.dining_score,
+				// rating: this.user.dining_score,
 				isIndicatorActive: false,
 				style: {
 					fullStarColor: '#ffcb00',
@@ -112,29 +106,23 @@ export default {
 					starWidth: 50,
 					starHeight: 50,
 				},
-			},
-			user: '',
-		};
-	},
-	computed: {
-		// user() {
-		// 	return this.$store.state.user.userInfo;
-		// },
+			};
+			console.log(this.user.dining_score);
+			return tmp;
+		},
 	},
 	setup() {},
 	created() {
-		this.config.rating = this.user.dining_score;
-	},
-	mounted() {
 		this.getProfileData();
 	},
+	mounted() {},
 	unmounted() {},
 	methods: {
+		// 사용자 정보 가져오기
 		async getProfileData() {
-			const user = await this.$get('/user');
+			const user = await this.$get('https://nicespoons.com/api/v1/user');
 			this.user = user.result[0];
-			console.log('---------------profile data---------------');
-			console.log(this.user);
+			this.config.rating = this.user.dining_score;
 		},
 		doModifySave() {
 			if (this.modifySave === true) {
