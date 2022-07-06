@@ -77,19 +77,19 @@ export default {
 		changeOperationBabsang() {
 			if (this.showOperationBabsang === 'open') {
 				this.showOperationBabsang = 'close';
-				this.$emit('send-message', this.showOperationBabsang);
+				this.$emit('button-signal', this.showOperationBabsang);
 			} else {
 				this.showOperationBabsang = 'open';
-				this.$emit('send-message', this.showOperationBabsang);
+				this.$emit('button-signal', this.showOperationBabsang);
 			}
 		},
 		changePeriodBabsang() {
 			if (this.showPeriodBabsang === 'young') {
 				this.showPeriodBabsang = 'old';
-				this.$emit('send-message', this.showPeriodBabsang);
+				this.$emit('button-signal', this.showPeriodBabsang);
 			} else {
 				this.showPeriodBabsang = 'young';
-				this.$emit('send-message', this.showPeriodBabsang);
+				this.$emit('button-signal', this.showPeriodBabsang);
 			}
 		},
 	},
@@ -101,6 +101,7 @@ export default {
 	color: #575757;
 	background-color: #ffcb00;
 	border-color: #ffcb00;
+	pointer-events: none;
 }
 .btn-outline-primary {
 	color: #575757;

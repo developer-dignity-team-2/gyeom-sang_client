@@ -51,7 +51,7 @@
 							<div class="row">
 								<div class="col-xl-10 col-md-12 col-sm-12 mb-2">
 									<div class="row">
-										<ButtonModule @send-message="sendMessage" />
+										<ButtonModule @button-signal="buttonSignal" />
 									</div>
 								</div>
 								<!-- 삭제 -->
@@ -128,36 +128,11 @@ export default {
 	},
 	unmounted() {},
 	methods: {
-		// sendMessage(data) {
-		// 	if (this.showMessage === 'R') {
-		// 		if (data === 'L') {
-		// 			console.log(data);
-		// 			this.receivedMessage = this.receivedMessage.sort(function (a, b) {
-		// 				return b.create_date - a.create_date;
-		// 			});
-		// 			console.log(this.receivedMessage);
-		// 		} else if (data === 'O') {
-		// 			console.log(data);
-		// 			this.receivedMessage = this.receivedMessage.sort(function (a, b) {
-		// 				return a.create_date - b.create_date;
-		// 			});
-		// 			console.log(this.receivedMessage);
-		// 		} else {
-		// 			console.log(data);
-		// 		}
-		// 	} else {
-		// 		console.log(data);
-		// 	}
-		// },
-		sendMessage(data) {
+		buttonSignal(data) {
 			if (data === 'open') {
-				const tmpReceivedMessage = [];
-				tmpReceivedMessage.push(
-					this.receivedMessage.filter(m => m.dining_status === 0),
-				);
-				console.log(tmpReceivedMessage);
+				console.log('open');
 			} else if (data === 'close') {
-				console.log(1);
+				console.log('close');
 			} else if (data === 'young') {
 				console.log('young');
 			} else if (data === 'old') {
@@ -170,15 +145,6 @@ export default {
 			// } else if (currentStatus === 1) {
 			// 	status = '모집 마감';
 			// }
-		},
-		sortTime() {},
-		sortDescDiningStatus() {
-			console.log(
-				[1, 3, 5].sort(function (a, b) {
-					return b - a;
-				}),
-			);
-			console.log(this.receivedMessage[0]);
 		},
 		// pagination
 		handleClickButtons(method, id) {
@@ -204,6 +170,8 @@ export default {
 			this.userMessages = userMessages.result;
 			// console.log(this.userMessages);
 			// console.log(this.$store.state.user.userData.email);
+
+			//보낸 메시지
 			let tmpSentMessage = [];
 			tmpSentMessage.push(
 				this.userMessages.filter(
@@ -211,8 +179,13 @@ export default {
 						message.sender_email === this.$store.state.user.userData.email,
 				),
 			);
-			this.sentMessage = tmpSentMessage[0];
-			// console.log(this.sentMessage);
+			// 보낸 메시지(모집중)
+			tmpSentMessage = tmpSentMessage[0].filter(m => m.dining_status < 1);
+			// 보낸 메시지(최신순)
+			this.sentMessage = tmpSentMessage.sort((a, b) => b.id - a.id);
+			console.log(this.sentMessage);
+
+			// 받은 메시지
 			let tmpReceivedMessage = [];
 			tmpReceivedMessage.push(
 				this.userMessages.filter(
@@ -220,8 +193,13 @@ export default {
 						message.sender_email !== this.$store.state.user.userData.email,
 				),
 			);
-			this.receivedMessage = tmpReceivedMessage[0];
-			console.log(this.receivedMessage);
+			// 받은 메시지(모집중)
+			tmpReceivedMessage = tmpReceivedMessage[0].filter(
+				m => m.dining_status < 1,
+			);
+			// 받은 메시지(최신순)
+			this.receivedMessage = tmpReceivedMessage.sort((a, b) => b.id - a.id);
+			// console.log(this.receivedMessage);
 		},
 		// async getMessageDetail() {
 		// 	const userMessages = await this.$get(
