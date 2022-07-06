@@ -4,8 +4,8 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showOperationBabsang === 'O',
-					'btn btn-outline-primary': showOperationBabsang !== 'O',
+					'btn btn-primary': showOperationBabsang === 'open',
+					'btn btn-outline-primary': showOperationBabsang !== 'open',
 				}"
 				style="width: 50%"
 				@click="changeOperationBabsang"
@@ -15,8 +15,8 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showOperationBabsang === 'C',
-					'btn btn-outline-primary': showOperationBabsang !== 'C',
+					'btn btn-primary': showOperationBabsang === 'close',
+					'btn btn-outline-primary': showOperationBabsang !== 'close',
 				}"
 				style="width: 50%"
 				@click="changeOperationBabsang"
@@ -38,8 +38,8 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showPeriodBabsang === 'L',
-					'btn btn-outline-primary': showPeriodBabsang !== 'L',
+					'btn btn-primary': showPeriodBabsang === 'young',
+					'btn btn-outline-primary': showPeriodBabsang !== 'young',
 				}"
 				style="width: 100%"
 				@click="changePeriodBabsang"
@@ -49,8 +49,8 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showPeriodBabsang === 'O',
-					'btn btn-outline-primary': showPeriodBabsang !== 'O',
+					'btn btn-primary': showPeriodBabsang === 'old',
+					'btn btn-outline-primary': showPeriodBabsang !== 'old',
 				}"
 				style="width: 100%"
 				@click="changePeriodBabsang"
@@ -65,8 +65,8 @@ export default {
 	components: {},
 	data() {
 		return {
-			showOperationBabsang: 'O', // 모집 중 O, 모집 마감 C
-			showPeriodBabsang: 'L', // 최신 순 L, 오래된 순 O
+			showOperationBabsang: 'open', // 모집 중 open, 모집 마감 close
+			showPeriodBabsang: 'young', // 최신 순 young, 오래된 순 old
 		};
 	},
 	setup() {},
@@ -75,20 +75,20 @@ export default {
 	unmounted() {},
 	methods: {
 		changeOperationBabsang() {
-			if (this.showOperationBabsang === 'O') {
-				this.showOperationBabsang = 'C';
+			if (this.showOperationBabsang === 'open') {
+				this.showOperationBabsang = 'close';
 				this.$emit('send-message', this.showOperationBabsang);
 			} else {
-				this.showOperationBabsang = 'O';
+				this.showOperationBabsang = 'open';
 				this.$emit('send-message', this.showOperationBabsang);
 			}
 		},
 		changePeriodBabsang() {
-			if (this.showPeriodBabsang === 'L') {
-				this.showPeriodBabsang = 'O';
+			if (this.showPeriodBabsang === 'young') {
+				this.showPeriodBabsang = 'old';
 				this.$emit('send-message', this.showPeriodBabsang);
 			} else {
-				this.showPeriodBabsang = 'L';
+				this.showPeriodBabsang = 'young';
 				this.$emit('send-message', this.showPeriodBabsang);
 			}
 		},

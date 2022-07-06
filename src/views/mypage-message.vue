@@ -76,14 +76,14 @@
 					<div v-if="showMessage === 'R'">
 						<grid-pagination
 							:headers="headers"
-							:items="receivedMessage[0]"
+							:items="receivedMessage"
 							@click-buttons="handleClickButtons"
 						/>
 					</div>
 					<div v-if="showMessage === 'S'">
 						<grid-pagination
 							:headers="headers"
-							:items="sentMessage[0]"
+							:items="sentMessage"
 							@click-buttons="handleClickButtons"
 						/>
 					</div>
@@ -123,29 +123,62 @@ export default {
 	created() {
 		this.getMessages();
 	},
-	mounted() {},
+	mounted() {
+		// this.sortDescDiningStatus();
+	},
 	unmounted() {},
 	methods: {
+		// sendMessage(data) {
+		// 	if (this.showMessage === 'R') {
+		// 		if (data === 'L') {
+		// 			console.log(data);
+		// 			this.receivedMessage = this.receivedMessage.sort(function (a, b) {
+		// 				return b.create_date - a.create_date;
+		// 			});
+		// 			console.log(this.receivedMessage);
+		// 		} else if (data === 'O') {
+		// 			console.log(data);
+		// 			this.receivedMessage = this.receivedMessage.sort(function (a, b) {
+		// 				return a.create_date - b.create_date;
+		// 			});
+		// 			console.log(this.receivedMessage);
+		// 		} else {
+		// 			console.log(data);
+		// 		}
+		// 	} else {
+		// 		console.log(data);
+		// 	}
+		// },
 		sendMessage(data) {
-			if (this.showMessage === 'R') {
-				if (data === 'L') {
-					console.log(data);
-					this.receivedMessage = this.receivedMessage.sort(function (a, b) {
-						return b.create_date - a.create_date;
-					});
-					console.log(this.receivedMessage);
-				} else if (data === 'O') {
-					console.log(data);
-					this.receivedMessage = this.receivedMessage.sort(function (a, b) {
-						return a.create_date - b.create_date;
-					});
-					console.log(this.receivedMessage);
-				} else {
-					console.log(data);
-				}
-			} else {
-				console.log(data);
+			if (data === 'open') {
+				const tmpReceivedMessage = [];
+				tmpReceivedMessage.push(
+					this.receivedMessage.filter(m => m.dining_status === 0),
+				);
+				console.log(tmpReceivedMessage);
+			} else if (data === 'close') {
+				console.log(1);
+			} else if (data === 'young') {
+				console.log('young');
+			} else if (data === 'old') {
+				console.log('old');
 			}
+			// let currentStatus = this.itemData.dining_status;
+			// let status;
+			// if (currentStatus === 0) {
+			// 	status = '모집중';
+			// } else if (currentStatus === 1) {
+			// 	status = '모집 마감';
+			// }
+		},
+		sortTime() {},
+		sortDescDiningStatus() {
+			console.log(
+				[1, 3, 5].sort(function (a, b) {
+					return b - a;
+				}),
+			);
+			console.log(this.receivedMessage[0]);
 		},
 		// pagination
 		handleClickButtons(method, id) {
@@ -170,20 +203,24 @@ export default {
 			);
 			this.userMessages = userMessages.result;
 			// console.log(this.userMessages);
-			console.log(this.$store.state.user.userData.email);
-			this.sentMessage.push(
+			// console.log(this.$store.state.user.userData.email);
+			let tmpSentMessage = [];
+			tmpSentMessage.push(
 				this.userMessages.filter(
 					message =>
 						message.sender_email === this.$store.state.user.userData.email,
 				),
 			);
-			console.log(this.sentMessage);
-			this.receivedMessage.push(
+			this.sentMessage = tmpSentMessage[0];
+			// console.log(this.sentMessage);
+			let tmpReceivedMessage = [];
+			tmpReceivedMessage.push(
 				this.userMessages.filter(
 					message =>
 						message.sender_email !== this.$store.state.user.userData.email,
 				),
 			);
+			this.receivedMessage = tmpReceivedMessage[0];
 			console.log(this.receivedMessage);
 		},
 		// async getMessageDetail() {
