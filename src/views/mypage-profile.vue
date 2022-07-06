@@ -33,7 +33,10 @@
 							</div>
 							<!-- 식사매너 별점 -->
 							<div>
-								<stars-rating :config="config" />
+								<stars-rating
+									v-if="user.dining_score !== undefined"
+									:config="config"
+								/>
 							</div>
 							<div class="form-group">
 								<label for="exampleTextarea" class="form-label mt-4"
@@ -139,8 +142,10 @@ export default {
 				return '20대';
 			} else if (front == 3) {
 				return '30대';
+				// } else if (front == 4) {
+				// 	return '40대';
 			} else if (front == 4) {
-				return '40대';
+				return '20대(이고 싶다 ㅠ_ㅠ)';
 			} else if (front == 5) {
 				return '50대';
 			} else if (front == 6) {
