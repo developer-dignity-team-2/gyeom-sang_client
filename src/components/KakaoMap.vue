@@ -38,6 +38,7 @@ export default {
 		return {
 			// 지도
 			infowindow: '',
+			marker: '',
 			map: null,
 			// 장소 검색 객체
 			ps: null,
@@ -73,6 +74,7 @@ export default {
 			this.initMap();
 		}
 	},
+
 	unmounted() {},
 	methods: {
 		initMap() {
@@ -102,25 +104,26 @@ export default {
 		showPlace(place) {
 			console.log(place);
 			const moveLatLon = new kakao.maps.LatLng(place.y, place.x);
-			const marker = new kakao.maps.Marker({
+			this.marker = new kakao.maps.Marker({
 				position: moveLatLon,
 			});
 			// 해당 좌표로 지도 이동
 			this.mapInstance.setCenter(moveLatLon);
 			// 해당 좌표 마커 생성
-			marker.setMap(this.mapInstance);
+			this.marker.setMap(this.mapInstance);
 
-			const iwContent = `<div style="padding:5px;">${place.place_name}<br>${place.road_address_name}</div>`;
-			// place_name
-			// road_address_name
+			// 마커에 인포윈도우 생성
+			const iwContent = `<div style="padding:5px;">${place.place_name}<br>${place.road_address_name}<br></div>`;
 
-			const infowindow = new kakao.maps.InfoWindow({
+			this.infowindow = new kakao.maps.InfoWindow({
 				position: moveLatLon,
 				content: iwContent,
 				removable: true,
 			});
-			infowindow.open(this.mapInstance, marker);
-			console.log(infowindow);
+			this.infowindow.open(this.mapInstance, this.marker);
+			// kakao.maps.event.addListener(this.marker, 'click', function (place) {
+			// 	console.log(place);
+			// });
 		},
 		zoomIn() {
 			const level = this.mapInstance.getLevel();
