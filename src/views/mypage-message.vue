@@ -106,7 +106,6 @@ export default {
 			receivedMessage: [],
 			sentMessage: [],
 			showMessage: 'R', // 받은 메시지 R, 보낸 메시지 S
-			// checked_all: false,
 			checked: [],
 			headers: [
 				{
@@ -123,29 +122,106 @@ export default {
 	created() {
 		this.getMessages();
 	},
-	mounted() {
-		// this.sortDescDiningStatus();
-	},
+	mounted() {},
 	unmounted() {},
 	methods: {
-		buttonSignal(data) {
-			if (data === 'open') {
-				console.log('open');
-			} else if (data === 'close') {
-				console.log('close');
-			} else if (data === 'young') {
-				console.log('young');
-			} else if (data === 'old') {
-				console.log('old');
+		buttonSignal(sign) {
+			if (this.showMessage === 'R') {
+				let tmp = this.receivedMessage;
+				if (sign === 'open') {
+					console.log('open');
+					tmp = this.controlMessage(tmp, sign);
+					this.receivedMessage = tmp;
+				} else if (sign === 'close') {
+					console.log('close');
+					tmp = this.controlMessage(tmp, sign);
+					console.log('후 : ', tmp);
+					this.receivedMessage = tmp;
+				} else if (sign === 'young') {
+					console.log('young');
+					tmp = this.controlMessage(tmp, sign);
+					this.receivedMessage = tmp;
+				} else if (sign === 'old') {
+					console.log('old');
+					tmp = this.controlMessage(tmp, sign);
+					this.receivedMessage = tmp;
+				}
+			} else if (this.showMessage === 'S') {
+				console.log(sign);
 			}
-			// let currentStatus = this.itemData.dining_status;
-			// let status;
-			// if (currentStatus === 0) {
-			// 	status = '모집중';
-			// } else if (currentStatus === 1) {
-			// 	status = '모집 마감';
-			// }
 		},
+		selectReceivedMessage() {
+			this.showMessage = 'R';
+		},
+		selectSentMessages() {
+			this.showMessage = 'S';
+		},
+		// 메시지 필터, 정렬 모듈
+		controlMessage(data, sign) {
+			if (sign === 'open') {
+				// 보낸 메시지(모집중)
+				const rstMessage = data.filter(m => m.dining_status < 1);
+				console.log('모집 중');
+				console.log(rstMessage);
+				return rstMessage;
+			} else if (sign === 'close') {
+				// 보낸 메시지(모집완료)
+				const rstMessage = data.filter(m => m.dining_status > 0);
+				console.log('모집 마감');
+				console.log(rstMessage);
+				return rstMessage;
+			} else if (sign === 'young') {
+				// 보낸 메시지(최신순)
+				const rstMessage = data.sort((a, b) => b.id - a.id);
+				console.log('최신순');
+				console.log(rstMessage);
+				return rstMessage;
+			} else if (sign === 'old') {
+				// 보낸 메시지(오래된 순)
+				const rstMessage = data.sort((a, b) => a.id - b.id);
+				console.log('오래된 순');
+				console.log(rstMessage);
+				return rstMessage;
+			}
+		},
+		async getMessages() {
+			const userMessages = await this.$get(
+				'https://nicespoons.com/api/v1/message',
+			);
+			this.userMessages = userMessages.result;
+			// console.log(this.userMessages);
+			// console.log(this.$store.state.user.userData.email);
+
+			// 받은 메시지
+			let tmpReceivedMessage = this.userMessages.filter(
+				message =>
+					message.sender_email !== this.$store.state.user.userData.email,
+			);
+			// 받은 메시지 초기화(모집중, 최신순)
+			tmpReceivedMessage = this.controlMessage(
+				this.controlMessage(tmpReceivedMessage, 'open'),
+				'young',
+			);
+			this.receivedMessage = tmpReceivedMessage;
+
+			// 보낸 메시지
+			let tmpSentMessage = this.userMessages.filter(
+				message =>
+					message.sender_email === this.$store.state.user.userData.email,
+			);
+			// 받은 메시지 초기화(모집중, 최신순)
+			tmpSentMessage = this.controlMessage(
+				this.controlMessage(tmpSentMessage, 'open'),
+				'young',
+			);
+			this.sentMessage = tmpSentMessage;
+		},
+		// async getMessageDetail() {
+		// 	const userMessages = await this.$get(
+		// 		'https://nicespoons.com/api/v1/message/13',
+		// 	);
+		// 	console.log(userMessages);
+		// },
 		// pagination
 		handleClickButtons(method, id) {
 			if (method === 'showEditModal') {
@@ -157,56 +233,6 @@ export default {
 				this.sendMessage(id);
 			}
 		},
-		selectReceivedMessage() {
-			this.showMessage = 'R';
-		},
-		selectSentMessages() {
-			this.showMessage = 'S';
-		},
-		async getMessages() {
-			const userMessages = await this.$get(
-				'https://nicespoons.com/api/v1/message',
-			);
-			this.userMessages = userMessages.result;
-			// console.log(this.userMessages);
-			// console.log(this.$store.state.user.userData.email);
-
-			//보낸 메시지
-			let tmpSentMessage = [];
-			tmpSentMessage.push(
-				this.userMessages.filter(
-					message =>
-						message.sender_email === this.$store.state.user.userData.email,
-				),
-			);
-			// 보낸 메시지(모집중)
-			tmpSentMessage = tmpSentMessage[0].filter(m => m.dining_status < 1);
-			// 보낸 메시지(최신순)
-			this.sentMessage = tmpSentMessage.sort((a, b) => b.id - a.id);
-			console.log(this.sentMessage);
-
-			// 받은 메시지
-			let tmpReceivedMessage = [];
-			tmpReceivedMessage.push(
-				this.userMessages.filter(
-					message =>
-						message.sender_email !== this.$store.state.user.userData.email,
-				),
-			);
-			// 받은 메시지(모집중)
-			tmpReceivedMessage = tmpReceivedMessage[0].filter(
-				m => m.dining_status < 1,
-			);
-			// 받은 메시지(최신순)
-			this.receivedMessage = tmpReceivedMessage.sort((a, b) => b.id - a.id);
-			// console.log(this.receivedMessage);
-		},
-		// async getMessageDetail() {
-		// 	const userMessages = await this.$get(
-		// 		'https://nicespoons.com/api/v1/message/13',
-		// 	);
-		// 	console.log(userMessages);
-		// },
 	},
 };
 </script>
