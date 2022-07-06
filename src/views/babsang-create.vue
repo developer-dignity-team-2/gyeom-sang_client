@@ -49,30 +49,28 @@
 				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
 					<fieldset>
 						<!-- <legend>밥상 준비하기</legend> -->
-						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4"
+						<div class="form-group" @click="mapToggle">
+							<label for="place-address" class="form-label mt-4"
 								>식당 이름</label
 							>
 							<input
-								type="email"
+								type="text"
 								class="form-control"
-								id="InputRestaurantName"
-								aria-describedby="emailHelp"
-								placeholder="식당 검색시 자동으로 입력됩니다."
+								id="place-address"
+								placeholder="식당 검색하기"
 								disabled
 							/>
 						</div>
 						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4"
+							<label for="place-name" class="form-label mt-4"
 								>식당 위치 검색</label
 							>
-
 							<input
-								type="email"
+								type="text"
 								class="form-control"
-								id="exampleInputEmail1"
-								aria-describedby="emailHelp"
-								placeholder="검색"
+								id="place-name"
+								placeholder="식당 위치 검색"
+								disabled
 							/>
 						</div>
 
@@ -273,7 +271,7 @@
 				</form>
 			</div>
 		</div>
-		<KakaoMap />
+		<KakaoMap v-if="this.$store.state.isShow" />
 	</div>
 </template>
 
@@ -307,6 +305,7 @@ export default {
 			babsangId: '',
 		};
 	},
+	computed: {},
 	validations() {
 		return {
 			dining_description: {
@@ -337,7 +336,11 @@ export default {
 		console.log(this.$store.state.user.userData);
 	},
 	mounted() {},
+
 	methods: {
+		mapToggle() {
+			this.$store.commit('toggleShow');
+		},
 		doGenderCheck() {
 			if (this.gender_check === 'M') {
 				return '남성';

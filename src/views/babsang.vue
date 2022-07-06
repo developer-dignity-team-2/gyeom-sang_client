@@ -217,6 +217,7 @@ export default {
 				'/babsang/' + this.$route.params.babsangId,
 			);
 			this.babsangDetailData = this.babsangDetailData.result[0];
+			console.log('----------babsangDetailData----------');
 			console.log(this.babsangDetailData);
 		},
 		currentStatus() {
