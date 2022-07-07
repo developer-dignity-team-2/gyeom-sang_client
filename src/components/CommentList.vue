@@ -12,13 +12,21 @@
 					/>
 					<div class="media-body flex-fill">
 						<div class="mar-btm">
-							<a
+							<div
+								class="btn-group btn-group-sm"
+								role="group"
+								style="cursor: pointer; margin-right: 5px"
+							>
+								{{ list.user_email }}
+							</div>
+							<p class="text-muted">{{ list.create_date }}</p>
+							<!-- <a
 								href="#"
 								class="btn-link text-semibold fs-5"
 								style="text-decoration: none; color: inherit"
 								>{{ list.user_email }}
 							</a>
-							<p class="text-muted">{{ list.create_date }}</p>
+							<p class="text-muted">{{ list.create_date }}</p> -->
 						</div>
 					</div>
 					<div class="mar-btm">
@@ -137,7 +145,27 @@
 							</div>
 						</div>
 						<div class="mar-btm">
-							<a
+							<div class="mar-btm">
+								<div
+									class="btn-group btn-group-sm"
+									role="group"
+									v-show="!commentSave"
+									style="cursor: pointer; margin-right: 5px"
+									@click="doCommentSave(list.id)"
+								>
+									수정 |
+								</div>
+
+								<div
+									class="btn-group btn-group-sm"
+									role="group"
+									v-show="!commentSave"
+									style="cursor: pointer"
+									@click="deleteComment(list.id)"
+								>
+									삭제
+								</div>
+								<!-- <a
 								href="#"
 								class="btn-link text-small"
 								style="text-decoration: none; color: inherit"
@@ -151,24 +179,25 @@
 								style="text-decoration: none; color: inherit"
 								@click="deleteComment()"
 								>삭제</a
-							>
+							> -->
+							</div>
+						</div>
+
+						<!-- 댓글 내용 -->
+						<div>
+							<textarea
+								class="form-control"
+								v-model="recomment.comment_description"
+								id="Textarea"
+								rows="3"
+								style="height: 128px; resize: none"
+								placeholder="댓글 내용"
+							></textarea>
 						</div>
 					</div>
-
-					<!-- 댓글 내용 -->
-					<div>
-						<textarea
-							class="form-control"
-							v-model="recomment.comment_description"
-							id="Textarea"
-							rows="3"
-							style="height: 128px; resize: none"
-							placeholder="댓글 내용"
-						></textarea>
-					</div>
 				</div>
+				<hr />
 			</div>
-			<hr />
 		</div>
 	</div>
 </template>
