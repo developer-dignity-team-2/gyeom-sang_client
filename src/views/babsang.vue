@@ -242,7 +242,16 @@ export default {
 					},
 				},
 			);
-			alert('신청이 완료되었습니다.');
+			this.$swal({
+				// title: `${this.$store.state.user.userData.profile.nickname}님은`,
+				// text: `${this.$route.params.babsangId}번 밥상에 신청이 완료되었습니다.`,
+				title: `${this.babsangDetailData.restaurant_name}(${this.$route.params.babsangId}번) 밥상`,
+				text: '신청이 완료되었습니다.',
+				icon: 'success',
+				iconColor: '#ffcb00',
+				confirmButtonText: '확인',
+				confirmButtonColor: '#ffcb00',
+			});
 		},
 	},
 };
@@ -282,5 +291,17 @@ dl {
 }
 dt {
 	margin-right: 1rem;
+}
+
+// Sweetalert
+.swal-button {
+	padding: 7px 19px;
+	border-radius: 2px;
+	background-color: #ffcb00;
+	//   background-color: #4962B3;
+	font-size: 12px;
+	border: 1px solid #ffcb00;
+	//   border: 1px solid #3e549a;
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 </style>
