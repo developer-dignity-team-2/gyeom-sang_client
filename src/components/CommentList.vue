@@ -135,12 +135,13 @@
 						/>
 						<div class="media-body flex-fill">
 							<div class="mar-btm">
-								<a
-									href="#"
-									class="btn-link text-semibold fs-5"
-									style="text-decoration: none; color: inherit"
-									>{{ recomment.user_email }}</a
+								<div
+									class="btn-group btn-group-sm"
+									role="group"
+									style="cursor: pointer; margin-right: 5px"
 								>
+									{{ recomment.user_email }}
+								</div>
 								<p class="text-muted">{{ recomment.create_date }}</p>
 							</div>
 						</div>
@@ -151,7 +152,7 @@
 									role="group"
 									v-show="!commentSave"
 									style="cursor: pointer; margin-right: 5px"
-									@click="doCommentSave(list.id)"
+									@click="doCommentSave(recomment.id)"
 								>
 									수정 |
 								</div>
@@ -161,25 +162,25 @@
 									role="group"
 									v-show="!commentSave"
 									style="cursor: pointer"
-									@click="deleteComment(list.id)"
+									@click="deleteComment(recomment.id)"
 								>
 									삭제
 								</div>
 								<!-- <a
-								href="#"
-								class="btn-link text-small"
-								style="text-decoration: none; color: inherit"
-								@click="commentChange()"
-								>수정</a
-							>
-							|
-							<a
-								href="#"
-								class="btn-link text-small"
-								style="text-decoration: none; color: inherit"
-								@click="deleteComment()"
-								>삭제</a
-							> -->
+                        href="#"
+                        class="btn-link text-small"
+                        style="text-decoration: none; color: inherit"
+                        @click="commentChange()"
+                        >수정</a
+                     >
+                     |
+                     <a
+                        href="#"
+                        class="btn-link text-small"
+                        style="text-decoration: none; color: inherit"
+                        @click="deleteComment()"
+                        >삭제</a
+                     > -->
 							</div>
 						</div>
 
