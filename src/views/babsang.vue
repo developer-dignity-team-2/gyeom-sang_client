@@ -197,7 +197,8 @@ export default {
 		},
 		goSelectPage() {
 			this.$router.push({
-				path: '/babsang-select',
+				name: 'BabsangSelect',
+				params: { babsangId: this.$route.params.babsangId },
 			});
 		},
 		async getBabsangDetailData() {
