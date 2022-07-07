@@ -110,6 +110,7 @@
 					<!-- 밥장 정보 -->
 					<div class="row">
 						<UserCard
+							v-if="babsangDetailData.dining_score !== undefined"
 							:email="babsangDetailData.host_email"
 							:gender="babsangDetailData.gender"
 							:nickname="babsangDetailData.nickname"
@@ -154,19 +155,6 @@ export default {
 	data() {
 		return {
 			babsangDetailData: [],
-			babjang: [
-				{
-					dining_table_id: 1,
-					email: 'babjang1@gmail.com',
-					gender: '남자',
-					nickname: '밥장9',
-					profile_image: require('../assets/img/users/m9.png'),
-					age_range: '20대',
-					dining_score: 4.7,
-					dining_spoons_description:
-						'책임감있는 밥장이 될게요! 믿고 맡겨 주세요~!',
-				},
-			],
 		};
 	},
 
