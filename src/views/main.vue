@@ -11,6 +11,7 @@
 						type="search"
 						placeholder="원하는 식당 이름을 검색해보세요!"
 						v-model="babsangSearchValue"
+						@input="onInputBabsangSearch($event)"
 						@keyup.enter="onKeyupBabsangSearch"
 					/>
 					<p class="m-2 ps-4" style="color: #999; font-size: 0.9rem">
@@ -105,6 +106,11 @@ export default {
 			});
 			console.log('-------------basang data list-------------');
 			console.log(this.babsangData.result);
+		},
+		onInputBabsangSearch(event) {
+			if (event.target.value === '') {
+				this.getBabsang();
+			}
 		},
 		onKeyupBabsangSearch() {
 			this.getBabsang(`?nameSearch=${this.babsangSearchValue}`);
