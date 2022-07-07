@@ -60,7 +60,7 @@
 					</router-link>
 					<p
 						class="m-0 pt-0"
-						style="font-size: 0.6rem"
+						style="font-size: 0.6rem; cursor: default"
 						v-if="user.email !== undefined"
 					>
 						{{ user.profile.nickname }}
