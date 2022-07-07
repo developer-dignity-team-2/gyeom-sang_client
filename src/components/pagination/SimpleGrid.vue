@@ -42,7 +42,6 @@
 					</td>
 					<!-- <td style="text-align: center">{{ i + 1 + sliceStart }}</td> -->
 					<td
-            style="cursor: pointer"
 						v-for="th in headers"
 						:key="th.key"
 						class="text-left"

@@ -5,11 +5,13 @@
 			<div
 				class="col my-5 d-flex flex-column align-items-center justify-content-center"
 			>
-				<form class="">
+				<div class="">
 					<input
 						class="search-bar form-control me-3"
-						type="text"
+						type="search"
 						placeholder="원하는 식당 이름을 검색해보세요!"
+						v-model="babsangSearchValue"
+						@keyup.enter="onKeyupBabsangSearch"
 					/>
 					<p class="m-2 ps-4" style="color: #999; font-size: 0.9rem">
 						원하는 밥상이 없다면 직접 차려보세요.
@@ -22,7 +24,7 @@
 						</router-link>
 					</p>
 					<!-- <button class="btn btn-secondary" type="submit">Search</button> -->
-				</form>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -87,21 +89,25 @@ export default {
 	data() {
 		return {
 			babsangData: [],
+			babsangSearchValue: '',
 		};
 	},
 	computed: {},
 	created() {},
 	mounted() {
-		this.getBabsangData();
+		this.getBabsang();
 	},
 	methods: {
-		async getBabsangData() {
-			this.babsangData = await this.$get('/babsang');
+		async getBabsang(type = '') {
+			this.babsangData = await this.$get(`/babsang${type}`);
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
 			});
 			console.log('-------------basang data list-------------');
 			console.log(this.babsangData.result);
+		},
+		onKeyupBabsangSearch() {
+			this.getBabsang(`?nameSearch=${this.babsangSearchValue}`);
 		},
 	},
 };
