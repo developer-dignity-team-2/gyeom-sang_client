@@ -58,6 +58,7 @@
 								class="form-control"
 								id="place-address"
 								placeholder="식당 검색하기"
+								v-model="placeName"
 								disabled
 							/>
 						</div>
@@ -70,6 +71,7 @@
 								class="form-control"
 								id="place-name"
 								placeholder="식당 위치 검색"
+								v-model="placeAddress"
 								disabled
 							/>
 						</div>
@@ -271,7 +273,7 @@
 				</form>
 			</div>
 		</div>
-		<KakaoMap v-if="this.$store.state.isShow" />
+		<KakaoMap v-if="this.$store.state.isShow" @placeInfo="placeInfo" />
 	</div>
 </template>
 
@@ -303,6 +305,8 @@ export default {
 			imageData: '',
 			imgSrc: '',
 			babsangId: '',
+			placeName: '',
+			placeAddress: '',
 		};
 	},
 	computed: {},
@@ -338,6 +342,15 @@ export default {
 	mounted() {},
 
 	methods: {
+		placeInfo(name, address) {
+			console.log('-----------------------');
+			console.log(name, address);
+			this.placeName = name;
+			this.placeAddress = address;
+		},
+		// getPlaceData(name, address) {
+		//
+		// },
 		mapToggle() {
 			this.$store.commit('toggleShow');
 		},
@@ -411,10 +424,10 @@ export default {
 					dining_count: this.dining_count,
 					host_email: this.$store.state.user.userData.email,
 
-					// restaurant_name: this.restaurant_name,
-					// restaurant_location: this.restaurant_location,
-					restaurant_name: '애월빵공장',
-					restaurant_location: '제주 제주시 애월읍 금성5길 42-15',
+					restaurant_name: this.placeName,
+					restaurant_location: this.placeAddress,
+					// restaurant_name: '애월빵공장',
+					// restaurant_location: '제주 제주시 애월읍 금성5길 42-15',
 				},
 			});
 			// 생성한 밥상 게시물로 이동

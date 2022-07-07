@@ -1,14 +1,15 @@
 <template>
 	<div class="mapBackground">
-		<button @click="this.$store.commit('toggleShow')">닫기</button>
 		<div class="mapContainer">
-			<h1>카카오맵 테스트</h1>
+			<button @click="closeModal" class="close">선택하기</button>
+
+			<h1>식당을 검색해보세요.</h1>
 			<div class="controll">
 				<button @click="zoomIn()">ZOOM+</button>
 				<button @click="zoomOut()">ZOOM-</button>
 				<span id="maplevel"></span>
 			</div>
-			<div class="map-area">
+			<div class="map-area" style="display: flex">
 				<div class="searchbox">
 					<div>
 						<input
@@ -29,8 +30,8 @@
 						</div>
 					</div>
 				</div>
+				<div id="map" style="width: 500px; height: 500px"></div>
 			</div>
-			<div id="map" style="width: 500px; height: 500px"></div>
 		</div>
 	</div>
 </template>
@@ -58,6 +59,8 @@ export default {
 				center: '',
 				level: '',
 			},
+			placeName: '',
+			placeAddress: '',
 		};
 	},
 	mounted() {
@@ -81,6 +84,13 @@ export default {
 
 	unmounted() {},
 	methods: {
+		closeModal() {
+			console.log(this.placeName);
+			console.log(this.placeAddress);
+			this.$store.commit('toggleShow');
+			this.$emit('placeInfo', this.placeName, this.placeAddress);
+			// this.$store.commit('selectPlaceInfo', this.placeName, this.placeAddress);
+		},
 		initMap() {
 			const container = document.getElementById('map');
 			this.options = {
@@ -131,9 +141,12 @@ export default {
 
 			this.infowindow.open(this.mapInstance, this.marker);
 
-			kakao.maps.event.addListener(this.marker, 'click', function () {
-				console.log(place);
-			});
+			kakao.maps.event.addListener(this.marker, 'click', this.test(place));
+		},
+		test(place) {
+			this.placeName = place.place_name;
+			this.placeAddress = place.address_name;
+			// alert(`${this.placeName} 식당 선택 완료! 닫기버튼을 눌러주세요`);
 		},
 		zoomIn() {
 			const level = this.mapInstance.getLevel();
@@ -164,10 +177,37 @@ export default {
 	left: 50%;
 	transform: translate3d(-50%, -50%, 0);
 	background: rgba(0, 0, 0, 0.5);
-	overflow: hidden;
 	.mapContainer {
-		// width: 500px;
-		// height: 500px;
+		button.close {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+		background: rgba(255, 255, 255, 1);
+		width: 50vw;
+		height: 70vh;
+		overflow: hidden;
+		position: relative;
+
+		.map-area {
+			.searchbox {
+				.results {
+					h3 {
+						font-size: 12px;
+						font-weight: bold;
+					}
+					p {
+						font-size: 12px;
+					}
+					.place {
+						cursor: pointer;
+						border-bottom: 1px solid #999;
+					}
+				}
+			}
+			#map {
+			}
+		}
 	}
 }
 </style>
