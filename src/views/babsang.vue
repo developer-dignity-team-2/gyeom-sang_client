@@ -233,8 +233,16 @@ export default {
 			}
 			return genderStatus;
 		},
-		openApplyForm() {
-			alert('신청하기');
+		async openApplyForm() {
+			await this.$post(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
+				{
+					param: {
+						apply_yn: 'Y',
+					},
+				},
+			);
+			alert('신청이 완료되었습니다.');
 		},
 	},
 };
