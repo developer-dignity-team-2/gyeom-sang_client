@@ -140,14 +140,14 @@ export default {
 			});
 
 			this.infowindow.open(this.mapInstance, this.marker);
-
-			kakao.maps.event.addListener(this.marker, 'click', this.test(place));
-		},
-		test(place) {
 			this.placeName = place.place_name;
 			this.placeAddress = place.address_name;
-			// alert(`${this.placeName} 식당 선택 완료! 닫기버튼을 눌러주세요`);
+			// kakao.maps.event.addListener(this.marker, 'click', this.test(place));
 		},
+		// test(place) {
+
+		// 	// alert(`${this.placeName} 식당 선택 완료! 닫기버튼을 눌러주세요`);
+		// },
 		zoomIn() {
 			const level = this.mapInstance.getLevel();
 			this.mapInstance.setLevel(level - 1);

@@ -346,9 +346,6 @@ export default {
 			this.placeName = name;
 			this.placeAddress = address;
 		},
-		// getPlaceData(name, address) {
-		//
-		// },
 		mapToggle() {
 			this.$store.commit('toggleShow');
 		},
