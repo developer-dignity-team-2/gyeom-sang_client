@@ -63,14 +63,12 @@
 							/>
 						</div>
 						<div class="form-group">
-							<label for="place-name" class="form-label mt-4"
-								>식당 위치 검색</label
-							>
+							<label for="place-name" class="form-label mt-4">식당 위치</label>
 							<input
 								type="text"
 								class="form-control"
 								id="place-name"
-								placeholder="식당 위치 검색"
+								placeholder="식당 검색시 자동으로 입력됩니다."
 								v-model="placeAddress"
 								disabled
 							/>
