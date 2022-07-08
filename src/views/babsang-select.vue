@@ -105,16 +105,30 @@
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
 				:class="{
 					disabled:
-						spoon.email === checkedEmail[checkedEmail.indexOf(spoon.email)] ||
-						spoon.email === fixedSpoons[fixedSpoons.indexOf(spoon.email)],
+						spoon.spoon_email ===
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
 					enabled:
-						spoon.email !== fixedSpoons[fixedSpoons.indexOf(spoon.email)] &&
-						spoon.email !== checkedEmail[checkedEmail.indexOf(spoon.email)],
+						spoon.spoon_email !==
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
 				}"
-				:key="spoon.email"
+				:key="spoon.spoon_email"
 				v-for="spoon in appliedSpoons"
 				@click="doSelect(spoon)"
 			>
+				<!-- <div
+				class="col-xl-4 col-md-6 col-sm-12 mb-4"
+				:class="{
+					disabled:
+						spoon.spoon_email ===
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
+					enabled:
+						spoon.spoon_email !==
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
+				}"
+				:key="spoon.spoon_email"
+				v-for="spoon in appliedSpoons"
+				@click="doSelect(spoon)"
+			> -->
 				<userCard
 					:email="spoon.spoon_email"
 					:gender="spoon.gender"
@@ -212,10 +226,10 @@ export default {
 			console.log(this.checkedEmail);
 		},
 		doSelect(spoon) {
-			if (this.selectedSpoons.length < this.diningTableSpoons.dining_count) {
+			if (this.selectedSpoons.length < this.babsangInfo.dining_count) {
 				this.selectedSpoons.push(spoon);
-				this.checkedEmail.push(spoon.email);
-				this.checkedNickname.push(spoon.nickname);
+				this.checkedEmail.push(spoon.spoon_email);
+				this.checkedNickname.push(spoon.spoon_nickname);
 				this.writeMessage();
 				console.log(this.checkedEmail);
 			}
@@ -223,13 +237,13 @@ export default {
 		doCancel(spoon) {
 			console.log('선택 취소');
 			this.selectedSpoons = this.selectedSpoons.filter(
-				s => s.email !== spoon.email,
+				s => s.spoon_email !== spoon.spoon_email,
 			);
 			this.checkedEmail = this.checkedEmail.filter(
-				email => email !== spoon.email,
+				email => email !== spoon.spoon_email,
 			);
 			this.checkedNickname = this.checkedNickname.filter(
-				nickname => nickname !== spoon.nickname,
+				nickname => nickname !== spoon.spoon_nickname,
 			);
 		},
 	},
