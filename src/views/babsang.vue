@@ -235,24 +235,43 @@ export default {
 			return genderStatus;
 		},
 		async openApplyForm() {
-			await this.$post(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
-				{
-					param: {
-						apply_yn: 'Y',
-					},
-				},
-			);
-			this.$swal({
-				// title: `${this.$store.state.user.userData.profile.nickname}님은`,
-				// text: `${this.$route.params.babsangId}번 밥상에 신청이 완료되었습니다.`,
-				title: `${this.babsangDetailData.restaurant_name}(${this.$route.params.babsangId}번) 밥상`,
-				text: '신청이 완료되었습니다.',
-				icon: 'success',
-				iconColor: '#ffcb00',
-				confirmButtonText: '확인',
-				confirmButtonColor: '#ffcb00',
-			});
+			const confirm = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+				)
+			).result;
+			console.log(confirm);
+			let user = this.$store.state.user.userData.email;
+			for (let alreadyUser of confirm) {
+				if (alreadyUser.spoon_email === user) {
+					console.log('이미 신청하신 밥상입니다.');
+					this.$swal({
+						title: `${this.babsangDetailData.restaurant_name}(${this.$route.params.babsangId}번) 밥상`,
+						text: '이미 신청하신 밥상입니다.',
+						icon: 'warning',
+						iconColor: '#ffcb00',
+						confirmButtonText: '확인',
+						confirmButtonColor: '#ffcb00',
+					});
+				} else {
+					await this.$post(
+						`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
+						{
+							param: {
+								apply_yn: 'Y',
+							},
+						},
+					);
+					this.$swal({
+						title: `${this.babsangDetailData.restaurant_name}(${this.$route.params.babsangId}번) 밥상`,
+						text: '신청이 완료되었습니다.',
+						icon: 'success',
+						iconColor: '#ffcb00',
+						confirmButtonText: '확인',
+						confirmButtonColor: '#ffcb00',
+					});
+				}
+			}
 		},
 	},
 };
