@@ -79,6 +79,7 @@
 								</dl>
 							</li>
 						</ul>
+
 						<div class="img-wrap map-wrap rounded">
 							<img src="@/assets/img/exampleMap.jpg" alt="food1" />
 						</div>
@@ -146,9 +147,9 @@
 </template>
 
 <script>
-import UserCard from '@/components/UserCard';
-import CommentCreate from '@/components/CommentCreate';
-import CommentList from '@/components/CommentList';
+import UserCard from '@/components/profile/UserCard';
+import CommentCreate from '@/components/babsang/CommentCreate';
+import CommentList from '@/components/babsang/CommentList';
 export default {
 	name: 'Babsang',
 	components: { UserCard, CommentCreate, CommentList },
