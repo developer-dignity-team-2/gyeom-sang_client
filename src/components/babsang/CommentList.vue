@@ -8,7 +8,7 @@
 					<img
 						class="img-circle img-sm"
 						alt="Profile"
-						src="../assets/img/users/m9.png"
+						src="../../assets/img/users/m9.png"
 					/>
 					<div class="media-body flex-fill">
 						<div class="mar-btm">
@@ -131,7 +131,7 @@
 						<img
 							class="img-circle img-sm"
 							alt="Profile"
-							src="../assets/img/users/m9.png"
+							src="../../assets/img/users/m9.png"
 						/>
 						<div class="media-body flex-fill">
 							<div class="mar-btm">
@@ -203,7 +203,7 @@
 	</div>
 </template>
 <script>
-import RecommentCreate from '@/components/RecommentCreate';
+import RecommentCreate from '@/components/babsang/RecommentCreate';
 export default {
 	components: { RecommentCreate },
 	data() {

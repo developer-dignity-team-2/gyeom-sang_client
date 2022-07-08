@@ -87,7 +87,7 @@
 
 <script>
 import CompUserProfile from '@/components/profile/CompUserProfile';
-import starsRating from '@/components/RatingStars';
+import starsRating from '@/components/common/RatingStars';
 export default {
 	name: 'MypageProfile',
 	components: { CompUserProfile, starsRating },

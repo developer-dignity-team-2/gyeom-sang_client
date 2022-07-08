@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import UserCard from '@/components/UserCard';
+import UserCard from '@/components/profile/UserCard';
 import CompUserProfile from '@/components/profile/CompUserProfile';
 export default {
 	name: 'MypageMessageView',

@@ -131,7 +131,7 @@
 </template>
 <script>
 import ButtonModuleForSelectSpoon from '@/components/babsangselect/ButtonModuleForSelectSpoon';
-import userCard from '@/components/UserCard';
+import userCard from '@/components/profile/UserCard';
 export default {
 	name: 'BabsangSelect',
 	components: { userCard, ButtonModuleForSelectSpoon },

@@ -276,7 +276,7 @@
 </template>
 
 <script>
-import KakaoMap from '@/components/KakaoMap.vue';
+import KakaoMap from '@/components/kakaoMap/KakaoMap.vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Datepicker from 'vue3-datepicker';

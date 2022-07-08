@@ -45,7 +45,7 @@
 							</li>
 							<li>
 								<dl>
-									<dt>모집기간</dt>
+									<dt>모집 기간</dt>
 									<dd>
 										{{
 											String(babsangDetailData.recruit_start_date).slice(0, 10)
@@ -75,12 +75,12 @@
 							<li>
 								<dl>
 									<dt>식당 위치</dt>
-									<dd>제주특별자치도 서귀포시 색달동 일주서로 968-10</dd>
+									<dd>{{ babsangDetailData.restaurant_location }}</dd>
 								</dl>
 							</li>
 						</ul>
 						<div class="img-wrap map-wrap rounded">
-							<img src="@/assets/img/exampleMap.jpg" alt="food1" />
+							<BabsangMap />
 						</div>
 					</div>
 					<div class="col d-flex justify-content-center my-5">
@@ -146,12 +146,13 @@
 </template>
 
 <script>
-import UserCard from '@/components/UserCard';
-import CommentCreate from '@/components/CommentCreate';
-import CommentList from '@/components/CommentList';
+import UserCard from '@/components/profile/UserCard';
+import CommentCreate from '@/components/babsang/CommentCreate';
+import CommentList from '@/components/babsang/CommentList';
+import BabsangMap from '@/components/kakaoMap/BabsangMap';
 export default {
 	name: 'Babsang',
-	components: { UserCard, CommentCreate, CommentList },
+	components: { UserCard, CommentCreate, CommentList, BabsangMap },
 	data() {
 		return {
 			babsangDetailData: [],
