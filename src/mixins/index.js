@@ -32,12 +32,12 @@ export default {
 				});
 		},
 		async $put(url, data) {
-			return await axios.put(url, data).catch(e => {
+			return await instance.put(url, data).catch(e => {
 				console.log(e);
 			});
 		},
 		async $delete(url) {
-			return await axios
+			return await instance
 				.delete(url)
 
 				.catch(e => {
@@ -47,7 +47,7 @@ export default {
 		async $upload(url, file) {
 			const formData = new FormData();
 			formData.append('file', file);
-			return await axios
+			return await instance
 				.post(url, formData)
 				.then(res => {
 					return res.data;
