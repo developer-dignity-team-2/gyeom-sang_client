@@ -114,9 +114,12 @@ export default {
 					age_range: kakao_account.age_range,
 				},
 			});
+			// res.data가 빈객체{}로 출력
+			// res.data.jwt는 undefined로 출력
 			console.log('---------------res.data---------------');
 			console.log(res.data);
 			localStorage.setItem('jwt', res.data.jwt);
+			console.log(res.data.jwt);
 
 			// vuex에 해당 유저정보를 저장
 			this.$store.commit('user/getUserData', kakao_account);

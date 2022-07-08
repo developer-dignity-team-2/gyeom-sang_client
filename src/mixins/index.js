@@ -7,6 +7,7 @@ const instance = axios.create({
 		authorization: `Bearer ${localStorage.getItem('jwt')}`,
 	},
 });
+// ↑ 위에 코드가 실행 될 때 localStorage에 jwt값이 없어 토큰에 req.header가 안담겨서 감
 export default {
 	data() {
 		return {};
