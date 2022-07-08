@@ -17,7 +17,7 @@
 								role="group"
 								style="cursor: pointer; margin-right: 5px"
 							>
-								{{ list.user_email }}
+								{{ list.nickname }}
 							</div>
 							<p class="text-muted">{{ list.create_date }}</p>
 							<!-- <a
@@ -140,7 +140,7 @@
 									role="group"
 									style="cursor: pointer; margin-right: 5px"
 								>
-									{{ recomment.user_email }}
+									{{ recomment.nickname }}
 								</div>
 								<p class="text-muted">{{ recomment.create_date }}</p>
 							</div>
