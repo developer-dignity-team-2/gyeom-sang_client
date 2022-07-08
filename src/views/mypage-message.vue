@@ -189,7 +189,7 @@ export default {
 				'https://nicespoons.com/api/v1/message',
 			);
 			this.userMessages = userMessages.result;
-			// console.log(this.userMessages);
+			console.log(userMessages);
 			// console.log(this.$store.state.user.userData.email);
 
 			// 받은 메시지

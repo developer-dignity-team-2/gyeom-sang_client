@@ -59,9 +59,8 @@
 							}"
 							@click="doComfirm()"
 						>
-							총 {{ diningTableSpoons.dining_count }}명 중
-							{{ selectedSpoons.length + fixedSpoons.length }}명 확정(메시지
-							발송)
+							총 {{ babsangInfo.dining_count }}명 중
+							{{ selectedSpoons.length }}명 확정(메시지 발송)
 						</button>
 					</div>
 				</div>
@@ -106,16 +105,30 @@
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
 				:class="{
 					disabled:
-						spoon.email === checkedEmail[checkedEmail.indexOf(spoon.email)] ||
-						spoon.email === fixedSpoons[fixedSpoons.indexOf(spoon.email)],
+						spoon.spoon_email ===
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
 					enabled:
-						spoon.email !== fixedSpoons[fixedSpoons.indexOf(spoon.email)] &&
-						spoon.email !== checkedEmail[checkedEmail.indexOf(spoon.email)],
+						spoon.spoon_email !==
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
 				}"
-				:key="spoon.email"
+				:key="spoon.spoon_email"
 				v-for="spoon in appliedSpoons"
 				@click="doSelect(spoon)"
 			>
+				<!-- <div
+				class="col-xl-4 col-md-6 col-sm-12 mb-4"
+				:class="{
+					disabled:
+						spoon.spoon_email ===
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
+					enabled:
+						spoon.spoon_email !==
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
+				}"
+				:key="spoon.spoon_email"
+				v-for="spoon in appliedSpoons"
+				@click="doSelect(spoon)"
+			> -->
 				<userCard
 					:email="spoon.spoon_email"
 					:gender="spoon.gender"
@@ -150,12 +163,7 @@ export default {
 	data() {
 		return {
 			babsangMessage: '',
-			diningTableSpoons: {
-				spoon_email: 'spoon1@gmail.com',
-				nickname: '숟갈1',
-				dining_table_id: 1,
-				dining_count: 3, // 4인상으로 가정
-			},
+			babsangInfo: {},
 			selectedSpoons: [],
 			checkedNickname: [],
 			checkedEmail: [],
@@ -166,31 +174,44 @@ export default {
 	},
 	computed: {
 		buttonSignal: function () {
-			return this.selectedSpoons.length - this.diningTableSpoons.dining_count;
+			return this.selectedSpoons.length - this.babsangInfo.dining_count;
 		},
 	},
 	setup() {},
 	created() {},
 	mounted() {
+		this.getBabsangInfo();
 		this.getBabsangSpoons();
 		// console.log(this.$store.state.user.userData);
 	},
 	unmounted() {},
 	methods: {
+		// 신청한 숟갈, 선택된 숟갈 정보 가져오기
 		async getBabsangSpoons() {
 			const temp = await this.$get(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
-			console.log('신청한 숟갈 : ', temp.result);
-			this.appliedSpoons = temp.result;
+			this.appliedSpoons = temp.result.filter(spoon => spoon.apply_yn === 'Y');
+			console.log('신청한 숟갈 : ', this.appliedSpoons);
+			this.fixedSpoons = this.appliedSpoons.filter(
+				spoon => spoon.selected_yn === 'Y',
+			);
+			console.log('이미 선택한 숟갈 : ', this.fixedSpoons);
+			this.selectedSpoons = this.fixedSpoons;
+			console.log('지금 선택한 숟갈 : ', this.selectedSpoons);
+		},
+		// 밥상 정보 가져오기
+		async getBabsangInfo() {
+			const temp = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}`,
+				)
+			).result[0];
+			this.babsangInfo = temp;
+			console.log('밥상 정보 : ', this.babsangInfo);
 		},
 		writeMessage() {
-			this.babsangMessage =
-				'축하합니다 ^O^ ' +
-				// this.checkedNickname.join(', ') +
-				// '님은 ' +
-				this.diningTableSpoons.dining_table_id +
-				'번 밥상의 숟갈로 선정되셨습니다.';
+			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name}(${this.babsangInfo.id})번 밥상의 숟갈로 선정되셨습니다.`;
 		},
 		showButton() {
 			// if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
@@ -205,13 +226,10 @@ export default {
 			console.log(this.checkedEmail);
 		},
 		doSelect(spoon) {
-			if (
-				this.selectedSpoons.length + this.fixedSpoons.length <
-				this.diningTableSpoons.dining_count
-			) {
+			if (this.selectedSpoons.length < this.babsangInfo.dining_count) {
 				this.selectedSpoons.push(spoon);
-				this.checkedEmail.push(spoon.email);
-				this.checkedNickname.push(spoon.nickname);
+				this.checkedEmail.push(spoon.spoon_email);
+				this.checkedNickname.push(spoon.spoon_nickname);
 				this.writeMessage();
 				console.log(this.checkedEmail);
 			}
@@ -219,13 +237,13 @@ export default {
 		doCancel(spoon) {
 			console.log('선택 취소');
 			this.selectedSpoons = this.selectedSpoons.filter(
-				s => s.email !== spoon.email,
+				s => s.spoon_email !== spoon.spoon_email,
 			);
 			this.checkedEmail = this.checkedEmail.filter(
-				email => email !== spoon.email,
+				email => email !== spoon.spoon_email,
 			);
 			this.checkedNickname = this.checkedNickname.filter(
-				nickname => nickname !== spoon.nickname,
+				nickname => nickname !== spoon.spoon_nickname,
 			);
 		},
 	},
