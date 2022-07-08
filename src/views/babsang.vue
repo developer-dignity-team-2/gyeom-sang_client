@@ -199,7 +199,7 @@ export default {
 		goSelectPage() {
 			this.$router.push({
 				name: 'BabsangSelect',
-				params: { babsangId: this.$route.params.babsangId },
+				query: { babsangId: this.$route.params.babsangId },
 			});
 		},
 		async getBabsangDetailData() {

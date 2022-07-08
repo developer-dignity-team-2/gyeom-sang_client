@@ -165,17 +165,12 @@ export default {
 	},
 	computed: {
 		buttonSignal: function () {
-			return (
-				this.fixedSpoons.length +
-				this.selectedSpoons.length -
-				this.diningTableSpoons.dining_count
-			);
+			return this.selectedSpoons.length - this.diningTableSpoons.dining_count;
 		},
 	},
 	setup() {},
 	created() {},
 	mounted() {
-		// console.log(this.fixedSpoons[0]);
 		this.getBabsangSpoons();
 		// console.log(this.$store.state.user.userData);
 	},
@@ -183,7 +178,7 @@ export default {
 	methods: {
 		async getBabsangSpoons() {
 			const temp = await this.$get(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
 			console.log(temp.result);
 			this.user = temp.result;
