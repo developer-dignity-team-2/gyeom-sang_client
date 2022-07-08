@@ -101,7 +101,7 @@
 			</div>
 		</div>
 		<!-- 선택전 숟갈 카드 -->
-		<div class="row">
+		<div class="row" v-if="appliedSpoons.length > 0">
 			<div
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
 				:class="{
@@ -113,7 +113,7 @@
 						spoon.email !== checkedEmail[checkedEmail.indexOf(spoon.email)],
 				}"
 				:key="spoon.email"
-				v-for="spoon in user"
+				v-for="spoon in appliedSpoons"
 				@click="doSelect(spoon)"
 			>
 				<userCard
@@ -126,6 +126,18 @@
 					:dining_spoons_description="spoon.dining_spoon_description"
 				/>
 			</div>
+		</div>
+		<div
+			class="pt-5"
+			style="
+				display: flex;
+				flex-flow: row wrap;
+				justify-content: center;
+				align-item: center;
+			"
+			v-if="appliedSpoons.length === 0"
+		>
+			이 밥상에 신청한 숟갈이 없습니다.
 		</div>
 	</div>
 </template>
@@ -144,23 +156,12 @@ export default {
 				dining_table_id: 1,
 				dining_count: 3, // 4인상으로 가정
 			},
-			fixedSpoons: [],
 			selectedSpoons: [],
 			checkedNickname: [],
 			checkedEmail: [],
-			user: [
-				{
-					spoon_email: 'spoon1@gmail.com',
-					gender: '여성',
-					spoon_nickname: '숟갈1',
-					profile_image: require('../assets/img/users/w1.png'),
-					age_range: '20대',
-					dining_score: 3.2,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-			],
 			babsangDetailData: [],
+			appliedSpoons: [], // 신청한 숟갈
+			fixedSpoons: [], // 신청한 숟갈 중 선택된 숟갈
 		};
 	},
 	computed: {
@@ -180,8 +181,8 @@ export default {
 			const temp = await this.$get(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
-			console.log(temp.result);
-			this.user = temp.result;
+			console.log('신청한 숟갈 : ', temp.result);
+			this.appliedSpoons = temp.result;
 		},
 		writeMessage() {
 			this.babsangMessage =
