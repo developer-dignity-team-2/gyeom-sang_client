@@ -47,7 +47,7 @@
 									style="resize: none"
 									id="exampleTextarea"
 									rows="3"
-									:disabled="!modifySave"
+									:disabled="!userInfo"
 									v-model="user.profile_description"
 								></textarea>
 							</div>
@@ -55,23 +55,23 @@
 								<button
 									type="button"
 									class="btn btn-primary mx-3"
-									v-show="!modifySave"
-									@click="doModifySave()"
+									v-show="!userInfo"
+									@click="doModify()"
 								>
 									수정
 								</button>
-								<div v-show="modifySave">
+								<div v-show="userInfo">
 									<button
 										type="button"
 										class="btn btn-primary mx-3"
-										@click="doModifySave()"
+										@click="doModify()"
 									>
 										저장
 									</button>
 									<button
 										type="submit"
 										class="btn btn-secondary"
-										@click="doModifySave()"
+										@click="doModify()"
 									>
 										취소
 									</button>
@@ -93,7 +93,7 @@ export default {
 	components: { CompUserProfile, starsRating },
 	data() {
 		return {
-			modifySave: false,
+			userInfo: false,
 			user: {},
 		};
 	},
@@ -127,11 +127,18 @@ export default {
 			this.user = user.result[0];
 			this.config.rating = this.user.dining_score;
 		},
-		doModifySave() {
-			if (this.modifySave === true) {
-				this.modifySave = false;
+		async doModify() {
+			if (this.userInfo === true) {
+				await this.$put('https://nicespoons.com/api/v1/user', {
+					param: {
+						// profile_image: 'test_image.png',
+						profile_description: this.user.profile_description,
+					},
+				});
+				console.log('수정된 자기소개 : ', this.user.profile_description);
+				this.userInfo = false;
 			} else {
-				this.modifySave = true;
+				this.userInfo = true;
 			}
 		},
 		ageRangeForm(age) {
