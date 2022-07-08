@@ -62,7 +62,7 @@ export default {
 			};
 			this.mapInstance = new kakao.maps.Map(container, this.options);
 			console.log(this.mapInstance);
-			this.displayLevel();
+			// this.displayLevel();
 		},
 
 		showPlace(place) {

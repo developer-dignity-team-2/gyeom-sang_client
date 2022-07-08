@@ -94,10 +94,10 @@ export default {
 		};
 	},
 	computed: {},
-	created() {},
-	mounted() {
+	created() {
 		this.getBabsang();
 	},
+	mounted() {},
 	methods: {
 		async getBabsang(type = '') {
 			this.babsangData = await this.$get(`/babsang${type}`);
