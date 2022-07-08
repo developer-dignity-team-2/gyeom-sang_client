@@ -1,53 +1,63 @@
 <template>
 	<div class="col-6 btn-group">
-		<!-- <div class="col btn-container"> -->
-		<Transition name="slide-up" mode="out-in">
+		<div class="col-12 btn-group" role="group" aria-label="Basic example">
 			<button
 				type="button"
-				class="btn btn-primary"
-				v-if="diningStatus === 'O'"
-				@click="diningStatus = 'C'"
+				:class="{
+					'btn btn-primary': showOperationBabsang === 'open',
+					'btn btn-outline-primary': showOperationBabsang !== 'open',
+				}"
+				style="width: 50%"
+				@click="changeOperationBabsang"
 			>
 				모집 중
 			</button>
 			<button
 				type="button"
-				class="btn btn-primary"
-				v-else-if="diningStatus === 'C'"
-				@click="diningStatus = 'T'"
+				:class="{
+					'btn btn-primary': showOperationBabsang === 'close',
+					'btn btn-outline-primary': showOperationBabsang !== 'close',
+				}"
+				style="width: 50%"
+				@click="changeOperationBabsang"
 			>
 				모집 마감
 			</button>
-			<button
+			<!-- <button
 				type="button"
 				class="btn btn-primary"
 				v-else-if="diningStatus === 'T'"
 				@click="diningStatus = 'O'"
 			>
 				전체 보기
-			</button>
-		</Transition>
+			</button> -->
+		</div>
 	</div>
 	<div class="col-6 btn-group">
-		<!-- <div class="col btn-container"> -->
-		<Transition name="slide-up" mode="out-in">
+		<div class="col-12 btn-group" role="group" aria-label="Basic example">
 			<button
 				type="button"
-				class="btn btn-primary"
-				v-if="recruitDate === 'L'"
-				@click="recruitDate = 'O'"
+				:class="{
+					'btn btn-primary': showPeriodBabsang === 'young',
+					'btn btn-outline-primary': showPeriodBabsang !== 'young',
+				}"
+				style="width: 100%"
+				@click="changePeriodBabsang"
 			>
 				최신순
 			</button>
 			<button
 				type="button"
-				class="btn btn-primary"
-				v-else-if="recruitDate === 'O'"
-				@click="recruitDate = 'L'"
+				:class="{
+					'btn btn-primary': showPeriodBabsang === 'old',
+					'btn btn-outline-primary': showPeriodBabsang !== 'old',
+				}"
+				style="width: 100%"
+				@click="changePeriodBabsang"
 			>
 				오래된 순
 			</button>
-		</Transition>
+		</div>
 	</div>
 </template>
 <script>
@@ -55,11 +65,8 @@ export default {
 	components: {},
 	data() {
 		return {
-			// trasition 버튼 용: 시작
-			diningStatus: 'O', // 모집 중 O, 모집 마감 C, 전체 보기 T
-			recruitDate: 'L', // 최신 순 L, 오래된 순 O
-			// trasition 버튼 용: 끝
-			showMessage: 'R', // 받은 메시지 R, 보낸 메시지 S
+			showOperationBabsang: 'open', // 모집 중 open, 모집 마감 close
+			showPeriodBabsang: 'young', // 최신 순 young, 오래된 순 old
 		};
 	},
 	setup() {},
@@ -67,39 +74,40 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
-		selectMessageReceived() {
-			this.showMessage = 'R';
+		changeOperationBabsang() {
+			if (this.showOperationBabsang === 'open') {
+				this.showOperationBabsang = 'close';
+				this.$emit('button-signal', this.showOperationBabsang);
+			} else {
+				this.showOperationBabsang = 'open';
+				this.$emit('button-signal', this.showOperationBabsang);
+			}
 		},
-		selectMessagesSent() {
-			this.showMessage = 'S';
+		changePeriodBabsang() {
+			if (this.showPeriodBabsang === 'young') {
+				this.showPeriodBabsang = 'old';
+				this.$emit('button-signal', this.showPeriodBabsang);
+			} else {
+				this.showPeriodBabsang = 'young';
+				this.$emit('button-signal', this.showPeriodBabsang);
+			}
 		},
 	},
 };
 </script>
 <style scoped lang="scss">
 // 모집 중/모집 완료, 최신순/오래된 순 버튼
-.btn-container {
-	display: inline-block;
-	position: relative;
-	height: 1em;
+.btn-primary {
+	color: #575757;
+	background-color: #ffcb00;
+	border-color: #ffcb00;
+	pointer-events: none;
 }
-
-button {
-	position: absolute;
-}
-
-.slide-up-enter-active,
-.slide-up-leave-active {
-	transition: all 0.1s ease-out;
-}
-
-.slide-up-enter-from {
-	opacity: 0;
-	transform: translateY(10px);
-}
-
-.slide-up-leave-to {
-	opacity: 0;
-	transform: translateY(-10px);
+.btn-outline-primary {
+	color: #575757;
+	border-color: #ffcb00;
+	&:hover {
+		background-color: #fff9e1;
+	}
 }
 </style>

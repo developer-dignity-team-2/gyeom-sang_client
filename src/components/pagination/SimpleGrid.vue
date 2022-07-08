@@ -1,6 +1,6 @@
 <template>
 	<div style="overflow: auto">
-		<table class="table table-striped" v-if="items.length > 0">
+		<table class="table table-hover" v-if="items.length > 0">
 			<thead>
 				<tr>
 					<th scope="col" style="text-align: center">
@@ -12,7 +12,14 @@
 						/>
 					</th>
 					<!-- <th style="text-align: center">#</th> -->
-					<th style="text-align: center" :key="th.key" v-for="th in headers">
+					<th
+						style="text-align: center"
+						:class="{
+							'th-description-width': th.key === 'message_description',
+						}"
+						:key="th.key"
+						v-for="th in headers"
+					>
 						{{ th.title }}
 					</th>
 				</tr>
@@ -24,11 +31,11 @@
 					:key="i"
 					v-for="(user, i) in formattedItems"
 				>
-					<td scope="row">
+					<td style="width: 40px">
 						<input
 							class="form-check-input"
 							type="checkbox"
-							:value="user.email"
+							:value="user.id"
 							v-model="checked"
 							@change="doSelect"
 						/>
@@ -38,49 +45,17 @@
 						v-for="th in headers"
 						:key="th.key"
 						class="text-left"
+						:class="{
+							'nickname-width': th.key === 'nickname',
+							'description-width': th.key === 'message_description',
+							'location-width': th.key === 'restaurant_location',
+						}"
 						@click="messageView()"
 					>
 						{{ user[th.key] }}
 					</td>
 				</tr>
 			</tbody>
-			<!-- <tbody v-if="showMessage === 'S'">
-				<tr :key="i" v-for="(user, i) in sentMessage">
-					<td scope="row">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							:value="user.email"
-							v-model="checked"
-							@change="doSelect"
-						/>
-					</td>
-					<td
-						v-for="th in Headers"
-						:key="th.key"
-						class="text-left"
-						@click="messageView()"
-					>
-						{{ user[th.key] }}
-					</td>
-				</tr>
-			</tbody> -->
-			<!-- <tbody>
-				<tr :key="i" v-for="(item, i) in formattedItems">
-					<td style="text-align: center">{{ i + 1 + sliceStart }}</td>
-					<td style="text-align: center" :key="th.key" v-for="th in headers">
-						<div v-if="th.key != 'GROSS_WEIGHT'">
-							{{ item[th.key] }}
-						</div>
-						<input
-							size="5"
-							type="text"
-							v-if="th.key === 'GROSS_WEIGHT'"
-							v-model="item[th.key]"
-						/>
-					</td>
-				</tr>
-			</tbody> -->
 		</table>
 	</div>
 </template>
@@ -143,7 +118,7 @@ export default {
 		this.checked = [];
 		if (this.checked_all) {
 			for (let i in this.items) {
-				this.checked.push(this.items[i].email);
+				this.checked.push(this.items[i].id);
 			}
 		}
 	console.log(this.checked)
@@ -161,3 +136,23 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+// 메시지 말줄임 처리
+.nickname-width{
+	max-width: 120px;
+}
+.description-width{
+	max-width: 320px;
+}
+.location-width{
+	max-width: 160px;
+}
+td
+{
+	//  min-width: 200px;
+	//  max-width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+</style>

@@ -11,7 +11,7 @@
 	</div>
 </template>
 <script>
-import BabsangCard from '@/components/BabsangCard';
+import BabsangCard from '@/components/common/BabsangCard';
 export default {
 	name: 'MainCardList',
 	data() {

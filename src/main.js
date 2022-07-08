@@ -4,6 +4,10 @@ import router from './router';
 import store from './store';
 import mixins from './mixins';
 
+/* Sweetalert */
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
+
 /* bootstrap */
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -30,6 +34,7 @@ createApp(App)
 	.component('font-awesome-icon', FontAwesomeIcon)
 	.use(store)
 	.use(router)
+	.use(VueSweetalert2)
 	.mixin(mixins)
 	.mount('#app');
 

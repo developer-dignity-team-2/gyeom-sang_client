@@ -51,8 +51,17 @@
 						style="display: flex; justify-content: center"
 						v-show="showButton()"
 					>
-						<button type="button" class="btn btn-primary" @click="doComfirm()">
-							선택 완료(메시지 발송)
+						<button
+							type="button"
+							:class="{
+								'btn btn-primary': buttonSignal === 0,
+								'btn btn-outline-primary': buttonSignal !== 0,
+							}"
+							@click="doComfirm()"
+						>
+							총 {{ diningTableSpoons.dining_count }}명 중
+							{{ selectedSpoons.length + fixedSpoons.length }}명 확정(메시지
+							발송)
 						</button>
 					</div>
 				</div>
@@ -87,46 +96,7 @@
 			<div class="col">
 				<div class="row">
 					<!-- 정렬 버튼 -->
-					<div class="col-6 btn-group">
-						<Transition name="slide-up" mode="out-in">
-							<button
-								type="button"
-								class="btn btn-primary"
-								v-if="sortMannerScore === 'H'"
-								@click="sortMannerScore = 'L'"
-							>
-								식사 매너 점수 높은 순
-							</button>
-							<button
-								type="button"
-								class="btn btn-light"
-								v-else-if="sortMannerScore === 'L'"
-								@click="sortMannerScore = 'H'"
-							>
-								식사 매너 점수 낮은 순
-							</button>
-						</Transition>
-					</div>
-					<div class="col-6 btn-group">
-						<Transition name="slide-up" mode="out-in">
-							<button
-								type="button"
-								class="btn btn-primary"
-								v-if="sortrecruitDate === 'F'"
-								@click="sortrecruitDate = 'S'"
-							>
-								신청이 빠른 순
-							</button>
-							<button
-								type="button"
-								class="btn btn-light"
-								v-else-if="sortrecruitDate === 'S'"
-								@click="sortrecruitDate = 'F'"
-							>
-								신청이 느린 순
-							</button>
-						</Transition>
-					</div>
+					<ButtonModuleForSelectSpoon />
 				</div>
 			</div>
 		</div>
@@ -136,8 +106,10 @@
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
 				:class="{
 					disabled:
-						spoon.email === checkedEmail[checkedEmail.indexOf(spoon.email)],
+						spoon.email === checkedEmail[checkedEmail.indexOf(spoon.email)] ||
+						spoon.email === fixedSpoons[fixedSpoons.indexOf(spoon.email)],
 					enabled:
+						spoon.email !== fixedSpoons[fixedSpoons.indexOf(spoon.email)] &&
 						spoon.email !== checkedEmail[checkedEmail.indexOf(spoon.email)],
 				}"
 				:key="spoon.email"
@@ -158,257 +130,273 @@
 	</div>
 </template>
 <script>
-import userCard from '@/components/UserCard';
+import ButtonModuleForSelectSpoon from '@/components/babsangselect/ButtonModuleForSelectSpoon';
+import userCard from '@/components/profile/UserCard';
 export default {
 	name: 'BabsangSelect',
-	components: { userCard },
+	components: { userCard, ButtonModuleForSelectSpoon },
 	data() {
 		return {
-			// trasition 버튼 용: 시작
-			sortMannerScore: 'H', // 식사 매너 점수 높은 순 H, 식사 매너 점수 낮은 순 L
-			sortrecruitDate: 'F', // 신청이 빠른 순 F, 신청이 느린 순 S
-			// trasition 버튼 용: 끝
-			// comfirm: false,
-			babsang: 0,
 			babsangMessage: '',
 			diningTableSpoons: {
 				spoon_email: 'spoon1@gmail.com',
 				nickname: '숟갈1',
 				dining_table_id: 1,
-				dining_count: 3,
+				dining_count: 3, // 4인상으로 가정
 			},
+			fixedSpoons: [],
 			selectedSpoons: [],
 			checkedNickname: [],
 			checkedEmail: [],
 			user: [
-				{
-					email: 'spoon1@gmail.com',
-					gender: '여성',
-					nickname: '숟갈1',
-					profile_image: require('../assets/img/users/w1.png'),
-					age_range: '20대',
-					dining_score: 3.2,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon2@gmail.com',
-					gender: '여성',
-					nickname: '숟갈2',
-					profile_image: require('../assets/img/users/w2.png'),
-					age_range: '20대',
-					dining_score: 3.5,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon3@gmail.com',
-					gender: '여성',
-					nickname: '숟갈3',
-					profile_image: require('../assets/img/users/w3.png'),
-					age_range: '20대',
-					dining_score: 3.3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon4@gmail.com',
-					gender: '여성',
-					nickname: '숟갈4',
-					profile_image: require('../assets/img/users/w4.png'),
-					age_range: '20대',
-					dining_score: 3.7,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon5@gmail.com',
-					gender: '여성',
-					nickname: '숟갈5',
-					profile_image: require('../assets/img/users/w5.png'),
-					age_range: '20대',
-					dining_score: 3.6,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon6@gmail.com',
-					gender: '여성',
-					nickname: '숟갈6',
-					profile_image: require('../assets/img/users/w6.png'),
-					age_range: '20대',
-					dining_score: 3.8,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon7@gmail.com',
-					gender: '여성',
-					nickname: '숟갈7',
-					profile_image: require('../assets/img/users/w7.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon8@gmail.com',
-					gender: '여성',
-					nickname: '숟갈8',
-					profile_image: require('../assets/img/users/w8.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon9@gmail.com',
-					gender: '여성',
-					nickname: '숟갈9',
-					profile_image: require('../assets/img/users/w9.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon10@gmail.com',
-					gender: '여성',
-					nickname: '숟갈10',
-					profile_image: require('../assets/img/users/w10.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon11@gmail.com',
-					gender: '여성',
-					nickname: '숟갈11',
-					profile_image: require('../assets/img/users/w11.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon12@gmail.com',
-					gender: '남성',
-					nickname: '숟갈12',
-					profile_image: require('../assets/img/users/m1.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon13@gmail.com',
-					gender: '남성',
-					nickname: '숟갈13',
-					profile_image: require('../assets/img/users/m2.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon14@gmail.com',
-					gender: '남성',
-					nickname: '숟갈14',
-					profile_image: require('../assets/img/users/m3.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon15@gmail.com',
-					gender: '남성',
-					nickname: '숟갈15',
-					profile_image: require('../assets/img/users/m4.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon16@gmail.com',
-					gender: '남성',
-					nickname: '숟갈16',
-					profile_image: require('../assets/img/users/m5.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon17@gmail.com',
-					gender: '남성',
-					nickname: '숟갈17',
-					profile_image: require('../assets/img/users/m6.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon18@gmail.com',
-					gender: '남성',
-					nickname: '숟갈18',
-					profile_image: require('../assets/img/users/m7.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon19@gmail.com',
-					gender: '남성',
-					nickname: '숟갈19',
-					profile_image: require('../assets/img/users/m8.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon20@gmail.com',
-					gender: '남성',
-					nickname: '숟갈20',
-					profile_image: require('../assets/img/users/m9.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon21@gmail.com',
-					gender: '남성',
-					nickname: '숟갈21',
-					profile_image: require('../assets/img/users/m10.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
-				{
-					email: 'spoon22@gmail.com',
-					gender: '남성',
-					nickname: '숟갈22',
-					profile_image: require('../assets/img/users/m11.png'),
-					age_range: '20대',
-					dining_score: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				},
+				// {
+				// 	email: 'spoon1@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈1',
+				// 	profile_image: require('../assets/img/users/w1.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3.2,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon2@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈2',
+				// 	profile_image: require('../assets/img/users/w2.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3.5,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon3@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈3',
+				// 	profile_image: require('../assets/img/users/w3.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3.3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon4@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈4',
+				// 	profile_image: require('../assets/img/users/w4.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3.7,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon5@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈5',
+				// 	profile_image: require('../assets/img/users/w5.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3.6,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon6@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈6',
+				// 	profile_image: require('../assets/img/users/w6.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3.8,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon7@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈7',
+				// 	profile_image: require('../assets/img/users/w7.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon8@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈8',
+				// 	profile_image: require('../assets/img/users/w8.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon9@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈9',
+				// 	profile_image: require('../assets/img/users/w9.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon10@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈10',
+				// 	profile_image: require('../assets/img/users/w10.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon11@gmail.com',
+				// 	gender: '여성',
+				// 	nickname: '숟갈11',
+				// 	profile_image: require('../assets/img/users/w11.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon12@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈12',
+				// 	profile_image: require('../assets/img/users/m1.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon13@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈13',
+				// 	profile_image: require('../assets/img/users/m2.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon14@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈14',
+				// 	profile_image: require('../assets/img/users/m3.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon15@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈15',
+				// 	profile_image: require('../assets/img/users/m4.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon16@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈16',
+				// 	profile_image: require('../assets/img/users/m5.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon17@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈17',
+				// 	profile_image: require('../assets/img/users/m6.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon18@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈18',
+				// 	profile_image: require('../assets/img/users/m7.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon19@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈19',
+				// 	profile_image: require('../assets/img/users/m8.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon20@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈20',
+				// 	profile_image: require('../assets/img/users/m9.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon21@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈21',
+				// 	profile_image: require('../assets/img/users/m10.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
+				// {
+				// 	email: 'spoon22@gmail.com',
+				// 	gender: '남성',
+				// 	nickname: '숟갈22',
+				// 	profile_image: require('../assets/img/users/m11.png'),
+				// 	age_range: '20대',
+				// 	dining_score: 3,
+				// 	dining_spoons_description:
+				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+				// },
 			],
+			babsangDetailData: [],
 		};
+	},
+	computed: {
+		buttonSignal: function () {
+			return (
+				this.fixedSpoons.length +
+				this.selectedSpoons.length -
+				this.diningTableSpoons.dining_count
+			);
+		},
 	},
 	setup() {},
 	created() {},
-	mounted() {},
+	mounted() {
+		// console.log(this.fixedSpoons[0]);
+		this.getBabsangSpoons();
+		// console.log(this.$store.state.user.userData);
+	},
 	unmounted() {},
 	methods: {
+		async getBabsangSpoons() {
+			const temp = await this.$get(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+			);
+			console.log(temp.result);
+		},
 		writeMessage() {
 			this.babsangMessage =
 				'축하합니다 ^O^ ' +
@@ -418,26 +406,27 @@ export default {
 				'번 밥상의 숟갈로 선정되셨습니다.';
 		},
 		showButton() {
-			if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
+			// if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
+			if (this.selectedSpoons.length > 0) {
 				return true;
 			} else {
 				return false;
 			}
 		},
 		doComfirm() {
-			if (this.comfirm === false) {
-				this.comfirm = true;
-			} else {
-				this.comfirm = false;
-			}
+			console.log(this.selectedSpoons);
+			console.log(this.checkedEmail);
 		},
 		doSelect(spoon) {
-			if (this.selectedSpoons.length < this.diningTableSpoons.dining_count) {
-				console.log('숟갈 선택');
+			if (
+				this.selectedSpoons.length + this.fixedSpoons.length <
+				this.diningTableSpoons.dining_count
+			) {
 				this.selectedSpoons.push(spoon);
 				this.checkedEmail.push(spoon.email);
 				this.checkedNickname.push(spoon.nickname);
 				this.writeMessage();
+				console.log(this.checkedEmail);
 			}
 		},
 		doCancel(spoon) {
@@ -542,5 +531,19 @@ button {
 .slide-up-leave-to {
 	opacity: 0;
 	transform: translateY(-10px);
+}
+
+// 메시지 발송 버튼
+.btn-primary {
+	color: #575757;
+	background-color: #ffcb00;
+	border-color: #ffcb00;
+}
+.btn-outline-primary {
+	color: #575757;
+	border-color: #ffcb00;
+	&:hover {
+		background-color: #fff9e1;
+	}
 }
 </style>

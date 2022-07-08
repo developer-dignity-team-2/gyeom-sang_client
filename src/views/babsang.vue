@@ -45,7 +45,7 @@
 							</li>
 							<li>
 								<dl>
-									<dt>모집기간</dt>
+									<dt>모집 기간</dt>
 									<dd>
 										{{
 											String(babsangDetailData.recruit_start_date).slice(0, 10)
@@ -75,12 +75,12 @@
 							<li>
 								<dl>
 									<dt>식당 위치</dt>
-									<dd>제주특별자치도 서귀포시 색달동 일주서로 968-10</dd>
+									<dd>{{ babsangDetailData.restaurant_location }}</dd>
 								</dl>
 							</li>
 						</ul>
 						<div class="img-wrap map-wrap rounded">
-							<img src="@/assets/img/exampleMap.jpg" alt="food1" />
+							<BabsangMap />
 						</div>
 					</div>
 					<div class="col d-flex justify-content-center my-5">
@@ -110,6 +110,7 @@
 					<!-- 밥장 정보 -->
 					<div class="row">
 						<UserCard
+							v-if="babsangDetailData.dining_score !== undefined"
 							:email="babsangDetailData.host_email"
 							:gender="babsangDetailData.gender"
 							:nickname="babsangDetailData.nickname"
@@ -145,28 +146,16 @@
 </template>
 
 <script>
-import UserCard from '@/components/UserCard';
-import CommentCreate from '@/components/CommentCreate';
-import CommentList from '@/components/CommentList';
+import UserCard from '@/components/profile/UserCard';
+import CommentCreate from '@/components/babsang/CommentCreate';
+import CommentList from '@/components/babsang/CommentList';
+import BabsangMap from '@/components/kakaoMap/BabsangMap';
 export default {
 	name: 'Babsang',
-	components: { UserCard, CommentCreate, CommentList },
+	components: { UserCard, CommentCreate, CommentList, BabsangMap },
 	data() {
 		return {
 			babsangDetailData: [],
-			babjang: [
-				{
-					dining_table_id: 1,
-					email: 'babjang1@gmail.com',
-					gender: '남자',
-					nickname: '밥장9',
-					profile_image: require('../assets/img/users/m9.png'),
-					age_range: '20대',
-					dining_score: 4.7,
-					dining_spoons_description:
-						'책임감있는 밥장이 될게요! 믿고 맡겨 주세요~!',
-				},
-			],
 		};
 	},
 
@@ -209,7 +198,8 @@ export default {
 		},
 		goSelectPage() {
 			this.$router.push({
-				path: '/babsang-select',
+				name: 'BabsangSelect',
+				params: { babsangId: this.$route.params.babsangId },
 			});
 		},
 		async getBabsangDetailData() {
@@ -217,6 +207,7 @@ export default {
 				'/babsang/' + this.$route.params.babsangId,
 			);
 			this.babsangDetailData = this.babsangDetailData.result[0];
+			console.log('----------babsangDetailData----------');
 			console.log(this.babsangDetailData);
 		},
 		currentStatus() {
@@ -243,8 +234,25 @@ export default {
 			}
 			return genderStatus;
 		},
-		openApplyForm() {
-			alert('신청하기');
+		async openApplyForm() {
+			await this.$post(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
+				{
+					param: {
+						apply_yn: 'Y',
+					},
+				},
+			);
+			this.$swal({
+				// title: `${this.$store.state.user.userData.profile.nickname}님은`,
+				// text: `${this.$route.params.babsangId}번 밥상에 신청이 완료되었습니다.`,
+				title: `${this.babsangDetailData.restaurant_name}(${this.$route.params.babsangId}번) 밥상`,
+				text: '신청이 완료되었습니다.',
+				icon: 'success',
+				iconColor: '#ffcb00',
+				confirmButtonText: '확인',
+				confirmButtonColor: '#ffcb00',
+			});
 		},
 	},
 };
@@ -284,5 +292,17 @@ dl {
 }
 dt {
 	margin-right: 1rem;
+}
+
+// Sweetalert
+.swal-button {
+	padding: 7px 19px;
+	border-radius: 2px;
+	background-color: #ffcb00;
+	//   background-color: #4962B3;
+	font-size: 12px;
+	border: 1px solid #ffcb00;
+	//   border: 1px solid #3e549a;
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 </style>

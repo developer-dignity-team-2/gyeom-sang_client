@@ -1,0 +1,213 @@
+<template>
+	<div class="mapBackground">
+		<div class="mapContainer">
+			<button @click="closeModal" class="close">선택하기</button>
+
+			<h1>식당을 검색해보세요.</h1>
+			<div class="controll">
+				<button @click="zoomIn()">ZOOM+</button>
+				<button @click="zoomOut()">ZOOM-</button>
+				<span id="maplevel"></span>
+			</div>
+			<div class="map-area" style="display: flex">
+				<div class="searchbox">
+					<div>
+						<input
+							type="text"
+							v-model="keywordValue"
+							@keyup.enter="searchPlace"
+						/>
+					</div>
+					<div class="results">
+						<div
+							class="place"
+							v-for="rs in search.results"
+							:key="rs.id"
+							@click="showPlace(rs)"
+						>
+							<h3>{{ rs.place_name }}</h3>
+							<p>{{ rs.road_address_name }}</p>
+						</div>
+					</div>
+				</div>
+				<div id="map" style="width: 500px; height: 500px"></div>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+export default {
+	components: {},
+	props: ['isShow'],
+	data() {
+		return {
+			// 지도
+			infowindow: '',
+			marker: '',
+			map: null,
+			// 장소 검색 객체
+			ps: null,
+			bounds: '',
+			mapInstance: '',
+			search: {
+				keyword: null,
+				pgn: null,
+				results: [],
+			},
+			keywordValue: '',
+			options: {
+				center: '',
+				level: '',
+			},
+			placeName: '',
+			placeAddress: '',
+		};
+	},
+	mounted() {
+		if (!window.kakao || !window.kakao.maps) {
+			const script = document.createElement('script');
+			script.src =
+				'//dapi.kakao.com/v2/maps/sdk.js?autoload=false&libraries=services&appkey=' +
+				process.env.VUE_APP_KAKAO_API_KEY;
+			document.head.appendChild(script);
+			/* global kakao */
+
+			script.addEventListener('load', () => {
+				console.log('----------kakao maps object----------');
+				console.log(kakao.maps);
+				kakao.maps.load(this.initMap);
+			});
+		} else {
+			this.initMap();
+		}
+	},
+
+	unmounted() {},
+	methods: {
+		closeModal() {
+			console.log(this.placeName);
+			console.log(this.placeAddress);
+			this.$store.commit('toggleShow');
+			this.$emit('placeInfo', this.placeName, this.placeAddress);
+			// this.$store.commit('selectPlaceInfo', this.placeName, this.placeAddress);
+		},
+		initMap() {
+			const container = document.getElementById('map');
+			this.options = {
+				center: new kakao.maps.LatLng(37.566826, 126.9786567),
+				level: 6,
+			};
+			this.mapInstance = new kakao.maps.Map(container, this.options);
+			console.log(this.mapInstance);
+			this.displayLevel();
+		},
+		searchPlace(e) {
+			this.keywordValue = e.target.value;
+			const keyword = e.target.value.trim();
+			if (keyword.length === 0) {
+				return;
+			}
+			const ps = new kakao.maps.services.Places();
+			ps.keywordSearch(keyword, (data, status, pgn) => {
+				this.search.keyword = keyword;
+				this.search.pgn = pgn;
+				this.search.results = data;
+			});
+			console.log(this.search);
+		},
+		showPlace(place) {
+			console.log('------------선택한 마커 정보------------');
+			console.log(place);
+			// 해당 좌표 정보 객체 생성 (y : lat, x : long)
+			const moveLatLon = new kakao.maps.LatLng(place.y, place.x);
+			this.marker = new kakao.maps.Marker({
+				position: moveLatLon,
+			});
+
+			// 중심 좌표로 지도 이동
+			this.mapInstance.setCenter(moveLatLon);
+
+			// 해당 좌표 마커 생성
+			this.marker.setMap(this.mapInstance);
+
+			// 마커에 인포윈도우 생성
+			const iwContent = `<div style="padding:5px;">${place.place_name}<br>${place.road_address_name}<br></div>`;
+
+			this.infowindow = new kakao.maps.InfoWindow({
+				position: moveLatLon,
+				content: iwContent,
+				removable: true,
+			});
+
+			this.infowindow.open(this.mapInstance, this.marker);
+			this.placeName = place.place_name;
+			this.placeAddress = place.address_name;
+			// kakao.maps.event.addListener(this.marker, 'click', this.test(place));
+		},
+		// test(place) {
+
+		// 	// alert(`${this.placeName} 식당 선택 완료! 닫기버튼을 눌러주세요`);
+		// },
+		zoomIn() {
+			const level = this.mapInstance.getLevel();
+			this.mapInstance.setLevel(level - 1);
+			this.displayLevel();
+		},
+		zoomOut() {
+			const level = this.mapInstance.getLevel();
+			this.mapInstance.setLevel(level + 1);
+			this.displayLevel();
+		},
+		displayLevel() {
+			const levelEl = document.getElementById('maplevel');
+			levelEl.innerHTML = '현재 지도 레벨은' + this.mapInstance.getLevel();
+		},
+	},
+};
+</script>
+<style scoped lang="scss">
+.mapBackground {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
+	background: rgba(0, 0, 0, 0.5);
+	.mapContainer {
+		button.close {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+		background: rgba(255, 255, 255, 1);
+		width: 50vw;
+		height: 70vh;
+		overflow: hidden;
+		position: relative;
+
+		.map-area {
+			.searchbox {
+				.results {
+					h3 {
+						font-size: 12px;
+						font-weight: bold;
+					}
+					p {
+						font-size: 12px;
+					}
+					.place {
+						cursor: pointer;
+						border-bottom: 1px solid #999;
+					}
+				}
+			}
+			#map {
+			}
+		}
+	}
+}
+</style>

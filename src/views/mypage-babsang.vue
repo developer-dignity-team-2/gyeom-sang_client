@@ -11,7 +11,7 @@
 					<h3>참여한 밥상 목록</h3>
 					<!-- 버튼 -->
 					<div class="row mt-4 mb-3">
-						<div class="col-xl-8 col-12 mb-2">
+						<div class="col-xl-6 col-12 mb-2">
 							<div class="row">
 								<div
 									class="col-12 btn-group"
@@ -24,6 +24,7 @@
 											'btn btn-primary': showBabsang === 'A',
 											'btn btn-outline-primary': showBabsang !== 'A',
 										}"
+										style="width: 100%"
 										@click="showAppliedBabsang"
 									>
 										숟갈 얹은 밥상
@@ -34,6 +35,7 @@
 											'btn btn-primary': showBabsang === 'M',
 											'btn btn-outline-primary': showBabsang !== 'M',
 										}"
+										style="width: 100%"
 										@click="showMadeBabsang"
 									>
 										차려 놓은 밥상
@@ -44,6 +46,7 @@
 											'btn btn-primary': showBabsang === 'C',
 											'btn btn-outline-primary': showBabsang !== 'C',
 										}"
+										style="width: 100%"
 										@click="showChosenBabsang"
 									>
 										선정된 밥상
@@ -51,7 +54,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-4 col-12">
+						<div class="col-xl-6 col-12">
 							<!-- 모집중, 최신순 -->
 							<div class="row">
 								<ButtonModule />
@@ -85,7 +88,7 @@ export default {
 	computed: {},
 	mounted() {
 		this.getBabsangData();
-		// this.getAppliedBabsangList();
+		this.getBabsangDataTest();
 	},
 	methods: {
 		showAppliedBabsang() {
@@ -100,8 +103,14 @@ export default {
 		async getBabsangData() {
 			const babsangData = await this.$get('/babsang');
 			this.doAscOrder(babsangData.result, 'id');
-			console.log(babsangData.result);
+			// console.log(babsangData.result);
 			this.babsangData = babsangData;
+		},
+		async getBabsangDataTest() {
+			const babsangData = await this.$get('/babsang/get?type=appliedList');
+			// this.doAscOrder(babsangData.result, 'id');
+			console.log(babsangData.result);
+			// this.babsangData = babsangData;
 		},
 		// 밥상 정렬(모집중/마감/잔체, 최신순/오래된순)
 		doAscOrder(data) {

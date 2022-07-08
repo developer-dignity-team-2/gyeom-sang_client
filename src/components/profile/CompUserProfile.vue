@@ -4,10 +4,10 @@
 			class="dropdown-menu position-static d-grid gap-0 p-3 rounded-3 mx-0 shadow w-220px"
 		>
 			<li>
-				<strong> {{ user[0].nickname }} 님 </strong>
+				<strong> {{ user.profile.nickname }} 님 </strong>
 			</li>
 			<li>
-				{{ user[0].email }}
+				{{ user.email }}
 			</li>
 		</ul>
 		<ul
@@ -59,7 +59,11 @@
 			<li>
 				<strong
 					class="dropdown-item rounded-2 cursor"
-					:class="{ active: $route.path == '/mypage/message' }"
+					:class="{
+						active:
+							$route.path == '/mypage/message' ||
+							$route.path == '/mypage/message-view',
+					}"
 					@click="message()"
 				>
 					메시지함
@@ -79,22 +83,13 @@ export default {
 	name: 'CompUserProfile',
 	data() {
 		return {
-			user: [
-				{
-					email: 'spoon1@gmail.com',
-					gender: '여성',
-					nickname: '숟갈1',
-					profile_image: require('@/assets/img/exprofile2.jpg'),
-					age_range: '20대',
-					mannerScore: 4,
-					dining_spoons_description:
-						'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
-				},
-			],
+			user: [],
 		};
 	},
 	setup() {},
-	created() {},
+	created() {
+		this.user = this.$store.state.user.userData;
+	},
 	mounted() {},
 	unmounted() {},
 	methods: {

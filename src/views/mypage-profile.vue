@@ -22,7 +22,7 @@
 						<fieldset>
 							<div class="form-group mt-4">
 								<label class="form-label">
-									{{ ageRangeForm() }}
+									{{ ageRangeForm(user.age_range) }}
 									{{ user.gender === 'M' ? '남성' : '여성' }}
 								</label>
 							</div>
@@ -33,7 +33,10 @@
 							</div>
 							<!-- 식사매너 별점 -->
 							<div>
-								<stars-rating :config="config" />
+								<stars-rating
+									v-if="user.dining_score !== undefined"
+									:config="config"
+								/>
 							</div>
 							<div class="form-group">
 								<label for="exampleTextarea" class="form-label mt-4"
@@ -84,27 +87,21 @@
 
 <script>
 import CompUserProfile from '@/components/profile/CompUserProfile';
-import starsRating from '@/components/RatingStars';
+import starsRating from '@/components/common/RatingStars';
 export default {
 	name: 'MypageProfile',
 	components: { CompUserProfile, starsRating },
 	data() {
 		return {
 			modifySave: false,
-			// user: [
-			// 	{
-			// 		email: 'spoon1@gmail.com',
-			// 		gender: '여자',
-			// 		nickname: '숟갈1',
-			// 		profile_image: require('../assets/img/exprofile2.jpg'),
-			// 		age_range: '20대',
-			// 		mannerScore: 4,
-			// 		dining_spoons_description:
-			// 			'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
-			// 	},
-			// ],
-			config: {
-				rating: 0,
+			user: {},
+		};
+	},
+	computed: {
+		config: function () {
+			let tmp = {
+				rating: this.user.dining_score,
+				// rating: this.user.dining_score,
 				isIndicatorActive: false,
 				style: {
 					fullStarColor: '#ffcb00',
@@ -112,29 +109,23 @@ export default {
 					starWidth: 50,
 					starHeight: 50,
 				},
-			},
-			user: '',
-		};
-	},
-	computed: {
-		// user() {
-		// 	return this.$store.state.user.userInfo;
-		// },
+			};
+			console.log(this.user.dining_score);
+			return tmp;
+		},
 	},
 	setup() {},
 	created() {
-		this.config.rating = this.user.dining_score;
-	},
-	mounted() {
 		this.getProfileData();
 	},
+	mounted() {},
 	unmounted() {},
 	methods: {
+		// 사용자 정보 가져오기
 		async getProfileData() {
-			const user = await this.$get('/user');
+			const user = await this.$get('https://nicespoons.com/api/v1/user');
 			this.user = user.result[0];
-			console.log('---------------profile data---------------');
-			console.log(this.user);
+			this.config.rating = this.user.dining_score;
 		},
 		doModifySave() {
 			if (this.modifySave === true) {
@@ -143,25 +134,39 @@ export default {
 				this.modifySave = true;
 			}
 		},
-		ageRangeForm() {
-			const front = String(this.user.age_range).slice(0, 1);
-			if (front == 1) {
-				return '10대';
-			} else if (front == 2) {
-				return '20대';
-			} else if (front == 3) {
-				return '30대';
-			} else if (front == 4) {
-				return '40대';
-			} else if (front == 5) {
-				return '50대';
-			} else if (front == 6) {
-				return '60대';
-			} else if (front == 7) {
-				return '70대';
-			} else {
-				return '80대';
+		ageRangeForm(age) {
+			const front = String(age).slice(0, 1);
+			let range = '';
+			switch (front) {
+				case '1':
+					range = '10대';
+					break;
+				case '2':
+					range = '20대';
+					break;
+				case '3':
+					range = '30대';
+					break;
+				case '4':
+					range = '20대(이고 싶다 ㅠ_ㅠ)';
+					break;
+				case '5':
+					range = '50대';
+					break;
+				case 6:
+					range = '60대';
+					break;
+				case 7:
+					range = '70대';
+					break;
+				case 8:
+					range = '80대';
+					break;
+				case 9:
+					range = '90대';
+					break;
 			}
+			return range;
 		},
 	},
 };

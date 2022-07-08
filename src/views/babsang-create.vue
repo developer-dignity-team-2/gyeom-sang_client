@@ -49,34 +49,29 @@
 				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
 					<fieldset>
 						<!-- <legend>밥상 준비하기</legend> -->
-						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4"
+						<div class="form-group" @click="mapToggle">
+							<label for="place-address" class="form-label mt-4"
 								>식당 이름</label
 							>
 							<input
-								type="email"
+								type="text"
 								class="form-control"
-								id="InputRestaurantName"
-								aria-describedby="emailHelp"
-								placeholder="식당 검색시 자동으로 입력됩니다."
+								id="place-address"
+								placeholder="식당 검색하기"
+								v-model="placeName"
 								disabled
 							/>
 						</div>
 						<div class="form-group">
-							<label for="exampleInputEmail1" class="form-label mt-4"
-								>식당 위치 검색</label
-							>
-
+							<label for="place-name" class="form-label mt-4">식당 위치</label>
 							<input
-								type="email"
+								type="text"
 								class="form-control"
-								id="exampleInputEmail1"
-								aria-describedby="emailHelp"
-								placeholder="검색"
+								id="place-name"
+								placeholder="식당 검색시 자동으로 입력됩니다."
+								v-model="placeAddress"
+								disabled
 							/>
-							<div id="map">
-								<!-- <userMap /> -->
-							</div>
 						</div>
 
 						<!-- datepicker 삽입
@@ -276,20 +271,19 @@
 				</form>
 			</div>
 		</div>
+		<KakaoMap v-if="this.$store.state.isShow" @placeInfo="placeInfo" />
 	</div>
 </template>
 
 <script>
-// import userMap from '@/components/UserMap.vue';
+import KakaoMap from '@/components/kakaoMap/KakaoMap.vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Datepicker from 'vue3-datepicker';
-// import { ref } from 'vue';
-// const picked = ref(new Date());
+
 export default {
 	name: 'BabsangCreate',
-	// components: { userMap, Datepicker },
-	components: { Datepicker },
+	components: { Datepicker, KakaoMap },
 	setup() {
 		return {
 			v$: useVuelidate(),
@@ -309,8 +303,11 @@ export default {
 			imageData: '',
 			imgSrc: '',
 			babsangId: '',
+			placeName: '',
+			placeAddress: '',
 		};
 	},
+	computed: {},
 	validations() {
 		return {
 			dining_description: {
@@ -341,7 +338,17 @@ export default {
 		console.log(this.$store.state.user.userData);
 	},
 	mounted() {},
+
 	methods: {
+		placeInfo(name, address) {
+			console.log('-----------------------');
+			console.log(name, address);
+			this.placeName = name;
+			this.placeAddress = address;
+		},
+		mapToggle() {
+			this.$store.commit('toggleShow');
+		},
 		doGenderCheck() {
 			if (this.gender_check === 'M') {
 				return '남성';
@@ -412,10 +419,8 @@ export default {
 					dining_count: this.dining_count,
 					host_email: this.$store.state.user.userData.email,
 
-					// restaurant_name: this.restaurant_name,
-					// restaurant_location: this.restaurant_location,
-					restaurant_name: '애월빵공장',
-					restaurant_location: '제주 제주시 애월읍 금성5길 42-15',
+					restaurant_name: this.placeName,
+					restaurant_location: this.placeAddress,
 				},
 			});
 			// 생성한 밥상 게시물로 이동
@@ -430,6 +435,42 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+// datepicker 스타일
+::v-deep(.form-control:focus) {
+	color: #575757;
+	background-color: #fff;
+	border-color: #ffcb00 !important;
+	outline: 0;
+	box-shadow: 0 0 0 0 rgb(255, 255, 255) !important;
+}
+::v-deep(.v3dp__datepicker) {
+	--popout-bg-color: var(--vdp-bg-color, #fff);
+	--box-shadow: var(
+		--vdp-box-shadow,
+		0 4px 10px 0 rgba(128, 144, 160, 0.1),
+		0 0 1px 0 rgba(128, 144, 160, 0.81)
+	);
+	--text-color: var(--vdp-text-color, #000000);
+	--border-radius: var(--vdp-border-radius, 3px);
+	--heading-size: var(--vdp-heading-size, 2.5em); /* 40px for 16px font */
+	--heading-weight: var(--vdp-heading-weight, bold);
+	--heading-hover-color: var(--vdp-heading-hover-color, #eeeeee);
+	--arrow-color: var(--vdp-arrow-color, currentColor);
+
+	--elem-color: var(--vdp-elem-color, currentColor);
+	--elem-disabled-color: var(--vdp-disabled-color, #d5d9e0);
+	--elem-hover-color: var(--vdp-hover-color, #fff);
+	--elem-hover-bg-color: var(--vdp-hover-bg-color, #ffcb00);
+	--elem-selected-color: var(--vdp-selected-color, #fff);
+	--elem-selected-bg-color: var(--vdp-selected-bg-color, #ffcb00);
+
+	--elem-font-size: var(--vdp-elem-font-size, 0.8em);
+	--elem-border-radius: var(--vdp-elem-border-radius, 3px);
+
+	--divider-color: var(--vdp-divider-color, var(--elem-disabled-color));
+
+	position: relative;
+}
 .error-msg {
 	color: #ffad00;
 	padding: 0.5rem;
@@ -495,7 +536,8 @@ export default {
 	clip: rect(0, 0, 0, 0);
 }
 .list-group-item-check:hover + .list-group-item {
-	background-color: var(--bs-light);
+	// background-color: var(--bs-light);
+	background-color: #fff9e1;
 }
 .list-group-item-check:checked + .list-group-item {
 	color: #fff;
@@ -518,6 +560,7 @@ export default {
 }
 .list-group-radio .list-group-item:hover,
 .list-group-radio .list-group-item:focus {
+	// background-color: #fff9e1;
 	background-color: var(--bs-light);
 }
 
