@@ -80,7 +80,10 @@
 							</li>
 						</ul>
 						<div class="img-wrap map-wrap rounded">
-							<BabsangMap />
+							<BabsangMap
+								:lat="babsangDetailData.restaurant_latitude"
+								:long="babsangDetailData.restaurant_longitude"
+							/>
 						</div>
 					</div>
 					<div class="col d-flex justify-content-center my-5">
