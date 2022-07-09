@@ -29,29 +29,28 @@
                      <p class="text-muted">{{ list.create_date }}</p> -->
 						</div>
 					</div>
+					<div v-if="list.user_email === user.email">
+						<div class="mar-btm">
+							<div
+								class="btn-group btn-group-sm"
+								role="group"
+								v-show="!commentSave"
+								style="cursor: pointer; margin-right: 5px"
+								@click="doCommentSave(list.id)"
+							>
+								수정 |
+							</div>
 
-					<div class="mar-btm">
-						<div
-							class="btn-group btn-group-sm"
-							role="group"
-							v-show="!commentSave"
-							style="cursor: pointer; margin-right: 5px"
-							@click="doCommentSave(list.id)"
-						>
-							수정 |
-						</div>
-
-						<div
-							class="btn-group btn-group-sm"
-							role="group"
-							v-show="!commentSave"
-							style="cursor: pointer"
-							@click="deleteComment(list.id)"
-						>
-							삭제
-						</div>
-
-						<!-- <a
+							<div
+								class="btn-group btn-group-sm"
+								role="group"
+								v-show="!commentSave"
+								style="cursor: pointer"
+								@click="deleteComment(list.id)"
+							>
+								삭제
+							</div>
+							<!-- <a
                      onclick=""
                      class="btn-link text-small"
                      style="text-decoration: none; color: inherit"
@@ -67,23 +66,23 @@
                      @click="deleteComment(list.id)"
                      >삭제</a
                   > -->
-					</div>
-
-					<div v-show="commentSave" style="float: right">
-						<button
-							type="button"
-							class="btn btn-primary mx-2 btn-sm"
-							@click="doCommentPut(list.id, list.comment_description)"
-						>
-							저장
-						</button>
-						<button
-							type="submit"
-							class="btn btn-secondary btn-sm"
-							@click="doCommentSave()"
-						>
-							취소
-						</button>
+							<div v-show="commentSave" style="float: right">
+								<button
+									type="button"
+									class="btn btn-primary mx-2 btn-sm"
+									@click="doCommentPut(list.id, list.comment_description)"
+								>
+									저장
+								</button>
+								<button
+									type="submit"
+									class="btn btn-secondary btn-sm"
+									@click="doCommentSave()"
+								>
+									취소
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -148,61 +147,46 @@
 								<p class="text-muted">{{ recomment.create_date }}</p>
 							</div>
 						</div>
-
-						<div class="mar-btm">
-							<div
-								class="btn-group btn-group-sm"
-								role="group"
-								v-show="!commentSave"
-								style="cursor: pointer; margin-right: 5px"
-								@click="doCommentSave(recomment.id)"
-							>
-								수정 |
-							</div>
-
-							<div
-								class="btn-group btn-group-sm"
-								role="group"
-								v-show="!commentSave"
-								style="cursor: pointer"
-								@click="deleteComment(recomment.id)"
-							>
-								삭제
-							</div>
-
-							<div v-show="commentSave" style="float: right">
-								<button
-									type="button"
-									class="btn btn-primary mx-2 btn-sm"
-									@click="
-										doCommentPut(recomment.id, recomment.comment_description)
-									"
+						<div v-if="recomment.user_email === user.email">
+							<div class="mar-btm">
+								<div
+									class="btn-group btn-group-sm"
+									role="group"
+									v-show="!commentSave"
+									style="cursor: pointer; margin-right: 5px"
+									@click="doCommentSave(recomment.id)"
 								>
-									저장
-								</button>
-								<button
-									type="submit"
-									class="btn btn-secondary btn-sm"
-									@click="doCommentSave()"
+									수정 |
+								</div>
+								<div
+									class="btn-group btn-group-sm"
+									role="group"
+									v-show="!commentSave"
+									style="cursor: pointer"
+									@click="deleteComment(recomment.id)"
 								>
-									취소
-								</button>
+									삭제
+								</div>
+
+								<div v-show="commentSave" style="float: right">
+									<button
+										type="button"
+										class="btn btn-primary mx-2 btn-sm"
+										@click="
+											doCommentPut(recomment.id, recomment.comment_description)
+										"
+									>
+										저장
+									</button>
+									<button
+										type="submit"
+										class="btn btn-secondary btn-sm"
+										@click="doCommentSave()"
+									>
+										취소
+									</button>
+								</div>
 							</div>
-							<!-- <a
-                        href="#"
-                        class="btn-link text-small"
-                        style="text-decoration: none; color: inherit"
-                        @click="commentChange()"
-                        >수정</a
-                     >
-                     |
-                     <a
-                        href="#"
-                        class="btn-link text-small"
-                        style="text-decoration: none; color: inherit"
-                        @click="deleteComment()"
-                        >삭제</a
-                     > -->
 						</div>
 					</div>
 					<!-- 댓글 내용 -->
@@ -226,7 +210,13 @@
 import RecommentCreate from '@/components/babsang/RecommentCreate';
 export default {
 	components: { RecommentCreate },
+	computed: {
+		user() {
+			return this.$store.state.user.userData;
+		},
+	},
 	data() {
+		['email'];
 		return {
 			comment_description: '',
 			comment_parent_id: '',
@@ -244,6 +234,7 @@ export default {
 	unmounted() {},
 	methods: {
 		// 댓글 수정/취소하는 함수 o
+
 		doCommentSave(ListId) {
 			console.log(ListId);
 			if (this.commentSave === true) {
