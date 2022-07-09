@@ -67,22 +67,23 @@
                      >삭제</a
                   > -->
 					</div>
-				</div>
-				<div v-show="commentSave" style="float: right">
-					<button
-						type="button"
-						class="btn btn-primary mx-2"
-						@click="doCommentPut(list.id, list.comment_description)"
-					>
-						저장
-					</button>
-					<button
-						type="submit"
-						class="btn btn-secondary"
-						@click="doCommentSave()"
-					>
-						취소
-					</button>
+
+					<div v-show="commentSave" style="float: right">
+						<button
+							type="button"
+							class="btn btn-primary mx-2"
+							@click="doCommentPut(comment.id, comment.comment_description)"
+						>
+							저장
+						</button>
+						<button
+							type="submit"
+							class="btn btn-secondary"
+							@click="doCommentSave()"
+						>
+							취소
+						</button>
+					</div>
 				</div>
 
 				<!-- 댓글 내용 -->
@@ -115,6 +116,7 @@
 					<RecommentCreate :parent_id="(this.comment_parent_id = list.id)" />
 				</div>
 			</div>
+			<hr />
 			<!-- 대댓글  -->
 			<div
 				v-for="recomment in commentList"
@@ -166,6 +168,25 @@
 								>
 									삭제
 								</div>
+
+								<div v-show="commentSave" style="float: right">
+									<button
+										type="button"
+										class="btn btn-primary mx-2"
+										@click="
+											doCommentPut(recomment.id, recomment.comment_description)
+										"
+									>
+										저장
+									</button>
+									<button
+										type="submit"
+										class="btn btn-secondary"
+										@click="doCommentSave()"
+									>
+										취소
+									</button>
+								</div>
 								<!-- <a
                         href="#"
                         class="btn-link text-small"
@@ -183,21 +204,19 @@
                      > -->
 							</div>
 						</div>
-
-						<!-- 댓글 내용 -->
-						<div>
-							<textarea
-								class="form-control"
-								v-model="recomment.comment_description"
-								id="Textarea"
-								rows="3"
-								style="height: 128px; resize: none"
-								placeholder="댓글 내용"
-							></textarea>
-						</div>
+					</div>
+					<!-- 댓글 내용 -->
+					<div>
+						<textarea
+							:disabled="!commentSave"
+							class="form-control"
+							v-model="recomment.comment_description"
+							id="Textarea"
+							rows="3"
+							style="height: 128px; resize: none"
+						></textarea>
 					</div>
 				</div>
-				<hr />
 			</div>
 		</div>
 	</div>
@@ -252,6 +271,7 @@ export default {
 				// const id = this.commentList.id;
 				await this.$delete('/comment/' + commentListId);
 			}
+			this.$router.go();
 		},
 		// 댓글 불러오는 함수 o
 		async getCommentList() {
