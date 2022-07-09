@@ -47,7 +47,8 @@
 									style="resize: none"
 									id="exampleTextarea"
 									rows="3"
-									:disabled="!userInfo"
+									disabled
+									ref="modifyDescription"
 									v-model="user.profile_description"
 								></textarea>
 							</div>
@@ -71,7 +72,7 @@
 									<button
 										type="submit"
 										class="btn btn-secondary"
-										@click="doModify()"
+										@click="cancleModify()"
 									>
 										취소
 									</button>
@@ -95,11 +96,12 @@ export default {
 		return {
 			userInfo: false,
 			user: {},
+			tempProfileDescription: '',
 		};
 	},
 	computed: {
 		config: function () {
-			let tmp = {
+			let temp = {
 				rating: this.user.dining_score,
 				// rating: this.user.dining_score,
 				isIndicatorActive: false,
@@ -111,7 +113,7 @@ export default {
 				},
 			};
 			console.log(this.user.dining_score);
-			return tmp;
+			return temp;
 		},
 	},
 	setup() {},
@@ -126,20 +128,38 @@ export default {
 			const user = await this.$get('https://nicespoons.com/api/v1/user');
 			this.user = user.result[0];
 			this.config.rating = this.user.dining_score;
+			console.log(this.user);
 		},
 		async doModify() {
+			this.tempProfileDescription = this.user.profile_description;
 			if (this.userInfo === true) {
 				await this.$put('https://nicespoons.com/api/v1/user', {
 					param: {
-						// profile_image: 'test_image.png',
 						profile_description: this.user.profile_description,
 					},
 				});
 				console.log('수정된 자기소개 : ', this.user.profile_description);
+				this.$swal({
+					title: `${this.user.nickname}님의`,
+					text: '사용자 정보가 수정되었습니다.',
+					icon: 'success',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
 				this.userInfo = false;
 			} else {
 				this.userInfo = true;
+				this.$refs.modifyDescription.disabled = false;
+				this.$refs.modifyDescription.focus();
 			}
+		},
+		cancleModify() {
+			this.user.profile_description = this.tempProfileDescription;
+			this.userInfo = false;
+		},
+		joinBabsang() {
+			this.$router.push('/mypage/profile');
 		},
 		ageRangeForm(age) {
 			const front = String(age).slice(0, 1);
