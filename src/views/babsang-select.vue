@@ -217,15 +217,13 @@ export default {
 			const loader = this.$loading.show({ canCancel: false });
 
 			for (let spoon of this.selectedSpoons) {
-				let message = {
-					receiver_email: spoon.spoon_email,
-					dining_table_id: this.babsangInfo.id,
-					message_type: 'S',
-					message_description: this.babsangMessage,
-				};
-				console.log('메시지 정보 : ', message);
 				await this.$post('https://nicespoons.com/api/v1/message', {
-					param: { message },
+					param: {
+						receiver_email: spoon.spoon_email,
+						dining_table_id: this.babsangInfo.id,
+						message_type: 'S',
+						message_description: this.babsangMessage,
+					},
 				});
 			}
 
