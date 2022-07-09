@@ -83,6 +83,9 @@ router.beforeEach(function (to, from, next) {
 		})
 	) {
 		alert('로그인 해주세요!');
+		router.push({
+			path: '/',
+		});
 	} else {
 		next(); // 페이지 전환
 	}
