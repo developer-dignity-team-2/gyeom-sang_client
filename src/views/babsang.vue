@@ -208,11 +208,16 @@ export default {
 	methods: {
 		// 숟갈 얹기/빼기 버튼
 		async alreadySpoon() {
+			const loader = this.$loading.show({ canCancel: false });
+
 			const confirmUsers = (
 				await this.$get(
 					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
 				)
 			).result;
+
+			loader.hide();
+
 			console.log('숟갈 얹은 유저들 :', confirmUsers);
 			console.log(this.$store.state.user.userData);
 			let user = this.$store.state.user.userData.email;
@@ -230,6 +235,8 @@ export default {
 		},
 		// 숟갈 얹기
 		async openApplyForm() {
+			const loader = this.$loading.show({ canCancel: false });
+
 			await this.$post(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
 				{
@@ -238,6 +245,9 @@ export default {
 					},
 				},
 			);
+
+			loader.hide();
+
 			this.$swal({
 				title: '숟갈 얹기 성공!',
 				text: `${this.$store.state.user.userData.profile.nickname}님은 ${this.babsangDetailData.restaurant_name} 밥상에 숟갈을 얹으셨습니다.`,
@@ -251,6 +261,9 @@ export default {
 		// 숟갈 빼기
 		async pickCancle() {
 			console.log('숟갈 뺄 밥상 번호 : ', this.$route.params.babsangId);
+
+			const loader = this.$loading.show({ canCancel: false });
+
 			const confirm = (
 				await this.$get(
 					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
@@ -270,6 +283,9 @@ export default {
 					);
 				}
 			}
+
+			loader.hide();
+
 			this.$swal({
 				title: '숟갈 빼기 완료!',
 				text: `${this.$store.state.user.userData.profile.nickname}님은 ${this.babsangDetailData.restaurant_name} 밥상에서 숟갈을 빼셨습니다.`,
