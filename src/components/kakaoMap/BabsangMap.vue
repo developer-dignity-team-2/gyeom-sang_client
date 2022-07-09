@@ -45,8 +45,6 @@ export default {
 	},
 	methods: {
 		initMap() {
-			console.log('initmap');
-			console.log(this.lat, this.long);
 			const container = document.getElementById('map');
 			const placeLatLon = new kakao.maps.LatLng(this.lat, this.long);
 

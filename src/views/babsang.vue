@@ -82,8 +82,8 @@
 						<div class="img-wrap map-wrap rounded">
 							<BabsangMap
 								v-if="
-									babsangDetailData.restaurant_latitude !== undefined &&
-									babsangDetailData.restaurant_longitude !== undefined
+									babsangDetailData.restaurant_latitude &&
+									babsangDetailData.restaurant_longitude
 								"
 								:lat="babsangDetailData.restaurant_latitude"
 								:long="babsangDetailData.restaurant_longitude"
@@ -176,7 +176,7 @@ export default {
 	data() {
 		return {
 			babsangDetailData: [],
-			spoonStatus: false, // false 방상에 숟갈 없음, true 방상에 숟갈 있음
+			spoonStatus: '', // false 방상에 숟갈 없음, true 방상에 숟갈 있음
 			countAppliedSpoons: 0,
 		};
 	},

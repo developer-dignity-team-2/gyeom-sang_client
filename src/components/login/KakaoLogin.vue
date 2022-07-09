@@ -2,7 +2,7 @@
 	<div>
 		<p
 			v-if="user.email === undefined"
-			@click="kakaoLogin"
+			@click="loginWithKakao"
 			style="display: inline; cursor: pointer; vertical-align: middle"
 		>
 			로그인
@@ -24,15 +24,13 @@ export default {
 			sampleData: '',
 		};
 	},
-	beforeCreate() {},
-	created() {},
-	beforeMount() {},
-	mounted() {},
-	beforeUpdate() {},
-	updated() {},
-	beforeUnmount() {},
-	unmounted() {},
 	methods: {
+		loginWithKakao() {
+			window.Kakao.Auth.authorize({
+				redirectUri: 'https://developers.kakao.com/tool/demo/loginForm/oauth',
+				prompts: 'login',
+			});
+		},
 		/* 카카오톡 로그인 */
 		kakaoLogin() {
 			window.Kakao.Auth.login({
