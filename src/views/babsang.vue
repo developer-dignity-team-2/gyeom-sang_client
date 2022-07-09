@@ -71,7 +71,7 @@
 					</div>
 					<!-- 지도 -->
 					<div class="col">
-						<ul>
+						<ul class="mb-2">
 							<li>
 								<dl>
 									<dt>식당 위치</dt>

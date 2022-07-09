@@ -21,14 +21,15 @@
 							</div>
 							<p class="text-muted">{{ list.create_date }}</p>
 							<!-- <a
-								href="#"
-								class="btn-link text-semibold fs-5"
-								style="text-decoration: none; color: inherit"
-								>{{ list.user_email }}
-							</a>
-							<p class="text-muted">{{ list.create_date }}</p> -->
+                        href="#"
+                        class="btn-link text-semibold fs-5"
+                        style="text-decoration: none; color: inherit"
+                        >{{ list.user_email }}
+                     </a>
+                     <p class="text-muted">{{ list.create_date }}</p> -->
 						</div>
 					</div>
+
 					<div class="mar-btm">
 						<div
 							class="btn-group btn-group-sm"
@@ -71,14 +72,14 @@
 					<div v-show="commentSave" style="float: right">
 						<button
 							type="button"
-							class="btn btn-primary mx-2"
-							@click="doCommentPut(comment.id, comment.comment_description)"
+							class="btn btn-primary mx-2 btn-sm"
+							@click="doCommentPut(list.id, list.comment_description)"
 						>
 							저장
 						</button>
 						<button
 							type="submit"
-							class="btn btn-secondary"
+							class="btn btn-secondary btn-sm"
 							@click="doCommentSave()"
 						>
 							취소
@@ -147,47 +148,47 @@
 								<p class="text-muted">{{ recomment.create_date }}</p>
 							</div>
 						</div>
+
 						<div class="mar-btm">
-							<div class="mar-btm">
-								<div
-									class="btn-group btn-group-sm"
-									role="group"
-									v-show="!commentSave"
-									style="cursor: pointer; margin-right: 5px"
-									@click="doCommentSave(recomment.id)"
-								>
-									수정 |
-								</div>
+							<div
+								class="btn-group btn-group-sm"
+								role="group"
+								v-show="!commentSave"
+								style="cursor: pointer; margin-right: 5px"
+								@click="doCommentSave(recomment.id)"
+							>
+								수정 |
+							</div>
 
-								<div
-									class="btn-group btn-group-sm"
-									role="group"
-									v-show="!commentSave"
-									style="cursor: pointer"
-									@click="deleteComment(recomment.id)"
-								>
-									삭제
-								</div>
+							<div
+								class="btn-group btn-group-sm"
+								role="group"
+								v-show="!commentSave"
+								style="cursor: pointer"
+								@click="deleteComment(recomment.id)"
+							>
+								삭제
+							</div>
 
-								<div v-show="commentSave" style="float: right">
-									<button
-										type="button"
-										class="btn btn-primary mx-2"
-										@click="
-											doCommentPut(recomment.id, recomment.comment_description)
-										"
-									>
-										저장
-									</button>
-									<button
-										type="submit"
-										class="btn btn-secondary"
-										@click="doCommentSave()"
-									>
-										취소
-									</button>
-								</div>
-								<!-- <a
+							<div v-show="commentSave" style="float: right">
+								<button
+									type="button"
+									class="btn btn-primary mx-2 btn-sm"
+									@click="
+										doCommentPut(recomment.id, recomment.comment_description)
+									"
+								>
+									저장
+								</button>
+								<button
+									type="submit"
+									class="btn btn-secondary btn-sm"
+									@click="doCommentSave()"
+								>
+									취소
+								</button>
+							</div>
+							<!-- <a
                         href="#"
                         class="btn-link text-small"
                         style="text-decoration: none; color: inherit"
@@ -202,7 +203,6 @@
                         @click="deleteComment()"
                         >삭제</a
                      > -->
-							</div>
 						</div>
 					</div>
 					<!-- 댓글 내용 -->
@@ -260,6 +260,7 @@ export default {
 					comment_description: comment_description,
 				},
 			});
+
 			console.log(this.commentList.comment_description);
 			this.commentSave = false;
 		},

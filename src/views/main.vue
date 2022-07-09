@@ -10,7 +10,7 @@
 						class="search-bar form-control me-3"
 						type="search"
 						placeholder="원하는 식당 이름을 검색해보세요!"
-						v-model="babsangSearchValue"
+						v-model.trim="babsangSearchValue"
 						@input="onInputBabsangSearch($event)"
 						@keyup.enter="onKeyupBabsangSearch"
 					/>
