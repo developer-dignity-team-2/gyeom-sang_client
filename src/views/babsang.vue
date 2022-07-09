@@ -128,7 +128,7 @@
 							<p>지금까지 신청한 숟갈들</p>
 							<p style="font-size: 1.5rem">
 								<font-awesome-icon icon="fa-solid fa-spoon" />
-								<span class="ps-3">7명 !</span>
+								<span class="ps-3">{{ countAppliedSpoons }}명 !</span>
 							</p>
 							<button
 								class="btn btn-primary"
@@ -173,6 +173,7 @@ export default {
 		return {
 			babsangDetailData: [],
 			spoonStatus: false, // false 방상에 숟갈 없음, true 방상에 숟갈 있음
+			countAppliedSpoons: 0,
 		};
 	},
 
@@ -218,6 +219,11 @@ export default {
 
 			loader.hide();
 
+			// 신청한 숟갈 수 계산
+			this.countAppliedSpoons = confirmUsers.filter(
+				user => user.apply_yn === 'Y',
+			).length;
+
 			console.log('숟갈 얹은 유저들 :', confirmUsers);
 			console.log(this.$store.state.user.userData);
 			let user = this.$store.state.user.userData.email;
@@ -233,6 +239,22 @@ export default {
 			}
 			console.log(this.spoonStatus);
 		},
+		// 신청한 숟갈 수 계산
+		async countSpoons() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const confirmUsers = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+				)
+			).result;
+
+			loader.hide();
+
+			this.countAppliedSpoons = confirmUsers.filter(
+				user => user.apply_yn === 'Y',
+			).length;
+		},
 		// 숟갈 얹기
 		async openApplyForm() {
 			const loader = this.$loading.show({ canCancel: false });
@@ -247,6 +269,8 @@ export default {
 			);
 
 			loader.hide();
+
+			this.countSpoons();
 
 			this.$swal({
 				title: '숟갈 얹기 성공!',
@@ -285,6 +309,8 @@ export default {
 			}
 
 			loader.hide();
+
+			this.countSpoons();
 
 			this.$swal({
 				title: '숟갈 빼기 완료!',
