@@ -36,9 +36,12 @@
 									<div style="cursor: pointer" @click="doCancel(selectedSpoon)">
 										<div style="width: 6rem">
 											<div class="img-wrap pf rounded-circle mb-1">
-												<img :src="selectedSpoon.profile_image" alt="프로필" />
+												<img
+													:src="selectedSpoon.spoon_profile_image"
+													alt="프로필"
+												/>
 											</div>
-											<strong>{{ selectedSpoon.nickname }}</strong>
+											<strong>{{ selectedSpoon.spoon_nickname }}</strong>
 										</div>
 									</div>
 								</div>
@@ -57,9 +60,9 @@
 								'btn btn-primary': buttonSignal === 0,
 								'btn btn-outline-primary': buttonSignal !== 0,
 							}"
-							@click="doComfirm()"
+							@click="sendMessage()"
 						>
-							총 {{ babsangInfo.dining_count }}명 중
+							총 {{ babsangInfo.dining_count - 1 }}명 중
 							{{ selectedSpoons.length }}명 확정(메시지 발송)
 						</button>
 					</div>
@@ -174,7 +177,7 @@ export default {
 	},
 	computed: {
 		buttonSignal: function () {
-			return this.selectedSpoons.length - this.babsangInfo.dining_count;
+			return this.selectedSpoons.length - (this.babsangInfo.dining_count - 1);
 		},
 	},
 	setup() {},
@@ -210,8 +213,26 @@ export default {
 			this.babsangInfo = temp;
 			console.log('밥상 정보 : ', this.babsangInfo);
 		},
+		async sendMessage() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			for (let spoon of this.selectedSpoons) {
+				let message = {
+					receiver_email: spoon.spoon_email,
+					dining_table_id: this.babsangInfo.id,
+					message_type: 'S',
+					message_description: this.babsangMessage,
+				};
+				console.log('메시지 정보 : ', message);
+				await this.$post('https://nicespoons.com/api/v1/message', {
+					param: { message },
+				});
+			}
+
+			loader.hide();
+		},
 		writeMessage() {
-			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name}(${this.babsangInfo.id})번 밥상의 숟갈로 선정되셨습니다.`;
+			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상의 숟갈로 선정되셨습니다.`;
 		},
 		showButton() {
 			// if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
@@ -221,17 +242,14 @@ export default {
 				return false;
 			}
 		},
-		doComfirm() {
-			console.log(this.selectedSpoons);
-			console.log(this.checkedEmail);
-		},
 		doSelect(spoon) {
-			if (this.selectedSpoons.length < this.babsangInfo.dining_count) {
+			if (this.selectedSpoons.length < this.babsangInfo.dining_count - 1) {
 				this.selectedSpoons.push(spoon);
 				this.checkedEmail.push(spoon.spoon_email);
 				this.checkedNickname.push(spoon.spoon_nickname);
 				this.writeMessage();
-				console.log(this.checkedEmail);
+				console.log('checkedEmail : ', this.checkedEmail);
+				console.log('selectedSpoons : ', this.selectedSpoons);
 			}
 		},
 		doCancel(spoon) {
