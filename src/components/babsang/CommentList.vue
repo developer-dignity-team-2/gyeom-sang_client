@@ -8,7 +8,7 @@
 					<img
 						class="img-circle img-sm"
 						alt="Profile"
-						src="../../assets/img/users/m9.png"
+						:src="list.profile_image"
 					/>
 					<div class="media-body flex-fill">
 						<div class="mar-btm">
@@ -134,7 +134,7 @@
 						<img
 							class="img-circle img-sm"
 							alt="Profile"
-							src="../../assets/img/users/m9.png"
+							:src="recomment.profile_image"
 						/>
 						<div class="media-body flex-fill">
 							<div class="mar-btm">
