@@ -8,6 +8,10 @@ import mixins from './mixins';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
+/* vue-loading-overlay */
+import VueLoading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 /* bootstrap */
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -35,6 +39,7 @@ createApp(App)
 	.use(store)
 	.use(router)
 	.use(VueSweetalert2)
+	.use(VueLoading)
 	.mixin(mixins)
 	.mount('#app');
 

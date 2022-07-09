@@ -132,7 +132,7 @@
 							<p>지금까지 신청한 숟갈들</p>
 							<p style="font-size: 1.5rem">
 								<font-awesome-icon icon="fa-solid fa-spoon" />
-								<span class="ps-3">7명 !</span>
+								<span class="ps-3">{{ countAppliedSpoons }}명 !</span>
 							</p>
 							<button
 								class="btn btn-primary"
@@ -141,9 +141,22 @@
 							>
 								숟갈 선택
 							</button>
-							<button class="btn btn-primary" @click="openApplyForm" v-else>
-								신청하기
-							</button>
+							<div v-else>
+								<button
+									class="btn btn-primary"
+									@click="openApplyForm"
+									v-if="!spoonStatus"
+								>
+									숟갈 얹기
+								</button>
+								<button
+									class="btn btn-primary"
+									@click="pickCancle"
+									v-if="spoonStatus"
+								>
+									숟갈 빼기
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -163,6 +176,8 @@ export default {
 	data() {
 		return {
 			babsangDetailData: [],
+			spoonStatus: false, // false 방상에 숟갈 없음, true 방상에 숟갈 있음
+			countAppliedSpoons: 0,
 		};
 	},
 
@@ -192,9 +207,125 @@ export default {
 		this.getBabsangDetailData();
 		console.log('---------------isUser---------------');
 		console.log(this.$store.state.user.isUser);
+		this.alreadySpoon();
 	},
 
 	methods: {
+		// 숟갈 얹기/빼기 버튼
+		async alreadySpoon() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const confirmUsers = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+				)
+			).result;
+
+			loader.hide();
+
+			// 신청한 숟갈 수 계산
+			this.countAppliedSpoons = confirmUsers.filter(
+				user => user.apply_yn === 'Y',
+			).length;
+
+			console.log('숟갈 얹은 유저들 :', confirmUsers);
+			console.log(this.$store.state.user.userData);
+			let user = this.$store.state.user.userData.email;
+			for (let confirmUser of confirmUsers) {
+				console.log(confirmUser);
+				if (confirmUser.spoon_email === user && confirmUser.apply_yn === 'N') {
+					console.log(confirmUser.spoon_email);
+					console.log(user);
+					this.spoonStatus = false;
+				} else {
+					this.spoonStatus = true;
+				}
+			}
+			console.log(this.spoonStatus);
+		},
+		// 신청한 숟갈 수 계산
+		async countSpoons() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const confirmUsers = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+				)
+			).result;
+
+			loader.hide();
+
+			this.countAppliedSpoons = confirmUsers.filter(
+				user => user.apply_yn === 'Y',
+			).length;
+		},
+		// 숟갈 얹기
+		async openApplyForm() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			await this.$post(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
+				{
+					param: {
+						apply_yn: 'Y',
+					},
+				},
+			);
+
+			loader.hide();
+
+			this.countSpoons();
+
+			this.$swal({
+				title: '숟갈 얹기 성공!',
+				text: `${this.$store.state.user.userData.profile.nickname}님은 ${this.babsangDetailData.restaurant_name} 밥상에 숟갈을 얹으셨습니다.`,
+				icon: 'success',
+				iconColor: '#ffcb00',
+				confirmButtonText: '확인',
+				confirmButtonColor: '#ffcb00',
+			});
+			this.spoonStatus = true;
+		},
+		// 숟갈 빼기
+		async pickCancle() {
+			console.log('숟갈 뺄 밥상 번호 : ', this.$route.params.babsangId);
+
+			const loader = this.$loading.show({ canCancel: false });
+
+			const confirm = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+				)
+			).result;
+			let user = this.$store.state.user.userData.email;
+			for (let alreadyUser of confirm) {
+				if (alreadyUser.spoon_email === user) {
+					await this.$put(
+						`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=applyCancel`,
+						{
+							param: {
+								apply_yn: 'N',
+								// cancel_date: '2022-06-10',
+							},
+						},
+					);
+				}
+			}
+
+			loader.hide();
+
+			this.countSpoons();
+
+			this.$swal({
+				title: '숟갈 빼기 완료!',
+				text: `${this.$store.state.user.userData.profile.nickname}님은 ${this.babsangDetailData.restaurant_name} 밥상에서 숟갈을 빼셨습니다.`,
+				icon: 'warning',
+				iconColor: '#ffcb00',
+				confirmButtonText: '확인',
+				confirmButtonColor: '#ffcb00',
+			});
+			this.spoonStatus = false;
+		},
 		async deleteBabsang() {
 			const confirmResult = confirm('밥상을 삭제 하시겠습니까?');
 			if (confirmResult) {
@@ -240,46 +371,6 @@ export default {
 				genderStatus = '남성';
 			}
 			return genderStatus;
-		},
-		async openApplyForm() {
-			const confirm = (
-				await this.$get(
-					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
-				)
-			).result;
-			console.log(confirm);
-			console.log('userData :', this.$store.state.user.userData);
-			let user = this.$store.state.user.userData.email;
-			for (let alreadyUser of confirm) {
-				if (alreadyUser.spoon_email === user) {
-					console.log('이미 숟갈 얹은 밥상입니다.');
-					this.$swal({
-						title: `${this.babsangDetailData.restaurant_name}(${this.$route.params.babsangId}번) 밥상`,
-						text: '이미 숟갈 얹은 밥상입니다.',
-						icon: 'warning',
-						iconColor: '#ffcb00',
-						confirmButtonText: '확인',
-						confirmButtonColor: '#ffcb00',
-					});
-				} else {
-					await this.$post(
-						`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
-						{
-							param: {
-								apply_yn: 'Y',
-							},
-						},
-					);
-					this.$swal({
-						title: '숟갈 얹기 성공!',
-						text: `${this.$store.state.user.userData.profile.nickname}님은 ${this.babsangDetailData.restaurant_name}(${this.$route.params.babsangId}번) 밥상에 성공적으로 숟갈을 얹었습니다.`,
-						icon: 'success',
-						iconColor: '#ffcb00',
-						confirmButtonText: '확인',
-						confirmButtonColor: '#ffcb00',
-					});
-				}
-			}
 		},
 	},
 };
