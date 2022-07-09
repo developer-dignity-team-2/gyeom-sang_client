@@ -81,6 +81,10 @@
 						</ul>
 						<div class="img-wrap map-wrap rounded">
 							<BabsangMap
+								v-if="
+									babsangDetailData.restaurant_latitude !== undefined &&
+									babsangDetailData.restaurant_longitude !== undefined
+								"
 								:lat="babsangDetailData.restaurant_latitude"
 								:long="babsangDetailData.restaurant_longitude"
 							/>
