@@ -1,14 +1,14 @@
 <template>
 	<div class="col-md-12 container">
 		<!-- 댓글 for문으로 가져옴/ if로 댓글 대댓글 구분 -->
-		<div v-for="list in commentList" :key="list.id">
+		<div v-for="list in commentList" :key="list.id" style="margin-top: 15px">
 			<div class="media-block" v-if="list.comment_parent_id === null">
 				<!-- 유저프로필 정보 -->
 				<div class="d-flex">
 					<img
 						class="img-circle img-sm"
 						alt="Profile"
-						src="../../assets/img/users/m9.png"
+						:src="list.profile_image"
 					/>
 					<div class="media-body flex-fill">
 						<div class="mar-btm">
@@ -117,12 +117,12 @@
 					<RecommentCreate :parent_id="(this.comment_parent_id = list.id)" />
 				</div>
 			</div>
-			<hr />
+
 			<!-- 대댓글  -->
 			<div
 				v-for="recomment in commentList"
 				:key="recomment.id"
-				style="margin-top: 10px"
+				style="margin-top: 13px"
 			>
 				<div
 					class="media-block col-md-11"
@@ -134,7 +134,7 @@
 						<img
 							class="img-circle img-sm"
 							alt="Profile"
-							src="../../assets/img/users/m9.png"
+							:src="recomment.profile_image"
 						/>
 						<div class="media-body flex-fill">
 							<div class="mar-btm">
@@ -219,6 +219,7 @@
 				</div>
 			</div>
 		</div>
+		<hr />
 	</div>
 </template>
 <script>
