@@ -19,9 +19,17 @@ export default {
 			},
 			placeName: '',
 			placeAddress: '',
+			placeLat: '',
+			placeLong: '',
 		};
 	},
+	// [ x ]라이프사이클이 빠른 beforecreate, create에 해당 데이터를 설정.
+	// created() {
+	// 	this.placeLat = this.lat;
+	// 	this.placeLong = this.long;
+	// },
 	mounted() {
+		// window.addEventListener('resize', this.initMap);
 		if (!window.kakao || !window.kakao.maps) {
 			const script = document.createElement('script');
 			script.src =
@@ -33,25 +41,31 @@ export default {
 			script.addEventListener('load', () => {
 				console.log('----------kakao maps object----------');
 				console.log(kakao.maps);
-				if (this.lat && this.long) {
-					kakao.maps.load(this.initMap);
-				}
+				kakao.maps.load(this.initMap);
+				// kakao.maps.load(this.initMapData);
 			});
 		} else {
 			this.initMap();
+			// this.initMapData();
 		}
-		window.addEventListener('resize', this.initMap);
 	},
-
-	unmounted() {},
 	methods: {
+		// async initMapData() {
+		// 	this.placeLat = await this.lat;
+		// 	this.placeLong = await this.long;
+		// 	this.initMap();
+		// },
 		initMap() {
+			console.log('initmap');
+			console.log(this.lat, this.long);
 			const container = document.getElementById('map');
 			const placeLatLon = new kakao.maps.LatLng(this.lat, this.long);
+
 			this.options = {
 				center: placeLatLon,
 				level: 2,
 			};
+
 			this.mapInstance = new kakao.maps.Map(container, this.options);
 			this.marker = new kakao.maps.Marker({
 				position: placeLatLon,
