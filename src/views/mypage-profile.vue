@@ -47,7 +47,8 @@
 									style="resize: none"
 									id="exampleTextarea"
 									rows="3"
-									:disabled="!userInfo"
+									disabled
+									ref="modifyDescription"
 									v-model="user.profile_description"
 								></textarea>
 							</div>
@@ -149,6 +150,8 @@ export default {
 				this.userInfo = false;
 			} else {
 				this.userInfo = true;
+				this.$refs.modifyDescription.disabled = false;
+				this.$refs.modifyDescription.focus();
 			}
 		},
 		cancleModify() {
