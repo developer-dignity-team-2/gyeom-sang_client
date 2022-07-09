@@ -10,7 +10,7 @@
 				<li class="mb-1">
 					<strong>{{ nickname }}</strong>
 				</li>
-				<li class="mb-1">{{ gender }}{{ ageRangeForm() }}</li>
+				<li class="mb-1">{{ gender }} {{ ageRangeForm() }}</li>
 				<!-- 별점 기능 -->
 				<li>
 					<stars-rating :config="config" />

@@ -131,11 +131,11 @@
 			> -->
 				<userCard
 					:email="spoon.spoon_email"
-					:gender="spoon.gender"
+					:gender="spoon.spoon_gender"
 					:nickname="spoon.spoon_nickname"
-					:profile_image="spoon.profile_image"
-					:age_range="spoon.age_range"
-					:dining_score="spoon.dining_score"
+					:profile_image="spoon.spoon_profile_image"
+					:age_range="spoon.spoon_age_range"
+					:dining_score="spoon.spoon_dining_score"
 					:dining_spoons_description="spoon.dining_spoon_description"
 				/>
 			</div>
