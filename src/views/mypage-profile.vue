@@ -22,7 +22,7 @@
 						<fieldset>
 							<div class="form-group mt-4">
 								<label class="form-label">
-									{{ ageRangeForm(user.age_range) }}
+									{{ $ageRangeForm(user.age_range) }}
 									{{ user.gender === 'M' ? '남성' : '여성' }}
 								</label>
 							</div>
@@ -160,40 +160,6 @@ export default {
 		},
 		joinBabsang() {
 			this.$router.push('/mypage/profile');
-		},
-		ageRangeForm(age) {
-			const front = String(age).slice(0, 1);
-			let range = '';
-			switch (front) {
-				case '1':
-					range = '10대';
-					break;
-				case '2':
-					range = '20대';
-					break;
-				case '3':
-					range = '30대';
-					break;
-				case '4':
-					range = '20대(이고 싶다 ㅠ_ㅠ)';
-					break;
-				case '5':
-					range = '50대';
-					break;
-				case 6:
-					range = '60대';
-					break;
-				case 7:
-					range = '70대';
-					break;
-				case 8:
-					range = '80대';
-					break;
-				case 9:
-					range = '90대';
-					break;
-			}
-			return range;
 		},
 	},
 };
