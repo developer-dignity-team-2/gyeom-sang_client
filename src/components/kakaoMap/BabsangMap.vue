@@ -22,7 +22,6 @@ export default {
 		};
 	},
 	mounted() {
-		window.addEventListener('resize', this.initMap);
 		if (!window.kakao || !window.kakao.maps) {
 			const script = document.createElement('script');
 			script.src =
@@ -34,11 +33,14 @@ export default {
 			script.addEventListener('load', () => {
 				console.log('----------kakao maps object----------');
 				console.log(kakao.maps);
-				kakao.maps.load(this.initMap);
+				if (this.lat && this.long) {
+					kakao.maps.load(this.initMap);
+				}
 			});
 		} else {
 			this.initMap();
 		}
+		window.addEventListener('resize', this.initMap);
 	},
 
 	unmounted() {},
