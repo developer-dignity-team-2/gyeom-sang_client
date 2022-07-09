@@ -1,36 +1,47 @@
 <template>
-	<div class="mapBackground">
-		<div class="mapContainer">
-			<button @click="closeModal" class="close">선택하기</button>
+	<div class="map-back" @click="closePopupByWindow($event)">
+		<div class="map-wrap">
+			<div class="map-container card">
+				<div class="card-header">식당 검색</div>
+				<h4
+					class="card-title my-3"
+					style="text-align: left; padding-left: 1rem"
+				>
+					원하는 식당을 검색해 보세요.
+				</h4>
+				<div class="map-area row" style="display: flex; padding: 0 2rem">
+					<div id="map" class="col-9"></div>
 
-			<h1>식당을 검색해보세요.</h1>
-			<div class="controll">
-				<button @click="zoomIn()">ZOOM+</button>
-				<button @click="zoomOut()">ZOOM-</button>
-				<span id="maplevel"></span>
-			</div>
-			<div class="map-area" style="display: flex">
-				<div class="searchbox">
-					<div>
+					<div class="searchbox col-3 pe-0">
 						<input
+							class="form-control me-sm-2 mb-3"
 							type="text"
+							placeholder="Search"
 							v-model="keywordValue"
 							@keyup.enter="searchPlace"
 						/>
-					</div>
-					<div class="results">
-						<div
-							class="place"
-							v-for="rs in search.results"
-							:key="rs.id"
-							@click="showPlace(rs)"
-						>
-							<h3>{{ rs.place_name }}</h3>
-							<p>{{ rs.road_address_name }}</p>
+
+						<div class="results">
+							<div
+								class="place p-1"
+								v-for="rs in search.results"
+								:key="rs.id"
+								@click="showPlace(rs)"
+							>
+								<strong>{{ rs.place_name }}</strong>
+								<span>{{ rs.road_address_name }}</span>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div id="map" style="width: 500px; height: 500px"></div>
+				<button
+					@click="closePopup"
+					type="button"
+					class="btn-primary border close p-1"
+					style="width: 10rem; margin: 1rem auto; border-radius: 0.4rem"
+				>
+					선택하기
+				</button>
 			</div>
 		</div>
 	</div>
@@ -61,6 +72,8 @@ export default {
 			},
 			placeName: '',
 			placeAddress: '',
+			placeLatitude: '',
+			placeLongitude: '',
 		};
 	},
 	mounted() {
@@ -84,12 +97,36 @@ export default {
 
 	unmounted() {},
 	methods: {
-		closeModal() {
-			console.log(this.placeName);
-			console.log(this.placeAddress);
-			this.$store.commit('toggleShow');
-			this.$emit('placeInfo', this.placeName, this.placeAddress);
-			// this.$store.commit('selectPlaceInfo', this.placeName, this.placeAddress);
+		closePopupByWindow(e) {
+			if (e.target.className === 'map-back') {
+				this.$store.commit('toggleShow');
+			}
+		},
+		closePopup() {
+			if (
+				this.placeName &&
+				this.placeAddress &&
+				this.placeLatitude &&
+				this.placeLongitude
+			) {
+				console.log('----------select place info----------');
+				console.log(
+					this.placeName,
+					this.placeAddress,
+					this.placeLatitude,
+					this.placeLongitude,
+				);
+				this.$store.commit('toggleShow');
+				this.$emit(
+					'placeInfo',
+					this.placeName,
+					this.placeAddress,
+					this.placeLatitude,
+					this.placeLongitude,
+				);
+			} else {
+				alert('선택된 식당정보가 없습니다.');
+			}
 		},
 		initMap() {
 			const container = document.getElementById('map');
@@ -99,8 +136,8 @@ export default {
 			};
 			this.mapInstance = new kakao.maps.Map(container, this.options);
 			console.log(this.mapInstance);
-			this.displayLevel();
 		},
+
 		searchPlace(e) {
 			this.keywordValue = e.target.value;
 			const keyword = e.target.value.trim();
@@ -113,6 +150,8 @@ export default {
 				this.search.pgn = pgn;
 				this.search.results = data;
 			});
+			console.log('----------------search');
+
 			console.log(this.search);
 		},
 		showPlace(place) {
@@ -142,31 +181,14 @@ export default {
 			this.infowindow.open(this.mapInstance, this.marker);
 			this.placeName = place.place_name;
 			this.placeAddress = place.address_name;
-			// kakao.maps.event.addListener(this.marker, 'click', this.test(place));
-		},
-		// test(place) {
-
-		// 	// alert(`${this.placeName} 식당 선택 완료! 닫기버튼을 눌러주세요`);
-		// },
-		zoomIn() {
-			const level = this.mapInstance.getLevel();
-			this.mapInstance.setLevel(level - 1);
-			this.displayLevel();
-		},
-		zoomOut() {
-			const level = this.mapInstance.getLevel();
-			this.mapInstance.setLevel(level + 1);
-			this.displayLevel();
-		},
-		displayLevel() {
-			const levelEl = document.getElementById('maplevel');
-			levelEl.innerHTML = '현재 지도 레벨은' + this.mapInstance.getLevel();
+			this.placeLatitude = place.y;
+			this.placeLongitude = place.x;
 		},
 	},
 };
 </script>
 <style scoped lang="scss">
-.mapBackground {
+.map-back {
 	position: fixed;
 	display: flex;
 	justify-content: center;
@@ -176,36 +198,41 @@ export default {
 	top: 50%;
 	left: 50%;
 	transform: translate3d(-50%, -50%, 0);
-	background: rgba(0, 0, 0, 0.5);
-	.mapContainer {
-		button.close {
-			position: absolute;
-			top: 0;
-			right: 0;
-		}
-		background: rgba(255, 255, 255, 1);
-		width: 50vw;
-		height: 70vh;
-		overflow: hidden;
-		position: relative;
+	background: rgba(0, 0, 0, 0.2);
+	.map-wrap {
+		width: 70vw;
+		.map-container {
+			background: rgba(255, 255, 255, 1);
+			overflow: hidden;
+			position: relative;
 
-		.map-area {
-			.searchbox {
-				.results {
-					h3 {
-						font-size: 12px;
-						font-weight: bold;
-					}
-					p {
-						font-size: 12px;
-					}
-					.place {
-						cursor: pointer;
-						border-bottom: 1px solid #999;
+			.map-area {
+				width: 100%;
+				overflow: hidden;
+
+				.searchbox {
+					height: 60vh;
+
+					.results {
+						.place {
+							border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+							cursor: pointer;
+							strong {
+								display: block;
+								font-size: 14px;
+								font-weight: bold;
+							}
+
+							span {
+								font-size: 11px;
+							}
+						}
 					}
 				}
-			}
-			#map {
+
+				#map {
+					height: 60vh;
+				}
 			}
 		}
 	}
