@@ -167,12 +167,11 @@ export default {
 		return {
 			babsangMessage: '',
 			babsangInfo: {},
-			selectedSpoons: [],
-			checkedNickname: [],
-			checkedEmail: [],
+			selectedSpoons: [], // 현재 선택한 숟갈
+			checkedEmail: [], // 현재 선택한 숟갈의 이메일(함께할 숟갈 화면 표시용)
 			babsangDetailData: [],
 			appliedSpoons: [], // 신청한 숟갈
-			fixedSpoons: [], // 신청한 숟갈 중 선택된 숟갈
+			fixedSpoons: [], // 신청한 숟갈 중 이미 선택된 숟갈
 		};
 	},
 	computed: {
@@ -212,7 +211,24 @@ export default {
 			).result[0];
 			this.babsangInfo = temp;
 			console.log('밥상 정보 : ', this.babsangInfo);
+			console.log('밥상 정보 temp : ', temp);
 		},
+		// 숟갈 확정
+		async pickSpoon() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			await this.$put(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pick`,
+				{
+					param: {
+						selected_yn: 'Y',
+					},
+				},
+			);
+
+			loader.hide();
+		},
+		// 선택된 숟갈에 메시지 발송
 		async sendMessage() {
 			const loader = this.$loading.show({ canCancel: false });
 
@@ -230,7 +246,8 @@ export default {
 			loader.hide();
 		},
 		writeMessage() {
-			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상의 숟갈로 선정되셨습니다.`;
+			let dateTime = this.babsangInfo.dining_datetime;
+			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상(${dateTime})의 숟갈로 선정되셨습니다.`;
 		},
 		showButton() {
 			// if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
@@ -244,10 +261,10 @@ export default {
 			if (this.selectedSpoons.length < this.babsangInfo.dining_count - 1) {
 				this.selectedSpoons.push(spoon);
 				this.checkedEmail.push(spoon.spoon_email);
-				this.checkedNickname.push(spoon.spoon_nickname);
 				this.writeMessage();
 				console.log('checkedEmail : ', this.checkedEmail);
 				console.log('selectedSpoons : ', this.selectedSpoons);
+				this.pickSpoon(spoon);
 			}
 		},
 		doCancel(spoon) {
@@ -257,9 +274,6 @@ export default {
 			);
 			this.checkedEmail = this.checkedEmail.filter(
 				email => email !== spoon.spoon_email,
-			);
-			this.checkedNickname = this.checkedNickname.filter(
-				nickname => nickname !== spoon.spoon_nickname,
 			);
 		},
 	},

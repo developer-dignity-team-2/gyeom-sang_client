@@ -50,7 +50,7 @@
 							'description-width': th.key === 'message_description',
 							'location-width': th.key === 'restaurant_location',
 						}"
-						@click="messageView()"
+						@click="messageView(user.id)"
 					>
 						{{ user[th.key] }}
 					</td>
@@ -129,9 +129,13 @@ export default {
 		);
 		console.log(userMessages);
 	},
-	messageView() {
-		this.$router.push('/mypage/message-view');
-		this.getMessageDetail();
+	// 메시지 상세보기 라우터
+	messageView(id) {
+		console.log(id);
+		this.$router.push({
+			name: 'MypageMessageView',
+			query: { messageId: id },
+		});
 	},
   }
 }

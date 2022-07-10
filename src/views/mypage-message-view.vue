@@ -45,14 +45,20 @@
 								<!-- 소개내용 -->
 								<div class="card-body">
 									<p class="card-text">
-										안녕하세요 같이 제주도 연돈가실분 구해요
+										{{ messageDetail.dining_description }}
 									</p>
 								</div>
 								<!-- 밥상 정보(일시,장소,혼성여부) -->
 								<ul class="list-group list-group-flush">
-									<li class="list-group-item text-muted">식사 일시</li>
-									<li class="list-group-item text-muted">식당 위치</li>
-									<li class="list-group-item text-muted">혼성</li>
+									<li class="list-group-item text-muted">
+										{{ messageDetail.dining_datetime }}
+									</li>
+									<li class="list-group-item text-muted">
+										{{ messageDetail.restaurant_location }}
+									</li>
+									<li class="list-group-item text-muted">
+										{{ recruitGender() }}
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -101,6 +107,7 @@ export default {
 	data() {
 		return {
 			babsangDetailData: [],
+			messageDetail: [],
 		};
 	},
 	computed: {
@@ -121,9 +128,36 @@ export default {
 			}
 		},
 	},
+	created() {
+		this.getMessageDetail();
+	},
+	mounted() {},
 	methods: {
 		message() {
 			this.$router.push('/mypage/message');
+		},
+		// 메시지 상세 정보 가져오기
+		async getMessageDetail() {
+			console.log('메시지 ID : ', this.$route.query.messageId);
+			const temp = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/message/${this.$route.query.messageId}`,
+				)
+			).result[0];
+			console.log('temp : ', temp);
+			this.messageDetail = temp;
+		},
+		recruitGender() {
+			let gender = this.messageDetail.gender_check;
+			let genderStatus;
+			if (gender === 'ALL') {
+				genderStatus = '혼성';
+			} else if (gender === 'F') {
+				genderStatus = '여성';
+			} else {
+				genderStatus = '남성';
+			}
+			return genderStatus;
 		},
 	},
 };
