@@ -18,7 +18,7 @@
 							type="text"
 							placeholder="Search"
 							v-model="keywordValue"
-							@keyup.enter="searchPlace"
+							@input="searchPlace"
 						/>
 
 						<div class="results">
