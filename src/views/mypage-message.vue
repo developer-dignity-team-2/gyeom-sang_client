@@ -184,12 +184,20 @@ export default {
 				return rstMessage;
 			}
 		},
+		// 메시지 상세보기 라우터
+		goMypageMessageView() {
+			this.$router.push({
+				name: 'MypageMessageView',
+				query: { messageId: this.userMessages.id },
+			});
+		},
+		// 메시지 정보 가져오기
 		async getMessages() {
 			const userMessages = await this.$get(
 				'https://nicespoons.com/api/v1/message',
 			);
 			this.userMessages = userMessages.result;
-			// console.log(this.userMessages);
+			console.log(userMessages);
 			// console.log(this.$store.state.user.userData.email);
 
 			// 받은 메시지
@@ -216,13 +224,7 @@ export default {
 			);
 			this.sentMessage = tmpSentMessage;
 		},
-		// async getMessageDetail() {
-		// 	const userMessages = await this.$get(
-		// 		'https://nicespoons.com/api/v1/message/13',
-		// 	);
-		// 	console.log(userMessages);
-		// },
-		// pagination
+		// Pagination
 		handleClickButtons(method, id) {
 			if (method === 'showEditModal') {
 				this.modalDetailPayload.id = id;

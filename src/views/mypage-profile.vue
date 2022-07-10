@@ -22,7 +22,7 @@
 						<fieldset>
 							<div class="form-group mt-4">
 								<label class="form-label">
-									{{ ageRangeForm(user.age_range) }}
+									{{ $ageRangeForm(user.age_range) }}
 									{{ user.gender === 'M' ? '남성' : '여성' }}
 								</label>
 							</div>
@@ -47,7 +47,8 @@
 									style="resize: none"
 									id="exampleTextarea"
 									rows="3"
-									:disabled="!modifySave"
+									disabled
+									ref="modifyDescription"
 									v-model="user.profile_description"
 								></textarea>
 							</div>
@@ -55,23 +56,23 @@
 								<button
 									type="button"
 									class="btn btn-primary mx-3"
-									v-show="!modifySave"
-									@click="doModifySave()"
+									v-show="!userInfo"
+									@click="doModify()"
 								>
 									수정
 								</button>
-								<div v-show="modifySave">
+								<div v-show="userInfo">
 									<button
 										type="button"
 										class="btn btn-primary mx-3"
-										@click="doModifySave()"
+										@click="doModify()"
 									>
 										저장
 									</button>
 									<button
 										type="submit"
 										class="btn btn-secondary"
-										@click="doModifySave()"
+										@click="cancleModify()"
 									>
 										취소
 									</button>
@@ -93,13 +94,14 @@ export default {
 	components: { CompUserProfile, starsRating },
 	data() {
 		return {
-			modifySave: false,
+			userInfo: false,
 			user: {},
+			tempProfileDescription: '',
 		};
 	},
 	computed: {
 		config: function () {
-			let tmp = {
+			let temp = {
 				rating: this.user.dining_score,
 				// rating: this.user.dining_score,
 				isIndicatorActive: false,
@@ -111,7 +113,7 @@ export default {
 				},
 			};
 			console.log(this.user.dining_score);
-			return tmp;
+			return temp;
 		},
 	},
 	setup() {},
@@ -126,47 +128,38 @@ export default {
 			const user = await this.$get('https://nicespoons.com/api/v1/user');
 			this.user = user.result[0];
 			this.config.rating = this.user.dining_score;
+			console.log(this.user);
 		},
-		doModifySave() {
-			if (this.modifySave === true) {
-				this.modifySave = false;
+		async doModify() {
+			this.tempProfileDescription = this.user.profile_description;
+			if (this.userInfo === true) {
+				await this.$put('https://nicespoons.com/api/v1/user', {
+					param: {
+						profile_description: this.user.profile_description,
+					},
+				});
+				console.log('수정된 자기소개 : ', this.user.profile_description);
+				this.$swal({
+					title: `${this.user.nickname}님의`,
+					text: '사용자 정보가 수정되었습니다.',
+					icon: 'success',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
+				this.userInfo = false;
 			} else {
-				this.modifySave = true;
+				this.userInfo = true;
+				this.$refs.modifyDescription.disabled = false;
+				this.$refs.modifyDescription.focus();
 			}
 		},
-		ageRangeForm(age) {
-			const front = String(age).slice(0, 1);
-			let range = '';
-			switch (front) {
-				case '1':
-					range = '10대';
-					break;
-				case '2':
-					range = '20대';
-					break;
-				case '3':
-					range = '30대';
-					break;
-				case '4':
-					range = '20대(이고 싶다 ㅠ_ㅠ)';
-					break;
-				case '5':
-					range = '50대';
-					break;
-				case 6:
-					range = '60대';
-					break;
-				case 7:
-					range = '70대';
-					break;
-				case 8:
-					range = '80대';
-					break;
-				case 9:
-					range = '90대';
-					break;
-			}
-			return range;
+		cancleModify() {
+			this.user.profile_description = this.tempProfileDescription;
+			this.userInfo = false;
+		},
+		joinBabsang() {
+			this.$router.push('/mypage/profile');
 		},
 	},
 };

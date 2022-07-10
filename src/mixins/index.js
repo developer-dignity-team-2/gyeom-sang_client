@@ -7,6 +7,7 @@ const instance = axios.create({
 		authorization: `Bearer ${localStorage.getItem('jwt')}`,
 	},
 });
+// ↑ 위에 코드가 실행 될 때 localStorage에 jwt값이 없어 토큰에 req.header가 안담겨서 감
 export default {
 	data() {
 		return {};
@@ -31,12 +32,12 @@ export default {
 				});
 		},
 		async $put(url, data) {
-			return await axios.put(url, data).catch(e => {
+			return await instance.put(url, data).catch(e => {
 				console.log(e);
 			});
 		},
 		async $delete(url) {
-			return await axios
+			return await instance
 				.delete(url)
 
 				.catch(e => {
@@ -46,7 +47,7 @@ export default {
 		async $upload(url, file) {
 			const formData = new FormData();
 			formData.append('file', file);
-			return await axios
+			return await instance
 				.post(url, formData)
 				.then(res => {
 					return res.data;
@@ -55,7 +56,6 @@ export default {
 					console.log(e);
 				});
 		},
-
 		// router mixins
 		$goBack() {
 			this.$router.go(-1);
@@ -64,6 +64,41 @@ export default {
 			this.$router.push({
 				path: '/',
 			});
+		},
+		// 연령대
+		$ageRangeForm(age) {
+			const front = String(age).slice(0, 1);
+			let range = '';
+			switch (front) {
+				case '1':
+					range = '10대';
+					break;
+				case '2':
+					range = '20대';
+					break;
+				case '3':
+					range = '30대';
+					break;
+				case '4':
+					range = '20대(이고 싶다 ㅠ_ㅠ)';
+					break;
+				case '5':
+					range = '50대';
+					break;
+				case 6:
+					range = '60대';
+					break;
+				case 7:
+					range = '70대';
+					break;
+				case 8:
+					range = '80대';
+					break;
+				case 9:
+					range = '90대';
+					break;
+			}
+			return range;
 		},
 	},
 };

@@ -10,7 +10,7 @@
 				<li class="mb-1">
 					<strong>{{ nickname }}</strong>
 				</li>
-				<li class="mb-1">{{ gender }}{{ ageRangeForm() }}</li>
+				<li class="mb-1">{{ genderForm() }} {{ ageRangeForm() }}</li>
 				<!-- 별점 기능 -->
 				<li>
 					<stars-rating :config="config" />
@@ -53,6 +53,15 @@ export default {
 	},
 
 	methods: {
+		genderForm() {
+			if (this.gender === 'M') {
+				return '남성';
+			} else if (this.gender === 'F') {
+				return '여성';
+			} else {
+				return this.gender;
+			}
+		},
 		ageRangeForm() {
 			const front = String(this.age_range).slice(0, 1);
 			if (front == 1) {

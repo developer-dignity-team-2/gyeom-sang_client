@@ -8,32 +8,24 @@
 <script>
 export default {
 	components: {},
-	props: ['isShow'],
+	props: ['isShow', 'lat', 'long'],
 	data() {
 		return {
-			// 지도
-			infowindow: '',
 			marker: '',
-			map: null,
-			// 장소 검색 객체
-			ps: null,
-			bounds: '',
 			mapInstance: '',
-			search: {
-				keyword: null,
-				pgn: null,
-				results: [],
-			},
-			keywordValue: '',
 			options: {
 				center: '',
 				level: '',
 			},
 			placeName: '',
 			placeAddress: '',
+			placeLat: '',
+			placeLong: '',
 		};
 	},
 	mounted() {
+		window.addEventListener('resize', this.initMap);
+
 		if (!window.kakao || !window.kakao.maps) {
 			const script = document.createElement('script');
 			script.src =
@@ -51,94 +43,26 @@ export default {
 			this.initMap();
 		}
 	},
-
-	unmounted() {},
 	methods: {
 		initMap() {
+			console.log('initmap');
+			console.log(this.lat, this.long);
 			const container = document.getElementById('map');
+			const placeLatLon = new kakao.maps.LatLng(this.lat, this.long);
+
 			this.options = {
-				center: new kakao.maps.LatLng(37.566826, 126.9786567),
-				level: 6,
+				center: placeLatLon,
+				level: 2,
 			};
+
 			this.mapInstance = new kakao.maps.Map(container, this.options);
-			console.log(this.mapInstance);
-			this.displayLevel();
-		},
-
-		showPlace(place) {
-			console.log('------------선택한 마커 정보------------');
-			console.log(place);
-			// 해당 좌표 정보 객체 생성 (y : lat, x : long)
-			const moveLatLon = new kakao.maps.LatLng(place.y, place.x);
 			this.marker = new kakao.maps.Marker({
-				position: moveLatLon,
+				position: placeLatLon,
 			});
 
-			// 중심 좌표로 지도 이동
-			this.mapInstance.setCenter(moveLatLon);
-
-			// 해당 좌표 마커 생성
 			this.marker.setMap(this.mapInstance);
-
-			// 마커에 인포윈도우 생성
-			const iwContent = `<div style="padding:5px;">${place.place_name}<br>${place.road_address_name}<br></div>`;
-
-			this.infowindow = new kakao.maps.InfoWindow({
-				position: moveLatLon,
-				content: iwContent,
-				removable: true,
-			});
-
-			this.infowindow.open(this.mapInstance, this.marker);
-			this.placeName = place.place_name;
-			this.placeAddress = place.address_name;
 		},
 	},
 };
 </script>
-<style scoped lang="scss">
-//.mapBackground {
-//	//position: fixed;
-//	//display: flex;
-//	//justify-content: center;
-//	//align-items: center;
-//	//width: 100vw;
-//	//height: 100vh;
-//	//top: 50%;
-//	//left: 50%;
-//	//transform: translate3d(-50%, -50%, 0);
-//	//background: rgba(0, 0, 0, 0.5);
-//	.mapContainer {
-//		button.close {
-//			position: absolute;
-//			top: 0;
-//			right: 0;
-//		}
-//		background: rgba(255, 255, 255, 1);
-//		width: 50vw;
-//		height: 70vh;
-//		overflow: hidden;
-//		position: relative;
-//
-//		.map-area {
-//			.searchbox {
-//				.results {
-//					h3 {
-//						font-size: 12px;
-//						font-weight: bold;
-//					}
-//					p {
-//						font-size: 12px;
-//					}
-//					.place {
-//						cursor: pointer;
-//						border-bottom: 1px solid #999;
-//					}
-//				}
-//			}
-//			#map {
-//			}
-//		}
-//	}
-//}
-</style>
+<style scoped lang="scss"></style>

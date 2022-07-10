@@ -305,6 +305,8 @@ export default {
 			babsangId: '',
 			placeName: '',
 			placeAddress: '',
+			placeLatitude: '',
+			placeLongitude: '',
 		};
 	},
 	computed: {},
@@ -340,11 +342,13 @@ export default {
 	mounted() {},
 
 	methods: {
-		placeInfo(name, address) {
+		placeInfo(name, address, lat, long) {
 			console.log('-----------------------');
 			console.log(name, address);
 			this.placeName = name;
 			this.placeAddress = address;
+			this.placeLatitude = lat;
+			this.placeLongitude = long;
 		},
 		mapToggle() {
 			this.$store.commit('toggleShow');
@@ -418,9 +422,10 @@ export default {
 					dining_thumbnail: this.dining_thumbnail,
 					dining_count: this.dining_count,
 					host_email: this.$store.state.user.userData.email,
-
 					restaurant_name: this.placeName,
 					restaurant_location: this.placeAddress,
+					restaurant_latitude: this.placeLatitude,
+					restaurant_longitude: this.placeLongitude,
 				},
 			});
 			// 생성한 밥상 게시물로 이동

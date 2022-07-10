@@ -15,7 +15,12 @@ export default createStore({
 	mutations: {
 		toggleShow(state) {
 			state.isShow = !state.isShow;
-			console.log(state.isShow);
+			let bodyEl = document.documentElement.querySelector('body');
+			if (state.isShow) {
+				bodyEl.style.overflow = 'hidden';
+			} else {
+				bodyEl.style.overflow = 'auto';
+			}
 		},
 	},
 	actions: {},

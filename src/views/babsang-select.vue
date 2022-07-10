@@ -36,9 +36,12 @@
 									<div style="cursor: pointer" @click="doCancel(selectedSpoon)">
 										<div style="width: 6rem">
 											<div class="img-wrap pf rounded-circle mb-1">
-												<img :src="selectedSpoon.profile_image" alt="프로필" />
+												<img
+													:src="selectedSpoon.spoon_profile_image"
+													alt="프로필"
+												/>
 											</div>
-											<strong>{{ selectedSpoon.nickname }}</strong>
+											<strong>{{ selectedSpoon.spoon_nickname }}</strong>
 										</div>
 									</div>
 								</div>
@@ -57,11 +60,10 @@
 								'btn btn-primary': buttonSignal === 0,
 								'btn btn-outline-primary': buttonSignal !== 0,
 							}"
-							@click="doComfirm()"
+							@click="sendMessage()"
 						>
-							총 {{ diningTableSpoons.dining_count }}명 중
-							{{ selectedSpoons.length + fixedSpoons.length }}명 확정(메시지
-							발송)
+							총 {{ babsangInfo.dining_count - 1 }}명 중
+							{{ selectedSpoons.length }}명 확정(메시지 발송)
 						</button>
 					</div>
 				</div>
@@ -101,31 +103,57 @@
 			</div>
 		</div>
 		<!-- 선택전 숟갈 카드 -->
-		<div class="row">
+		<div class="row" v-if="appliedSpoons.length > 0">
 			<div
 				class="col-xl-4 col-md-6 col-sm-12 mb-4"
 				:class="{
 					disabled:
-						spoon.email === checkedEmail[checkedEmail.indexOf(spoon.email)] ||
-						spoon.email === fixedSpoons[fixedSpoons.indexOf(spoon.email)],
+						spoon.spoon_email ===
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
 					enabled:
-						spoon.email !== fixedSpoons[fixedSpoons.indexOf(spoon.email)] &&
-						spoon.email !== checkedEmail[checkedEmail.indexOf(spoon.email)],
+						spoon.spoon_email !==
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
 				}"
-				:key="spoon.email"
-				v-for="spoon in user"
+				:key="spoon.spoon_email"
+				v-for="spoon in appliedSpoons"
 				@click="doSelect(spoon)"
 			>
+				<!-- <div
+				class="col-xl-4 col-md-6 col-sm-12 mb-4"
+				:class="{
+					disabled:
+						spoon.spoon_email ===
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
+					enabled:
+						spoon.spoon_email !==
+						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
+				}"
+				:key="spoon.spoon_email"
+				v-for="spoon in appliedSpoons"
+				@click="doSelect(spoon)"
+			> -->
 				<userCard
-					:email="spoon.email"
-					:gender="spoon.gender"
-					:nickname="spoon.nickname"
-					:profile_image="spoon.profile_image"
-					:age_range="spoon.age_range"
-					:dining_score="spoon.dining_score"
-					:dining_spoons_description="spoon.dining_spoons_description"
+					:email="spoon.spoon_email"
+					:gender="spoon.spoon_gender"
+					:nickname="spoon.spoon_nickname"
+					:profile_image="spoon.spoon_profile_image"
+					:age_range="spoon.spoon_age_range"
+					:dining_score="spoon.spoon_dining_score"
+					:dining_spoons_description="spoon.dining_spoon_description"
 				/>
 			</div>
+		</div>
+		<div
+			class="pt-5"
+			style="
+				display: flex;
+				flex-flow: row wrap;
+				justify-content: center;
+				align-item: center;
+			"
+			v-if="appliedSpoons.length === 0"
+		>
+			이 밥상에 신청한 숟갈이 없습니다.
 		</div>
 	</div>
 </template>
@@ -138,272 +166,88 @@ export default {
 	data() {
 		return {
 			babsangMessage: '',
-			diningTableSpoons: {
-				spoon_email: 'spoon1@gmail.com',
-				nickname: '숟갈1',
-				dining_table_id: 1,
-				dining_count: 3, // 4인상으로 가정
-			},
-			fixedSpoons: [],
-			selectedSpoons: [],
-			checkedNickname: [],
-			checkedEmail: [],
-			user: [
-				// {
-				// 	email: 'spoon1@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈1',
-				// 	profile_image: require('../assets/img/users/w1.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3.2,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon2@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈2',
-				// 	profile_image: require('../assets/img/users/w2.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3.5,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon3@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈3',
-				// 	profile_image: require('../assets/img/users/w3.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3.3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon4@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈4',
-				// 	profile_image: require('../assets/img/users/w4.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3.7,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon5@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈5',
-				// 	profile_image: require('../assets/img/users/w5.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3.6,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon6@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈6',
-				// 	profile_image: require('../assets/img/users/w6.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3.8,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon7@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈7',
-				// 	profile_image: require('../assets/img/users/w7.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon8@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈8',
-				// 	profile_image: require('../assets/img/users/w8.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon9@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈9',
-				// 	profile_image: require('../assets/img/users/w9.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon10@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈10',
-				// 	profile_image: require('../assets/img/users/w10.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon11@gmail.com',
-				// 	gender: '여성',
-				// 	nickname: '숟갈11',
-				// 	profile_image: require('../assets/img/users/w11.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon12@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈12',
-				// 	profile_image: require('../assets/img/users/m1.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon13@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈13',
-				// 	profile_image: require('../assets/img/users/m2.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon14@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈14',
-				// 	profile_image: require('../assets/img/users/m3.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon15@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈15',
-				// 	profile_image: require('../assets/img/users/m4.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon16@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈16',
-				// 	profile_image: require('../assets/img/users/m5.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon17@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈17',
-				// 	profile_image: require('../assets/img/users/m6.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon18@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈18',
-				// 	profile_image: require('../assets/img/users/m7.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon19@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈19',
-				// 	profile_image: require('../assets/img/users/m8.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon20@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈20',
-				// 	profile_image: require('../assets/img/users/m9.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon21@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈21',
-				// 	profile_image: require('../assets/img/users/m10.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-				// {
-				// 	email: 'spoon22@gmail.com',
-				// 	gender: '남성',
-				// 	nickname: '숟갈22',
-				// 	profile_image: require('../assets/img/users/m11.png'),
-				// 	age_range: '20대',
-				// 	dining_score: 3,
-				// 	dining_spoons_description:
-				// 		'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
-				// },
-			],
+			babsangInfo: {},
+			selectedSpoons: [], // 현재 선택한 숟갈
+			checkedEmail: [], // 현재 선택한 숟갈의 이메일(함께할 숟갈 화면 표시용)
 			babsangDetailData: [],
+			appliedSpoons: [], // 신청한 숟갈
+			fixedSpoons: [], // 신청한 숟갈 중 이미 선택된 숟갈
 		};
 	},
 	computed: {
 		buttonSignal: function () {
-			return (
-				this.fixedSpoons.length +
-				this.selectedSpoons.length -
-				this.diningTableSpoons.dining_count
-			);
+			return this.selectedSpoons.length - (this.babsangInfo.dining_count - 1);
 		},
 	},
 	setup() {},
 	created() {},
 	mounted() {
-		// console.log(this.fixedSpoons[0]);
+		this.getBabsangInfo();
 		this.getBabsangSpoons();
 		// console.log(this.$store.state.user.userData);
 	},
 	unmounted() {},
 	methods: {
+		// 신청한 숟갈, 선택된 숟갈 정보 가져오기
 		async getBabsangSpoons() {
 			const temp = await this.$get(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
-			console.log(temp.result);
+			this.appliedSpoons = temp.result.filter(spoon => spoon.apply_yn === 'Y');
+			console.log('신청한 숟갈 : ', this.appliedSpoons);
+			this.fixedSpoons = this.appliedSpoons.filter(
+				spoon => spoon.selected_yn === 'Y',
+			);
+			console.log('이미 선택한 숟갈 : ', this.fixedSpoons);
+			this.selectedSpoons = this.fixedSpoons;
+			console.log('지금 선택한 숟갈 : ', this.selectedSpoons);
+		},
+		// 밥상 정보 가져오기
+		async getBabsangInfo() {
+			const temp = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}`,
+				)
+			).result[0];
+			this.babsangInfo = temp;
+			console.log('밥상 정보 : ', this.babsangInfo);
+			console.log('밥상 정보 temp : ', temp);
+		},
+		// 숟갈 확정
+		async pickSpoon() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			await this.$put(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pick`,
+				{
+					param: {
+						selected_yn: 'Y',
+					},
+				},
+			);
+
+			loader.hide();
+		},
+		// 선택된 숟갈에 메시지 발송
+		async sendMessage() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			for (let spoon of this.selectedSpoons) {
+				await this.$post('https://nicespoons.com/api/v1/message', {
+					param: {
+						receiver_email: spoon.spoon_email,
+						dining_table_id: this.babsangInfo.id,
+						message_type: 'S',
+						message_description: this.babsangMessage,
+					},
+				});
+			}
+
+			loader.hide();
 		},
 		writeMessage() {
-			this.babsangMessage =
-				'축하합니다 ^O^ ' +
-				// this.checkedNickname.join(', ') +
-				// '님은 ' +
-				this.diningTableSpoons.dining_table_id +
-				'번 밥상의 숟갈로 선정되셨습니다.';
+			let dateTime = this.babsangInfo.dining_datetime;
+			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상(${dateTime})의 숟갈로 선정되셨습니다.`;
 		},
 		showButton() {
 			// if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
@@ -413,32 +257,23 @@ export default {
 				return false;
 			}
 		},
-		doComfirm() {
-			console.log(this.selectedSpoons);
-			console.log(this.checkedEmail);
-		},
 		doSelect(spoon) {
-			if (
-				this.selectedSpoons.length + this.fixedSpoons.length <
-				this.diningTableSpoons.dining_count
-			) {
+			if (this.selectedSpoons.length < this.babsangInfo.dining_count - 1) {
 				this.selectedSpoons.push(spoon);
-				this.checkedEmail.push(spoon.email);
-				this.checkedNickname.push(spoon.nickname);
+				this.checkedEmail.push(spoon.spoon_email);
 				this.writeMessage();
-				console.log(this.checkedEmail);
+				console.log('checkedEmail : ', this.checkedEmail);
+				console.log('selectedSpoons : ', this.selectedSpoons);
+				this.pickSpoon(spoon);
 			}
 		},
 		doCancel(spoon) {
 			console.log('선택 취소');
 			this.selectedSpoons = this.selectedSpoons.filter(
-				s => s.email !== spoon.email,
+				s => s.spoon_email !== spoon.spoon_email,
 			);
 			this.checkedEmail = this.checkedEmail.filter(
-				email => email !== spoon.email,
-			);
-			this.checkedNickname = this.checkedNickname.filter(
-				nickname => nickname !== spoon.nickname,
+				email => email !== spoon.spoon_email,
 			);
 		},
 	},
