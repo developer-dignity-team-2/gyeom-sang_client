@@ -65,15 +65,13 @@
 						<!-- 밥장프로필 -->
 						<div class="col-xl-4 col-sm-12 mb-3">
 							<UserCard
-								:email="babsangDetailData.host_email"
-								:gender="babsangDetailData.gender"
-								:nickname="babsangDetailData.nickname"
-								:profile_image="babsangDetailData.profile_image"
-								:age_range="babsangDetailData.age_range"
-								:dining_score="babsangDetailData.dining_score"
-								:dining_spoons_description="
-									babsangDetailData.profile_description
-								"
+								:email="messageDetail.host_email"
+								:gender="messageDetail.gender"
+								:nickname="messageDetail.nickname"
+								:profile_image="messageDetail.profile_image"
+								:age_range="messageDetail.age_range"
+								:dining_score="messageDetail.dining_score"
+								:dining_spoons_description="messageDetail.profile_description"
 							/>
 						</div>
 						<!-- 목록 , 삭제 버튼 -->
