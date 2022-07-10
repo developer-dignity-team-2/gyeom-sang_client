@@ -212,6 +212,7 @@ export default {
 			).result[0];
 			this.babsangInfo = temp;
 			console.log('밥상 정보 : ', this.babsangInfo);
+			console.log('밥상 정보 temp : ', temp);
 		},
 		async sendMessage() {
 			const loader = this.$loading.show({ canCancel: false });
@@ -230,7 +231,8 @@ export default {
 			loader.hide();
 		},
 		writeMessage() {
-			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상의 숟갈로 선정되셨습니다.`;
+			let dateTime = this.babsangInfo.dining_datetime;
+			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상(${dateTime})의 숟갈로 선정되셨습니다.`;
 		},
 		showButton() {
 			// if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
