@@ -70,7 +70,7 @@
 								:nickname="messageDetail.nickname"
 								:profile_image="messageDetail.profile_image"
 								:age_range="messageDetail.age_range"
-								:dining_score="messageDetail.dining_score"
+								:dining_score="messageDetail.host_dining_score"
 								:dining_spoons_description="messageDetail.profile_description"
 							/>
 						</div>
