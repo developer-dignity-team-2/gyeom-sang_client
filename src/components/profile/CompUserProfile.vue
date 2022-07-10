@@ -74,11 +74,6 @@
 					로그아웃
 				</div>
 			</li>
-			<li>
-				<div class="dropdown-item rounded-2 cursor" @click="unlinkApp()">
-					탈퇴하기
-				</div>
-			</li>
 		</ul>
 	</div>
 </template>
@@ -98,20 +93,6 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
-		unlinkApp() {
-			window.Kakao.API.request({
-				url: '/v1/user/unlink',
-				success: function () {
-					alert('연결이 해제되었습니다.');
-				},
-				fail: function (err) {
-					alert('fail: ' + JSON.stringify(err));
-				},
-			});
-			this.$store.commit('user/getUserData', {});
-			this.$store.commit('user/userCheck', false);
-			localStorage.removeItem('jwt');
-		},
 		kakaoLogout() {
 			window.Kakao.Auth.logout(response => {
 				console.log(response);

@@ -24,13 +24,15 @@ export default {
 			sampleData: '',
 		};
 	},
+	beforeCreate() {},
+	created() {},
+	beforeMount() {},
+	mounted() {},
+	beforeUpdate() {},
+	updated() {},
+	beforeUnmount() {},
+	unmounted() {},
 	methods: {
-		// loginWithKakao() {
-		// 	window.Kakao.Auth.authorize({
-		// 		redirectUri: 'https://developers.kakao.com/tool/demo/loginForm/oauth',
-		// 		prompts: 'login',
-		// 	});
-		// },
 		/* 카카오톡 로그인 */
 		kakaoLogin() {
 			window.Kakao.Auth.login({
