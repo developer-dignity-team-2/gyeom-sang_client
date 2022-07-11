@@ -157,6 +157,7 @@ export default {
 		cancleModify() {
 			this.user.profile_description = this.tempProfileDescription;
 			this.userInfo = false;
+			this.$refs.modifyDescription.disabled = true;
 		},
 		joinBabsang() {
 			this.$router.push('/mypage/profile');

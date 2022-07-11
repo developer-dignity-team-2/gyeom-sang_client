@@ -12,9 +12,7 @@
 					<div class="card border mb-3" style="max-width: 80rem">
 						<div class="card-body">
 							<div class="card-text" style="height: 8rem">
-								<h5>밥상이 차려졌습니다.</h5>
-								<h6>해당 밥상의 url로 들어와주세요!</h6>
-								<h6>url</h6>
+								<h5>{{ messageDetail.message_description }}</h5>
 							</div>
 						</div>
 					</div>
@@ -28,36 +26,46 @@
 							<div class="card mb-3">
 								<div class="card-body">
 									<div class="d-flex justify-content-between">
-										<h5 class="card-title">밥상제목</h5>
+										<h5 class="card-title">
+											{{ messageDetail.restaurant_name }}
+										</h5>
 										<!-- 밥상 상세보기 버튼(해당 밥상으로 이동) -->
 										<button class="btn btn-primary" type="button">
-											상세보기
+											밥상 바로가기
 										</button>
 									</div>
 								</div>
-								<img
-									src="https://cdn.pixabay.com/photo/2016/09/23/23/23/restaurant-1690696_1280.jpg"
-									alt="food1"
+								<!-- <img
+									:src="messageDetail.profile_image"
+									alt="식당사진"
 									class="d-block user-select-none"
 									width="100%"
 									height="200"
+								/> -->
+								<img
+									:src="
+										'https://nicespoons.com/static/images/' +
+										messageDetail.dining_thumbnail
+									"
+									:alt="messageDetail.restaurant_name"
+									style="object-fit: cover"
 								/>
 								<!-- 소개내용 -->
 								<div class="card-body">
-									<p class="card-text">
+									<p class="card-text text-center">
 										{{ messageDetail.dining_description }}
 									</p>
 								</div>
 								<!-- 밥상 정보(일시,장소,혼성여부) -->
 								<ul class="list-group list-group-flush">
-									<li class="list-group-item text-muted">
-										{{ messageDetail.dining_datetime }}
+									<li class="list-group-item text-muted p-2">
+										식사 일시 : {{ messageDetail.dining_datetime }}
 									</li>
-									<li class="list-group-item text-muted">
-										{{ messageDetail.restaurant_location }}
+									<li class="list-group-item text-muted p-2">
+										식당 위치 : {{ messageDetail.restaurant_location }}
 									</li>
-									<li class="list-group-item text-muted">
-										{{ recruitGender() }}
+									<li class="list-group-item text-muted p-2">
+										밥상 성별 : {{ recruitGender() }}
 									</li>
 								</ul>
 							</div>
@@ -195,6 +203,7 @@ export default {
 	width: 100%;
 	height: 100%;
 }
+
 ul,
 dl {
 	padding: 0;
