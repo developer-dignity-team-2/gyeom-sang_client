@@ -30,7 +30,11 @@
 											{{ messageDetail.restaurant_name }}
 										</h5>
 										<!-- 밥상 상세보기 버튼(해당 밥상으로 이동) -->
-										<button class="btn btn-primary" type="button">
+										<button
+											class="btn btn-primary"
+											type="button"
+											@click="detail(messageDetail.dining_table_id)"
+										>
 											밥상 바로가기
 										</button>
 									</div>
@@ -170,6 +174,13 @@ export default {
 				genderStatus = '남성';
 			}
 			return genderStatus;
+		},
+		// 밥상 바로가기
+		detail(id) {
+			this.$router.push({
+				name: 'Babsang',
+				params: { babsangId: id },
+			});
 		},
 		doDelete() {
 			this.$swal({
