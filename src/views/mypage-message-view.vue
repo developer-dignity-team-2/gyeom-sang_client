@@ -12,9 +12,7 @@
 					<div class="card border mb-3" style="max-width: 80rem">
 						<div class="card-body">
 							<div class="card-text" style="height: 8rem">
-								<h5>밥상이 차려졌습니다.</h5>
-								<h6>해당 밥상의 url로 들어와주세요!</h6>
-								<h6>url</h6>
+								<h5>{{ messageDetail.message_description }}</h5>
 							</div>
 						</div>
 					</div>
@@ -28,46 +26,65 @@
 							<div class="card mb-3">
 								<div class="card-body">
 									<div class="d-flex justify-content-between">
-										<h5 class="card-title">밥상제목</h5>
+										<h5 class="card-title">
+											{{ messageDetail.restaurant_name }}
+										</h5>
 										<!-- 밥상 상세보기 버튼(해당 밥상으로 이동) -->
-										<button class="btn btn-primary" type="button">
-											상세보기
+										<button
+											class="btn btn-primary"
+											type="button"
+											@click="detail(messageDetail.dining_table_id)"
+										>
+											밥상 바로가기
 										</button>
 									</div>
 								</div>
-								<img
-									src="https://cdn.pixabay.com/photo/2016/09/23/23/23/restaurant-1690696_1280.jpg"
-									alt="food1"
+								<!-- <img
+									:src="messageDetail.profile_image"
+									alt="식당사진"
 									class="d-block user-select-none"
 									width="100%"
 									height="200"
+								/> -->
+								<img
+									:src="
+										'https://nicespoons.com/static/images/' +
+										messageDetail.dining_thumbnail
+									"
+									:alt="messageDetail.restaurant_name"
+									style="object-fit: cover"
 								/>
 								<!-- 소개내용 -->
 								<div class="card-body">
-									<p class="card-text">
-										안녕하세요 같이 제주도 연돈가실분 구해요
+									<p class="card-text text-center">
+										{{ messageDetail.dining_description }}
 									</p>
 								</div>
 								<!-- 밥상 정보(일시,장소,혼성여부) -->
 								<ul class="list-group list-group-flush">
-									<li class="list-group-item text-muted">식사 일시</li>
-									<li class="list-group-item text-muted">식당 위치</li>
-									<li class="list-group-item text-muted">혼성</li>
+									<li class="list-group-item text-muted p-2">
+										식사 일시 : {{ messageDetail.dining_datetime }}
+									</li>
+									<li class="list-group-item text-muted p-2">
+										식당 위치 : {{ messageDetail.restaurant_location }}
+									</li>
+									<li class="list-group-item text-muted p-2">
+										밥상 성별 : {{ recruitGender() }}
+									</li>
 								</ul>
 							</div>
 						</div>
 						<!-- 밥장프로필 -->
 						<div class="col-xl-4 col-sm-12 mb-3">
 							<UserCard
-								:email="babsangDetailData.host_email"
-								:gender="babsangDetailData.gender"
-								:nickname="babsangDetailData.nickname"
-								:profile_image="babsangDetailData.profile_image"
-								:age_range="babsangDetailData.age_range"
-								:dining_score="babsangDetailData.dining_score"
-								:dining_spoons_description="
-									babsangDetailData.profile_description
-								"
+								v-if="messageDetail.host_dining_score !== undefined"
+								:email="messageDetail.host_email"
+								:gender="messageDetail.gender"
+								:nickname="messageDetail.nickname"
+								:profile_image="messageDetail.profile_image"
+								:age_range="messageDetail.age_range"
+								:dining_score="messageDetail.host_dining_score"
+								:dining_spoons_description="messageDetail.profile_description"
 							/>
 						</div>
 						<!-- 목록 , 삭제 버튼 -->
@@ -80,7 +97,12 @@
 							>
 								목록
 							</button>
-							<button type="button" class="btn btn-danger" style="width: 80px">
+							<button
+								type="button"
+								class="btn btn-danger"
+								style="width: 80px"
+								@click="doDelete()"
+							>
 								<i class="bi bi-trash3-fill"></i>
 								삭제
 							</button>
@@ -101,6 +123,7 @@ export default {
 	data() {
 		return {
 			babsangDetailData: [],
+			messageDetail: [],
 		};
 	},
 	computed: {
@@ -121,9 +144,89 @@ export default {
 			}
 		},
 	},
+	created() {
+		this.getMessageDetail();
+	},
+	mounted() {},
 	methods: {
 		message() {
 			this.$router.push('/mypage/message');
+		},
+		// 메시지 상세 정보 가져오기
+		async getMessageDetail() {
+			console.log('메시지 ID : ', this.$route.query.messageId);
+			const temp = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/message/${this.$route.query.messageId}`,
+				)
+			).result[0];
+			console.log('temp : ', temp);
+			this.messageDetail = temp;
+		},
+		recruitGender() {
+			let gender = this.messageDetail.gender_check;
+			let genderStatus;
+			if (gender === 'ALL') {
+				genderStatus = '혼성';
+			} else if (gender === 'F') {
+				genderStatus = '여성';
+			} else {
+				genderStatus = '남성';
+			}
+			return genderStatus;
+		},
+		// 밥상 바로가기
+		detail(id) {
+			this.$router.push({
+				name: 'Babsang',
+				params: { babsangId: id },
+			});
+		},
+		doDelete() {
+			this.$swal({
+				title: '메시지를 삭제하시겠습니까?',
+				text: '삭제된 메시지는 복원되지 않습니다.',
+				icon: 'warning',
+				showCancelButton: true,
+				iconColor: '#ffcb00',
+				confirmButtonColor: '#ffcb00',
+				// cancelButtonColor: '#f4f4f4',
+				cancelButtonColor: '#d33',
+				cancelButtonText: '취소',
+				confirmButtonText: '삭제',
+			}).then(async result => {
+				if (result.isConfirmed) {
+					const loader = this.$loading.show({ canCancel: false });
+
+					const r = await this.$delete(
+						`https://nicespoons.com/api/v1/message/${this.$route.query.messageId}`,
+					);
+
+					loader.hide();
+
+					console.log(r);
+					if (r.status === 200) {
+						this.$swal({
+							title: '메시지가 삭제되었습니다.',
+							icon: 'success',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						});
+						this.$router.push('/mypage/message');
+					} else if (r.status === 501) {
+						this.$swal({
+							title: '메시지 삭제 실패!',
+							text: `삭제하려는 메시지가 ${r.count}건 존재합니다.`,
+							icon: 'warning',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						});
+						this.$router.push('/mypage/message');
+					}
+				}
+			});
 		},
 	},
 };
@@ -162,6 +265,7 @@ export default {
 	width: 100%;
 	height: 100%;
 }
+
 ul,
 dl {
 	padding: 0;
