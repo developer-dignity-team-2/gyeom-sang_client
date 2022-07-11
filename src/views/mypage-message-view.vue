@@ -93,7 +93,12 @@
 							>
 								목록
 							</button>
-							<button type="button" class="btn btn-danger" style="width: 80px">
+							<button
+								type="button"
+								class="btn btn-danger"
+								style="width: 80px"
+								@click="doDelete()"
+							>
 								<i class="bi bi-trash3-fill"></i>
 								삭제
 							</button>
@@ -165,6 +170,52 @@ export default {
 				genderStatus = '남성';
 			}
 			return genderStatus;
+		},
+		doDelete() {
+			this.$swal({
+				title: '메시지를 삭제하시겠습니까?',
+				text: '삭제된 메시지는 복원되지 않습니다.',
+				icon: 'warning',
+				showCancelButton: true,
+				iconColor: '#ffcb00',
+				confirmButtonColor: '#ffcb00',
+				// cancelButtonColor: '#f4f4f4',
+				cancelButtonColor: '#d33',
+				cancelButtonText: '취소',
+				confirmButtonText: '삭제',
+			}).then(async result => {
+				if (result.isConfirmed) {
+					const loader = this.$loading.show({ canCancel: false });
+
+					const r = await this.$delete(
+						`https://nicespoons.com/api/v1/message/${this.$route.query.messageId}`,
+					);
+
+					loader.hide();
+
+					console.log(r);
+					if (r.status === 200) {
+						this.$swal({
+							title: '메시지가 삭제되었습니다.',
+							icon: 'success',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						});
+						this.$router.push('/mypage/message');
+					} else if (r.status === 501) {
+						this.$swal({
+							title: '메시지 삭제 실패!',
+							text: `삭제하려는 메시지가 ${r.count}건 존재합니다.`,
+							icon: 'warning',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						});
+						this.$router.push('/mypage/message');
+					}
+				}
+			});
 		},
 	},
 };
