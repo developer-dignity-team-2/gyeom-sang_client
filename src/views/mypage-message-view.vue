@@ -65,6 +65,7 @@
 						<!-- 밥장프로필 -->
 						<div class="col-xl-4 col-sm-12 mb-3">
 							<UserCard
+								v-if="messageDetail.host_dining_score !== undefined"
 								:email="messageDetail.host_email"
 								:gender="messageDetail.gender"
 								:nickname="messageDetail.nickname"
