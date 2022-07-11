@@ -148,6 +148,7 @@ export default {
 					confirmButtonColor: '#ffcb00',
 				});
 				this.userInfo = false;
+				this.$refs.modifyDescription.disabled = true;
 			} else {
 				this.userInfo = true;
 				this.$refs.modifyDescription.disabled = false;
