@@ -89,7 +89,7 @@ export default {
     return {
       // dataSortKey: '',
       checked_all: false,
-			checked: [],
+	  checked: [],
     }
   },
   setup() {},
@@ -98,7 +98,7 @@ export default {
     formattedItems: function () {
       // console.log('grid: ', this.items.length)
       return this.items.slice(this.sliceStart, this.sliceEnd)
-    }
+    },
   },
   mounted() {},
   unmounted() {},
@@ -112,7 +112,8 @@ export default {
       this.$emit('clickButtons', method, id)
     },
     doSelect() {
-			console.log(this.checked);
+		this.$store.commit('message/checkedMessage', this.checked)
+		console.log("Vuex Test : ", this.$store.state.message.checkedMessage);
 	},
 	doSelectAll() {
 		this.checked = [];
@@ -121,7 +122,8 @@ export default {
 				this.checked.push(this.items[i].id);
 			}
 		}
-	console.log(this.checked)
+		this.$store.commit('message/checkedMessage', this.checked)
+		console.log("vuex에 전체 선택 메시지 테스트 : ", this.$store.state.message.checkedMessage)
 	},
 	async getMessageDetail() {
 		const userMessages = await this.$get(
