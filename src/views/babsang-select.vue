@@ -196,15 +196,15 @@ export default {
 				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
 			this.appliedSpoons = temp.result.filter(spoon => spoon.apply_yn === 'Y');
-			console.log('신청한 숟갈 : ', this.appliedSpoons);
+			// console.log('신청한 숟갈 : ', this.appliedSpoons);
 			this.fixedSpoons = this.appliedSpoons.filter(
 				spoon => spoon.selected_yn === 'Y',
 			);
-			console.log('이미 선택된 숟갈 : ', this.fixedSpoons);
+			// console.log('이미 선택된 숟갈 : ', this.fixedSpoons);
 			this.checkedEmail = this.fixedSpoons.map(s => s.spoon_email);
-			console.log('이미 선택된 숟갈 이메일 : ', this.checkedEmail);
+			// console.log('이미 선택된 숟갈 이메일 : ', this.checkedEmail);
 			this.selectedSpoons = this.fixedSpoons;
-			console.log('지금 선택한 숟갈 : ', this.selectedSpoons);
+			// console.log('지금 선택한 숟갈 : ', this.selectedSpoons);
 
 			loader.hide();
 		},
@@ -216,10 +216,10 @@ export default {
 			let alreaySpoon = this.fixedSpoons.filter(
 				s => s.spoon_email === spoon.spoon_email,
 			);
-			if (alreaySpoon) {
-				console.log('이미 선택된 숟갈 : ', alreaySpoon);
-				for (let email of alreaySpoon) {
-					this.cancleSpoon(email);
+			if (alreaySpoon.length > 0) {
+				for (let spoon of alreaySpoon) {
+					console.log('이미 선택된 숟갈 확정 취소 대상', spoon);
+					this.cancleSpoon(spoon.spoon_email);
 				}
 			} else {
 				console.log('이미 선택된 숟갈이 없는 경우');
@@ -243,8 +243,8 @@ export default {
 				)
 			).result[0];
 			this.babsangInfo = temp;
-			console.log('밥상 정보 : ', this.babsangInfo);
-			console.log('밥상 정보 temp : ', temp);
+			// console.log('밥상 정보 : ', this.babsangInfo);
+			// console.log('밥상 정보 temp : ', temp);
 
 			loader.hide();
 		},
