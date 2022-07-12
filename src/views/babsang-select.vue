@@ -63,7 +63,7 @@
 							@click="doFinalSpoons()"
 						>
 							총 {{ babsangInfo.dining_count - 1 }}명 중
-							{{ selectedSpoons.length }}명 확정(메시지 발송)
+							{{ mixSpoons.length }}명 확정(메시지 발송)
 						</button>
 					</div>
 				</div>
@@ -210,30 +210,6 @@ export default {
 
 			loader.hide();
 		},
-		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 밝송)
-		doCancel(spoon) {
-			console.log('선택 취소');
-			console.log(spoon);
-			console.log('doCancle_fixedSpoons :', this.fixedSpoons);
-			let alreadySpoon = this.fixedSpoons.filter(
-				s => s.spoon_email === spoon.spoon_email,
-			);
-			console.log(alreadySpoon[0].spoon_email);
-			console.log(spoon.spoon_email);
-
-			if (alreadySpoon[0].spoon_email === spoon.spoon_email) {
-				console.log('이미 선택된 숟갈 확정 취소 대상', spoon);
-				// this.cancleSpoon(spoon);
-			} else {
-				console.log('이미 선택된 숟갈이 아닌 경우');
-				this.selectedSpoons = this.selectedSpoons.filter(
-					s => s.spoon_email !== spoon.spoon_email,
-				);
-				this.checkedEmail = this.checkedEmail.filter(
-					email => email !== spoon.spoon_email,
-				);
-			}
-		},
 		// 밥상 정보 가져오기
 		async getBabsangInfo() {
 			const loader = this.$loading.show({ canCancel: false });
@@ -261,11 +237,32 @@ export default {
 				},
 			);
 		},
+		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 밝송)
+		doCancel(spoon) {
+			console.log('선택 취소');
+			console.log(spoon);
+			console.log('doCancle_fixedSpoons :', this.fixedSpoons);
+
+			console.log(this.fixedSpoons.indexOf(spoon));
+
+			if (this.fixedSpoons.indexOf(spoon) >= 0) {
+				console.log('이미 선택된 숟갈의 확정 취소', spoon);
+				this.cancleSpoon(spoon);
+			} else {
+				console.log('지금 선택 중인 숟갈의 취소', spoon);
+				this.selectedSpoons = this.selectedSpoons.filter(
+					s => s.spoon_email !== spoon.spoon_email,
+				);
+				this.checkedEmail = this.checkedEmail.filter(
+					email => email !== spoon.spoon_email,
+				);
+			}
+		},
 		// 받장의 숟갈 취소(확정 취소 - 선정 메일 발송 완료된 이후)
 		async cancleSpoon(spoon) {
 			this.$swal({
-				title: `${spoon.spoon_nickname}님의 숟갈의 빼시겠습니까?`,
-				text: `이미 확정 안내를 받으신 ${spoon.spoon_nickname}님께 실례가 될 수 있으므로 신중하게 결정해주세요!`,
+				title: `이 숟갈을 빼시겠습니까?`,
+				text: `이미 확정 안내를 받으신 ${spoon.spoon_nickname}님께 실례가 될 수 있으므로 신중하게 결정해 주세요!`,
 				icon: 'warning',
 				showCancelButton: true,
 				iconColor: '#ffcb00',
@@ -300,6 +297,11 @@ export default {
 							confirmButtonText: '확인',
 							confirmButtonColor: '#ffcb00',
 						});
+
+						// 함께할 숟갈 화면에서 해당 숟갈 빼기
+						this.fixedSpoons = this.fixedSpoons.filter(
+							s => s.spoon_email !== spoon.spoon_email,
+						);
 					} else if (r.status === 501) {
 						this.$swal({
 							title: `${spoon.spoon_nickname}님의 숟갈 빼기 실패!`,
