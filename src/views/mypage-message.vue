@@ -232,7 +232,7 @@ export default {
 		},
 		doDelete() {
 			this.$swal({
-				title: '선택한 메시지를 삭제하시겠습니까?',
+				title: '메시지를 삭제하시겠습니까?',
 				text: '삭제된 메시지는 복원되지 않습니다.',
 				icon: 'warning',
 				showCancelButton: true,

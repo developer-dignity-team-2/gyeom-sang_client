@@ -60,7 +60,7 @@
 								'btn btn-primary': buttonSignal === 0,
 								'btn btn-outline-primary': buttonSignal !== 0,
 							}"
-							@click="sendMessage()"
+							@click="doFinalSpoons()"
 						>
 							총 {{ babsangInfo.dining_count - 1 }}명 중
 							{{ selectedSpoons.length }}명 확정(메시지 발송)
@@ -190,6 +190,8 @@ export default {
 	methods: {
 		// 신청한 숟갈, 선택된 숟갈 정보 가져오기
 		async getBabsangSpoons() {
+			const loader = this.$loading.show({ canCancel: false });
+
 			const temp = await this.$get(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
@@ -198,12 +200,43 @@ export default {
 			this.fixedSpoons = this.appliedSpoons.filter(
 				spoon => spoon.selected_yn === 'Y',
 			);
-			console.log('이미 선택한 숟갈 : ', this.fixedSpoons);
+			console.log('이미 선택된 숟갈 : ', this.fixedSpoons);
+			this.checkedEmail = this.fixedSpoons.map(s => s.spoon_email);
+			console.log('이미 선택된 숟갈 이메일 : ', this.checkedEmail);
 			this.selectedSpoons = this.fixedSpoons;
 			console.log('지금 선택한 숟갈 : ', this.selectedSpoons);
+
+			loader.hide();
+		},
+		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 밝송)
+		doCancel(spoon) {
+			const loader = this.$loading.show({ canCancel: false });
+
+			console.log('선택 취소');
+			let alreaySpoon = this.fixedSpoons.filter(
+				s => s.spoon_email === spoon.spoon_email,
+			);
+			if (alreaySpoon) {
+				console.log('이미 선택된 숟갈 : ', alreaySpoon);
+				for (let email of alreaySpoon) {
+					this.cancleSpoon(email);
+				}
+			} else {
+				console.log('이미 선택된 숟갈이 없는 경우');
+				this.selectedSpoons = this.selectedSpoons.filter(
+					s => s.spoon_email !== spoon.spoon_email,
+				);
+				this.checkedEmail = this.checkedEmail.filter(
+					email => email !== spoon.spoon_email,
+				);
+			}
+
+			loader.hide();
 		},
 		// 밥상 정보 가져오기
 		async getBabsangInfo() {
+			const loader = this.$loading.show({ canCancel: false });
+
 			const temp = (
 				await this.$get(
 					`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}`,
@@ -212,35 +245,52 @@ export default {
 			this.babsangInfo = temp;
 			console.log('밥상 정보 : ', this.babsangInfo);
 			console.log('밥상 정보 temp : ', temp);
-		},
-		// 숟갈 확정
-		async pickSpoon() {
-			const loader = this.$loading.show({ canCancel: false });
 
+			loader.hide();
+		},
+		// 밥장의 숟갈 선정(확정)
+		async pickSpoon(spoon_email) {
 			await this.$put(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pick`,
 				{
+					spoon_email: spoon_email,
 					param: {
 						selected_yn: 'Y',
 					},
 				},
 			);
-
-			loader.hide();
 		},
-		// 선택된 숟갈에 메시지 발송
-		async sendMessage() {
+		// 받장의 숟갈 취소(확정 취소 - 선정 메일 발송 완료된 이후)
+		async cancleSpoon(spoon_email) {
+			await this.$put(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pickCancel`,
+				{
+					spoon_email: spoon_email,
+					param: {
+						selected_yn: 'N',
+						// cancel_date: '2022-06-10',
+					},
+				},
+			);
+		},
+		// 선택된 숟갈 확정 및 메시지 발송
+		async sendMessage(spoon_email) {
+			await this.$post('https://nicespoons.com/api/v1/message', {
+				param: {
+					receiver_email: spoon_email,
+					dining_table_id: this.babsangInfo.id,
+					message_type: 'S',
+					message_description: this.babsangMessage,
+				},
+			});
+		},
+		// 선택된 숟갈 확정 및 메시지 발송
+		async doFinalSpoons() {
 			const loader = this.$loading.show({ canCancel: false });
 
 			for (let spoon of this.selectedSpoons) {
-				await this.$post('https://nicespoons.com/api/v1/message', {
-					param: {
-						receiver_email: spoon.spoon_email,
-						dining_table_id: this.babsangInfo.id,
-						message_type: 'S',
-						message_description: this.babsangMessage,
-					},
-				});
+				this.pickSpoon(spoon.spoon_email); // 숟갈 확정
+				this.sendMessage(spoon.spoon_email); // 확정된 숟갈 메시지 발송
 			}
 
 			loader.hide();
@@ -264,17 +314,7 @@ export default {
 				this.writeMessage();
 				console.log('checkedEmail : ', this.checkedEmail);
 				console.log('selectedSpoons : ', this.selectedSpoons);
-				this.pickSpoon(spoon);
 			}
-		},
-		doCancel(spoon) {
-			console.log('선택 취소');
-			this.selectedSpoons = this.selectedSpoons.filter(
-				s => s.spoon_email !== spoon.spoon_email,
-			);
-			this.checkedEmail = this.checkedEmail.filter(
-				email => email !== spoon.spoon_email,
-			);
 		},
 	},
 };
