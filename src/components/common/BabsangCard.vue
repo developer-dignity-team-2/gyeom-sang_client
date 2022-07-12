@@ -1,7 +1,7 @@
 <template>
 	<div class="card rounded" style="overflow: hidden">
 		<!-- 찜 기능 -->
-		<div class="favorite" style="z-index: 1" @click="addFavorite">
+		<div class="favorite" style="z-index: 1" @click="addFavorite(itemData.id)">
 			<i
 				v-show="favorite === 'N'"
 				class="bi bi-heart pt-3 pe-2"
@@ -78,6 +78,8 @@
 </template>
 
 <script>
+// import { async } from 'q';
+
 export default {
 	name: 'BabsangCard',
 	data() {
@@ -121,14 +123,33 @@ export default {
 			return this.itemData.recruit_end_date.toString().slice(0, 10);
 		},
 		// 찜 여부 표시
-		addFavorite() {
+		async addFavorite(id) {
+			const likeId = id;
 			if (this.favorite === 'N') {
 				this.favorite = 'Y';
+				await this.$post('https://nicespoons.com/api/v1/babsang/bookmark', {
+					param: {
+						dining_table_id: likeId,
+						active_yn: this.favorite,
+					},
+				});
+				console.log(likeId);
+				console.log(this.favorite);
 			} else {
 				this.favorite = 'N';
+
+				await this.$put('https://nicespoons.com/api/v1/babsang/bookmark', {
+					param: {
+						active_yn: this.favorite,
+						cancel_date: new Date(),
+					},
+					dining_table_id: likeId,
+				});
+				console.log(likeId);
+				console.log(this.favorite);
 			}
-			console.log(this.favorite);
 		},
+
 		detail(id) {
 			this.$router.push({
 				name: 'Babsang',
