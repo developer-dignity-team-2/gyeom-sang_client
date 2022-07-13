@@ -302,9 +302,13 @@ export default {
 						this.fixedSpoons = this.fixedSpoons.filter(
 							s => s.spoon_email !== spoon.spoon_email,
 						);
+						// 함께할 숟갈 화면에서 해당 숟갈 빼기.disabled false 처리
 						this.checkedEmail = this.checkedEmail.filter(
 							email => email !== spoon.spoon_email,
 						);
+						// 뺀 숟갈에게 안내 메시지 발송
+						let cancelMessage = `아쉽게도 ${this.babsangInfo.restaurant_name} 밥상(${this.babsangInfo.dining_datetime})에 얹은 숟갈의 선정이 취소되셨습니다 ㅠ_ㅠ`;
+						this.sendMessage(spoon.spoon_email, cancelMessage);
 					} else if (r.status === 501) {
 						this.$swal({
 							title: `${spoon.spoon_nickname}님의 숟갈 빼기 실패!`,
@@ -318,13 +322,13 @@ export default {
 			});
 		},
 		// 선택된 숟갈 메시지 발송
-		async sendMessage(spoon_email) {
+		async sendMessage(spoon_email, message) {
 			await this.$post('https://nicespoons.com/api/v1/message', {
 				param: {
 					receiver_email: spoon_email,
 					dining_table_id: this.babsangInfo.id,
 					message_type: 'S',
-					message_description: this.babsangMessage,
+					message_description: message,
 				},
 			});
 		},
@@ -334,14 +338,13 @@ export default {
 
 			for (let spoon of this.selectedSpoons) {
 				this.pickSpoon(spoon.spoon_email); // 숟갈 확정
-				this.sendMessage(spoon.spoon_email); // 확정된 숟갈 메시지 발송
+				this.sendMessage(spoon.spoon_email, this.babsangMessage); // 확정된 숟갈 메시지 발송
 			}
 
 			loader.hide();
 		},
 		writeMessage() {
-			let dateTime = this.babsangInfo.dining_datetime;
-			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상(${dateTime})의 숟갈로 선정되셨습니다.`;
+			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상(${this.babsangInfo.dining_datetime})의 숟갈로 선정되셨습니다.`;
 		},
 		showButton() {
 			// if (this.selectedSpoons.length === this.diningTableSpoons.dining_count) {
