@@ -27,7 +27,7 @@
 			<!-- <tbody v-if="showMessage === 'R'"> -->
 			<tbody>
 				<tr
-					style="text-align: center"
+					style="text-align: center; cursor: pointer"
 					:key="i"
 					v-for="(user, i) in formattedItems"
 				>
@@ -67,37 +67,37 @@ export default {
     items: {
       type: Array,
       default: function () {
-        return []
-      }
+        return [];
+      },
     },
     headers: {
       type: Array,
       default: function () {
-        return []
-      }
+        return [];
+      },
     },
     sliceStart: {
       type: Number,
-      default: 0
+      default: 0,
     },
     sliceEnd: {
       type: Number,
-      default: 100
+      default: 100,
     },
   },
   data() {
     return {
       // dataSortKey: '',
       checked_all: false,
-	  checked: [],
-    }
+      checked: [],
+    };
   },
   setup() {},
   created() {},
   computed: {
     formattedItems: function () {
       // console.log('grid: ', this.items.length)
-      return this.items.slice(this.sliceStart, this.sliceEnd)
+      return this.items.slice(this.sliceStart, this.sliceEnd);
     },
   },
   mounted() {},
@@ -105,60 +105,62 @@ export default {
   methods: {
     changePage(start, end) {
       // console.log('changePage', start, end)
-      this.sliceStart = start
-      this.sliceEnd = end
+      this.sliceStart = start;
+      this.sliceEnd = end;
     },
     handleMethod(method, id) {
-      this.$emit('clickButtons', method, id)
+      this.$emit('clickButtons', method, id);
     },
     doSelect() {
-		this.$store.commit('message/checkedMessage', this.checked)
-		console.log("Vuex Test : ", this.$store.state.message.checkedMessage);
-	},
-	doSelectAll() {
-		this.checked = [];
-		if (this.checked_all) {
-			for (let i in this.items) {
-				this.checked.push(this.items[i].id);
-			}
-		}
-		this.$store.commit('message/checkedMessage', this.checked)
-		console.log("vuex에 전체 선택 메시지 테스트 : ", this.$store.state.message.checkedMessage)
-	},
-	async getMessageDetail() {
-		const userMessages = await this.$get(
-			'https://nicespoons.com/api/v1/message/13',
-		);
-		console.log(userMessages);
-	},
-	// 메시지 상세보기 라우터
-	messageView(id) {
-		console.log(id);
-		this.$router.push({
-			name: 'MypageMessageView',
-			query: { messageId: id },
-		});
-	},
-  }
-}
+      this.$store.commit('message/checkedMessage', this.checked);
+      console.log('Vuex Test : ', this.$store.state.message.checkedMessage);
+    },
+    doSelectAll() {
+      this.checked = [];
+      if (this.checked_all) {
+        for (let i in this.items) {
+          this.checked.push(this.items[i].id);
+        }
+      }
+      this.$store.commit('message/checkedMessage', this.checked);
+      console.log(
+        'vuex에 전체 선택 메시지 테스트 : ',
+        this.$store.state.message.checkedMessage
+      );
+    },
+    async getMessageDetail() {
+      const userMessages = await this.$get(
+        'https://nicespoons.com/api/v1/message/13'
+      );
+      console.log(userMessages);
+    },
+    // 메시지 상세보기 라우터
+    messageView(id) {
+      console.log(id);
+      this.$router.push({
+        name: 'MypageMessageView',
+        query: { messageId: id },
+      });
+    },
+  },
+};
 </script>
 <style scoped lang="scss">
 // 메시지 말줄임 처리
-.nickname-width{
-	max-width: 120px;
+.nickname-width {
+  max-width: 120px;
 }
-.description-width{
-	max-width: 320px;
+.description-width {
+  max-width: 320px;
 }
-.location-width{
-	max-width: 160px;
+.location-width {
+  max-width: 160px;
 }
-td
-{
-	//  min-width: 200px;
-	//  max-width: 300px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+td {
+  //  min-width: 200px;
+  //  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
