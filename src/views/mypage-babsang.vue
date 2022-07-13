@@ -87,30 +87,56 @@ export default {
 	},
 	computed: {},
 	mounted() {
-		this.getBabsangData();
-		this.getBabsangDataTest();
+		this.initShowBabsang();
 	},
 	methods: {
+		initShowBabsang() {
+			if (this.showBabsang === 'A') {
+				this.getAppliedBabsang();
+			} else if (this.showBabsang === 'M') {
+				this.getCreatedBabsang();
+			} else if (this.showBabsang === 'C') {
+				this.getSelectedList();
+			}
+		},
 		showAppliedBabsang() {
 			this.showBabsang = 'A';
+			this.getAppliedBabsang();
 		},
 		showMadeBabsang() {
 			this.showBabsang = 'M';
+			this.getCreatedBabsang();
 		},
 		showChosenBabsang() {
 			this.showBabsang = 'C';
+			this.getSelectedList();
 		},
-		async getBabsangData() {
-			const babsangData = await this.$get('/babsang');
-			this.doAscOrder(babsangData.result, 'id');
+		// 숟갈 얹은 밥상 목록 가져오기
+		async getAppliedBabsang() {
+			const Babsang = await this.$get(
+				'https://nicespoons.com/api/v1/babsang/get?type=appliedList',
+			);
+			this.doAscOrder(Babsang.result, 'id');
 			// console.log(babsangData.result);
-			this.babsangData = babsangData;
+			this.babsangData = Babsang;
 		},
-		async getBabsangDataTest() {
-			const babsangData = await this.$get('/babsang/get?type=appliedList');
-			// this.doAscOrder(babsangData.result, 'id');
-			console.log(babsangData.result);
-			// this.babsangData = babsangData;
+		// 차려 놓은 밥상 목록 가져오기
+		async getCreatedBabsang() {
+			const Babsang = await this.$get(
+				'https://nicespoons.com/api/v1/babsang/get?type=createdList',
+			);
+			this.doAscOrder(Babsang.result, 'id');
+			// console.log(babsangData.result);
+			this.babsangData = Babsang;
+		},
+		// 선정된 밥상 목록 가져오기
+		async getSelectedList() {
+			const Babsang = await this.$get(
+				'https://nicespoons.com/api/v1/babsang/get?type=selectedList',
+			);
+			this.doAscOrder(Babsang.result, 'id');
+			// console.log(babsangData.result);
+			this.babsangData = Babsang;
 		},
 		// 밥상 정렬(모집중/마감/잔체, 최신순/오래된순)
 		doAscOrder(data) {
