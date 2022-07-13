@@ -41,8 +41,7 @@
 				<div class="shadow"></div>
 				<div class="author">
 					<div class="author-image">
-						<!-- 서버에서 받은 데이터 중 프로필 사진 필드가 빠져 있어요 -->
-						<img :src="itemData.profile_image" alt="" />
+						<img :src="itemData.host_profile_image" alt="" />
 						<span style="cursor: default">{{ itemData.nickname }}</span>
 					</div>
 				</div>

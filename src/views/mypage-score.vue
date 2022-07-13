@@ -6,7 +6,8 @@
 			</div>
 			<!-- 본문영역 -->
 			<div class="col-xl-9 col-md-8 col-sm-12">
-				<div class="col border rounded p-3" style="min-height: 480px">
+				<!-- <div class="col border rounded p-3" style="min-height: 480px"> -->
+				<div class="col border rounded p-3">
 					<h3>식사 매너 점수</h3>
 					<!-- 버튼 -->
 					<div class="row mt-4">
@@ -41,7 +42,7 @@
 					<!-- 식사 매너 -->
 					<div v-if="showCard">
 						<div
-							class="pt-5"
+							class="p-5"
 							style="
 								display: flex;
 								flex-flow: row wrap;
