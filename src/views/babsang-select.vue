@@ -176,7 +176,7 @@ export default {
 	},
 	computed: {
 		buttonSignal: function () {
-			return this.selectedSpoons.length - (this.babsangInfo.dining_count - 1);
+			return this.mixSpoons.length - (this.babsangInfo.dining_count - 1);
 		},
 		mixSpoons: function () {
 			return [...this.fixedSpoons, ...this.selectedSpoons];
