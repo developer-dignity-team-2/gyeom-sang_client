@@ -426,6 +426,7 @@ export default {
 					restaurant_location: this.placeAddress,
 					restaurant_latitude: this.placeLatitude,
 					restaurant_longitude: this.placeLongitude,
+					dining_table_title: '',
 				},
 			});
 			// 생성한 밥상 게시물로 이동

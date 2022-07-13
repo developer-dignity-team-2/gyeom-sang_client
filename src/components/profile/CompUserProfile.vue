@@ -74,6 +74,7 @@
 					로그아웃
 				</div>
 			</li>
+			<li><hr class="dropdown-divider" /></li>
 			<li>
 				<div class="dropdown-item rounded-2 cursor" @click="unlinkApp()">
 					탈퇴하기

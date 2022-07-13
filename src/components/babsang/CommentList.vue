@@ -20,13 +20,6 @@
 								{{ list.nickname }}
 							</div>
 							<p class="text-muted">{{ list.create_date }}</p>
-							<!-- <a
-                        href="#"
-                        class="btn-link text-semibold fs-5"
-                        style="text-decoration: none; color: inherit"
-                        >{{ list.user_email }}
-                     </a>
-                     <p class="text-muted">{{ list.create_date }}</p> -->
 						</div>
 					</div>
 					<div v-if="list.user_email === user.email">
@@ -50,22 +43,6 @@
 							>
 								삭제
 							</div>
-							<!-- <a
-                     onclick=""
-                     class="btn-link text-small"
-                     style="text-decoration: none; color: inherit"
-                     v-show="!commentSave"
-                     @click="doCommentSave(list.id)"
-                     >수정</a
-                  >
-                  |
-                  <a
-                     href="#"
-                     class="btn-link text-small"
-                     style="text-decoration: none; color: inherit"
-                     @click="deleteComment(list.id)"
-                     >삭제</a
-                  > -->
 							<div v-show="commentSave" style="float: right">
 								<button
 									type="button"
@@ -99,13 +76,11 @@
 						placeholder="댓글 내용"
 					></textarea>
 				</div>
-
 				<div class="pad-ver text-end pe-4">
 					<button
 						type="button"
 						class="btn btn-outline-primary btn-sm"
 						style="margin-top: 8px"
-						v-show="!recommentSave"
 						@click="CeateToggle(list.id)"
 					>
 						답글
@@ -234,7 +209,6 @@ export default {
 	unmounted() {},
 	methods: {
 		// 댓글 수정/취소하는 함수 o
-
 		doCommentSave(ListId) {
 			console.log(ListId);
 			if (this.commentSave === true) {
@@ -252,7 +226,6 @@ export default {
 					comment_description: comment_description,
 				},
 			});
-
 			console.log(this.commentList.comment_description);
 			this.commentSave = false;
 		},
