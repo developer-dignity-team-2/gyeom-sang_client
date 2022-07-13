@@ -126,27 +126,42 @@ export default {
 		},
 		// 숟갈 얹은 밥상 목록 가져오기
 		async getAppliedBabsang() {
+			const loader = this.$loading.show({ canCancel: false });
+
 			const Babsang = await this.$get(
 				'https://nicespoons.com/api/v1/babsang/get?type=appliedList',
 			);
+
+			loader.hide();
+
 			this.doDescOrder(Babsang.result, 'id');
 			this.babsangData = Babsang.result;
 			console.log(this.babsangData);
 		},
 		// 차려 놓은 밥상 목록 가져오기
 		async getCreatedBabsang() {
+			const loader = this.$loading.show({ canCancel: false });
+
 			const Babsang = await this.$get(
 				'https://nicespoons.com/api/v1/babsang/get?type=createdList',
 			);
+
+			loader.hide();
+
 			this.doDescOrder(Babsang.result, 'id');
 			// console.log(babsangData.result);
 			this.babsangData = Babsang.result;
 		},
 		// 선정된 밥상 목록 가져오기
 		async getSelectedList() {
+			const loader = this.$loading.show({ canCancel: false });
+
 			const Babsang = await this.$get(
 				'https://nicespoons.com/api/v1/babsang/get?type=selectedList',
 			);
+
+			loader.hide();
+
 			this.doDescOrder(Babsang.result, 'id');
 			// console.log(babsangData.result);
 			this.babsangData = Babsang.result;
