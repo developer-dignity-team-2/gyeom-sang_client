@@ -227,6 +227,8 @@ export default {
 		},
 		// 밥장의 숟갈 선정(확정)
 		async pickSpoon(spoon_email) {
+			const loader = this.$loading.show({ canCancel: false });
+
 			await this.$put(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pick`,
 				{
@@ -236,6 +238,8 @@ export default {
 					},
 				},
 			);
+
+			loader.hide();
 		},
 		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 밝송)
 		doCancel(spoon) {
@@ -323,6 +327,8 @@ export default {
 		},
 		// 선택된 숟갈 메시지 발송
 		async sendMessage(spoon_email, message) {
+			const loader = this.$loading.show({ canCancel: false });
+
 			await this.$post('https://nicespoons.com/api/v1/message', {
 				param: {
 					receiver_email: spoon_email,
@@ -331,17 +337,20 @@ export default {
 					message_description: message,
 				},
 			});
-		},
-		// 선택된 숟갈 확정 및 메시지 발송
-		async doFinalSpoons() {
-			const loader = this.$loading.show({ canCancel: false });
-
-			for (let spoon of this.selectedSpoons) {
-				this.pickSpoon(spoon.spoon_email); // 숟갈 확정
-				this.sendMessage(spoon.spoon_email, this.babsangMessage); // 확정된 숟갈 메시지 발송
-			}
 
 			loader.hide();
+		},
+		// 선택된 숟갈 확정 및 메시지 발송
+		doFinalSpoons() {
+			// console.log(this.mixSpoons);
+			for (let spoon of this.mixSpoons) {
+				console.log(spoon.spoon_email, ' : ', spoon.selected_yn);
+				// 메시지 발송시 이미 확정 메시지를 받은 경우는 제외
+				if (spoon.selected_yn !== 'Y') {
+					this.pickSpoon(spoon.spoon_email); // 숟갈 확정
+					this.sendMessage(spoon.spoon_email, this.babsangMessage); // 확정된 숟갈 메시지 발송
+				}
+			}
 		},
 		writeMessage() {
 			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상(${this.babsangInfo.dining_datetime})의 숟갈로 선정되셨습니다.`;
@@ -355,14 +364,11 @@ export default {
 			}
 		},
 		doSelect(spoon) {
-			console.log('doSelect1_spoon :', spoon);
-			console.log('doSelect1_fixedSpoons :', this.fixedSpoons);
-
 			if (this.selectedSpoons.length < this.babsangInfo.dining_count - 1) {
 				this.selectedSpoons.push(spoon);
 				this.checkedEmail.push(spoon.spoon_email);
 				this.writeMessage();
-				console.log('mixSpoons : ', this.mixSpoons);
+				// console.log('mixSpoons : ', this.mixSpoons);
 			}
 		},
 	},
