@@ -302,6 +302,9 @@ export default {
 						this.fixedSpoons = this.fixedSpoons.filter(
 							s => s.spoon_email !== spoon.spoon_email,
 						);
+						this.checkedEmail = this.checkedEmail.filter(
+							email => email !== spoon.spoon_email,
+						);
 					} else if (r.status === 501) {
 						this.$swal({
 							title: `${spoon.spoon_nickname}님의 숟갈 빼기 실패!`,
