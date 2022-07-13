@@ -7,7 +7,7 @@
 			</div>
 			<!-- 본문영역 -->
 			<div class="col-xl-9 col-md-8 col-sm-12">
-				<div class="col border rounded p-3">
+				<div class="col border rounded p-3" style="min-height: 480px">
 					<h3>참여한 밥상 목록</h3>
 					<!-- 버튼 -->
 					<div class="row mt-4 mb-3">
@@ -62,9 +62,22 @@
 						</div>
 					</div>
 					<!-- 밥상카드 -->
-					<div class="row">
+					<div class="row" v-if="babsangData.length < 1">
+						<div
+							class="pt-5"
+							style="
+								display: flex;
+								flex-flow: row wrap;
+								justify-content: center;
+								align-item: center;
+							"
+						>
+							밥상 정보가 없습니다.
+						</div>
+					</div>
+					<div class="row" v-if="babsangData.length > 0">
 						<!-- <BabsangCardList :babsangData="babsangData" /> -->
-						<BabsangCardList :babsangData="babsangData.result" />
+						<BabsangCardList :babsangData="babsangData" />
 					</div>
 				</div>
 			</div>
@@ -116,29 +129,29 @@ export default {
 			const Babsang = await this.$get(
 				'https://nicespoons.com/api/v1/babsang/get?type=appliedList',
 			);
-			this.doAscOrder(Babsang.result, 'id');
-			// console.log(babsangData.result);
-			this.babsangData = Babsang;
+			this.doDescOrder(Babsang.result, 'id');
+			this.babsangData = Babsang.result;
+			console.log(this.babsangData);
 		},
 		// 차려 놓은 밥상 목록 가져오기
 		async getCreatedBabsang() {
 			const Babsang = await this.$get(
 				'https://nicespoons.com/api/v1/babsang/get?type=createdList',
 			);
-			this.doAscOrder(Babsang.result, 'id');
+			this.doDescOrder(Babsang.result, 'id');
 			// console.log(babsangData.result);
-			this.babsangData = Babsang;
+			this.babsangData = Babsang.result;
 		},
 		// 선정된 밥상 목록 가져오기
 		async getSelectedList() {
 			const Babsang = await this.$get(
 				'https://nicespoons.com/api/v1/babsang/get?type=selectedList',
 			);
-			this.doAscOrder(Babsang.result, 'id');
+			this.doDescOrder(Babsang.result, 'id');
 			// console.log(babsangData.result);
-			this.babsangData = Babsang;
+			this.babsangData = Babsang.result;
 		},
-		// 밥상 정렬(모집중/마감/잔체, 최신순/오래된순)
+		// 밥상 정렬(모집중/마감, 최신순/오래된순)
 		doAscOrder(data) {
 			this.babsangData = data.sort(function (a, b) {
 				return a.dining_datetime - b.dining_datetime;
