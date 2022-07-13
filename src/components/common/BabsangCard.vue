@@ -41,7 +41,10 @@
 				<div class="shadow"></div>
 				<div class="author">
 					<div class="author-image">
-						<img :src="itemData.host_profile_image" alt="" />
+						<img
+							:src="itemData.host_profile_image || itemData.profile_image"
+							alt=""
+						/>
 						<span style="cursor: default">{{ itemData.nickname }}</span>
 					</div>
 				</div>
