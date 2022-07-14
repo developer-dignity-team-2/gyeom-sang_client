@@ -151,41 +151,11 @@
 								<button
 									class="btn btn-primary"
 									data-bs-toggle="modal"
-									data-bs-target="#applySpoonModal"
+									data-bs-target="#toggleSpoonModal"
 									v-if="!spoonStatus"
 								>
 									숟갈 얹기
 								</button>
-								<slot-modal modalId="applySpoonModal">
-									<template v-slot:title
-										>{{ babsangDetailData.restaurant_name }} 밥상에 숟갈 얹기!
-									</template>
-									<!-- <template v-slot:title
-										>{{ babsangDetailData.dining_table_title }} 밥상에 숟갈
-										얹기!
-									</template> -->
-									<template v-slot:body>
-										<textarea
-											class="form-control"
-											style="resize: none"
-											id="applySpoonTextarea"
-											rows="3"
-											v-model="applySpoonTextarea"
-										></textarea>
-									</template>
-									<template v-slot:footer>
-										<button
-											class="btn btn-primary"
-											style="width: 20%"
-											@click="applySpoon"
-										>
-											숟갈 얹기
-										</button>
-										<button class="btn btn-secondary" style="width: 20%">
-											취소
-										</button>
-									</template>
-								</slot-modal>
 								<button
 									class="btn btn-primary"
 									@click="cancleSpoon"
@@ -198,6 +168,35 @@
 					</div>
 				</div>
 			</div>
+			<!-- 숟갈 얹기 모달 -->
+			<slot-modal modalId="toggleSpoonModal">
+				<template v-slot:title
+					>{{ babsangDetailData.restaurant_name }} 밥상에 숟갈 얹기!
+				</template>
+				<!-- <template v-slot:title
+										>{{ babsangDetailData.dining_table_title }} 밥상에 숟갈
+										얹기!
+									</template> -->
+				<template v-slot:body>
+					<textarea
+						class="form-control"
+						style="resize: none"
+						id="applySpoonTextarea"
+						rows="3"
+						v-model="applySpoonTextarea"
+					></textarea>
+				</template>
+				<template v-slot:footer>
+					<button
+						class="btn btn-primary"
+						style="width: 20%"
+						@click="applySpoon"
+					>
+						숟갈 얹기
+					</button>
+					<button class="btn btn-secondary" style="width: 20%">취소</button>
+				</template>
+			</slot-modal>
 		</div>
 	</div>
 </template>
