@@ -194,18 +194,20 @@ export default {
 	methods: {
 		// 신청한 숟갈, 선택된 숟갈 정보 가져오기
 		async getBabsangSpoons() {
+			this.fixedSpoons = [];
+			this.selectedSpoons = [];
 			const loader = this.$loading.show({ canCancel: false });
 
 			const temp = await this.$get(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
 			this.appliedSpoons = temp.result.filter(spoon => spoon.apply_yn === 'Y');
-			// console.log('신청한 숟갈 : ', this.appliedSpoons);
+			console.log('신청한 숟갈 : ', this.appliedSpoons);
 			this.fixedSpoons = this.appliedSpoons.filter(
 				spoon => spoon.selected_yn === 'Y',
 			);
-			// console.log('이미 선택된 숟갈 : ', this.fixedSpoons);
-			// console.log('이미 선택된 숟갈 : ', this.fixedSpoons[0]);
+			console.log('이미 선택된 숟갈 : ', this.fixedSpoons);
+			console.log('이미 선택된 숟갈 : ', this.fixedSpoons[0]);
 			this.checkedEmail = this.fixedSpoons.map(s => s.spoon_email);
 
 			loader.hide();
@@ -241,7 +243,7 @@ export default {
 
 			loader.hide();
 		},
-		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 밝송)
+		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 발송)
 		doCancel(spoon) {
 			console.log('선택 취소');
 			console.log(spoon);
@@ -322,6 +324,7 @@ export default {
 							confirmButtonColor: '#ffcb00',
 						});
 					}
+					await this.getBabsangSpoons(); // 새로고침
 				}
 			});
 		},
@@ -341,16 +344,17 @@ export default {
 			loader.hide();
 		},
 		// 선택된 숟갈 확정 및 메시지 발송
-		doFinalSpoons() {
+		async doFinalSpoons() {
 			// console.log(this.mixSpoons);
 			for (let spoon of this.mixSpoons) {
-				console.log(spoon.spoon_email, ' : ', spoon.selected_yn);
+				// console.log(spoon.spoon_email, ' : ', spoon.selected_yn);
 				// 메시지 발송시 이미 확정 메시지를 받은 경우는 제외
 				if (spoon.selected_yn !== 'Y') {
-					this.pickSpoon(spoon.spoon_email); // 숟갈 확정
-					this.sendMessage(spoon.spoon_email, this.babsangMessage); // 확정된 숟갈 메시지 발송
+					await this.pickSpoon(spoon.spoon_email); // 숟갈 확정
+					await this.sendMessage(spoon.spoon_email, this.babsangMessage); // 확정된 숟갈 메시지 발송
 				}
 			}
+			await this.getBabsangSpoons(); // 새로고침
 		},
 		writeMessage() {
 			this.babsangMessage = `축하합니다 ^O^ ${this.babsangInfo.restaurant_name} 밥상(${this.babsangInfo.dining_datetime})의 숟갈로 선정되셨습니다.`;
@@ -364,7 +368,7 @@ export default {
 			}
 		},
 		doSelect(spoon) {
-			if (this.selectedSpoons.length < this.babsangInfo.dining_count - 1) {
+			if (this.mixSpoons.length < this.babsangInfo.dining_count - 1) {
 				this.selectedSpoons.push(spoon);
 				this.checkedEmail.push(spoon.spoon_email);
 				this.writeMessage();
