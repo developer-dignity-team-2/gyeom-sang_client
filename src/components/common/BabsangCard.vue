@@ -49,30 +49,57 @@
 					</div>
 				</div>
 			</div>
-			<div class="card-body" style="cursor: pointer; padding: 2.3rem 2rem">
+			<div
+				class="card-body"
+				style="cursor: pointer; padding: 2.3rem 2rem 1.5rem"
+			>
 				<div>
-					<h5 class="card-title" style="font-weight: bold">
-						{{ itemData.restaurant_name }}
+					<h5 class="card-title mb-3" style="font-weight: bold">
+						{{ itemData.dining_table_title }}
 					</h5>
-					<!-- <p class="card-text mb-1">{{ itemData.nickname }}</p> -->
-					<p class="card-text mb-2">
-						<i class="bi bi-geo-alt"></i>{{ itemData.restaurant_location }}
+
+					<p class="card-text mb-2 me-3" style="display: inline-block">
+						<i class="bi bi-geo-alt"></i> {{ itemData.restaurant_name }}
 					</p>
-					<p class="card-text mb-4">
-						<i class="bi bi-calendar-check me-2"></i>{{ startDate() }} ~
-						{{ endDate() }}
+					<p class="card-text mb-4" style="display: inline-block">
+						<i class="bi bi-calendar-check me-2"></i>{{ dateFormat() }}
 					</p>
+
+					<!-- <p class="card-text mb-4">D-{{ countDday() }}</p> -->
 				</div>
 				<div>
 					<button type="button" class="btn btn-primary me-2">
 						{{ currentStatus() }}
 					</button>
+					<button type="button" class="btn btn-primary me-2">
+						D-{{ countDday() }}
+					</button>
 					<button type="button" class="btn btn-secondary me-2">
 						{{ recruitGender() }}
 					</button>
 					<button type="button" class="btn btn-secondary">
-						1/{{ itemData.dining_count }}
+						{{ itemData.dining_count }}인상
 					</button>
+				</div>
+				<div>
+					<div class="mt-3" style="font-size: 0.8rem">3명이 신청했어요</div>
+					<div class="author-image">
+						<img
+							:src="itemData.host_profile_image || itemData.profile_image"
+							alt=""
+							style="width: 1.5rem; border-radius: 50%"
+						/>
+						<img
+							:src="itemData.host_profile_image || itemData.profile_image"
+							alt=""
+							style="width: 1.5rem; border-radius: 50%"
+						/>
+						<img
+							:src="itemData.host_profile_image || itemData.profile_image"
+							alt=""
+							style="width: 1.5rem; border-radius: 50%"
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -116,12 +143,35 @@ export default {
 			}
 			return genderStatus;
 		},
-		startDate() {
-			return this.itemData.recruit_start_date.toString().slice(0, 10);
+		countDday() {
+			const strValue = this.itemData.recruit_start_date;
+			let s_year = strValue.slice(0, 4);
+			let s_month = strValue.slice(5, 7);
+			let s_day = strValue.slice(8, 10);
+			let startDay = new Date(s_year, s_month - 1, s_day);
+
+			const endValue = this.itemData.recruit_end_date;
+			let e_year = endValue.slice(0, 4);
+			let e_month = endValue.slice(5, 7);
+			let e_day = endValue.slice(8, 10);
+			let endDay = new Date(e_year, e_month - 1, e_day);
+
+			const gap = endDay.getTime() - startDay.getTime();
+			const result = Math.ceil(gap / (1000 * 60 * 60 * 24));
+			return result;
 		},
-		endDate() {
-			return this.itemData.recruit_end_date.toString().slice(0, 10);
+		dateFormat() {
+			const dayValue = this.itemData.dining_datetime;
+			let year = dayValue.slice(0, 4);
+			let month = dayValue.slice(5, 7);
+			let day = dayValue.slice(8, 10);
+			let dayObj = new Date(year, month - 1, day);
+			const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
+			let week = WEEKDAY[dayObj.getDay()];
+
+			return `${month}월 ${day}일(${week}) PM 6시`;
 		},
+
 		// 찜 여부 표시
 		async addFavorite(id) {
 			const likeId = id;
@@ -165,7 +215,17 @@ export default {
 	border-radius: 1.8rem !important;
 	border: none;
 	box-shadow: 0 10px 30px rgb(35 38 45 / 14%);
-
+	.dday {
+		color: #575757;
+		font-weight: 600;
+		font-size: 0.7rem;
+		line-height: 0;
+		background-color: #ffcb00;
+		padding: 0.35rem;
+		border-radius: 0.2rem;
+		vertical-align: middle;
+		letter-spacing: 0.1em;
+	}
 	.img-wrap {
 		position: relative;
 		overflow: hidden;
