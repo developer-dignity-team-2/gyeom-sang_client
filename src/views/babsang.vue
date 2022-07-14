@@ -20,7 +20,8 @@
 					<!-- 타이틀 -->
 					<div class="col my-4">
 						<div class="title d-flex">
-							<h3 class="me-4">{{ babsangDetailData.restaurant_name }}</h3>
+							<h3 class="me-4">{{ babsangDetailData.dining_table_title }}</h3>
+
 							<div class="status">
 								<button class="btn btn-primary me-2">
 									{{ currentStatus() }}
@@ -34,6 +35,14 @@
 							</div>
 						</div>
 						<ul>
+							<li>
+								<dl>
+									<dt>식사 장소</dt>
+									<dd>
+										{{ babsangDetailData.restaurant_name }}
+									</dd>
+								</dl>
+							</li>
 							<li>
 								<dl>
 									<dt>식사 일시</dt>
