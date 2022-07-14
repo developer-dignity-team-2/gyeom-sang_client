@@ -241,7 +241,7 @@ export default {
 
 			loader.hide();
 		},
-		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 밝송)
+		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 발송)
 		doCancel(spoon) {
 			console.log('선택 취소');
 			console.log(spoon);
@@ -364,7 +364,7 @@ export default {
 			}
 		},
 		doSelect(spoon) {
-			if (this.selectedSpoons.length < this.babsangInfo.dining_count - 1) {
+			if (this.mixSpoons.length < this.babsangInfo.dining_count - 1) {
 				this.selectedSpoons.push(spoon);
 				this.checkedEmail.push(spoon.spoon_email);
 				this.writeMessage();
