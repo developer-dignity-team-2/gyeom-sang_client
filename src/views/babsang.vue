@@ -183,7 +183,7 @@
 						style="resize: none"
 						id="applySpoonTextarea"
 						rows="3"
-						v-model="applySpoonTextarea"
+						v-model="spoonMessage"
 					></textarea>
 				</template>
 				<template v-slot:footer>
@@ -191,10 +191,19 @@
 						class="btn btn-primary"
 						style="width: 20%"
 						@click="applySpoon"
+						data-bs-dismiss="modal"
+						aria-label="Close"
 					>
 						숟갈 얹기
 					</button>
-					<button class="btn btn-secondary" style="width: 20%">취소</button>
+					<button
+						class="btn btn-secondary"
+						style="width: 20%"
+						data-bs-dismiss="modal"
+						aria-label="Close"
+					>
+						취소
+					</button>
 				</template>
 			</slot-modal>
 		</div>
@@ -215,7 +224,7 @@ export default {
 			babsangDetailData: [],
 			spoonStatus: '', // false 방상에 숟갈 없음, true 방상에 숟갈 있음
 			countAppliedSpoons: 0,
-			applySpoonTextarea: '',
+			spoonMessage: '',
 		};
 	},
 
@@ -250,6 +259,10 @@ export default {
 	},
 
 	methods: {
+		writeMessage() {
+			console.log('겸상 일시 : ', this.babsangDetailData.dining_datetime);
+			this.spoonMessage = `밥장님, ${this.babsangDetailData.restaurant_name} 밥상(${this.babsangDetailData.dining_datetime})에서 겸상하고 싶어요~`;
+		},
 		// 숟갈(얹기/빼기) 새로고침 버튼
 		async initialButton() {
 			const loader = this.$loading.show({ canCancel: false });
@@ -408,6 +421,7 @@ export default {
 			this.babsangDetailData = this.babsangDetailData.result[0];
 			console.log('----------babsangDetailData----------');
 			console.log(this.babsangDetailData);
+			this.writeMessage(); // 숟갈 메시지 초기화
 		},
 		currentStatus() {
 			let currentStatus = this.babsangDetailData.dining_status;
