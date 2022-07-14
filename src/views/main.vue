@@ -19,7 +19,11 @@
 						<router-link
 							to="/babsang-create"
 							class="fw-bold"
-							style="color: orange"
+							style="
+								color: orange;
+								text-decoration: none;
+								border-bottom: 1px solid orange;
+							"
 						>
 							Try it out!
 						</router-link>

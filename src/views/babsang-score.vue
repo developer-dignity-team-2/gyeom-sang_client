@@ -363,6 +363,7 @@ export default {
 		return {
 			showCard: true,
 			userIndex: 0,
+			commonQuestions: [], // 서버로 받은 공통 질문
 			babjang: [
 				{
 					dining_table_id: 1,
@@ -458,6 +459,19 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
+		// 숟갈 얹은 밥상 목록 가져오기
+		async getCommonQuestion() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const question = await this.$get(
+				'https://nicespoons.com/api/v1/question?type=common',
+			);
+
+			loader.hide();
+
+			this.commonQuestions = question.result;
+			console.log('공통 질문', this.commonQuestions);
+		},
 		// 버튼(이전/다음)
 		nextScore() {
 			if (this.userIndex < this.spoons.length) {
