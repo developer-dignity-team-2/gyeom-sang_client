@@ -29,9 +29,9 @@
 			<label
 				class="form-check-label"
 				for="flexCheckDefault"
-				style="margin: auto"
+				style="margin: auto 8px"
 			>
-				비밀댓글 {{ secret_check }}
+				비밀댓글
 			</label>
 
 			<div class="col text-end">

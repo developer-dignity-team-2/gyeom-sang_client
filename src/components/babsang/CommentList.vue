@@ -87,7 +87,10 @@
 					</button>
 				</div>
 				<!-- RecommentCreate에 parent_id를 넘겨주는 부분  -->
-				<div v-show="recommentSave" style="margin-top: 15px">
+				<div
+					v-show="recommentSave && list.id === this.recommentSelectedId"
+					style="margin-top: 15px"
+				>
 					<RecommentCreate :parent_id="(this.comment_parent_id = list.id)" />
 				</div>
 			</div>
@@ -199,6 +202,7 @@ export default {
 			recommentSave: false,
 			commentCeateToggle: false,
 			commentList: [],
+			recommentSelectedId: '',
 		};
 	},
 	setup() {},
@@ -264,12 +268,12 @@ export default {
 		//    }
 		// },
 		CeateToggle(ListId) {
-			console.log(ListId);
-			if (this.recommentSave === true) {
+			if (this.recommentSave === true && this.recommentSelectedId === ListId) {
 				this.recommentSave = false;
 			} else {
 				this.recommentSave = true;
 			}
+			this.recommentSelectedId = ListId;
 		},
 	},
 };

@@ -141,9 +141,17 @@
 								숟갈 선택
 							</button>
 							<div v-else>
-								<button
+								<!-- <button
 									class="btn btn-primary"
 									@click="applySpoon"
+									v-if="!spoonStatus"
+								>
+									숟갈 얹기
+								</button> -->
+								<button
+									class="btn btn-primary"
+									data-bs-toggle="modal"
+									data-bs-target="#toggleSpoonModal"
 									v-if="!spoonStatus"
 								>
 									숟갈 얹기
@@ -160,6 +168,44 @@
 					</div>
 				</div>
 			</div>
+			<!-- 숟갈 얹기 모달 -->
+			<slot-modal modalId="toggleSpoonModal">
+				<template v-slot:title
+					>{{ babsangDetailData.restaurant_name }} 밥상에 숟갈 얹기!
+				</template>
+				<!-- <template v-slot:title
+										>{{ babsangDetailData.dining_table_title }} 밥상에 숟갈
+										얹기!
+									</template> -->
+				<template v-slot:body>
+					<textarea
+						class="form-control"
+						style="resize: none"
+						id="applySpoonTextarea"
+						rows="3"
+						v-model="spoonMessage"
+					></textarea>
+				</template>
+				<template v-slot:footer>
+					<button
+						class="btn btn-primary"
+						style="width: 20%"
+						@click="applySpoon"
+						data-bs-dismiss="modal"
+						aria-label="Close"
+					>
+						숟갈 얹기
+					</button>
+					<button
+						class="btn btn-secondary"
+						style="width: 20%"
+						data-bs-dismiss="modal"
+						aria-label="Close"
+					>
+						취소
+					</button>
+				</template>
+			</slot-modal>
 		</div>
 	</div>
 </template>
@@ -169,14 +215,16 @@ import UserCard from '@/components/profile/UserCard';
 import CommentCreate from '@/components/babsang/CommentCreate';
 import CommentList from '@/components/babsang/CommentList';
 import BabsangMap from '@/components/kakaoMap/BabsangMap';
+import SlotModal from '@/components/common/SlotModal';
 export default {
 	name: 'Babsang',
-	components: { UserCard, CommentCreate, CommentList, BabsangMap },
+	components: { UserCard, CommentCreate, CommentList, BabsangMap, SlotModal },
 	data() {
 		return {
 			babsangDetailData: [],
 			spoonStatus: '', // false 방상에 숟갈 없음, true 방상에 숟갈 있음
 			countAppliedSpoons: 0,
+			spoonMessage: '',
 		};
 	},
 
@@ -211,58 +259,50 @@ export default {
 	},
 
 	methods: {
+		writeMessage() {
+			console.log('겸상 일시 : ', this.babsangDetailData.dining_datetime);
+			this.spoonMessage = `밥장님, ${this.babsangDetailData.restaurant_name} 밥상(${this.babsangDetailData.dining_datetime})에서 겸상하고 싶어요~`;
+		},
 		// 숟갈(얹기/빼기) 새로고침 버튼
 		async initialButton() {
-			console.log('초기화 : ', await this.alreadySpoon());
+			const loader = this.$loading.show({ canCancel: false });
+
 			let alreadySpoon = await this.alreadySpoon();
+
+			loader.hide();
+
 			if (alreadySpoon.length > 0) {
 				this.spoonStatus = true;
 			} else {
 				this.spoonStatus = false;
 			}
-			console.log('alreadySpoon', alreadySpoon);
-			console.log('spoonStatus', this.spoonStatus);
 		},
 		// 로그인 사용자가 숟갈 얹은 유저인지 확인
 		async alreadySpoon() {
-			const loader = this.$loading.show({ canCancel: false });
-
 			const confirmUsers = (
 				await this.$get(
 					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
 				)
 			).result;
-
-			loader.hide();
-
 			let user = this.$store.state.user.userData.email;
 			let confirmUser = confirmUsers.filter(
 				u => u.spoon_email === user && u.apply_yn === 'Y',
 			);
-			console.log('로그인 유저가 숟갈을 얹었는가? ', confirmUser);
 			return confirmUser;
 		},
 		// 신청한 숟갈 수 계산
 		async countSpoons() {
-			const loader = this.$loading.show({ canCancel: false });
-
 			const confirmUsers = (
 				await this.$get(
 					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
 				)
 			).result;
-
-			loader.hide();
-
 			this.countAppliedSpoons = confirmUsers.filter(
 				user => user.apply_yn === 'Y',
 			).length;
-			console.log('숟갈 얹은 유저수 : ', this.countAppliedSpoons);
 		},
 		// 숟갈 얹기 post
 		async postSpoon() {
-			const loader = this.$loading.show({ canCancel: false });
-
 			await this.$post(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
 				{
@@ -271,19 +311,21 @@ export default {
 						dining_table_id: this.$route.params.babsangId,
 						apply_yn: 'Y',
 						selected_yn: 'N',
-						dining_spoon_description:
-							'밥장님 저 서울에서 바로 갑니다. 빠꾸 없습니다!',
+						dining_spoon_description: this.spoonMessage,
 						cancel_date: null,
 					},
 				},
 			);
-
-			loader.hide();
 		},
 		// 숟갈 얹기 로직
 		async applySpoon() {
 			// 이미 숟갈 얹은 경우인지 확인
+			const loader = this.$loading.show({ canCancel: false });
+
 			let alreadySpoon = await this.alreadySpoon();
+
+			loader.hide();
+
 			if (alreadySpoon > 0) {
 				this.$swal({
 					title: '이미 숟갈 얹은 밥상!',
@@ -297,9 +339,13 @@ export default {
 				return;
 			}
 
+			const loaderB = this.$loading.show({ canCancel: false });
+
 			await this.postSpoon(); // 숟갈 얹기
 			await this.countSpoons(); // 신청한 숟갈 계산
 			await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
+
+			loaderB.hide();
 
 			this.$swal({
 				title: '숟갈 얹기 성공!',
@@ -314,14 +360,18 @@ export default {
 		async cancleSpoon() {
 			let userEmail = this.$store.state.user.userData.email;
 
+			const loader = this.$loading.show({ canCancel: false });
+
 			// 이미 숟갈 얹은 경우인지 확인
 			let alreadySpoon = await this.alreadySpoon();
 
+			loader.hide();
+
 			let spoonEmail = alreadySpoon[0].spoon_email;
 
-			// 숟갈 얹은 유저이면 숟갈 빼기
-			const loader = this.$loading.show({ canCancel: false });
+			const loaderB = this.$loading.show({ canCancel: false });
 
+			// 숟갈 얹은 유저이면 숟갈 빼기
 			if (spoonEmail === userEmail) {
 				await this.$put(
 					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=applyCancel`,
@@ -338,7 +388,7 @@ export default {
 			await this.countSpoons(); // 신청한 숟갈 계산
 			await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
 
-			loader.hide();
+			loaderB.hide();
 
 			this.$swal({
 				title: '숟갈 빼기 완료!',
@@ -370,6 +420,7 @@ export default {
 			this.babsangDetailData = this.babsangDetailData.result[0];
 			console.log('----------babsangDetailData----------');
 			console.log(this.babsangDetailData);
+			this.writeMessage(); // 숟갈 메시지 초기화
 		},
 		currentStatus() {
 			let currentStatus = this.babsangDetailData.dining_status;
