@@ -311,8 +311,7 @@ export default {
 						dining_table_id: this.$route.params.babsangId,
 						apply_yn: 'Y',
 						selected_yn: 'N',
-						dining_spoon_description:
-							'밥장님 저 서울에서 바로 갑니다. 빠꾸 없습니다!',
+						dining_spoon_description: this.spoonMessage,
 						cancel_date: null,
 					},
 				},
