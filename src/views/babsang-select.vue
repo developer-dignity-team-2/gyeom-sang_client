@@ -11,6 +11,7 @@
 							type="button"
 							class="btn-close"
 							@click="goBabsang(this.$route.query.babsangId)"
+							style="position: relative"
 						></button>
 					</div>
 				</div>
