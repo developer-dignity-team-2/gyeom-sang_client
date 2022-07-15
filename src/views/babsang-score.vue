@@ -363,7 +363,6 @@ export default {
 		return {
 			showCard: true,
 			userIndex: 0,
-			commonQuestions: [], // 서버로 받은 공통 질문
 			babjang: [
 				{
 					dining_table_id: 1,
@@ -401,6 +400,10 @@ export default {
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 			],
+			titleGold: { mannerTitle: '금매너' },
+			titleDung: { mannerTitle: '똥매너' },
+			commonQuestions: [], // 서버에서 받은 공통 질문
+			babjangQuestions: [], // 서버에서 받은 밥장 질문
 			mannerQuestions: [
 				[
 					{ mannerTitle: '금매너' },
@@ -455,12 +458,24 @@ export default {
 		},
 	},
 	setup() {},
-	created() {},
-	mounted() {},
+	created() {
+		this.getCommonQuestions();
+		this.getBabjangQuestions();
+	},
+	mounted() {
+		console.log(
+			'서버로 부터 받은 질문지(commonQuestions) : ',
+			this.commonQuestions,
+		);
+		console.log(
+			'서버로 부터 받은 질문지(mannerQuestionsFromServer) : ',
+			this.mannerQuestionsFromServer,
+		);
+	},
 	unmounted() {},
 	methods: {
-		// 숟갈 얹은 밥상 목록 가져오기
-		async getCommonQuestion() {
+		// 공통 질문
+		async getCommonQuestions() {
 			const loader = this.$loading.show({ canCancel: false });
 
 			const question = await this.$get(
@@ -469,8 +484,37 @@ export default {
 
 			loader.hide();
 
-			this.commonQuestions = question.result;
-			console.log('공통 질문', this.commonQuestions);
+			let good = question.result.filter(q => q.common_questions_type === 'G');
+			let bad = question.result.filter(q => q.common_questions_type === 'B');
+
+			let result = [
+				[{ mannerTitle: '금매너' }, [...good]],
+				[{ mannerTitle: '똥매너' }, [...bad]],
+			];
+
+			this.commonQuestions = result;
+			console.log('공통 질문지 : ', this.commonQuestions);
+		},
+		// 밥장 질문
+		async getBabjangQuestions() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const question = await this.$get(
+				'https://nicespoons.com/api/v1/question?type=host',
+			);
+
+			loader.hide();
+
+			let good = question.result.filter(q => q.host_questions_type === 'G');
+			let bad = question.result.filter(q => q.host_questions_type === 'B');
+
+			let result = [
+				[{ mannerTitle: '금매너' }, [...good]],
+				[{ mannerTitle: '똥매너' }, [...bad]],
+			];
+
+			this.babjangQuestions = result;
+			console.log('밥장 질문지 : ', this.babjangQuestions);
 		},
 		// 버튼(이전/다음)
 		nextScore() {
@@ -517,16 +561,16 @@ export default {
 		},
 		// 매너 점수 계산
 		computeScore(chk) {
-			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): 0.02, 숟갈 금매너(sg): 0.02, 숟갈 똥 매너(sb): 0.03)
+			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): -0.02, 숟갈 금매너(sg): 0.02, 숟갈 똥 매너(sb): -0.03)
 			const updatedMannerQuestion = chk.map(p =>
 				p.id.slice(0, 2) === 'bg'
 					? { ...p, score: p.score * 0.03 }
 					: p.id.slice(0, 2) === 'bb'
-					? { ...p, score: p.score * 0.02 }
+					? { ...p, score: p.score * -0.02 }
 					: p.id.slice(0, 2) === 'sg'
 					? { ...p, score: p.score * 0.02 }
 					: p.id.slice(0, 2) === 'sb'
-					? { ...p, score: p.score * 0.03 }
+					? { ...p, score: p.score * -0.03 }
 					: p,
 			);
 			// 가중치 적용된 점수 합계
