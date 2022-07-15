@@ -400,57 +400,13 @@ export default {
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 			],
-			titleGold: { mannerTitle: '금매너' },
-			titleDung: { mannerTitle: '똥매너' },
-			commonQuestions: [], // 서버에서 받은 공통 질문
-			babjangQuestions: [], // 서버에서 받은 밥장 질문
-			mannerQuestions: [
-				// [
-				// 	{ mannerTitle: '금매너' },
-				// 	[
-				// 		{ id: 'sg1', question: '식사 후 냅킨을 챙겨줘요.', score: 1 },
-				// 		{ id: 'sg2', question: '수저를 챙겨줘요.', score: 1 },
-				// 		{ id: 'sg3', question: '물을 따라줘요.', score: 1 },
-				// 		{ id: 'sg4', question: '부족한 반찬, 음식을 챙겨줘요.', score: 1 },
-				// 		{ id: 'sg5', question: '분위기를 편하게 만들어요.', score: 1 },
-				// 	],
-				// ],
-				// [
-				// 	{ mannerTitle: '똥매너' },
-				// 	[
-				// 		{ id: 'sb1', question: '약속 시간을 안 지켜요.', score: -1 },
-				// 		{ id: 'sb2', question: '음식을 지저분하게 먹어요.', score: -1 },
-				// 		{
-				// 			id: 'sd3',
-				// 			question: '맛있는 음식을 지나치게 가져가요.',
-				// 			score: 1,
-				// 		},
-				// 		{ id: 'sb4', question: '식사 중 대화 예의가 없어요.', score: -1 },
-				// 		{ id: 'sb5', question: '돈 정산이 깔끔하지 않아요.', score: -1 },
-				// 	],
-				// ],
-				// [
-				// 	{ mannerTitle: '금매너' },
-				// 	[
-				// 		{ id: 'bg1', question: '당신은 겸상 매너요정 이에요.', score: 1 },
-				// 		{ id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', score: 1 },
-				// 	],
-				// ],
-				// [
-				// 	{ mannerTitle: '똥매너' },
-				// 	[
-				// 		{ id: 'bb1', question: '밥장이 사람을 차별해요.', score: -1 },
-				// 		{ id: 'bb2', question: '밥장이 독단적으로 행동해요.', score: -1 },
-				// 	],
-				// ],
-			],
+			commonQuestions: [[[]], [[]]],
+			babjangQuestions: [[[]], [[]]],
 			// 로그인 사용자가 평가한 각 유저의 매너 평가 결과
 			checkedBabjangManner: [],
 			checkedCommonBabjangManner: [],
 			checkedCommonSpoonManner1: [],
 			checkedCommonSpoonManner2: [],
-			// DB로 보낼 이 밥상의 매너 평가 결과
-			mannerResultArr: [],
 		};
 	},
 	computed: {
@@ -463,16 +419,7 @@ export default {
 		this.getCommonQuestions();
 		this.getBabjangQuestions();
 	},
-	mounted() {
-		console.log(
-			'서버로 부터 받은 질문지(commonQuestions) : ',
-			this.commonQuestions,
-		);
-		console.log(
-			'서버로 부터 받은 질문지(mannerQuestionsFromServer) : ',
-			this.mannerQuestionsFromServer,
-		);
-	},
+	mounted() {},
 	unmounted() {},
 	methods: {
 		// 공통 질문
@@ -494,7 +441,7 @@ export default {
 			];
 
 			this.commonQuestions = result;
-			console.log('공통 질문지 : ', this.commonQuestions);
+			console.log(this.commonQuestions);
 		},
 		// 밥장 질문
 		async getBabjangQuestions() {
@@ -515,8 +462,7 @@ export default {
 			];
 
 			this.babjangQuestions = result;
-			console.log('밥장 질문지 : ', this.babjangQuestions);
-			console.log(this.babjangQuestions[0][1]);
+			console.log(this.babjangQuestions);
 		},
 		// 버튼(이전/다음)
 		nextScore() {
@@ -527,11 +473,13 @@ export default {
 				this.$router.push('/');
 				this.computeResult();
 			}
+			console.log(this.userIndex);
 		},
 		backScore() {
 			if (this.userIndex > 0) {
 				this.userIndex--;
 			}
+			console.log(this.userIndex);
 		},
 		doTest() {
 			this.computeResult();
