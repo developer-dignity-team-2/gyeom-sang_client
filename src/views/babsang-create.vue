@@ -93,6 +93,8 @@
 								style="cursor: default"
 								class="form-control mt-2"
 								placeholder="식사 일시"
+								minimumView="time"
+								inputFormat="yyyy-MM-dd HH:mm"
 							/>
 						</div>
 						<div class="error-msg" v-if="v$.dining_datetime.$error">
@@ -110,6 +112,8 @@
 									class="form-control"
 									style="cursor: default"
 									placeholder="모집 시작"
+									minimumView="time"
+									inputFormat="yyyy-MM-dd HH:mm"
 								/>
 							</div>
 							<div class="col">
@@ -120,6 +124,8 @@
 									class="form-control"
 									style="cursor: default"
 									placeholder="모집 마감"
+									minimumView="time"
+									inputFormat="yyyy-MM-dd HH:mm"
 								/>
 							</div>
 						</div>
@@ -376,7 +382,7 @@ export default {
 				.replace('T', ' ')
 				.replace(/\..*/, '')
 				.toString()
-				.slice(0, 10);
+				.slice(0, 16);
 
 			console.log(result);
 			return result;
@@ -387,7 +393,7 @@ export default {
 				.replace('T', ' ')
 				.replace(/\..*/, '')
 				.toString()
-				.slice(0, 10);
+				.slice(0, 16);
 			return result;
 		},
 		recruitEndDate() {
@@ -396,7 +402,7 @@ export default {
 				.replace('T', ' ')
 				.replace(/\..*/, '')
 				.toString()
-				.slice(0, 10);
+				.slice(0, 16);
 			return result;
 		},
 
