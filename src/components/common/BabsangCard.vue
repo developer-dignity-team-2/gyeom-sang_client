@@ -1,33 +1,5 @@
 <template>
 	<div class="card rounded" style="overflow: hidden">
-		<!-- 찜 기능 -->
-		<div class="favorite" style="z-index: 1" @click="addFavorite(itemData.id)">
-			<i
-				v-show="favorite === 'N'"
-				class="bi bi-heart pt-3 pe-2"
-				style="font-size: 1.5rem; color: #ffcb00; cursor: pointer"
-			></i>
-			<i
-				v-show="favorite === 'Y'"
-				class="bi bi-heart-fill pt-3 pe-2"
-				style="font-size: 1.5rem; color: #ffcb00; cursor: pointer"
-			></i>
-			<!-- 빨간색 찜 버튼 -->
-			<!-- <i
-					v-show="favorite === 'n'"
-					class="bi bi-heart pt-3 pe-2"
-					style="font-size: 1.5rem; color: rgb(255 72 95); cursor: pointer"
-				></i>
-				<i
-					v-show="favorite === 'y'"
-					class="bi bi-heart-fill pt-3 pe-2"
-					style="font-size: 1.5rem; color: rgb(255 72 95); cursor: pointer"
-				></i> -->
-			<!-- <font-awesome-icon
-					icon="fa-solid fa-star"
-					style="color: #ffd24c; font-size: 1.5rem; cursor: pointer"
-				/> -->
-		</div>
 		<div @click="detail(itemData.id)">
 			<div class="img-wrap">
 				<img
@@ -51,23 +23,51 @@
 			</div>
 			<div
 				class="card-body"
-				style="cursor: pointer; padding: 2rem 1rem 2rem 1rem"
+				style="cursor: pointer; padding: 2.3rem 2rem 1.5rem"
 			>
-				<div>
-					<h5 class="card-title mb-3" style="font-weight: bold">
+				<div class="d-flex justify-content-between aling-item-center">
+					<h5
+						class="card-title m-0"
+						style="font-weight: bold; font-size: 1.7rem"
+					>
 						{{ itemData.dining_table_title }}
 					</h5>
-
-					<p class="card-text mb-2 me-3" style="display: inline-block">
-						<i class="bi bi-geo-alt"></i> {{ itemData.restaurant_name }}
-					</p>
-					<p class="card-text mb-4" style="display: inline-block">
-						<i class="bi bi-calendar-check me-2"></i>{{ dateFormat() }}
-					</p>
-
-					<!-- <p class="card-text mb-4">D-{{ countDday() }}</p> -->
+					<!-- 찜 기능 -->
+					<div
+						class="favorite"
+						style="z-index: 1; margin-top: -0.18rem"
+						@click.stop="addFavorite(itemData.id)"
+					>
+						<i
+							v-show="favorite === 'N'"
+							class="bi bi-heart"
+							style="font-size: 1.7rem; color: #ffcb00; cursor: pointer"
+						></i>
+						<i
+							v-show="favorite === 'Y'"
+							class="bi bi-heart-fill"
+							style="font-size: 1.7rem; color: #ffcb00; cursor: pointer"
+						></i>
+					</div>
 				</div>
-				<div>
+
+				<!-- 식당 이름/식사 일시 -->
+				<div class="my-4">
+					<div class="card-text mb-1">
+						<i class="bi bi-geo-alt bi-w"></i>
+						<span> {{ itemData.restaurant_name }}</span>
+					</div>
+					<div class="card-text">
+						<i class="bi bi-clock bi-w"></i>
+						<span>{{ dateFormat() }}</span>
+					</div>
+				</div>
+				<!-- 밥상 해시 정보 -->
+				<div class="babsang-info">
+					<!-- <span>#{{ currentStatus() }}</span>
+					<span>#D-{{ countDday() }}</span>
+					<span>#{{ recruitGender() }}</span>
+					<span>#{{ itemData.dining_count }}인상</span> -->
 					<button type="button" class="btn btn-primary me-2">
 						{{ currentStatus() }}
 					</button>
@@ -81,8 +81,8 @@
 						{{ itemData.dining_count }}인상
 					</button>
 				</div>
-				<div>
-					<div class="mt-4" style="font-size: 0.8rem">3명이 신청했어요</div>
+				<!-- <div>
+					<div class="mt-3" style="font-size: 0.8rem">3명이 신청했어요</div>
 					<div class="author-image">
 						<img
 							:src="itemData.host_profile_image || itemData.profile_image"
@@ -100,7 +100,7 @@
 							style="width: 1.5rem; height: 1.5rem; border-radius: 50%"
 						/>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -186,8 +186,8 @@ export default {
 			const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 			let week = WEEKDAY[dayObj.getDay()];
 
-			// return `${month}월 ${day}일(${week}) ${this.ampm} ${this.hourVal}:${min}`;
-			return `${month}/${day}(${week}) ${this.ampm} ${this.hourVal}:${min}`;
+			return `${month}월 ${day}일(${week}) ${this.ampm} ${this.hourVal}:${min}`;
+			// return `${month}/${day}(${week}) ${this.ampm} ${this.hourVal}:${min}`;
 		},
 
 		// 찜 여부 표시
@@ -286,15 +286,31 @@ export default {
 		}
 	}
 }
-
+i.bi-geo-alt {
+	&:before {
+		vertical-align: -0.2em;
+	}
+}
+i.bi-w {
+	padding: 0 0.5rem 0 0;
+}
 .favorite {
-	position: absolute;
-	top: 0.5rem;
-	right: 0.5rem;
+	// position: absolute;
+	// top: 0.5rem;
+	// right: 0.5rem;
 }
 .card-img-center {
 	width: 100%;
-	height: 16rem;
+	height: 18rem;
 	object-fit: cover;
+}
+
+.babsang-info {
+	span {
+		margin-right: 1rem;
+		font-size: 1.2rem;
+		font-weight: bold;
+		color: #ffcb00;
+	}
 }
 </style>

@@ -20,16 +20,27 @@
 					<!-- 타이틀 -->
 					<div class="col my-4">
 						<div class="title d-flex">
-							<h3 class="me-4">{{ babsangDetailData.dining_table_title }}</h3>
+							<h3 class="me-4" style="line-height: 1.5em">
+								{{ babsangDetailData.dining_table_title }}
+							</h3>
 
 							<div class="status">
-								<button class="btn btn-primary me-2">
+								<button
+									class="btn btn-primary me-2"
+									style="height: 2.2rem; line-height: 1.5rem"
+								>
 									{{ currentStatus() }}
 								</button>
-								<button class="btn btn-secondary me-2">
+								<button
+									class="btn btn-secondary me-2"
+									style="height: 2.2rem; line-height: 1.5rem"
+								>
 									{{ recruitGender() }}
 								</button>
-								<button class="btn btn-secondary">
+								<button
+									class="btn btn-secondary"
+									style="height: 2.2rem; line-height: 1.5rem"
+								>
 									1/{{ babsangDetailData.dining_count }}
 								</button>
 							</div>
