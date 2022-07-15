@@ -58,6 +58,9 @@
 								v-model.trim="title"
 							/>
 						</div>
+						<div class="error-msg" v-if="v$.title.$error">
+							밥상 제목을 입력해주세요.
+						</div>
 						<div class="form-group" @click="mapToggle">
 							<label for="place-address" class="form-label mt-4"
 								>식당 이름</label
@@ -70,6 +73,9 @@
 								v-model="placeName"
 								disabled
 							/>
+						</div>
+						<div class="error-msg" v-if="v$.placeName.$error">
+							식당을 선택해 주세요.
 						</div>
 						<div class="form-group">
 							<label for="place-name" class="form-label mt-4">식당 위치</label>
@@ -112,8 +118,6 @@
 									class="form-control"
 									style="cursor: default"
 									placeholder="모집 시작"
-									minimumView="time"
-									inputFormat="yyyy-MM-dd HH:mm"
 								/>
 							</div>
 							<div class="col">
@@ -124,8 +128,6 @@
 									class="form-control"
 									style="cursor: default"
 									placeholder="모집 마감"
-									minimumView="time"
-									inputFormat="yyyy-MM-dd HH:mm"
 								/>
 							</div>
 						</div>
@@ -326,6 +328,9 @@ export default {
 	computed: {},
 	validations() {
 		return {
+			title: {
+				required,
+			},
 			dining_description: {
 				required,
 			},
@@ -345,6 +350,9 @@ export default {
 				required,
 			},
 			dining_count: {
+				required,
+			},
+			placeName: {
 				required,
 			},
 		};

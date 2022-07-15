@@ -33,24 +33,24 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions[2][0].mannerTitle }}</h5>
+										<h5>{{ babjangQuestions[0][0].mannerTitle }}</h5>
 										<ul
-											:key="manner.id"
-											v-for="manner in mannerQuestions[2][1]"
+											:key="manner.host_questions_id"
+											v-for="manner in babjangQuestions[0][1]"
 										>
 											<li>
 												<input
 													type="checkbox"
 													class="list-group-item-check pe-none"
 													name=""
-													:id="manner.id"
+													:id="manner.host_questions_id"
 													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
-													:for="manner.id"
-													>{{ manner.question }}</label
+													:for="manner.host_questions_id"
+													>{{ manner.host_questions_description }}</label
 												>
 											</li>
 										</ul>
@@ -64,24 +64,24 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions[3][0].mannerTitle }}</h5>
+										<h5>{{ babjangQuestions[1][0].mannerTitle }}</h5>
 										<ul
-											:key="manner.id"
-											v-for="manner in mannerQuestions[3][1]"
+											:key="manner.host_questions_id"
+											v-for="manner in babjangQuestions[1][1]"
 										>
 											<li>
 												<input
 													type="checkbox"
 													class="list-group-item-check pe-none"
 													name=""
-													:id="manner.id"
+													:id="manner.host_questions_id"
 													:value="manner"
 													v-model="checkedBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
-													:for="manner.id"
-													>{{ manner.question }}</label
+													:for="manner.host_questions_id"
+													>{{ manner.host_questions_description }}</label
 												>
 											</li>
 										</ul>
@@ -98,24 +98,24 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions[0][0].mannerTitle }}</h5>
+										<h5>{{ commonQuestions[0][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions[0][1]"
+											v-for="manner in commonQuestions[0][1]"
 										>
 											<li>
 												<input
 													type="checkbox"
 													class="list-group-item-check pe-none"
 													name=""
-													:id="manner.id"
+													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedBabjangManner"
+													v-model="checkedCommonBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
-													:for="manner.id"
-													>{{ manner.question }}</label
+													:for="manner.common_questions_id"
+													>{{ manner.common_questions_description }}</label
 												>
 											</li>
 										</ul>
@@ -129,24 +129,24 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions[1][0].mannerTitle }}</h5>
+										<h5>{{ commonQuestions[1][0].mannerTitle }}</h5>
 										<ul
-											:key="manner.id"
-											v-for="manner in mannerQuestions[1][1]"
+											:key="manner.common_questions_id"
+											v-for="manner in commonQuestions[1][1]"
 										>
 											<li>
 												<input
 													type="checkbox"
 													class="list-group-item-check pe-none"
 													name=""
-													:id="manner.id"
+													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedBabjangManner"
+													v-model="checkedCommonBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
-													:for="manner.id"
-													>{{ manner.question }}</label
+													:for="manner.common_questions_id"
+													>{{ manner.common_questions_description }}</label
 												>
 											</li>
 										</ul>
@@ -186,24 +186,24 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions[0][0].mannerTitle }}</h5>
+										<h5>{{ commonQuestions[0][0].mannerTitle }}</h5>
 										<ul
-											:key="manner.id"
-											v-for="manner in mannerQuestions[0][1]"
+											:key="manner.common_questions_id"
+											v-for="manner in commonQuestions[0][1]"
 										>
 											<li>
 												<input
 													type="checkbox"
 													class="list-group-item-check pe-none"
 													name=""
-													:id="manner.id"
+													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedSpoonManner1"
+													v-model="checkedCommonSpoonManner1"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
-													:for="manner.id"
-													>{{ manner.question }}</label
+													:for="manner.common_questions_id"
+													>{{ manner.common_questions_description }}</label
 												>
 											</li>
 										</ul>
@@ -217,24 +217,24 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions[1][0].mannerTitle }}</h5>
+										<h5>{{ commonQuestions[1][0].mannerTitle }}</h5>
 										<ul
 											:key="manner.id"
-											v-for="manner in mannerQuestions[1][1]"
+											v-for="manner in commonQuestions[1][1]"
 										>
 											<li>
 												<input
 													type="checkbox"
 													class="list-group-item-check pe-none"
 													name=""
-													:id="manner.id"
+													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedSpoonManner1"
+													v-model="checkedCommonSpoonManner1"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
-													:for="manner.id"
-													>{{ manner.question }}</label
+													:for="manner.common_questions_id"
+													>{{ manner.common_questions_description }}</label
 												>
 											</li>
 										</ul>
@@ -274,24 +274,24 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions[0][0].mannerTitle }}</h5>
+										<h5>{{ commonQuestions[0][0].mannerTitle }}</h5>
 										<ul
-											:key="manner.id"
-											v-for="manner in mannerQuestions[0][1]"
+											:key="manner.common_questions_id"
+											v-for="manner in commonQuestions[0][1]"
 										>
 											<li>
 												<input
 													type="checkbox"
 													class="list-group-item-check pe-none"
 													name=""
-													:id="manner.id"
+													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedSpoonManner2"
+													v-model="checkedCommonSpoonManner2"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
-													:for="manner.id"
-													>{{ manner.question }}</label
+													:for="manner.common_questions_id"
+													>{{ manner.common_questions_description }}</label
 												>
 											</li>
 										</ul>
@@ -305,24 +305,24 @@
 									<div
 										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
 									>
-										<h5>{{ mannerQuestions[1][0].mannerTitle }}</h5>
+										<h5>{{ commonQuestions[1][0].mannerTitle }}</h5>
 										<ul
-											:key="manner.id"
-											v-for="manner in mannerQuestions[1][1]"
+											:key="manner.common_questions_id"
+											v-for="manner in commonQuestions[1][1]"
 										>
 											<li>
 												<input
 													type="checkbox"
 													class="list-group-item-check pe-none"
 													name=""
-													:id="manner.id"
+													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedSpoonManner2"
+													v-model="checkedCommonSpoonManner2"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
-													:for="manner.id"
-													>{{ manner.question }}</label
+													:for="manner.common_questions_id"
+													>{{ manner.common_questions_description }}</label
 												>
 											</li>
 										</ul>
@@ -363,7 +363,6 @@ export default {
 		return {
 			showCard: true,
 			userIndex: 0,
-			commonQuestions: [], // 서버로 받은 공통 질문
 			babjang: [
 				{
 					dining_table_id: 1,
@@ -401,52 +400,13 @@ export default {
 						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 			],
-			mannerQuestions: [
-				[
-					{ mannerTitle: '금매너' },
-					[
-						{ id: 'sg1', question: '식사 후 냅킨을 챙겨줘요.', score: 1 },
-						{ id: 'sg2', question: '수저를 챙겨줘요.', score: 1 },
-						{ id: 'sg3', question: '물을 따라줘요.', score: 1 },
-						{ id: 'sg4', question: '부족한 반찬, 음식을 챙겨줘요.', score: 1 },
-						{ id: 'sg5', question: '분위기를 편하게 만들어요.', score: 1 },
-					],
-				],
-				[
-					{ mannerTitle: '똥매너' },
-					[
-						{ id: 'sb1', question: '약속 시간을 안 지켜요.', score: -1 },
-						{ id: 'sb2', question: '음식을 지저분하게 먹어요.', score: -1 },
-						{
-							id: 'sd3',
-							question: '맛있는 음식을 지나치게 가져가요.',
-							score: 1,
-						},
-						{ id: 'sb4', question: '식사 중 대화 예의가 없어요.', score: -1 },
-						{ id: 'sb5', question: '돈 정산이 깔끔하지 않아요.', score: -1 },
-					],
-				],
-				[
-					{ mannerTitle: '금매너' },
-					[
-						{ id: 'bg1', question: '당신은 겸상 매너요정 이에요.', score: 1 },
-						{ id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', score: 1 },
-					],
-				],
-				[
-					{ mannerTitle: '똥매너' },
-					[
-						{ id: 'bb1', question: '밥장이 사람을 차별해요.', score: -1 },
-						{ id: 'bb2', question: '밥장이 독단적으로 행동해요.', score: -1 },
-					],
-				],
-			],
+			commonQuestions: [[[]], [[]]],
+			babjangQuestions: [[[]], [[]]],
 			// 로그인 사용자가 평가한 각 유저의 매너 평가 결과
 			checkedBabjangManner: [],
-			checkedSpoonManner1: [],
-			checkedSpoonManner2: [],
-			// DB로 보낼 이 밥상의 매너 평가 결과
-			mannerResultArr: [],
+			checkedCommonBabjangManner: [],
+			checkedCommonSpoonManner1: [],
+			checkedCommonSpoonManner2: [],
 		};
 	},
 	computed: {
@@ -455,12 +415,15 @@ export default {
 		},
 	},
 	setup() {},
-	created() {},
+	created() {
+		this.getCommonQuestions();
+		this.getBabjangQuestions();
+	},
 	mounted() {},
 	unmounted() {},
 	methods: {
-		// 숟갈 얹은 밥상 목록 가져오기
-		async getCommonQuestion() {
+		// 공통 질문
+		async getCommonQuestions() {
 			const loader = this.$loading.show({ canCancel: false });
 
 			const question = await this.$get(
@@ -469,8 +432,37 @@ export default {
 
 			loader.hide();
 
-			this.commonQuestions = question.result;
-			console.log('공통 질문', this.commonQuestions);
+			let good = question.result.filter(q => q.common_questions_type === 'G');
+			let bad = question.result.filter(q => q.common_questions_type === 'B');
+
+			let result = [
+				[{ mannerTitle: '금매너' }, [...good]],
+				[{ mannerTitle: '똥매너' }, [...bad]],
+			];
+
+			this.commonQuestions = result;
+			console.log(this.commonQuestions);
+		},
+		// 밥장 질문
+		async getBabjangQuestions() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const question = await this.$get(
+				'https://nicespoons.com/api/v1/question?type=host',
+			);
+
+			loader.hide();
+
+			let good = question.result.filter(q => q.host_questions_type === 'G');
+			let bad = question.result.filter(q => q.host_questions_type === 'B');
+
+			let result = [
+				[{ mannerTitle: '금매너' }, [...good]],
+				[{ mannerTitle: '똥매너' }, [...bad]],
+			];
+
+			this.babjangQuestions = result;
+			console.log(this.babjangQuestions);
 		},
 		// 버튼(이전/다음)
 		nextScore() {
@@ -481,59 +473,90 @@ export default {
 				this.$router.push('/');
 				this.computeResult();
 			}
+			console.log(this.userIndex);
 		},
 		backScore() {
 			if (this.userIndex > 0) {
 				this.userIndex--;
 			}
+			console.log(this.userIndex);
 		},
 		doTest() {
 			this.computeResult();
 		},
 		// 밥상 점수 설문 취합
 		computeResult() {
-			let tmpArr = [];
-			let tmpObj = {
-				user: this.babjang[0],
-				getQuestion: this.checkedBabjangManner,
-				getScore: this.computeScore(this.checkedBabjangManner),
-			};
-			tmpArr.push(tmpObj);
-			tmpObj = {
-				user: this.spoons[0],
-				getQuestion: this.checkedSpoonManner1,
-				getScore: this.computeScore(this.checkedSpoonManner1),
-			};
-			tmpArr.push(tmpObj);
-			tmpObj = {
-				user: this.spoons[1],
-				getQuestion: this.checkedSpoonManner2,
-				getScore: this.computeScore(this.checkedSpoonManner2),
-			};
-			tmpArr.push(tmpObj);
-			this.mannerResultArr = JSON.stringify(tmpArr);
-			// console.log(tmpArr);
-			console.log('mannerResultArr: ' + this.mannerResultArr);
+			console.log('checkedBabjangManner : ', this.checkedBabjangManner);
+			console.log(
+				'checkedCommonBabjangManner : ',
+				this.checkedCommonBabjangManner,
+			);
+			console.log('checkedSpoonManner1 : ', this.checkedCommonSpoonManner1);
+			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
+
+			let babjangScore = this.computeBabjangScore(this.checkedBabjangManner);
+			let babjangCommonScore = this.computeCommonScore(
+				this.checkedCommonBabjangManner,
+			);
+			let spoon1CommonScore = this.computeCommonScore(
+				this.checkedCommonSpoonManner1,
+			);
+			let spoon2CommonScore = this.computeCommonScore(
+				this.checkedCommonSpoonManner2,
+			);
+
+			console.log('babjangScore : ', babjangScore);
+			console.log('babjangCommonScore : ', babjangCommonScore);
+			console.log('spoon1CommonScore : ', spoon1CommonScore);
+			console.log('spoon2CommonScore : ', spoon2CommonScore);
 		},
-		// 매너 점수 계산
-		computeScore(chk) {
-			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): 0.02, 숟갈 금매너(sg): 0.02, 숟갈 똥 매너(sb): 0.03)
-			const updatedMannerQuestion = chk.map(p =>
-				p.id.slice(0, 2) === 'bg'
-					? { ...p, score: p.score * 0.03 }
-					: p.id.slice(0, 2) === 'bb'
-					? { ...p, score: p.score * 0.02 }
-					: p.id.slice(0, 2) === 'sg'
-					? { ...p, score: p.score * 0.02 }
-					: p.id.slice(0, 2) === 'sb'
-					? { ...p, score: p.score * 0.03 }
+		// 밥장 점수 계산
+		computeBabjangScore(chk) {
+			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): -0.02)
+			let temp;
+
+			temp = chk.map(p =>
+				p.host_questions_id.slice(0, 2) === 'bg'
+					? { ...p, host_questions_weight: p.host_questions_weight * 0.03 }
+					: p.host_questions_id.slice(0, 2) === 'bb'
+					? { ...p, host_questions_weight: p.host_questions_weight * -0.02 }
 					: p,
 			);
+			console.log('host_questions_id : ', temp);
+
 			// 가중치 적용된 점수 합계
-			const sumAll = updatedMannerQuestion
-				.map(item => item.score)
+			let sum = temp
+				.map(item => item.host_questions_weight)
 				.reduce((prev, curr) => prev + curr, 0);
-			return sumAll;
+
+			return sum;
+		},
+		// 공통 점수 계산
+		computeCommonScore(chk) {
+			// 가중치 적용(숟갈 금매너(sg): 0.02, 숟갈 똥매너(sb): -0.03)
+			let temp;
+
+			temp = chk.map(p =>
+				p.common_questions_id.slice(0, 2) === 'sg'
+					? {
+							...p,
+							common_questions_weight: p.common_questions_weight * 0.02,
+					  }
+					: p.common_questions_id.slice(0, 2) === 'sb'
+					? {
+							...p,
+							common_questions_weight: p.common_questions_weight * -0.03,
+					  }
+					: p,
+			);
+			console.log('common_questions_id : ', temp);
+
+			// 가중치 적용된 점수 합계
+			let sum = temp
+				.map(item => item.common_questions_weight)
+				.reduce((prev, curr) => prev + curr, 0);
+
+			return sum;
 		},
 	},
 };
