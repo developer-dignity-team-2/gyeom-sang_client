@@ -67,7 +67,7 @@
 
 				<div class="form-group">
 					<textarea
-						:disabled="!commentSave"
+						:disabled="!(list.id === this.changeSelectedId)"
 						class="form-control"
 						v-model="list.comment_description"
 						id="Textarea"
@@ -170,7 +170,7 @@
 					<!-- 댓글 내용 -->
 					<div>
 						<textarea
-							:disabled="!commentSave"
+							:disabled="commentSave"
 							class="form-control"
 							v-model="recomment.comment_description"
 							id="Textarea"
@@ -203,6 +203,7 @@ export default {
 			commentCeateToggle: false,
 			commentList: [],
 			recommentSelectedId: '',
+			changeSelectedId: '',
 		};
 	},
 	setup() {},
@@ -215,11 +216,12 @@ export default {
 		// 댓글 수정/취소하는 함수 o
 		doCommentSave(ListId) {
 			console.log(ListId);
-			if (this.commentSave === true) {
+			if (this.commentSave) {
 				this.commentSave = false;
 			} else {
 				this.commentSave = true;
 			}
+			this.changeSelectedId = ListId;
 		},
 		// 수정한 댓글 값 보내는 함수
 		async doCommentPut(commentId, comment_description) {
@@ -232,6 +234,7 @@ export default {
 			});
 			console.log(this.commentList.comment_description);
 			this.commentSave = false;
+			this.changeSelectedId = '';
 		},
 		// 댓글 삭제하는 함수
 		async deleteComment(commentListId) {
