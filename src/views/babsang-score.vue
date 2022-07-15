@@ -110,7 +110,7 @@
 													name=""
 													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedBabjangManner"
+													v-model="checkedCommonBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
@@ -141,7 +141,7 @@
 													name=""
 													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedBabjangManner"
+													v-model="checkedCommonBabjangManner"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
@@ -198,7 +198,7 @@
 													name=""
 													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedSpoonManner1"
+													v-model="checkedCommonSpoonManner1"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
@@ -229,7 +229,7 @@
 													name=""
 													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedSpoonManner1"
+													v-model="checkedCommonSpoonManner1"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
@@ -286,7 +286,7 @@
 													name=""
 													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedSpoonManner2"
+													v-model="checkedCommonSpoonManner2"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
@@ -317,7 +317,7 @@
 													name=""
 													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedSpoonManner2"
+													v-model="checkedCommonSpoonManner2"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
@@ -446,8 +446,9 @@ export default {
 			],
 			// 로그인 사용자가 평가한 각 유저의 매너 평가 결과
 			checkedBabjangManner: [],
-			checkedSpoonManner1: [],
-			checkedSpoonManner2: [],
+			checkedCommonBabjangManner: [],
+			checkedCommonSpoonManner1: [],
+			checkedCommonSpoonManner2: [],
 			// DB로 보낼 이 밥상의 매너 평가 결과
 			mannerResultArr: [],
 		};
@@ -538,8 +539,9 @@ export default {
 		// 밥상 점수 설문 취합
 		computeResult() {
 			console.log('checkedBabjangManner : ', this.checkedBabjangManner);
-			console.log('checkedSpoonManner1 : ', this.checkedSpoonManner1);
-			console.log('checkedSpoonManner2 : ', this.checkedSpoonManner2);
+			console.log('checkedBabjangManner : ', this.checkedCommonBabjangManner);
+			console.log('checkedSpoonManner1 : ', this.checkedCommonSpoonManner1);
+			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
 			let tmpArr = [];
 			let tmpObj = {
 				user: this.babjang[0],
@@ -548,15 +550,21 @@ export default {
 			};
 			tmpArr.push(tmpObj);
 			tmpObj = {
+				user: this.babjang[0],
+				getQuestion: this.checkedCommonBabjangManner,
+				getScore: this.computeScore(this.checkedCommonBabjangManner),
+			};
+			tmpArr.push(tmpObj);
+			tmpObj = {
 				user: this.spoons[0],
-				getQuestion: this.checkedSpoonManner1,
-				getScore: this.computeScore(this.checkedSpoonManner1),
+				getQuestion: this.checkedCommonSpoonManner1,
+				getScore: this.computeScore(this.checkedCommonSpoonManner1),
 			};
 			tmpArr.push(tmpObj);
 			tmpObj = {
 				user: this.spoons[1],
-				getQuestion: this.checkedSpoonManner2,
-				getScore: this.computeScore(this.checkedSpoonManner2),
+				getQuestion: this.checkedCommonSpoonManner2,
+				getScore: this.computeScore(this.checkedCommonSpoonManner2),
 			};
 			tmpArr.push(tmpObj);
 			this.mannerResultArr = JSON.stringify(tmpArr);
@@ -581,6 +589,18 @@ export default {
 						: p,
 				);
 				console.log('host_questions_id : ', updatedMannerQuestion);
+
+				// 가중치 적용된 점수 합계
+				let babjangScore = updatedMannerQuestion
+					.map(item => item.host_questions_weight)
+					.reduce((prev, curr) => prev + curr, 0);
+
+				let commonScore = updatedMannerQuestion
+					.map(item => item.common_questions_weight)
+					.reduce((prev, curr) => prev + curr, 0);
+
+				console.log('babjangScore : ', babjangScore);
+				console.log('commonScore : ', commonScore);
 			} else {
 				updatedMannerQuestion = chk.map(p =>
 					p.common_questions_id.slice(0, 2) === 'bg'
@@ -606,12 +626,11 @@ export default {
 						: p,
 				);
 				console.log('common_questions_id : ', updatedMannerQuestion);
+				// 가중치 적용된 점수 합계
+				return updatedMannerQuestion
+					.map(item => item.common_questions_weight)
+					.reduce((prev, curr) => prev + curr, 0);
 			}
-			// 가중치 적용된 점수 합계
-			const sumAll = updatedMannerQuestion
-				.map(item => item.score)
-				.reduce((prev, curr) => prev + curr, 0);
-			return sumAll;
 		},
 	},
 };
