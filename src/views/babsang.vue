@@ -58,7 +58,7 @@
 								<dl>
 									<dt>식사 일시</dt>
 									<dd>
-										{{ String(babsangDetailData.dining_datetime).slice(0, 10) }}
+										{{ String(babsangDetailData.dining_datetime).slice(0, 16) }}
 									</dd>
 								</dl>
 							</li>

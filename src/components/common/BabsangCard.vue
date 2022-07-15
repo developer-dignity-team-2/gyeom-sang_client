@@ -31,6 +31,18 @@
 						style="font-weight: bold; font-size: 1.7rem"
 					>
 						{{ itemData.dining_table_title }}
+						<!-- <button
+							type="button"
+							class="btn btn-primary me-2"
+							style="
+								display: inline-block;
+								height: 1.8rem;
+								line-height: inherit;
+								color: aliceblue;
+							"
+						>
+							D-{{ countDday() }}
+						</button> -->
 					</h5>
 					<!-- 찜 기능 -->
 					<div
