@@ -67,7 +67,7 @@
 
 				<div class="form-group">
 					<textarea
-						:readonly="!(list.id === this.changeSelectedId)"
+						:disabled="!(list.id === this.changeSelectedId)"
 						class="form-control"
 						v-model="list.comment_description"
 						id="Textarea"
@@ -234,7 +234,7 @@ export default {
 			});
 			console.log(this.commentList.comment_description);
 			this.commentSave = false;
-			this.$router.go();
+			this.changeSelectedId = '';
 		},
 		// 댓글 삭제하는 함수
 		async deleteComment(commentListId) {
