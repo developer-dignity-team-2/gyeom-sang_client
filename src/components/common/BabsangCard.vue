@@ -51,7 +51,7 @@
 			</div>
 			<div
 				class="card-body"
-				style="cursor: pointer; padding: 2.3rem 2rem 1.5rem"
+				style="cursor: pointer; padding: 2rem 1rem 2rem 1rem"
 			>
 				<div>
 					<h5 class="card-title mb-3" style="font-weight: bold">
@@ -82,7 +82,7 @@
 					</button>
 				</div>
 				<div>
-					<div class="mt-3" style="font-size: 0.8rem">3명이 신청했어요</div>
+					<div class="mt-4" style="font-size: 0.8rem">3명이 신청했어요</div>
 					<div class="author-image">
 						<img
 							:src="itemData.host_profile_image || itemData.profile_image"
@@ -112,6 +112,8 @@ export default {
 	data() {
 		return {
 			favorite: 'N',
+			ampm: '',
+			hourVal: '',
 		};
 	},
 	props: {
@@ -162,14 +164,30 @@ export default {
 		},
 		dateFormat() {
 			const dayValue = this.itemData.dining_datetime;
+			console.log(dayValue);
 			let year = dayValue.slice(0, 4);
 			let month = dayValue.slice(5, 7);
 			let day = dayValue.slice(8, 10);
+			let hour = dayValue.slice(11, 13);
+			let min = dayValue.slice(14, 16);
+			console.log(hour);
+
+			if (hour > 11) {
+				this.ampm = '오후';
+			} else {
+				this.ampm = '오전';
+			}
+			if (hour > 12) {
+				this.hourVal = hour - 12;
+			} else {
+				this.hourVal = hour;
+			}
 			let dayObj = new Date(year, month - 1, day);
 			const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 			let week = WEEKDAY[dayObj.getDay()];
 
-			return `${month}월 ${day}일(${week}) PM 6시`;
+			// return `${month}월 ${day}일(${week}) ${this.ampm} ${this.hourVal}:${min}`;
+			return `${month}/${day}(${week}) ${this.ampm} ${this.hourVal}:${min}`;
 		},
 
 		// 찜 여부 표시
