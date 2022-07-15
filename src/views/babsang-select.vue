@@ -1,159 +1,166 @@
 <template>
 	<div class="container">
-		<div class="row my-4">
-			<h3>함께 식사할 숟갈을 선택해 주세요!</h3>
-		</div>
-		<!-- 선택한 숟갈 -->
-		<div style="position: sticky; top: 0; z-index: 1">
-			<div style="opacity: 1; background-color: white">
-				<h5>함께할 숟갈</h5>
-				<div
-					class="col-12 border rounded py-4 text-center"
-					style="min-height: 175px"
-				>
-					<div class="col">
-						<div
-							class="row"
-							style="
-								display: flex;
-								flex-flow: row wrap;
-								justify-content: center;
-							"
-						>
+		<div class="row">
+			<div class="col-12 my-4">
+				<div class="row justify-content-between">
+					<div class="col-10">
+						<h3>함께 식사할 숟갈을 선택해 주세요!</h3>
+					</div>
+					<div class="col" style="text-align: right">
+						<button
+							type="button"
+							class="btn-close"
+							@click="goBabsang(this.$route.query.babsangId)"
+							style="position: relative"
+						></button>
+					</div>
+				</div>
+			</div>
+			<!-- 선택한 숟갈 -->
+			<div class="col-12" style="position: sticky; top: 0; z-index: 1">
+				<div style="opacity: 1; background-color: white">
+					<h5>함께할 숟갈</h5>
+					<div
+						class="col-12 border rounded py-4 text-center"
+						style="min-height: 175px"
+					>
+						<div class="col">
 							<div
-								style="display: flex; flex-flow: row wrap; flex-basis: 50rem"
+								class="row"
+								style="
+									display: flex;
+									flex-flow: row wrap;
+									justify-content: center;
+								"
 							>
 								<div
-									style="
-										display: flex;
-										justify-content: space-around;
-										align-item: center;
-									"
-									class="col"
-									:key="selectedSpoon.email"
-									v-for="selectedSpoon in mixSpoons"
+									style="display: flex; flex-flow: row wrap; flex-basis: 50rem"
 								>
-									<div style="cursor: pointer" @click="doCancel(selectedSpoon)">
-										<div style="width: 6rem">
-											<div class="img-wrap pf rounded-circle mb-1">
-												<img
-													:src="selectedSpoon.spoon_profile_image"
-													alt="프로필"
-												/>
+									<div
+										style="
+											display: flex;
+											justify-content: space-around;
+											align-item: center;
+										"
+										class="col"
+										:key="selectedSpoon.email"
+										v-for="selectedSpoon in mixSpoons"
+									>
+										<div
+											style="cursor: pointer"
+											@click="doCancel(selectedSpoon)"
+										>
+											<div style="width: 6rem">
+												<div class="img-wrap pf rounded-circle mb-1">
+													<img
+														:src="selectedSpoon.spoon_profile_image"
+														alt="프로필"
+													/>
+												</div>
+												<strong>{{ selectedSpoon.spoon_nickname }}</strong>
 											</div>
-											<strong>{{ selectedSpoon.spoon_nickname }}</strong>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<!-- 선택 완료, 메시지 발송 버튼 -->
-					<div
-						class="col mt-2 mb-4"
-						style="display: flex; justify-content: center"
-						v-show="showButton()"
-					>
-						<button
-							type="button"
-							:class="{
-								'btn btn-primary': buttonSignal === 0,
-								'btn btn-outline-primary': buttonSignal !== 0,
-							}"
-							@click="doFinalSpoons()"
+						<!-- 선택 완료, 메시지 발송 버튼 -->
+						<div
+							class="col mt-2 mb-4"
+							style="display: flex; justify-content: center"
+							v-show="showButton()"
 						>
-							총 {{ babsangInfo.dining_count - 1 }}명 중
-							{{ mixSpoons.length }}명 확정(메시지 발송)
-						</button>
+							<button
+								type="button"
+								:class="{
+									'btn btn-primary': buttonSignal === 0,
+									'btn btn-outline-primary': buttonSignal !== 0,
+								}"
+								@click="doFinalSpoons()"
+							>
+								총 {{ babsangInfo.dining_count - 1 }}명 중
+								{{ mixSpoons.length }}명 확정(메시지 발송)
+							</button>
+						</div>
 					</div>
+					<!-- 메시지 입력 -->
+					<transition name="nested" :duration="200">
+						<div class="col-12 mt-2" v-show="showButton()">
+							<textarea
+								class="form-control"
+								style="resize: none"
+								id="exampleTextarea"
+								rows="3"
+								v-model="babsangMessage"
+							></textarea>
+						</div>
+					</transition>
+					<div
+						style="
+							background: linear-gradient(
+								to top,
+								rgba(255, 255, 255, 0),
+								white
+							);
+						"
+					></div>
 				</div>
-				<!-- 메시지 입력 -->
-				<transition name="nested" :duration="200">
-					<div class="col-12 mt-2" v-show="showButton()">
-						<textarea
-							class="form-control"
-							style="resize: none"
-							id="exampleTextarea"
-							rows="3"
-							v-model="babsangMessage"
-						></textarea>
-					</div>
-				</transition>
+				<!-- 확정(메시지 발송) -->
 				<div
+					class="col-12 border:none rounded pb-4 text-center"
 					style="
 						background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
 					"
 				></div>
 			</div>
-			<!-- 확정(메시지 발송) -->
-			<div
-				class="col-12 border:none rounded pb-4 text-center"
-				style="
-					background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
-				"
-			></div>
-		</div>
-		<div class="mt-4 mb-3">
-			<h5>신청한 숟갈</h5>
-			<div class="col">
-				<div class="row">
-					<!-- 정렬 버튼 -->
-					<ButtonModuleForSelectSpoon />
+			<div class="col-12 mt-4 mb-3">
+				<h5>신청한 숟갈</h5>
+				<div class="col">
+					<div class="row">
+						<!-- 정렬 버튼 -->
+						<ButtonModuleForSelectSpoon />
+					</div>
+				</div>
+				<!-- 선택전 숟갈 카드 -->
+				<div class="row" v-if="appliedSpoons.length > 0">
+					<div
+						class="col-xl-4 col-md-6 col-sm-12 mb-4"
+						:class="{
+							disabled:
+								spoon.spoon_email ===
+								checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
+							enabled:
+								spoon.spoon_email !==
+								checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
+						}"
+						:key="spoon.spoon_email"
+						v-for="spoon in appliedSpoons"
+						@click="doSelect(spoon)"
+					>
+						<userCard
+							:email="spoon.spoon_email"
+							:gender="spoon.spoon_gender"
+							:nickname="spoon.spoon_nickname"
+							:profile_image="spoon.spoon_profile_image"
+							:age_range="spoon.spoon_age_range"
+							:dining_score="spoon.spoon_dining_score"
+							:dining_spoons_description="spoon.dining_spoon_description"
+						/>
+					</div>
+				</div>
+				<div
+					class="pt-5"
+					style="
+						display: flex;
+						flex-flow: row wrap;
+						justify-content: center;
+						align-item: center;
+					"
+					v-if="appliedSpoons.length === 0"
+				>
+					이 밥상에 신청한 숟갈이 없습니다.
 				</div>
 			</div>
-		</div>
-		<!-- 선택전 숟갈 카드 -->
-		<div class="row" v-if="appliedSpoons.length > 0">
-			<div
-				class="col-xl-4 col-md-6 col-sm-12 mb-4"
-				:class="{
-					disabled:
-						spoon.spoon_email ===
-						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
-					enabled:
-						spoon.spoon_email !==
-						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
-				}"
-				:key="spoon.spoon_email"
-				v-for="spoon in appliedSpoons"
-				@click="doSelect(spoon)"
-			>
-				<!-- <div
-				class="col-xl-4 col-md-6 col-sm-12 mb-4"
-				:class="{
-					disabled:
-						spoon.spoon_email ===
-						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
-					enabled:
-						spoon.spoon_email !==
-						checkedEmail[checkedEmail.indexOf(spoon.spoon_email)],
-				}"
-				:key="spoon.spoon_email"
-				v-for="spoon in appliedSpoons"
-				@click="doSelect(spoon)"
-			> -->
-				<userCard
-					:email="spoon.spoon_email"
-					:gender="spoon.spoon_gender"
-					:nickname="spoon.spoon_nickname"
-					:profile_image="spoon.spoon_profile_image"
-					:age_range="spoon.spoon_age_range"
-					:dining_score="spoon.spoon_dining_score"
-					:dining_spoons_description="spoon.dining_spoon_description"
-				/>
-			</div>
-		</div>
-		<div
-			class="pt-5"
-			style="
-				display: flex;
-				flex-flow: row wrap;
-				justify-content: center;
-				align-item: center;
-			"
-			v-if="appliedSpoons.length === 0"
-		>
-			이 밥상에 신청한 숟갈이 없습니다.
 		</div>
 	</div>
 </template>
@@ -188,6 +195,7 @@ export default {
 		this.getBabsangInfo();
 		this.getBabsangSpoons();
 		console.log(this.mixSpoons);
+		console.log(this.selectedSpoons.length);
 		// console.log(this.$store.state.user.userData);
 	},
 	unmounted() {},
@@ -374,6 +382,13 @@ export default {
 				this.writeMessage();
 				// console.log('mixSpoons : ', this.mixSpoons);
 			}
+		},
+		// 밥상 바로가기
+		goBabsang(id) {
+			this.$router.push({
+				name: 'Babsang',
+				params: { babsangId: id },
+			});
 		},
 	},
 };

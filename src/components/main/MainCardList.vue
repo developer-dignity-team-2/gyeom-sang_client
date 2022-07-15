@@ -1,11 +1,4 @@
 <template>
-	<!-- 클릭 이벤트는 BabsangCard.vue에 적용하였음 -->
-	<!-- <div
-		class="col-xl-4 col-md-6 col-sm-12 mb-4"
-		v-for="item in babsangData"
-		:key="item.id"
-		@click="detail(item.id)"
-	> -->
 	<div
 		class="col-xl-4 col-md-6 col-sm-12 mb-4"
 		v-for="item in babsangData"
@@ -27,14 +20,6 @@ export default {
 	props: {
 		babsangData: Object,
 	},
-	methods: {
-		// 클릭 이벤트는 BabsangCard.vue에 적용하였음
-		// 	detail(id) {
-		// 		this.$router.push({
-		// 			name: 'Babsang',
-		// 			params: { babsangId: id },
-		// 		});
-		// 	},
-	},
+	methods: {},
 };
 </script>

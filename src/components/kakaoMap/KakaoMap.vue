@@ -15,7 +15,7 @@
 					<div class="searchbox col-3 pe-0">
 						<input
 							class="form-control me-sm-2 mb-3"
-							type="text"
+							type="search"
 							placeholder="Search"
 							v-model="keywordValue"
 							@input="searchPlace"

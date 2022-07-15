@@ -20,15 +20,27 @@
 					<!-- 타이틀 -->
 					<div class="col my-4">
 						<div class="title d-flex">
-							<h3 class="me-4">{{ babsangDetailData.restaurant_name }}</h3>
+							<h3 class="me-4" style="line-height: 1.5em">
+								{{ babsangDetailData.dining_table_title }}
+							</h3>
+
 							<div class="status">
-								<button class="btn btn-primary me-2">
+								<button
+									class="btn btn-primary me-2"
+									style="height: 2.2rem; line-height: 1.5rem"
+								>
 									{{ currentStatus() }}
 								</button>
-								<button class="btn btn-secondary me-2">
+								<button
+									class="btn btn-secondary me-2"
+									style="height: 2.2rem; line-height: 1.5rem"
+								>
 									{{ recruitGender() }}
 								</button>
-								<button class="btn btn-secondary">
+								<button
+									class="btn btn-secondary"
+									style="height: 2.2rem; line-height: 1.5rem"
+								>
 									1/{{ babsangDetailData.dining_count }}
 								</button>
 							</div>
@@ -36,9 +48,17 @@
 						<ul>
 							<li>
 								<dl>
+									<dt>식사 장소</dt>
+									<dd>
+										{{ babsangDetailData.restaurant_name }}
+									</dd>
+								</dl>
+							</li>
+							<li>
+								<dl>
 									<dt>식사 일시</dt>
 									<dd>
-										{{ String(babsangDetailData.dining_datetime).slice(0, 10) }}
+										{{ String(babsangDetailData.dining_datetime).slice(0, 16) }}
 									</dd>
 								</dl>
 							</li>

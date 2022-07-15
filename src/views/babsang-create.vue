@@ -48,7 +48,19 @@
 			<div class="col">
 				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
 					<fieldset>
-						<!-- <legend>밥상 준비하기</legend> -->
+						<div class="form-group">
+							<label for="title" class="form-label mt-4">밥상 제목</label>
+							<input
+								type="text"
+								class="form-control"
+								id="title"
+								placeholder="밥상 제목"
+								v-model.trim="title"
+							/>
+						</div>
+						<div class="error-msg" v-if="v$.title.$error">
+							밥상 제목을 입력해주세요.
+						</div>
 						<div class="form-group" @click="mapToggle">
 							<label for="place-address" class="form-label mt-4"
 								>식당 이름</label
@@ -61,6 +73,9 @@
 								v-model="placeName"
 								disabled
 							/>
+						</div>
+						<div class="error-msg" v-if="v$.placeName.$error">
+							식당을 선택해 주세요.
 						</div>
 						<div class="form-group">
 							<label for="place-name" class="form-label mt-4">식당 위치</label>
@@ -84,6 +99,8 @@
 								style="cursor: default"
 								class="form-control mt-2"
 								placeholder="식사 일시"
+								minimumView="time"
+								inputFormat="yyyy-MM-dd HH:mm"
 							/>
 						</div>
 						<div class="error-msg" v-if="v$.dining_datetime.$error">
@@ -248,7 +265,7 @@
 							<textarea
 								class="form-control"
 								id="dining_description"
-								v-model="dining_description"
+								v-model.trim="dining_description"
 								style="resize: none; height: 10rem"
 							></textarea>
 							<div class="error-msg" v-if="v$.dining_description.$error">
@@ -291,8 +308,6 @@ export default {
 	},
 	data() {
 		return {
-			sampleData: '',
-			// picked: '',
 			dining_datetime: '',
 			recruit_start_date: '',
 			recruit_end_date: '',
@@ -307,11 +322,15 @@ export default {
 			placeAddress: '',
 			placeLatitude: '',
 			placeLongitude: '',
+			title: '',
 		};
 	},
 	computed: {},
 	validations() {
 		return {
+			title: {
+				required,
+			},
 			dining_description: {
 				required,
 			},
@@ -331,6 +350,9 @@ export default {
 				required,
 			},
 			dining_count: {
+				required,
+			},
+			placeName: {
 				required,
 			},
 		};
@@ -368,7 +390,7 @@ export default {
 				.replace('T', ' ')
 				.replace(/\..*/, '')
 				.toString()
-				.slice(0, 10);
+				.slice(0, 16);
 
 			console.log(result);
 			return result;
@@ -379,7 +401,7 @@ export default {
 				.replace('T', ' ')
 				.replace(/\..*/, '')
 				.toString()
-				.slice(0, 10);
+				.slice(0, 16);
 			return result;
 		},
 		recruitEndDate() {
@@ -388,7 +410,7 @@ export default {
 				.replace('T', ' ')
 				.replace(/\..*/, '')
 				.toString()
-				.slice(0, 10);
+				.slice(0, 16);
 			return result;
 		},
 
@@ -426,7 +448,7 @@ export default {
 					restaurant_location: this.placeAddress,
 					restaurant_latitude: this.placeLatitude,
 					restaurant_longitude: this.placeLongitude,
-					dining_table_title: '',
+					dining_table_title: this.title,
 				},
 			});
 			// 생성한 밥상 게시물로 이동
