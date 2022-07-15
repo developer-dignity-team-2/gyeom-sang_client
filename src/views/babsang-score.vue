@@ -573,13 +573,14 @@ export default {
 					p.host_questions_id.slice(0, 2) === 'bg'
 						? { ...p, host_questions_weight: p.host_questions_weight * 0.03 }
 						: p.host_questions_id.slice(0, 2) === 'bb'
-						? { ...p, host_questions_weight: -(p.host_questions_weight * 0.02) }
+						? { ...p, host_questions_weight: p.host_questions_weight * -0.02 }
 						: p.host_questions_id.slice(0, 2) === 'sg'
 						? { ...p, host_questions_weight: p.host_questions_weight * 0.02 }
 						: p.host_questions_id.slice(0, 2) === 'sb'
-						? { ...p, host_questions_weight: -(p.host_questions_weight * 0.03) }
+						? { ...p, host_questions_weight: p.host_questions_weight * -0.03 }
 						: p,
 				);
+				console.log('host_questions_id : ', updatedMannerQuestion);
 			} else {
 				updatedMannerQuestion = chk.map(p =>
 					p.common_questions_id.slice(0, 2) === 'bg'
@@ -590,7 +591,7 @@ export default {
 						: p.common_questions_id.slice(0, 2) === 'bb'
 						? {
 								...p,
-								common_questions_weight: -(p.common_questions_weight * 0.02),
+								common_questions_weight: p.common_questions_weight * -0.02,
 						  }
 						: p.common_questions_id.slice(0, 2) === 'sg'
 						? {
@@ -600,10 +601,11 @@ export default {
 						: p.common_questions_id.slice(0, 2) === 'sb'
 						? {
 								...p,
-								common_questions_weight: -(p.common_questions_weight * 0.03),
+								common_questions_weight: p.common_questions_weight * -0.03,
 						  }
 						: p,
 				);
+				console.log('common_questions_id : ', updatedMannerQuestion);
 			}
 			// 가중치 적용된 점수 합계
 			const sumAll = updatedMannerQuestion
