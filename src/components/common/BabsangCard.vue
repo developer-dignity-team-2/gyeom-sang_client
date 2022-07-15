@@ -87,17 +87,17 @@
 						<img
 							:src="itemData.host_profile_image || itemData.profile_image"
 							alt=""
-							style="width: 1.5rem; border-radius: 50%"
+							style="width: 1.5rem; height: 1.5rem; border-radius: 50%"
 						/>
 						<img
 							:src="itemData.host_profile_image || itemData.profile_image"
 							alt=""
-							style="width: 1.5rem; border-radius: 50%"
+							style="width: 1.5rem; height: 1.5rem; border-radius: 50%"
 						/>
 						<img
 							:src="itemData.host_profile_image || itemData.profile_image"
 							alt=""
-							style="width: 1.5rem; border-radius: 50%"
+							style="width: 1.5rem; height: 1.5rem; border-radius: 50%"
 						/>
 					</div>
 				</div>
