@@ -17,9 +17,9 @@
 								<div class="col">
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="babjang[0].profile_image" alt="프로필" />
+											<img :src="babjang.profile_image" alt="프로필" />
 										</div>
-										<strong>{{ babjang[0].nickname }}</strong>
+										<strong>{{ babjang.nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -170,9 +170,9 @@
 								<div class="col">
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="spoons[0].profile_image" alt="프로필" />
+											<img :src="spoons[0].spoon_profile_image" alt="프로필" />
 										</div>
-										<strong>{{ spoons[0].nickname }}</strong>
+										<strong>{{ spoons[0].spoon_nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -258,9 +258,9 @@
 								<div class="col">
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="spoons[1].profile_image" alt="프로필" />
+											<img :src="spoons[1].spoon_profile_image" alt="프로필" />
 										</div>
-										<strong>{{ spoons[1].nickname }}</strong>
+										<strong>{{ spoons[1].spoon_nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -364,40 +364,40 @@ export default {
 			showCard: true,
 			userIndex: 0,
 			babjang: [
-				{
-					dining_table_id: 1,
-					email: 'babjang1@gmail.com',
-					gender: '남자',
-					nickname: '밥장9',
-					profile_image: require('../assets/img/users/m9.png'),
-					age_range: '20대',
-					mannerScore: 4,
-					dining_spoons_description:
-						'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
-				},
+				// {
+				// dining_table_id: 1,
+				// email: 'babjang1@gmail.com',
+				// gender: '남자',
+				// nickname: '밥장9',
+				// profile_image: require('../assets/img/users/m9.png'),
+				// age_range: '20대',
+				// mannerScore: 4,
+				// dining_spoons_description:
+				// 	'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
+				// },
 			],
 			spoons: [
 				{
-					dining_table_id: 1,
-					email: 'spoon6@gmail.com',
-					gender: '여성',
-					nickname: '숟갈6',
-					profile_image: require('../assets/img/users/w6.png'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+					// dining_table_id: 1,
+					// email: 'spoon6@gmail.com',
+					// gender: '여성',
+					// nickname: '숟갈6',
+					// profile_image: require('../assets/img/users/w6.png'),
+					// age_range: '20대',
+					// mannerScore: 3,
+					// dining_spoons_description:
+					// 	'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 				{
-					dining_table_id: 1,
-					email: 'spoon7@gmail.com',
-					gender: '여성',
-					nickname: '숟갈7',
-					profile_image: require('../assets/img/users/w7.png'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+					// dining_table_id: 1,
+					// email: 'spoon7@gmail.com',
+					// gender: '여성',
+					// nickname: '숟갈7',
+					// profile_image: require('../assets/img/users/w7.png'),
+					// age_range: '20대',
+					// mannerScore: 3,
+					// dining_spoons_description:
+					// 	'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 			],
 			commonQuestions: [[[]], [[]]],
@@ -418,10 +418,51 @@ export default {
 	created() {
 		this.getCommonQuestions();
 		this.getBabjangQuestions();
+		this.getBabsangSpoons();
+		this.getBabsangInfo();
+		this.getBabjangData();
 	},
 	mounted() {},
 	unmounted() {},
 	methods: {
+		// 밥장(로그인 사용자) 정보 가져오기
+		async getBabjangData() {
+			const user = await this.$get('https://nicespoons.com/api/v1/user');
+			this.babjang = user.result[0];
+			console.log('로그인 사용자 : ', this.babjang);
+		},
+		// 신청한 숟갈, 선택된 숟갈 정보 가져오기
+		async getBabsangSpoons() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const temp = await this.$get(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
+			);
+			let appliedSpoonY = temp.result.filter(spoon => spoon.apply_yn === 'Y');
+			console.log('신청한 숟갈 : ', appliedSpoonY);
+			let selectedSpoonY = appliedSpoonY.filter(
+				spoon => spoon.selected_yn === 'Y',
+			);
+			console.log('신청한 숟갈 : ', selectedSpoonY);
+
+			this.spoons = selectedSpoonY;
+
+			loader.hide();
+		},
+		// 밥상 정보 가져오기
+		async getBabsangInfo() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const temp = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}`,
+				)
+			).result[0];
+			// this.babsangInfo = temp;
+			console.log('밥상 정보 : ', temp);
+
+			loader.hide();
+		},
 		// 공통 질문
 		async getCommonQuestions() {
 			const loader = this.$loading.show({ canCancel: false });
@@ -473,13 +514,13 @@ export default {
 				this.$router.push('/');
 				this.computeResult();
 			}
-			console.log(this.userIndex);
+			console.log('userIndex : ', this.userIndex);
 		},
 		backScore() {
 			if (this.userIndex > 0) {
 				this.userIndex--;
 			}
-			console.log(this.userIndex);
+			console.log('userIndex : ', this.userIndex);
 		},
 		doTest() {
 			this.computeResult();
