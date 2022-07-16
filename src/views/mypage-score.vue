@@ -184,6 +184,7 @@ export default {
 	created() {},
 	mounted() {
 		this.countManner(this.myManners);
+		this.getMyQuestions();
 	},
 	unmounted() {},
 	methods: {
@@ -198,6 +199,29 @@ export default {
 				this.countMannerArr.push(i[1].length);
 			}
 			console.log(this.countMannerArr);
+		},
+		// 공통 질문
+		async getMyQuestions() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const question = (
+				await this.$get('https://nicespoons.com/api/v1/aggregation')
+			).result;
+
+			loader.hide();
+
+			// let good = question.result.filter(q => q.common_questions_type === 'G');
+			// let bad = question.result.filter(q => q.common_questions_type === 'B');
+
+			// let result = [
+			// 	[{ mannerTitle: '금매너' }, [...good]],
+			// 	[{ mannerTitle: '똥매너' }, [...bad]],
+			// ];
+
+			// this.commonQuestions = result;
+			// console.log(this.commonQuestions);
+
+			console.log(question);
 		},
 	},
 };
