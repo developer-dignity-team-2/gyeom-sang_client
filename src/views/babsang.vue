@@ -164,6 +164,9 @@
 													:alt="('user', index)"
 												/>
 											</div>
+											<div class="nickname">
+												<!-- <span>{{sele}}</span> -->
+											</div>
 										</div>
 									</li>
 								</ul>
@@ -562,6 +565,7 @@ dt {
 		img {
 			width: 2rem;
 			height: 2rem;
+			border-radius: 50%;
 		}
 	}
 }
