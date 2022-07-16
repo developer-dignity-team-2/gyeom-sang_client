@@ -468,10 +468,12 @@ export default {
 			const loader = this.$loading.show({ canCancel: false });
 
 			const question = await this.$get(
-				'https://nicespoons.com/api/v1/aggregation',
+				'https://nicespoons.com/api/v1/question?type=common',
 			);
 
 			loader.hide();
+
+			console.log('공통 질문 가공전 : ', question);
 
 			let good = question.result.filter(q => q.common_questions_type === 'G');
 			let bad = question.result.filter(q => q.common_questions_type === 'B');
@@ -482,7 +484,7 @@ export default {
 			];
 
 			this.commonQuestions = result;
-			console.log(this.commonQuestions);
+			console.log('공통 질문 : ', this.commonQuestions);
 		},
 		// 밥장 질문
 		async getBabjangQuestions() {
@@ -503,7 +505,7 @@ export default {
 			];
 
 			this.babjangQuestions = result;
-			console.log(this.babjangQuestions);
+			console.log('밥장 질문 : ', this.babjangQuestions);
 		},
 		// 버튼(이전/다음)
 		nextScore() {
