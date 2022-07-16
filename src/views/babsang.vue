@@ -190,7 +190,7 @@
 									숟갈 얹기
 								</button> -->
 								<button
-									class="btn btn-primary"
+									class="btn btn-primary me-2 mb-2"
 									data-bs-toggle="modal"
 									data-bs-target="#toggleSpoonModal"
 									v-if="!spoonStatus"
@@ -198,14 +198,24 @@
 									숟갈 얹기
 								</button>
 								<button
-									class="btn btn-primary"
+									class="btn btn-primary me-2 mb-2"
 									@click="cancelSpoon"
 									v-if="spoonStatus"
 								>
 									숟갈 빼기
 								</button>
+								<button
+									class="btn btn-secondary me-2 mb-2"
+									@click="goScorePage"
+								>
+									매너 평가(임시)
+								</button>
 							</div>
-							<button class="btn btn-secondary me-2 mb-2" @click="goScorePage">
+							<button
+								v-if="isLeader"
+								class="btn btn-secondary me-2 mb-2"
+								@click="goScorePage"
+							>
 								매너 평가(임시)
 							</button>
 						</div>
@@ -360,7 +370,7 @@ export default {
 				user => user.apply_yn === 'Y',
 			).length;
 			this.selectedUsers = confirmUsers.filter(
-				user => user.selected_yn === 'Y',
+				user => user.selected_yn === 'Y' && user.apply_yn !== 'N',
 			);
 			// this.countAppliedSpoons = this.selectedUsers.length;
 			console.log('전체 유저', confirmUsers);
