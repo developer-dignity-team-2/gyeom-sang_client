@@ -17,7 +17,9 @@
 							:src="itemData.host_profile_image || itemData.profile_image"
 							alt=""
 						/>
-						<span style="cursor: default">{{ itemData.nickname }}</span>
+						<span style="cursor: default">{{
+							itemData.nickname || itemData.host_nickname
+						}}</span>
 					</div>
 				</div>
 			</div>
@@ -123,7 +125,7 @@ export default {
 	name: 'BabsangCard',
 	data() {
 		return {
-			favorite: 'N',
+			favorite: '',
 			ampm: '',
 			hourVal: '',
 		};
@@ -132,6 +134,9 @@ export default {
 		itemData: Object,
 	},
 	computed() {},
+	created() {
+		this.favorite = this.itemData.active_yn;
+	},
 	methods: {
 		currentStatus() {
 			let currentStatus = this.itemData.dining_status;
@@ -176,13 +181,11 @@ export default {
 		},
 		dateFormat() {
 			const dayValue = this.itemData.dining_datetime;
-			console.log(dayValue);
 			let year = dayValue.slice(0, 4);
 			let month = dayValue.slice(5, 7);
 			let day = dayValue.slice(8, 10);
 			let hour = dayValue.slice(11, 13);
 			let min = dayValue.slice(14, 16);
-			console.log(hour);
 
 			if (hour > 11) {
 				this.ampm = '오후';
@@ -221,7 +224,11 @@ export default {
 				await this.$put('https://nicespoons.com/api/v1/babsang/bookmark', {
 					param: {
 						active_yn: this.favorite,
-						cancel_date: new Date(),
+						cancel_date: new Date()
+							.toISOString()
+							.replace('T', ' ')
+							.replace(/\..*/, '')
+							.toString(),
 					},
 					dining_table_id: likeId,
 				});
@@ -306,11 +313,7 @@ i.bi-geo-alt {
 i.bi-w {
 	padding: 0 0.5rem 0 0;
 }
-.favorite {
-	// position: absolute;
-	// top: 0.5rem;
-	// right: 0.5rem;
-}
+
 .card-img-center {
 	width: 100%;
 	height: 18rem;

@@ -153,8 +153,29 @@
 								<font-awesome-icon icon="fa-solid fa-spoon" />
 								<span class="ps-3">{{ countAppliedSpoons }}명 !</span>
 							</p>
+							<div v-if="selectedUsers.length !== 0">
+								<p>함께할 숟갈들</p>
+								<div class="selected-user">
+									<ul class="d-flex me-1 mb-1">
+										<li v-for="(user, index) in selectedUsers" :key="index">
+											<div>
+												<div class="thumb-wrap">
+													<img
+														:src="user.spoon_profile_image"
+														:alt="('user', index)"
+													/>
+												</div>
+												<div class="nickname">
+													<span>{{ user.spoon_nickname }}</span>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+
 							<button
-								class="btn btn-primary"
+								class="btn btn-primary me-2 mb-2"
 								@click="goSelectPage"
 								v-if="isLeader"
 							>
@@ -178,12 +199,15 @@
 								</button>
 								<button
 									class="btn btn-primary"
-									@click="cancleSpoon"
+									@click="cancelSpoon"
 									v-if="spoonStatus"
 								>
 									숟갈 빼기
 								</button>
 							</div>
+							<button class="btn btn-secondary me-2 mb-2" @click="goScorePage">
+								매너 평가(임시)
+							</button>
 						</div>
 					</div>
 				</div>
@@ -236,6 +260,8 @@ import CommentCreate from '@/components/babsang/CommentCreate';
 import CommentList from '@/components/babsang/CommentList';
 import BabsangMap from '@/components/kakaoMap/BabsangMap';
 import SlotModal from '@/components/common/SlotModal';
+import { io } from 'socket.io-client';
+
 export default {
 	name: 'Babsang',
 	components: { UserCard, CommentCreate, CommentList, BabsangMap, SlotModal },
@@ -245,6 +271,8 @@ export default {
 			spoonStatus: '', // false 방상에 숟갈 없음, true 방상에 숟갈 있음
 			countAppliedSpoons: 0,
 			spoonMessage: '',
+			selectedUsers: '',
+			socket: '',
 		};
 	},
 
@@ -268,6 +296,17 @@ export default {
 	},
 	created() {},
 	mounted() {
+		this.socket = io('https://nicespoons.com');
+		console.log('socket', this.socket);
+		this.socket.on('increment', () => {
+			console.log('get event from server');
+			this.countAppliedSpoons = this.countAppliedSpoons + 1;
+		});
+		this.socket.on('decrement', () => {
+			console.log('get event from server');
+			this.countAppliedSpoons = this.countAppliedSpoons - 1;
+		});
+
 		window.scrollTo(0, 0);
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		console.log('---------------밥상 data---------------');
@@ -320,9 +359,18 @@ export default {
 			this.countAppliedSpoons = confirmUsers.filter(
 				user => user.apply_yn === 'Y',
 			).length;
+			this.selectedUsers = confirmUsers.filter(
+				user => user.selected_yn === 'Y',
+			);
+			// this.countAppliedSpoons = this.selectedUsers.length;
+			console.log('전체 유저', confirmUsers);
+			console.log('선택된 숟갈', this.selectedUsers);
 		},
+
 		// 숟갈 얹기 post
 		async postSpoon() {
+			this.socket.emit('postSpoon');
+
 			await this.$post(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
 				{
@@ -377,7 +425,9 @@ export default {
 			});
 		},
 		// 숟갈 빼기 로직
-		async cancleSpoon() {
+		async cancelSpoon() {
+			this.socket.emit('cancelSpoon');
+
 			let userEmail = this.$store.state.user.userData.email;
 
 			const loader = this.$loading.show({ canCancel: false });
@@ -430,6 +480,12 @@ export default {
 		goSelectPage() {
 			this.$router.push({
 				name: 'BabsangSelect',
+				query: { babsangId: this.$route.params.babsangId },
+			});
+		},
+		goScorePage() {
+			this.$router.push({
+				name: 'GiveScore',
 				query: { babsangId: this.$route.params.babsangId },
 			});
 		},
@@ -504,6 +560,20 @@ dl {
 }
 dt {
 	margin-right: 1rem;
+}
+.selected-user {
+	.thumb-wrap {
+		width: 2rem;
+		height: 2rem;
+		img {
+			width: 2rem;
+			height: 2rem;
+			border-radius: 50%;
+		}
+	}
+	.nickname {
+		font-size: 0.5rem;
+	}
 }
 
 // Sweetalert

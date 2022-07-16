@@ -24,11 +24,11 @@
 							>밥상 차리기
 						</router-link>
 					</li>
-					<li class="nav-item">
+					<!-- <li class="nav-item">
 						<router-link to="/babsang-score" class="nav-link"
 							>매너 평가
 						</router-link>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 			<ul class="nav-r d-flex justify-content-center align-items-center me-2">

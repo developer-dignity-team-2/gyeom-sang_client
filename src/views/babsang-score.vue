@@ -17,9 +17,9 @@
 								<div class="col">
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="babjang[0].profile_image" alt="프로필" />
+											<img :src="babjang.profile_image" alt="프로필" />
 										</div>
-										<strong>{{ babjang[0].nickname }}</strong>
+										<strong>{{ babjang.nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -170,9 +170,9 @@
 								<div class="col">
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="spoons[0].profile_image" alt="프로필" />
+											<img :src="spoons[0].spoon_profile_image" alt="프로필" />
 										</div>
-										<strong>{{ spoons[0].nickname }}</strong>
+										<strong>{{ spoons[0].spoon_nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -258,9 +258,9 @@
 								<div class="col">
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="spoons[1].profile_image" alt="프로필" />
+											<img :src="spoons[1].spoon_profile_image" alt="프로필" />
 										</div>
-										<strong>{{ spoons[1].nickname }}</strong>
+										<strong>{{ spoons[1].spoon_nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -364,93 +364,49 @@ export default {
 			showCard: true,
 			userIndex: 0,
 			babjang: [
-				{
-					dining_table_id: 1,
-					email: 'babjang1@gmail.com',
-					gender: '남자',
-					nickname: '밥장9',
-					profile_image: require('../assets/img/users/m9.png'),
-					age_range: '20대',
-					mannerScore: 4,
-					dining_spoons_description:
-						'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
-				},
+				// {
+				// dining_table_id: 1,
+				// email: 'babjang1@gmail.com',
+				// gender: '남자',
+				// nickname: '밥장9',
+				// profile_image: require('../assets/img/users/m9.png'),
+				// age_range: '20대',
+				// mannerScore: 4,
+				// dining_spoons_description:
+				// 	'개발자의 품격 4기 2팀에서 구현 중인 혼밥 매칭 서비스 "겸상"입니다.',
+				// },
 			],
 			spoons: [
 				{
-					dining_table_id: 1,
-					email: 'spoon6@gmail.com',
-					gender: '여성',
-					nickname: '숟갈6',
-					profile_image: require('../assets/img/users/w6.png'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+					// dining_table_id: 1,
+					// email: 'spoon6@gmail.com',
+					// gender: '여성',
+					// nickname: '숟갈6',
+					// profile_image: require('../assets/img/users/w6.png'),
+					// age_range: '20대',
+					// mannerScore: 3,
+					// dining_spoons_description:
+					// 	'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 				{
-					dining_table_id: 1,
-					email: 'spoon7@gmail.com',
-					gender: '여성',
-					nickname: '숟갈7',
-					profile_image: require('../assets/img/users/w7.png'),
-					age_range: '20대',
-					mannerScore: 3,
-					dining_spoons_description:
-						'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
+					// dining_table_id: 1,
+					// email: 'spoon7@gmail.com',
+					// gender: '여성',
+					// nickname: '숟갈7',
+					// profile_image: require('../assets/img/users/w7.png'),
+					// age_range: '20대',
+					// mannerScore: 3,
+					// dining_spoons_description:
+					// 	'저도 그 식당 가고 싶었어요! 함께 먹고 싶어요 밥장님~',
 				},
 			],
-			titleGold: { mannerTitle: '금매너' },
-			titleDung: { mannerTitle: '똥매너' },
-			commonQuestions: [], // 서버에서 받은 공통 질문
-			babjangQuestions: [], // 서버에서 받은 밥장 질문
-			mannerQuestions: [
-				// [
-				// 	{ mannerTitle: '금매너' },
-				// 	[
-				// 		{ id: 'sg1', question: '식사 후 냅킨을 챙겨줘요.', score: 1 },
-				// 		{ id: 'sg2', question: '수저를 챙겨줘요.', score: 1 },
-				// 		{ id: 'sg3', question: '물을 따라줘요.', score: 1 },
-				// 		{ id: 'sg4', question: '부족한 반찬, 음식을 챙겨줘요.', score: 1 },
-				// 		{ id: 'sg5', question: '분위기를 편하게 만들어요.', score: 1 },
-				// 	],
-				// ],
-				// [
-				// 	{ mannerTitle: '똥매너' },
-				// 	[
-				// 		{ id: 'sb1', question: '약속 시간을 안 지켜요.', score: -1 },
-				// 		{ id: 'sb2', question: '음식을 지저분하게 먹어요.', score: -1 },
-				// 		{
-				// 			id: 'sd3',
-				// 			question: '맛있는 음식을 지나치게 가져가요.',
-				// 			score: 1,
-				// 		},
-				// 		{ id: 'sb4', question: '식사 중 대화 예의가 없어요.', score: -1 },
-				// 		{ id: 'sb5', question: '돈 정산이 깔끔하지 않아요.', score: -1 },
-				// 	],
-				// ],
-				// [
-				// 	{ mannerTitle: '금매너' },
-				// 	[
-				// 		{ id: 'bg1', question: '당신은 겸상 매너요정 이에요.', score: 1 },
-				// 		{ id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', score: 1 },
-				// 	],
-				// ],
-				// [
-				// 	{ mannerTitle: '똥매너' },
-				// 	[
-				// 		{ id: 'bb1', question: '밥장이 사람을 차별해요.', score: -1 },
-				// 		{ id: 'bb2', question: '밥장이 독단적으로 행동해요.', score: -1 },
-				// 	],
-				// ],
-			],
+			commonQuestions: [[[]], [[]]],
+			babjangQuestions: [[[]], [[]]],
 			// 로그인 사용자가 평가한 각 유저의 매너 평가 결과
 			checkedBabjangManner: [],
 			checkedCommonBabjangManner: [],
 			checkedCommonSpoonManner1: [],
 			checkedCommonSpoonManner2: [],
-			// DB로 보낼 이 밥상의 매너 평가 결과
-			mannerResultArr: [],
 		};
 	},
 	computed: {
@@ -462,25 +418,57 @@ export default {
 	created() {
 		this.getCommonQuestions();
 		this.getBabjangQuestions();
+		this.getBabsangSpoons();
+		this.getBabsangInfo();
+		this.getBabjangData();
 	},
-	mounted() {
-		console.log(
-			'서버로 부터 받은 질문지(commonQuestions) : ',
-			this.commonQuestions,
-		);
-		console.log(
-			'서버로 부터 받은 질문지(mannerQuestionsFromServer) : ',
-			this.mannerQuestionsFromServer,
-		);
-	},
+	mounted() {},
 	unmounted() {},
 	methods: {
+		// 밥장(로그인 사용자) 정보 가져오기
+		async getBabjangData() {
+			const user = await this.$get('https://nicespoons.com/api/v1/user');
+			this.babjang = user.result[0];
+			console.log('로그인 사용자 : ', this.babjang);
+		},
+		// 신청한 숟갈, 선택된 숟갈 정보 가져오기
+		async getBabsangSpoons() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const temp = await this.$get(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
+			);
+			let appliedSpoonY = temp.result.filter(spoon => spoon.apply_yn === 'Y');
+			console.log('신청한 숟갈 : ', appliedSpoonY);
+			let selectedSpoonY = appliedSpoonY.filter(
+				spoon => spoon.selected_yn === 'Y',
+			);
+			console.log('신청한 숟갈 : ', selectedSpoonY);
+
+			this.spoons = selectedSpoonY;
+
+			loader.hide();
+		},
+		// 밥상 정보 가져오기
+		async getBabsangInfo() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const temp = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}`,
+				)
+			).result[0];
+			// this.babsangInfo = temp;
+			console.log('밥상 정보 : ', temp);
+
+			loader.hide();
+		},
 		// 공통 질문
 		async getCommonQuestions() {
 			const loader = this.$loading.show({ canCancel: false });
 
 			const question = await this.$get(
-				'https://nicespoons.com/api/v1/question?type=common',
+				'https://nicespoons.com/api/v1/aggregation',
 			);
 
 			loader.hide();
@@ -494,7 +482,7 @@ export default {
 			];
 
 			this.commonQuestions = result;
-			console.log('공통 질문지 : ', this.commonQuestions);
+			console.log(this.commonQuestions);
 		},
 		// 밥장 질문
 		async getBabjangQuestions() {
@@ -515,8 +503,7 @@ export default {
 			];
 
 			this.babjangQuestions = result;
-			console.log('밥장 질문지 : ', this.babjangQuestions);
-			console.log(this.babjangQuestions[0][1]);
+			console.log(this.babjangQuestions);
 		},
 		// 버튼(이전/다음)
 		nextScore() {
@@ -527,11 +514,13 @@ export default {
 				this.$router.push('/');
 				this.computeResult();
 			}
+			console.log('userIndex : ', this.userIndex);
 		},
 		backScore() {
 			if (this.userIndex > 0) {
 				this.userIndex--;
 			}
+			console.log('userIndex : ', this.userIndex);
 		},
 		doTest() {
 			this.computeResult();
