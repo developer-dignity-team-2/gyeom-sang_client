@@ -178,13 +178,11 @@ export default {
 		},
 		dateFormat() {
 			const dayValue = this.itemData.dining_datetime;
-			console.log(dayValue);
 			let year = dayValue.slice(0, 4);
 			let month = dayValue.slice(5, 7);
 			let day = dayValue.slice(8, 10);
 			let hour = dayValue.slice(11, 13);
 			let min = dayValue.slice(14, 16);
-			console.log(hour);
 
 			if (hour > 11) {
 				this.ampm = '오후';
