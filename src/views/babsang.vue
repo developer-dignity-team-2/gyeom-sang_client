@@ -153,6 +153,22 @@
 								<font-awesome-icon icon="fa-solid fa-spoon" />
 								<span class="ps-3">{{ countAppliedSpoons }}명 !</span>
 							</p>
+							<p>함께할 숟갈들</p>
+							<div class="selected-user">
+								<ul>
+									<li v-for="(user, index) in selectedUsers" :key="index">
+										<div>
+											<div class="img-wrap">
+												<img
+													:src="user.spoon_profile_image"
+													:alt="('user', index)"
+												/>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+
 							<button
 								class="btn btn-primary me-2 mb-2"
 								@click="goSelectPage"
@@ -178,7 +194,7 @@
 								</button>
 								<button
 									class="btn btn-primary"
-									@click="cancleSpoon"
+									@click="cancelSpoon"
 									v-if="spoonStatus"
 								>
 									숟갈 빼기
@@ -248,6 +264,7 @@ export default {
 			spoonStatus: '', // false 방상에 숟갈 없음, true 방상에 숟갈 있음
 			countAppliedSpoons: 0,
 			spoonMessage: '',
+			selectedUsers: '',
 		};
 	},
 
@@ -279,6 +296,7 @@ export default {
 		console.log(this.$store.state.user.isUser);
 		this.countSpoons();
 		this.initialButton();
+		this.selectedSpoonsList();
 	},
 
 	methods: {
@@ -323,6 +341,18 @@ export default {
 			this.countAppliedSpoons = confirmUsers.filter(
 				user => user.apply_yn === 'Y',
 			).length;
+		},
+		// 선택된 숟갈
+		async selectedSpoonsList() {
+			const selectedUsers = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+				)
+			).result;
+			this.selectedUsers = selectedUsers.filter(
+				user => user.selected_yn === 'Y',
+			);
+			console.log('selectedUser : ', this.selectedUsers);
 		},
 		// 숟갈 얹기 post
 		async postSpoon() {
@@ -380,7 +410,7 @@ export default {
 			});
 		},
 		// 숟갈 빼기 로직
-		async cancleSpoon() {
+		async cancelSpoon() {
 			let userEmail = this.$store.state.user.userData.email;
 
 			const loader = this.$loading.show({ canCancel: false });
@@ -513,6 +543,16 @@ dl {
 }
 dt {
 	margin-right: 1rem;
+}
+.selected-user {
+	.img-wrap {
+		width: 100%;
+		height: 100%;
+		img {
+			width: 2rem;
+			height: 2rem;
+		}
+	}
 }
 
 // Sweetalert
