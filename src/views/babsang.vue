@@ -155,17 +155,17 @@
 							</p>
 							<p>함께할 숟갈들</p>
 							<div class="selected-user">
-								<ul>
+								<ul class="d-flex me-1">
 									<li v-for="(user, index) in selectedUsers" :key="index">
 										<div>
-											<div class="img-wrap">
+											<div class="thumb-wrap">
 												<img
 													:src="user.spoon_profile_image"
 													:alt="('user', index)"
 												/>
 											</div>
 											<div class="nickname">
-												<span>{{ user.host_nickname }}</span>
+												<span>{{ user.spoon_nickname }}</span>
 											</div>
 										</div>
 									</li>
@@ -294,7 +294,8 @@ export default {
 	},
 	created() {},
 	mounted() {
-		this.socket = io('http://localhost:3000');
+		this.socket = io('https://nicespoons.com');
+		console.log('socket = ', this.socket);
 		this.socket.on('increment', () => {
 			this.countAppliedSpoons = this.countAppliedSpoons + 1;
 		});
@@ -558,14 +559,17 @@ dt {
 	margin-right: 1rem;
 }
 .selected-user {
-	.img-wrap {
-		width: 100%;
-		height: 100%;
+	.thumb-wrap {
+		width: 2rem;
+		height: 2rem;
 		img {
 			width: 2rem;
 			height: 2rem;
 			border-radius: 50%;
 		}
+	}
+	.nickname {
+		font-size: 0.5rem;
 	}
 }
 
