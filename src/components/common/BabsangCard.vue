@@ -308,11 +308,7 @@ i.bi-geo-alt {
 i.bi-w {
 	padding: 0 0.5rem 0 0;
 }
-.favorite {
-	// position: absolute;
-	// top: 0.5rem;
-	// right: 0.5rem;
-}
+
 .card-img-center {
 	width: 100%;
 	height: 18rem;
