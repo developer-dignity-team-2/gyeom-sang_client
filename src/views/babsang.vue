@@ -153,23 +153,25 @@
 								<font-awesome-icon icon="fa-solid fa-spoon" />
 								<span class="ps-3">{{ countAppliedSpoons }}명 !</span>
 							</p>
-							<p>함께할 숟갈들</p>
-							<div class="selected-user">
-								<ul class="d-flex me-1">
-									<li v-for="(user, index) in selectedUsers" :key="index">
-										<div>
-											<div class="thumb-wrap">
-												<img
-													:src="user.spoon_profile_image"
-													:alt="('user', index)"
-												/>
+							<div v-if="selectedUsers.length !== 0">
+								<p>함께할 숟갈들</p>
+								<div class="selected-user">
+									<ul class="d-flex me-1 mb-1">
+										<li v-for="(user, index) in selectedUsers" :key="index">
+											<div>
+												<div class="thumb-wrap">
+													<img
+														:src="user.spoon_profile_image"
+														:alt="('user', index)"
+													/>
+												</div>
+												<div class="nickname">
+													<span>{{ user.spoon_nickname }}</span>
+												</div>
 											</div>
-											<div class="nickname">
-												<span>{{ user.spoon_nickname }}</span>
-											</div>
-										</div>
-									</li>
-								</ul>
+										</li>
+									</ul>
+								</div>
 							</div>
 
 							<button
@@ -308,7 +310,6 @@ export default {
 		console.log(this.$store.state.user.isUser);
 		this.countSpoons();
 		this.initialButton();
-		this.selectedSpoonsList();
 	},
 
 	methods: {
@@ -350,22 +351,10 @@ export default {
 					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
 				)
 			).result;
-			this.countAppliedSpoons = confirmUsers.filter(
-				user => user.apply_yn === 'Y',
-			).length;
+			this.selectedUsers = confirmUsers.filter(user => user.apply_yn === 'Y');
+			this.countAppliedSpoons = this.selectedUsers.length;
 		},
-		// 선택된 숟갈
-		async selectedSpoonsList() {
-			const selectedUsers = (
-				await this.$get(
-					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
-				)
-			).result;
-			this.selectedUsers = selectedUsers.filter(
-				user => user.selected_yn === 'Y',
-			);
-			console.log('selectedUser : ', this.selectedUsers);
-		},
+
 		// 숟갈 얹기 post
 		async postSpoon() {
 			this.socket.emit('postSpoon');
