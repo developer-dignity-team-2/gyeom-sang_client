@@ -297,9 +297,14 @@ export default {
 	created() {},
 	mounted() {
 		this.socket = io('https://nicespoons.com');
-		console.log('socket = ', this.socket);
+		console.log('socket', this.socket);
 		this.socket.on('increment', () => {
+			console.log('get event from server');
 			this.countAppliedSpoons = this.countAppliedSpoons + 1;
+		});
+		this.socket.on('decrement', () => {
+			console.log('get event from server');
+			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
 
 		window.scrollTo(0, 0);
@@ -413,7 +418,13 @@ export default {
 			});
 		},
 		// 숟갈 빼기 로직
+<<<<<<< HEAD
 		async cancelSpoon() {
+=======
+		async cancleSpoon() {
+			this.socket.emit('cancelSpoon');
+
+>>>>>>> a789dff ([UPDATE] babsang socket event 추가)
 			let userEmail = this.$store.state.user.userData.email;
 
 			const loader = this.$loading.show({ canCancel: false });
