@@ -356,8 +356,15 @@ export default {
 					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
 				)
 			).result;
-			this.selectedUsers = confirmUsers.filter(user => user.apply_yn === 'Y');
-			this.countAppliedSpoons = this.selectedUsers.length;
+			this.countAppliedSpoons = confirmUsers.filter(
+				user => user.apply_yn === 'Y',
+			).length;
+			this.selectedUsers = confirmUsers.filter(
+				user => user.selected_yn === 'Y',
+			);
+			// this.countAppliedSpoons = this.selectedUsers.length;
+			console.log('전체 유저', confirmUsers);
+			console.log('선택된 숟갈', this.selectedUsers);
 		},
 
 		// 숟갈 얹기 post
@@ -418,7 +425,7 @@ export default {
 			});
 		},
 		// 숟갈 빼기 로직
-		async cancleSpoon() {
+		async cancelSpoon() {
 			this.socket.emit('cancelSpoon');
 
 			let userEmail = this.$store.state.user.userData.email;
