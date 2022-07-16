@@ -153,46 +153,40 @@
 								<font-awesome-icon icon="fa-solid fa-spoon" />
 								<span class="ps-3">{{ countAppliedSpoons }}명 !</span>
 							</p>
-							<div class="row">
-								<div class="col-5">
-									<button
-										class="btn btn-primary"
-										@click="goSelectPage"
-										v-if="isLeader"
-									>
-										숟갈 선택
-									</button>
-									<div v-else>
-										<!-- <button
+							<button
+								class="btn btn-primary me-2 mb-2"
+								@click="goSelectPage"
+								v-if="isLeader"
+							>
+								숟갈 선택
+							</button>
+							<div v-else>
+								<!-- <button
 									class="btn btn-primary"
 									@click="applySpoon"
 									v-if="!spoonStatus"
 								>
 									숟갈 얹기
 								</button> -->
-										<button
-											class="btn btn-primary"
-											data-bs-toggle="modal"
-											data-bs-target="#toggleSpoonModal"
-											v-if="!spoonStatus"
-										>
-											숟갈 얹기
-										</button>
-										<button
-											class="btn btn-primary"
-											@click="cancleSpoon"
-											v-if="spoonStatus"
-										>
-											숟갈 빼기
-										</button>
-									</div>
-								</div>
-								<div class="col-7">
-									<button class="btn btn-secondary" @click="goScorePage">
-										매너 평가(임시)
-									</button>
-								</div>
+								<button
+									class="btn btn-primary"
+									data-bs-toggle="modal"
+									data-bs-target="#toggleSpoonModal"
+									v-if="!spoonStatus"
+								>
+									숟갈 얹기
+								</button>
+								<button
+									class="btn btn-primary"
+									@click="cancleSpoon"
+									v-if="spoonStatus"
+								>
+									숟갈 빼기
+								</button>
 							</div>
+							<button class="btn btn-secondary me-2 mb-2" @click="goScorePage">
+								매너 평가(임시)
+							</button>
 						</div>
 					</div>
 				</div>

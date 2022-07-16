@@ -17,7 +17,9 @@
 							:src="itemData.host_profile_image || itemData.profile_image"
 							alt=""
 						/>
-						<span style="cursor: default">{{ itemData.nickname }}</span>
+						<span style="cursor: default">{{
+							itemData.nickname || itemData.host_nickname
+						}}</span>
 					</div>
 				</div>
 			</div>
