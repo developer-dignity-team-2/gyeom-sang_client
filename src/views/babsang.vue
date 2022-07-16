@@ -165,7 +165,7 @@
 												/>
 											</div>
 											<div class="nickname">
-												<!-- <span>{{sele}}</span> -->
+												<span>{{ user.host_nickname }}</span>
 											</div>
 										</div>
 									</li>
