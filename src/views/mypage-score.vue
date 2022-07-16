@@ -137,6 +137,8 @@ export default {
 		return {
 			showCard: true,
 			countMannerArr: [],
+			commonQuestions: [],
+			babjangQuestions: [],
 			// 서버에서 값을 받을 때 받은 평가가 없다면 mannerTitle 객체와 , 빈 배열[]로 받을 것
 			myManners: [
 				[
@@ -183,6 +185,8 @@ export default {
 	setup() {},
 	created() {},
 	mounted() {
+		this.getCommonQuestions();
+		this.getBabjangQuestions();
 		this.countManner(this.myManners);
 		this.getMyQuestions();
 	},
@@ -200,7 +204,7 @@ export default {
 			}
 			console.log(this.countMannerArr);
 		},
-		// 공통 질문
+		// 받은 매너
 		async getMyQuestions() {
 			const loader = this.$loading.show({ canCancel: false });
 
@@ -210,18 +214,61 @@ export default {
 
 			loader.hide();
 
-			// let good = question.result.filter(q => q.common_questions_type === 'G');
-			// let bad = question.result.filter(q => q.common_questions_type === 'B');
+			let spoonGood = question.filter(sg => sg)[0];
 
 			// let result = [
-			// 	[{ mannerTitle: '금매너' }, [...good]],
-			// 	[{ mannerTitle: '똥매너' }, [...bad]],
+			// 	[{ mannerTitle: '받은 금매너' }, [...good]],
+			// 	[{ mannerTitle: '받은 똥매너' }, [...bad]],
 			// ];
 
 			// this.commonQuestions = result;
 			// console.log(this.commonQuestions);
 
-			console.log(question);
+			console.log('spoonGood : ', spoonGood);
+		},
+		// 공통 질문
+		async getCommonQuestions() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const question = await this.$get(
+				'https://nicespoons.com/api/v1/question?type=common',
+			);
+
+			loader.hide();
+
+			console.log('공통 질문 가공전 : ', question);
+
+			let good = question.result.filter(q => q.common_questions_type === 'G');
+			let bad = question.result.filter(q => q.common_questions_type === 'B');
+
+			let result = [
+				[{ mannerTitle: '받은 금매너' }, [...good]],
+				[{ mannerTitle: '받은 똥매너' }, [...bad]],
+			];
+
+			this.commonQuestions = result;
+			console.log('공통 질문 : ', this.commonQuestions);
+		},
+		// 밥장 질문
+		async getBabjangQuestions() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const question = await this.$get(
+				'https://nicespoons.com/api/v1/question?type=host',
+			);
+
+			loader.hide();
+
+			let good = question.result.filter(q => q.host_questions_type === 'G');
+			let bad = question.result.filter(q => q.host_questions_type === 'B');
+
+			let result = [
+				[{ mannerTitle: '받은 금매너' }, [...good]],
+				[{ mannerTitle: '받은 똥매너' }, [...bad]],
+			];
+
+			this.babjangQuestions = result;
+			console.log('밥장 질문 : ', this.babjangQuestions);
 		},
 	},
 };
