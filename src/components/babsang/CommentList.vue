@@ -43,7 +43,10 @@
 							>
 								삭제
 							</div>
-							<div v-show="commentSave" style="float: right">
+							<div
+								v-show="commentSave && list.id === this.changeSelectedId"
+								style="float: right"
+							>
 								<button
 									type="button"
 									class="btn btn-primary mx-2 btn-sm"
