@@ -187,6 +187,7 @@ export default {
 	color: #575757;
 	background-color: #ffcb00;
 	border-color: #ffcb00;
+	pointer-events: none;
 }
 .btn-outline-primary {
 	color: #575757;
