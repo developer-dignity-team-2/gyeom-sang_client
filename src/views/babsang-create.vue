@@ -297,6 +297,7 @@ import KakaoMap from '@/components/kakaoMap/KakaoMap.vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Datepicker from 'vue3-datepicker';
+import { io } from 'socket.io-client';
 
 export default {
 	name: 'BabsangCreate',
@@ -323,6 +324,7 @@ export default {
 			placeLatitude: '',
 			placeLongitude: '',
 			title: '',
+			socket: '',
 		};
 	},
 	computed: {},
@@ -361,7 +363,9 @@ export default {
 		console.log('--------------현재 유저 정보--------------');
 		console.log(this.$store.state.user.userData);
 	},
-	mounted() {},
+	mounted() {
+		this.socket = io('http://localhost:3000');
+	},
 
 	methods: {
 		placeInfo(name, address, lat, long) {
@@ -451,6 +455,7 @@ export default {
 					dining_table_title: this.title,
 				},
 			});
+
 			// 생성한 밥상 게시물로 이동
 			this.babsangId = await this.$get('/babsang');
 			const idArr = this.babsangId.result.map(item => item.id);

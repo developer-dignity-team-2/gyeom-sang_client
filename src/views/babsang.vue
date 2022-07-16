@@ -255,6 +255,8 @@ import CommentCreate from '@/components/babsang/CommentCreate';
 import CommentList from '@/components/babsang/CommentList';
 import BabsangMap from '@/components/kakaoMap/BabsangMap';
 import SlotModal from '@/components/common/SlotModal';
+import { io } from 'socket.io-client';
+
 export default {
 	name: 'Babsang',
 	components: { UserCard, CommentCreate, CommentList, BabsangMap, SlotModal },
@@ -265,6 +267,7 @@ export default {
 			countAppliedSpoons: 0,
 			spoonMessage: '',
 			selectedUsers: '',
+			socket: '',
 		};
 	},
 
@@ -288,6 +291,12 @@ export default {
 	},
 	created() {},
 	mounted() {
+		this.socket = io('http://localhost:3000');
+		this.socket.on('increment', ({ message }) => {
+			console.log('message from server' + message);
+			this.accountAppliedSpoons = this.accountAppliedSpoons + 1;
+		});
+
 		window.scrollTo(0, 0);
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		console.log('---------------밥상 data---------------');
@@ -356,6 +365,8 @@ export default {
 		},
 		// 숟갈 얹기 post
 		async postSpoon() {
+			this.socket.emit('postSpoon');
+
 			await this.$post(
 				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
 				{

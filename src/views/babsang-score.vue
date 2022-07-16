@@ -468,7 +468,7 @@ export default {
 			const loader = this.$loading.show({ canCancel: false });
 
 			const question = await this.$get(
-				'https://nicespoons.com/api/v1/question?type=common',
+				'https://nicespoons.com/api/v1/aggregation',
 			);
 
 			loader.hide();
