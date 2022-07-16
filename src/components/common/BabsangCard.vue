@@ -125,7 +125,7 @@ export default {
 	name: 'BabsangCard',
 	data() {
 		return {
-			favorite: 'N',
+			favorite: '',
 			ampm: '',
 			hourVal: '',
 		};
@@ -134,6 +134,9 @@ export default {
 		itemData: Object,
 	},
 	computed() {},
+	created() {
+		this.favorite = this.itemData.active_yn;
+	},
 	methods: {
 		currentStatus() {
 			let currentStatus = this.itemData.dining_status;
@@ -221,7 +224,11 @@ export default {
 				await this.$put('https://nicespoons.com/api/v1/babsang/bookmark', {
 					param: {
 						active_yn: this.favorite,
-						cancel_date: new Date(),
+						cancel_date: new Date()
+							.toISOString()
+							.replace('T', ' ')
+							.replace(/\..*/, '')
+							.toString(),
 					},
 					dining_table_id: likeId,
 				});
