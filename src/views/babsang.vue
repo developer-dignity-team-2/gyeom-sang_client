@@ -275,9 +275,8 @@ export default {
 	created() {},
 	mounted() {
 		this.socket = io('http://localhost:3000');
-		this.socket.on('increment', ({ message }) => {
-			console.log('message from server' + message);
-			this.accountAppliedSpoons = this.accountAppliedSpoons + 1;
+		this.socket.on('increment', () => {
+			this.countAppliedSpoons = this.countAppliedSpoons + 1;
 		});
 
 		window.scrollTo(0, 0);
