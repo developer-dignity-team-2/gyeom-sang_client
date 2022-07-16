@@ -338,7 +338,7 @@
 					type="button"
 					class="btn btn-outline-primary"
 					@click="backScore"
-					:disabled="userIndex < 1"
+					:disabled="disabledBackButton()"
 				>
 					이전
 				</button>
@@ -363,8 +363,8 @@ export default {
 		return {
 			showCard: true,
 			userIndex: 0,
-			babjangYN: '',
 			babsangInfo: [], // 밥장 정보 포함
+			loginUser: [], // 로인 사용자 정보
 			spoons: [],
 			commonQuestions: [[[]], [[]]],
 			babjangQuestions: [[[]], [[]]],
@@ -439,6 +439,7 @@ export default {
 			).result[0];
 
 			let loginUser = await this.getLoginUser(); // 로그인 사용자 정보 가져오기
+			this.loginUser = loginUser;
 			console.log('로그인 사용자 : ', loginUser);
 
 			loader.hide();
@@ -447,10 +448,11 @@ export default {
 			console.log('밥상 정보 : ', this.babsangInfo);
 
 			if (temp.host_email === loginUser.email) {
-				this.babjangYN = 'Y';
+				this.userIndex = 1;
+
 				console.log('평가자는 밥장입니다.');
 			} else {
-				this.babjangYN = 'N';
+				this.babjangYN = 0;
 				console.log('평가자는 밥장이 아닙니다.');
 			}
 		},
@@ -510,10 +512,34 @@ export default {
 			console.log('userIndex : ', this.userIndex);
 		},
 		backScore() {
-			if (this.userIndex > 0) {
-				this.userIndex--;
+			// 로그인 사용자가 밥장인 경우에는 밥장 자신을 평가 할 수 없도록 처리
+			if (this.babsangInfo.host_email === this.loginUser.email) {
+				if (this.userIndex > 1) {
+					this.userIndex--;
+				}
+				console.log('userIndex : ', this.userIndex);
+			} else {
+				if (this.userIndex > 0) {
+					this.userIndex--;
+				}
+				console.log('userIndex : ', this.userIndex);
 			}
-			console.log('userIndex : ', this.userIndex);
+		},
+		// 이전 버튼 disabled 처리
+		disabledBackButton() {
+			if (this.babsangInfo.host_email === this.loginUser.email) {
+				if (this.userIndex === 1) {
+					console.log('평가자가 밥장인 경우 이전 버튼 disabled');
+					return true;
+				} else {
+					return false;
+				}
+			} else if (this.userIndex === 0) {
+				console.log('평가자가 밥장이 아닌 경우 이전 버튼 enabled');
+				return true;
+			} else {
+				return false;
+			}
 		},
 		doTest() {
 			this.computeResult();
