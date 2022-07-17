@@ -34,13 +34,16 @@
 		</div>
 		<!-- 검색 필터 -->
 		<div class="row">
-			<SearchFilter @change="getAreaValue"></SearchFilter>
+			<SearchFilter
+				@area="getAreaValue"
+				@gender="getGenderValue"
+			></SearchFilter>
 		</div>
 		<!-- 밥상카드 -->
 		<div class="row">
 			<MainCardList :babsangData="babsangData" />
 			<div
-				v-show="babsangData.length === 0"
+				v-if="babsangData.length === 0"
 				class="d-flex justify-content-center align-items-center"
 			>
 				일치하는 조건의 밥상이 없습니다😭
@@ -64,10 +67,10 @@ export default {
 			allData: [],
 			filterData: [],
 			babsangSearchValue: '',
+			areaVal: '',
+			genderVal: '',
 		};
 	},
-	computed: {},
-	created() {},
 	watch: {
 		babsangData(newVal) {
 			this.babsangData = newVal;
@@ -77,13 +80,25 @@ export default {
 		this.getBabsang();
 	},
 	methods: {
+		getGenderValue(gender) {
+			this.genderVal = gender;
+			console.log('선택한 성별 :', this.genderVal);
+			this.searchFilter();
+		},
 		getAreaValue(area) {
 			if (area === '전국') {
 				area = '';
 			}
+			this.areaVal = area;
+			console.log('선택한 지역 :', this.areaVal);
+			this.searchFilter();
+		},
+		searchFilter() {
 			this.babsangData = this.allData;
-			this.filterData = this.babsangData.filter(item =>
-				item.restaurant_location.includes(area),
+			this.filterData = this.babsangData.filter(
+				item =>
+					item.restaurant_location.includes(this.areaVal) &&
+					item.gender_check.includes(this.genderVal),
 			);
 			this.babsangData = this.filterData;
 		},
@@ -99,8 +114,6 @@ export default {
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {
 				this.getBabsang();
-			} else {
-				this.getBabsang(`?nameSearch=${this.babsangSearchValue}`);
 			}
 		},
 		onKeyupBabsangSearch() {
