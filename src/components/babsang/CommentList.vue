@@ -149,7 +149,10 @@
 									삭제
 								</div>
 
-								<div v-show="commentSave" style="float: right">
+								<div
+									v-show="commentSave && recomment.id === this.changeSelectedId"
+									style="float: right"
+								>
 									<button
 										type="button"
 										class="btn btn-primary mx-2 btn-sm"
@@ -173,7 +176,7 @@
 					<!-- 댓글 내용 -->
 					<div>
 						<textarea
-							:disabled="commentSave"
+							:disabled="!(recomment.id === this.changeSelectedId)"
 							class="form-control"
 							v-model="recomment.comment_description"
 							id="Textarea"
