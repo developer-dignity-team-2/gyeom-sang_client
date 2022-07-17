@@ -22,15 +22,27 @@
 						}}</span>
 					</div>
 				</div>
+				<!--				<div class="dday-btn" v-if="countDday() < 4">-->
+				<!--					<button-->
+				<!--						type="button"-->
+				<!--						class="btn btn-primary me-2"-->
+				<!--						style="line-height: 1; font-size: 0.9rem; padding: 0.5rem"-->
+				<!--					>-->
+				<!--						D-{{ countDday() }}-->
+				<!--					</button>-->
+				<!--				</div>-->
 			</div>
-			<div
-				class="card-body"
-				style="cursor: pointer; padding: 2.3rem 2rem 1.5rem"
-			>
+			<div class="card-body" style="cursor: pointer; padding: 2rem 2rem 2rem">
 				<div class="d-flex justify-content-between aling-item-center">
 					<h5
 						class="card-title m-0"
-						style="font-weight: bold; font-size: 1.7rem"
+						style="
+							font-weight: bold;
+							font-size: 1.6rem;
+							white-space: nowrap;
+							overflow: hidden;
+							text-overflow: ellipsis;
+						"
 					>
 						{{ itemData.dining_table_title }}
 						<!-- <button
@@ -66,7 +78,7 @@
 				</div>
 
 				<!-- 식당 이름/식사 일시 -->
-				<div class="my-4">
+				<div class="my-3">
 					<div class="card-text mb-1">
 						<i class="bi bi-geo-alt bi-w"></i>
 						<span> {{ itemData.restaurant_name }}</span>
@@ -78,43 +90,41 @@
 				</div>
 				<!-- 밥상 해시 정보 -->
 				<div class="babsang-info">
-					<!-- <span>#{{ currentStatus() }}</span>
+					<span>#{{ currentStatus() }}</span>
 					<span>#D-{{ countDday() }}</span>
 					<span>#{{ recruitGender() }}</span>
-					<span>#{{ itemData.dining_count }}인상</span> -->
-					<button type="button" class="btn btn-primary me-2">
-						{{ currentStatus() }}
-					</button>
-					<button type="button" class="btn btn-primary me-2">
-						D-{{ countDday() }}
-					</button>
-					<button type="button" class="btn btn-secondary me-2">
-						{{ recruitGender() }}
-					</button>
-					<button type="button" class="btn btn-secondary">
-						{{ itemData.dining_count }}인상
-					</button>
+					<span>#{{ itemData.dining_count }}인상</span>
+					<!--					<button type="button" class="btn btn-primary me-2">-->
+					<!--						{{ currentStatus() }}-->
+					<!--					</button>-->
+					<!--					<button type="button" class="btn btn-primary me-2">-->
+					<!--						D-{{ countDday() }}-->
+					<!--					</button>-->
+					<!--					<button type="button" class="btn btn-secondary me-2">-->
+					<!--						{{ recruitGender() }}-->
+					<!--					</button>-->
+					<!--					<button type="button" class="btn btn-secondary">-->
+					<!--						{{ itemData.dining_count }}인상-->
+					<!--					</button>-->
 				</div>
-				<!-- <div>
-					<div class="mt-3" style="font-size: 0.8rem">3명이 신청했어요</div>
-					<div class="author-image">
-						<img
-							:src="itemData.host_profile_image || itemData.profile_image"
-							alt=""
-							style="width: 1.5rem; height: 1.5rem; border-radius: 50%"
-						/>
-						<img
-							:src="itemData.host_profile_image || itemData.profile_image"
-							alt=""
-							style="width: 1.5rem; height: 1.5rem; border-radius: 50%"
-						/>
-						<img
-							:src="itemData.host_profile_image || itemData.profile_image"
-							alt=""
-							style="width: 1.5rem; height: 1.5rem; border-radius: 50%"
-						/>
+				<div>
+					<div class="mt-3" style="font-size: 0.8rem">
+						{{ countAppliedSpoons.length }}명이 신청했어요
 					</div>
-				</div> -->
+					<div class="d-flex">
+						<div
+							class="author-image me-1"
+							v-for="(item, index) in countAppliedSpoons"
+							:key="index"
+						>
+							<img
+								:src="item.spoon_profile_image"
+								alt=""
+								style="width: 1.5rem; height: 1.5rem; border-radius: 50%"
+							/>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -128,6 +138,7 @@ export default {
 			favorite: '',
 			ampm: '',
 			hourVal: '',
+			countAppliedSpoons: '',
 		};
 	},
 	props: {
@@ -136,8 +147,21 @@ export default {
 	computed() {},
 	created() {
 		this.favorite = this.itemData.active_yn;
+		this.countSpoons();
 	},
 	methods: {
+		async countSpoons() {
+			const confirmUsers = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/babsang/${this.itemData.id}/babsangSpoons`,
+				)
+			).result;
+			this.countAppliedSpoons = confirmUsers.filter(
+				user => user.apply_yn === 'Y',
+			);
+			console.log('신청한 숟갈들 리스트 :', this.countAppliedSpoons);
+			console.log(this.itemData.id);
+		},
 		currentStatus() {
 			let currentStatus = this.itemData.dining_status;
 			let status;
@@ -316,16 +340,21 @@ i.bi-w {
 
 .card-img-center {
 	width: 100%;
-	height: 18rem;
+	height: 14rem;
 	object-fit: cover;
 }
 
 .babsang-info {
 	span {
 		margin-right: 1rem;
-		font-size: 1.2rem;
+		font-size: 1rem;
 		font-weight: bold;
 		color: #ffcb00;
 	}
+}
+.dday-btn {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
 }
 </style>

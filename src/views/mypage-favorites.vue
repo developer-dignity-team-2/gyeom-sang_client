@@ -47,6 +47,10 @@ export default {
 		this.getBabsangData();
 	},
 	methods: {
+		buttonSignal() {
+			console.log('버튼 신호 : ', this.$store.state.button.buttonOCSign);
+			console.log('버튼 신호 : ', this.$store.state.button.buttonYOSign);
+		},
 		async getBabsangData() {
 			this.babsangData = await this.$get(
 				'https://nicespoons.com/api/v1/babsang/get?type=bookmarkedList',

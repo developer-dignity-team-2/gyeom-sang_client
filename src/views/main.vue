@@ -70,6 +70,7 @@ export default {
 			dateArr: '',
 			genderArr: '',
 			filterArr: '',
+			filterData: '',
 			babsangSearchValue: '',
 			areaVal: '',
 			genderVal: '',
@@ -106,7 +107,7 @@ export default {
 			this.dateFilter(this.date.start, this.date.end);
 		},
 		dateFilter(start, end) {
-			this.babsangData = this.allData;
+			// this.babsangData = this.allData;
 
 			const startDate = new Date(start);
 			const endDate = new Date(end);
@@ -118,7 +119,7 @@ export default {
 		},
 		// 성별 필터
 		getGenderValue(gender) {
-			this.babsangData = this.allData;
+			// this.babsangData = this.allData;
 			this.genderVal = gender;
 			console.log('선택한 성별 :', this.genderVal);
 			this.genderArr = this.babsangData.filter(item =>
@@ -129,7 +130,7 @@ export default {
 		},
 		//지역 필터
 		getAreaValue(area) {
-			this.babsangData = this.allData;
+			// this.babsangData = this.allData;
 			if (area === '전국') {
 				area = '';
 			}
@@ -143,28 +144,33 @@ export default {
 		},
 		//필터 체이닝
 		searchFilter(start, end) {
-			this.filterData = this.babsangData
+			console.log('this.babsangData = ', this.babsangData);
+			this.filterData = this.filterData
 				.filter(item => item.restaurant_location.includes(this.areaVal))
-				.filter(item => item.gender_check.includes(this.genderVal))
-				.filter(item => {
-					const startDate = new Date(start);
-					console.log(startDate);
-					const endDate = new Date(end);
-					console.log(endDate);
-					let date = new Date(item.dining_datetime.slice(0, 10));
-					console.log(date);
-					return date >= startDate && date <= endDate;
-				});
+				.filter(item => item.gender_check.includes(this.genderVal));
+
+			this.filterData =
+				start && end
+					? this.filterData.filter(item => {
+							const startDate = new Date(start);
+							const endDate = new Date(end);
+							let date = new Date(item.dining_datetime.slice(0, 10));
+							return date >= startDate && date <= endDate;
+					  })
+					: this.filterData;
+
 			console.log('filter Array :', this.filterData);
+			this.babsangData = this.filterData;
 		},
 
 		async getBabsang(type = '') {
 			this.babsangData = await this.$get(`/babsang${type}`);
+			this.filterData = this.babsangData.result;
+
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
 			});
 			this.babsangData = this.babsangData.result;
-			this.allData = this.babsangData;
 			console.log('밥상 데이터 리스트', this.babsangData);
 		},
 		onInputBabsangSearch(event) {

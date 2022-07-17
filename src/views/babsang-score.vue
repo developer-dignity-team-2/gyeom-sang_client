@@ -544,32 +544,6 @@ export default {
 		doTest() {
 			this.computeResult();
 		},
-		// 밥상 점수 설문 취합
-		computeResult() {
-			console.log('checkedBabjangManner : ', this.checkedBabjangManner);
-			console.log(
-				'checkedCommonBabjangManner : ',
-				this.checkedCommonBabjangManner,
-			);
-			console.log('checkedSpoonManner1 : ', this.checkedCommonSpoonManner1);
-			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
-
-			let babjangScore = this.computeBabjangScore(this.checkedBabjangManner);
-			let babjangCommonScore = this.computeCommonScore(
-				this.checkedCommonBabjangManner,
-			);
-			let spoon1CommonScore = this.computeCommonScore(
-				this.checkedCommonSpoonManner1,
-			);
-			let spoon2CommonScore = this.computeCommonScore(
-				this.checkedCommonSpoonManner2,
-			);
-
-			console.log('babjangScore : ', babjangScore);
-			console.log('babjangCommonScore : ', babjangCommonScore);
-			console.log('spoon1CommonScore : ', spoon1CommonScore);
-			console.log('spoon2CommonScore : ', spoon2CommonScore);
-		},
 		// 밥장 점수 계산
 		computeBabjangScore(chk) {
 			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): -0.02)
@@ -618,16 +592,38 @@ export default {
 
 			return sum;
 		},
-		// 점수 POST
-		async postScore() {
-			const myManners = (
-				await this.$get('https://nicespoons.com/api/v1/aggregation')
-			).result;
+		// 밥상 점수 설문 취합
+		computeResult() {
+			console.log('checkedBabjangManner : ', this.checkedBabjangManner);
+			console.log(
+				'checkedCommonBabjangManner : ',
+				this.checkedCommonBabjangManner,
+			);
+			console.log('checkedSpoonManner1 : ', this.checkedCommonSpoonManner1);
+			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
 
-			let mannerArr = Object.entries(myManners[0]);
+			let babjangScore = this.computeBabjangScore(this.checkedBabjangManner);
+			let babjangCommonScore = this.computeCommonScore(
+				this.checkedCommonBabjangManner,
+			);
+			let spoon1CommonScore = this.computeCommonScore(
+				this.checkedCommonSpoonManner1,
+			);
+			let spoon2CommonScore = this.computeCommonScore(
+				this.checkedCommonSpoonManner2,
+			);
 
-			console.log('myManners : ', mannerArr);
+			console.log('babjangScore : ', babjangScore);
+			console.log('babjangCommonScore : ', babjangCommonScore);
+			console.log('spoon1CommonScore : ', spoon1CommonScore);
+			console.log('spoon2CommonScore : ', spoon2CommonScore);
 		},
+		// 점수 PUT
+		// async putScore() {
+		// 	if (spoonEmail === userEmail) {
+		// 		await this.$put('https://nicespoons.com/api/v1/aggregation');
+		// 	}
+		// },
 	},
 };
 </script>
