@@ -200,13 +200,15 @@ export default {
 		selectBabjangMannerCard() {
 			this.showCard = false;
 		},
-		// 받은 매너
+		// 받은 매너 GET
 		async getMyQuestions() {
-			// const loader = this.$loading.show({ canCancel: false });
+			const loader = this.$loading.show({ canCancel: false });
 
 			const myManners = (
 				await this.$get('https://nicespoons.com/api/v1/aggregation')
 			).result;
+
+			loader.hide();
 
 			let mannerArr = Object.entries(myManners[0]);
 
@@ -238,9 +240,13 @@ export default {
 			console.log('받은 매너가 있는 경우 : ', temp);
 
 			// 공통 질문지-카운트 병합
+			loader.show();
+
 			const commonQuestions = (
 				await this.$get('https://nicespoons.com/api/v1/question?type=common')
 			).result;
+
+			loader.hide();
 
 			console.log('commonQuestion : ', commonQuestions);
 
@@ -273,9 +279,13 @@ export default {
 			console.log(badCommon);
 
 			// 밥장 질문지-카운트 병합
+			loader.show();
+
 			const babjangQuestions = (
 				await this.$get('https://nicespoons.com/api/v1/question?type=host')
 			).result;
+
+			loader.hide();
 
 			console.log('babjangQuestions : ', babjangQuestions);
 
@@ -327,8 +337,6 @@ export default {
 			console.log('totalResult', totalResult);
 
 			this.myManners = totalResult;
-
-			// loader.hide();
 
 			console.log('myManners : ', myManners);
 		},
