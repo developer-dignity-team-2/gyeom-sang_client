@@ -33,7 +33,16 @@
 				</div>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">기간</a>
+				<div class="nav-link" href="#">
+					기간 :
+					<Datepicker
+						v-model="date"
+						range
+						:enableTimePicker="false"
+						:minDate="new Date()"
+						style="display: inline-block"
+					></Datepicker>
+				</div>
 			</li>
 
 			<li class="nav-item dropdown">
@@ -47,27 +56,48 @@
 					>성별 : {{ gender }}</a
 				>
 				<div class="dropdown-menu" @click="selectGender($event)">
-					<a class="dropdown-item" href="#">혼성</a>
-					<a class="dropdown-item" href="#">남성</a>
-					<a class="dropdown-item" href="#">여성</a>
+					<div class="dropdown-item">혼성</div>
+					<div class="dropdown-item">남성</div>
+					<div class="dropdown-item">여성</div>
 				</div>
 			</li>
+			<!--			<li class="nav-item">-->
+			<!--				<a class="nav-link" data-bs-toggle="dropdown" href="#" role="button"-->
+			<!--					>필터 초기화</a-->
+			<!--				>-->
+			<!--			</li>-->
 		</ul>
 	</div>
 </template>
 
 <script>
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 export default {
 	name: 'SearchFilter',
+	components: { Datepicker },
 	data() {
 		return {
 			areaValue: '전국',
 			genderValue: '혼성',
 			gender: '선택',
+			date: null,
+			startDate: '',
+			endDate: '',
+			format: '',
 		};
 	},
-	watch: {},
+	watch: {
+		date() {
+			this.startDate = this.date[0];
+			this.endDate = this.date[1];
+			this.$emit('date', this.startDate, this.endDate);
+		},
+	},
 	methods: {
+		// getformat(date) {
+		// 	console.log(date);
+		// },
 		selectGender(e) {
 			const value = e.target.innerText;
 			this.gender = value;
