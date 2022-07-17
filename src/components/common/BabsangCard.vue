@@ -22,6 +22,15 @@
 						}}</span>
 					</div>
 				</div>
+				<!--				<div class="dday-btn" v-if="countDday() < 4">-->
+				<!--					<button-->
+				<!--						type="button"-->
+				<!--						class="btn btn-primary me-2"-->
+				<!--						style="line-height: 1; font-size: 0.9rem; padding: 0.5rem"-->
+				<!--					>-->
+				<!--						D-{{ countDday() }}-->
+				<!--					</button>-->
+				<!--				</div>-->
 			</div>
 			<div
 				class="card-body"
@@ -30,7 +39,13 @@
 				<div class="d-flex justify-content-between aling-item-center">
 					<h5
 						class="card-title m-0"
-						style="font-weight: bold; font-size: 1.6rem"
+						style="
+							font-weight: bold;
+							font-size: 1.6rem;
+							white-space: nowrap;
+							overflow: hidden;
+							text-overflow: ellipsis;
+						"
 					>
 						{{ itemData.dining_table_title }}
 						<!-- <button
@@ -78,22 +93,22 @@
 				</div>
 				<!-- 밥상 해시 정보 -->
 				<div class="babsang-info">
-					<!--					<span>#{{ currentStatus() }}</span>-->
-					<!--					<span>#D-{{ countDday() }}</span>-->
-					<!--					<span>#{{ recruitGender() }}</span>-->
-					<!--					<span>#{{ itemData.dining_count }}인상</span>-->
-					<button type="button" class="btn btn-primary me-2">
-						{{ currentStatus() }}
-					</button>
-					<button type="button" class="btn btn-primary me-2">
-						D-{{ countDday() }}
-					</button>
-					<button type="button" class="btn btn-secondary me-2">
-						{{ recruitGender() }}
-					</button>
-					<button type="button" class="btn btn-secondary">
-						{{ itemData.dining_count }}인상
-					</button>
+					<span>#{{ currentStatus() }}</span>
+					<span>#D-{{ countDday() }}</span>
+					<span>#{{ recruitGender() }}</span>
+					<span>#{{ itemData.dining_count }}인상</span>
+					<!--					<button type="button" class="btn btn-primary me-2">-->
+					<!--						{{ currentStatus() }}-->
+					<!--					</button>-->
+					<!--					<button type="button" class="btn btn-primary me-2">-->
+					<!--						D-{{ countDday() }}-->
+					<!--					</button>-->
+					<!--					<button type="button" class="btn btn-secondary me-2">-->
+					<!--						{{ recruitGender() }}-->
+					<!--					</button>-->
+					<!--					<button type="button" class="btn btn-secondary">-->
+					<!--						{{ itemData.dining_count }}인상-->
+					<!--					</button>-->
 				</div>
 				<div>
 					<div class="mt-3" style="font-size: 0.8rem">
@@ -328,16 +343,21 @@ i.bi-w {
 
 .card-img-center {
 	width: 100%;
-	height: 18rem;
+	height: 16rem;
 	object-fit: cover;
 }
 
 .babsang-info {
 	span {
 		margin-right: 1rem;
-		font-size: 1.2rem;
+		font-size: 1rem;
 		font-weight: bold;
 		color: #ffcb00;
 	}
+}
+.dday-btn {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
 }
 </style>
