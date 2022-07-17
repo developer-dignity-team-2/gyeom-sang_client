@@ -9,9 +9,10 @@
 					role="button"
 					aria-haspopup="true"
 					aria-expanded="false"
-					>지역</a
+					>지역 : {{ areaValue }}</a
 				>
 				<div class="dropdown-menu" style="" @click="selectArea($event)">
+					<a class="dropdown-item" href="#">전국</a>
 					<a class="dropdown-item" href="#">서울</a>
 					<a class="dropdown-item" href="#">부산</a>
 					<a class="dropdown-item" href="#">대구</a>
@@ -61,7 +62,7 @@ export default {
 	name: 'SearchFilter',
 	data() {
 		return {
-			areaValue: '',
+			areaValue: '전국',
 		};
 	},
 	watch: {
@@ -71,8 +72,13 @@ export default {
 	},
 	methods: {
 		selectArea(e) {
-			// console.log(e.target.innerText);
-			this.areaValue = e.target.innerText;
+			const value = e.target.innerText;
+			if (value === '전국') {
+				this.areaValue = '';
+			} else {
+				this.areaValue = value;
+			}
+			console.log('선택한 지역 : ', this.areaValue);
 		},
 	},
 };

@@ -85,8 +85,7 @@ export default {
 			});
 			this.babsangData = this.babsangData.result;
 			this.allData = this.babsangData;
-			console.log('-------------babsang data list-------------');
-			// console.log(this.babsangData.result);
+			console.log('밥상 데이터 리스트', this.babsangData);
 		},
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {
