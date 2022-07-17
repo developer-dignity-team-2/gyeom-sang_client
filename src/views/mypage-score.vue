@@ -81,7 +81,7 @@
 					<!-- 밥장 매너 -->
 					<div v-if="!showCard">
 						<div
-							class="pt-5"
+							class="p-5"
 							style="
 								display: flex;
 								flex-flow: row wrap;
@@ -168,15 +168,15 @@ export default {
 				[
 					{ mannerTitle: '받은 금매너' },
 					[
-						{ id: 'bg1', question: '당신은 겸상 매너요정 이에요.', count: 9 },
-						{ id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', count: 10 },
+						// { id: 'bg1', question: '당신은 겸상 매너요정 이에요.', count: 9 },
+						// { id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', count: 10 },
 					],
 				],
 				[
 					{ mannerTitle: '받은 똥매너' },
 					[
-						{ id: 'bb1', question: '밥장이 사람을 차별해요.', count: 2 },
-						{ id: 'bb2', question: '밥장이 독단적으로 행동해요.', count: 1 },
+						// { id: 'bb1', question: '밥장이 사람을 차별해요.', count: 2 },
+						// { id: 'bb2', question: '밥장이 독단적으로 행동해요.', count: 1 },
 					],
 				],
 			],
@@ -185,8 +185,6 @@ export default {
 	setup() {},
 	created() {},
 	mounted() {
-		this.getCommonQuestions();
-		this.getBabjangQuestions();
 		this.countManner(this.myManners);
 		this.getMyQuestions();
 	},
@@ -206,80 +204,125 @@ export default {
 		},
 		// 받은 매너
 		async getMyQuestions() {
+			// 받은 매너 카운트
 			const loader = this.$loading.show({ canCancel: false });
 
-			const question = (
+			const myManners = (
 				await this.$get('https://nicespoons.com/api/v1/aggregation')
 			).result;
 
-			loader.hide();
+			let mannerArr = Object.entries(myManners[0]);
 
-			let mannerArr = Object.entries(question[0]);
-
-			let resultArr = [];
-
+			// let resultArr = [];
+			let temp = [];
 			for (let arr of mannerArr) {
-				if (
-					arr[0].substring(0, 6) === 'common' &&
-					arr[0].substring(7, 8) === 'g'
-				) {
+				if (arr[0].substring(0, 6) === 'common') {
 					let newKeyName = '';
-					if (
-						arr[0].substring(0, 6) === 'common' &&
-						arr[0].substring(7, 8) === 'g'
-					) {
+					if (arr[0].substring(7, 8) === 'g') {
 						newKeyName = 'sg' + arr[0].slice(-7, arr[0].length - 6);
-						console.log(newKeyName, arr[1]);
+						temp.push([newKeyName, arr[1]]);
+					} else if (arr[0].substring(7, 8) === 'b') {
+						newKeyName = 'sb' + arr[0].slice(-7, arr[0].length - 6);
+						temp.push([newKeyName, arr[1]]);
+					}
+				} else if (arr[0].substring(0, 4) === 'host') {
+					let newKeyName = '';
+					if (arr[0].substring(5, 6) === 'g') {
+						newKeyName = 'bg' + arr[0].slice(-7, arr[0].length - 6);
+						temp.push([newKeyName, arr[1]]);
+					} else if (arr[0].substring(5, 6) === 'b') {
+						newKeyName = 'bb' + arr[0].slice(-7, arr[0].length - 6);
+						temp.push([newKeyName, arr[1]]);
 					}
 				}
 			}
+			console.log(temp);
 
-			console.log('resultArr : ', resultArr);
-			console.log('spoonGood : ', mannerArr);
-		},
-		// 공통 질문
-		async getCommonQuestions() {
-			const loader = this.$loading.show({ canCancel: false });
+			// 공통 질문지
+			const commonQuestions = (
+				await this.$get('https://nicespoons.com/api/v1/question?type=common')
+			).result;
 
-			const question = await this.$get(
-				'https://nicespoons.com/api/v1/question?type=common',
+			console.log('commonQuestion : ', commonQuestions);
+
+			let tempCommonManners = [];
+
+			for (let commonQuestion of commonQuestions) {
+				tempCommonManners.push({
+					id: commonQuestion.common_questions_id,
+					question: commonQuestion.common_questions_description,
+					count: temp.filter(
+						c => c[0] === commonQuestion.common_questions_id,
+					)[0][1],
+				});
+			}
+
+			console.log('tempCommonManners', tempCommonManners);
+
+			console.log(tempCommonManners[0].id.substring(0, 2) === 'sb');
+
+			let goodCommon = tempCommonManners.filter(
+				c => c.id.substring(0, 2) === 'sb',
+			);
+			let badCommon = tempCommonManners.filter(
+				c => c.id.substring(0, 2) === 'sg',
 			);
 
-			loader.hide();
+			console.log(goodCommon);
+			console.log(badCommon);
 
-			console.log('공통 질문 가공전 : ', question);
-
-			let good = question.result.filter(q => q.common_questions_type === 'G');
-			let bad = question.result.filter(q => q.common_questions_type === 'B');
-
-			let result = [
-				[{ mannerTitle: '받은 금매너' }, [...good]],
-				[{ mannerTitle: '받은 똥매너' }, [...bad]],
+			let commonResult = [
+				[{ mannerTitle: '받은 금매너' }, [...goodCommon]],
+				[{ mannerTitle: '받은 똥매너' }, [...badCommon]],
 			];
 
-			this.commonQuestions = result;
-			console.log('공통 질문 : ', this.commonQuestions);
-		},
-		// 밥장 질문
-		async getBabjangQuestions() {
-			const loader = this.$loading.show({ canCancel: false });
+			console.log('commonResult', commonResult);
 
-			const question = await this.$get(
-				'https://nicespoons.com/api/v1/question?type=host',
+			// 밥장 질문지
+			const babjangQuestions = (
+				await this.$get('https://nicespoons.com/api/v1/question?type=host')
+			).result;
+
+			console.log('babjangQuestions : ', babjangQuestions);
+
+			let tempBabjangManners = [];
+
+			for (let babjangManner of babjangQuestions) {
+				tempBabjangManners.push({
+					id: babjangManner.host_questions_id,
+					question: babjangManner.host_questions_description,
+					count: temp.filter(
+						c => c[0] === babjangManner.host_questions_id,
+					)[0][1],
+				});
+			}
+
+			console.log('tempBabjangManners', tempBabjangManners);
+
+			console.log(tempBabjangManners[0].id.substring(0, 2) === 'bb');
+
+			let goodBabjang = tempBabjangManners.filter(
+				c => c.id.substring(0, 2) === 'bg',
+			);
+			let badBabjang = tempBabjangManners.filter(
+				c => c.id.substring(0, 2) === 'bb',
 			);
 
-			loader.hide();
+			console.log(goodBabjang);
+			console.log(badBabjang);
 
-			let good = question.result.filter(q => q.host_questions_type === 'G');
-			let bad = question.result.filter(q => q.host_questions_type === 'B');
-
-			let result = [
-				[{ mannerTitle: '받은 금매너' }, [...good]],
-				[{ mannerTitle: '받은 똥매너' }, [...bad]],
+			let totalResult = [
+				[{ mannerTitle: '받은 금매너' }, [...goodCommon]],
+				[{ mannerTitle: '받은 똥매너' }, [...badCommon]],
+				[{ mannerTitle: '받은 금매너' }, [...goodBabjang]],
+				[{ mannerTitle: '받은 똥매너' }, [...badBabjang]],
 			];
 
-			this.babjangQuestions = result;
-			console.log('밥장 질문 : ', this.babjangQuestions);
+			console.log('totalResult', totalResult);
+
+			this.myManners = totalResult;
+
+			loader.hide();
 		},
 	},
 };
