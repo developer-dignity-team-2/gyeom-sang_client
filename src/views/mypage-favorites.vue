@@ -16,11 +16,23 @@
 								<!-- 모집중, 최신순 -->
 								<ButtonModule />
 							</div>
+							<div
+								class="row p-5"
+								style="
+									display: flex;
+									flex-flow: row wrap;
+									justify-content: center;
+									align-item: center;
+								"
+								v-if="babsangData.length === 0"
+							>
+								찜한 밥상이 없습니다.
+							</div>
 							<!-- 밥상카드 -->
-							<div class="row">
+							<div class="row" v-if="babsangData.length !== 0">
 								<!-- <BabsangCardList :babsangData="babsangData.result" /> -->
 								<!-- <BabsangCardList :babsangData="babsangData"  /> -->
-								<BabsangCardList :babsangData="babsangData.result" />
+								<BabsangCardList :babsangData="babsangData" />
 							</div>
 						</div>
 					</div>
@@ -52,9 +64,11 @@ export default {
 			console.log('버튼 신호 : ', this.$store.state.button.buttonYOSign);
 		},
 		async getBabsangData() {
-			this.babsangData = await this.$get(
-				'https://nicespoons.com/api/v1/babsang/get?type=bookmarkedList',
-			);
+			this.babsangData = (
+				await this.$get(
+					'https://nicespoons.com/api/v1/babsang/get?type=bookmarkedList',
+				)
+			).result;
 			console.log('------------like-babsangData--------------');
 			console.log(this.babsangData);
 		},
