@@ -76,19 +76,43 @@
 						</div>
 					</div>
 					<!-- pagination -->
-					<div v-if="showMessage === 'R'">
+					<div v-if="showMessage === 'R' && receivedMessage.length !== 0">
 						<grid-pagination
 							:headers="headers"
 							:items="receivedMessage"
 							@click-buttons="handleClickButtons"
 						/>
 					</div>
-					<div v-if="showMessage === 'S'">
+					<div
+						class="p-5"
+						style="
+							display: flex;
+							flex-flow: row wrap;
+							justify-content: center;
+							align-item: center;
+						"
+						v-if="showMessage === 'R' && receivedMessage.length === 0"
+					>
+						받은 메시지가 없습니다.
+					</div>
+					<div v-if="showMessage === 'S' && sentMessage.length !== 0">
 						<grid-pagination
 							:headers="headers"
 							:items="sentMessage"
 							@click-buttons="handleClickButtons"
 						/>
+					</div>
+					<div
+						class="p-5"
+						style="
+							display: flex;
+							flex-flow: row wrap;
+							justify-content: center;
+							align-item: center;
+						"
+						v-if="showMessage === 'S' && sentMessage.length === 0"
+					>
+						보낸 메시지가 없습니다.
 					</div>
 				</div>
 			</div>

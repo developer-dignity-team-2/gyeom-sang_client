@@ -199,7 +199,8 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="form-label mt-4">모집 인원</label>
+							<label class="form-label mt-4">밥상 유형</label>
+							<!-- <label class="form-label mt-4">모집 인원</label> -->
 							<div class="row">
 								<div class="col-xl-4 col-md-4 col-sm-12 mb-2">
 									<input
@@ -214,7 +215,7 @@
 										class="list-group-item rounded-3 py-3"
 										style="text-align: center; cursor: pointer"
 										for="two-people"
-										>2인</label
+										>2인상</label
 									>
 								</div>
 								<div class="col-xl-4 col-md-4 col-sm-12 mb-2">
@@ -230,7 +231,7 @@
 										class="list-group-item rounded-3 py-3"
 										style="text-align: center; cursor: pointer"
 										for="three-people"
-										>3인</label
+										>3인상</label
 									>
 								</div>
 								<div class="col-xl-4 col-md-4 col-sm-12">
@@ -246,7 +247,7 @@
 										class="list-group-item rounded-3 py-3"
 										style="text-align: center; cursor: pointer"
 										for="four-people"
-										>4인</label
+										>4인상</label
 									>
 								</div>
 							</div>
