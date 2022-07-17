@@ -204,7 +204,6 @@ export default {
 		},
 		// 받은 매너
 		async getMyQuestions() {
-			// 받은 매너 카운트
 			const loader = this.$loading.show({ canCancel: false });
 
 			const myManners = (
@@ -213,7 +212,7 @@ export default {
 
 			let mannerArr = Object.entries(myManners[0]);
 
-			// let resultArr = [];
+			// 받은 매너 카운트
 			let temp = [];
 			for (let arr of mannerArr) {
 				if (arr[0].substring(0, 6) === 'common') {
@@ -238,7 +237,7 @@ export default {
 			}
 			console.log(temp);
 
-			// 공통 질문지
+			// 공통 질문지-카운트 병합
 			const commonQuestions = (
 				await this.$get('https://nicespoons.com/api/v1/question?type=common')
 			).result;
@@ -278,7 +277,7 @@ export default {
 
 			console.log('commonResult', commonResult);
 
-			// 밥장 질문지
+			// 밥장 질문지-카운트 병합
 			const babjangQuestions = (
 				await this.$get('https://nicespoons.com/api/v1/question?type=host')
 			).result;
