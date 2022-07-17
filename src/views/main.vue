@@ -108,12 +108,14 @@ export default {
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
 			});
-			console.log('-------------basang data list-------------');
+			console.log('-------------babsang data list-------------');
 			console.log(this.babsangData.result);
 		},
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {
 				this.getBabsang();
+			} else {
+				this.getBabsang(`?nameSearch=${this.babsangSearchValue}`);
 			}
 		},
 		onKeyupBabsangSearch() {
