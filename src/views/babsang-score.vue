@@ -618,6 +618,16 @@ export default {
 
 			return sum;
 		},
+		// 점수 POST
+		async postScore() {
+			const myManners = (
+				await this.$get('https://nicespoons.com/api/v1/aggregation')
+			).result;
+
+			let mannerArr = Object.entries(myManners[0]);
+
+			console.log('myManners : ', mannerArr);
+		},
 	},
 };
 </script>
