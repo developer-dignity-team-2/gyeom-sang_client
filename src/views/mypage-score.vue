@@ -49,7 +49,7 @@
 								justify-content: center;
 								align-item: center;
 							"
-							v-if="countMannerArr[0] === 0 && countMannerArr[1] === 0"
+							v-if="goodCommonLength + badCommonLength === 0"
 						>
 							받은 식사 매너 평가가 없습니다.
 						</div>
@@ -57,7 +57,7 @@
 							<!-- 식사매너: 금매너 -->
 							<div
 								class="col-xl col-md-12 col-sm-12 mb-4"
-								v-if="countMannerArr[0] > 0"
+								v-if="goodCommonLength > 0"
 							>
 								<MannerCard
 									:mannerTitle="myManners[0][0].mannerTitle"
@@ -68,7 +68,7 @@
 							<!-- 식사매너: 똥매너 -->
 							<div
 								class="col-xl col-md-12 col-sm-12"
-								v-if="countMannerArr[1] > 0"
+								v-if="badCommonLength > 0"
 							>
 								<MannerCard
 									:mannerTitle="myManners[1][0].mannerTitle"
@@ -81,14 +81,14 @@
 					<!-- 밥장 매너 -->
 					<div v-if="!showCard">
 						<div
-							class="pt-5"
+							class="p-5"
 							style="
 								display: flex;
 								flex-flow: row wrap;
 								justify-content: center;
 								align-item: center;
 							"
-							v-if="countMannerArr[2] === 0 && countMannerArr[3] === 0"
+							v-if="goodBabjangLength + badBabjangLength === 0"
 						>
 							받은 밥장 매너 평가가 없습니다.
 						</div>
@@ -96,7 +96,7 @@
 							<!-- 밥장 매너: 금매너 -->
 							<div
 								class="col-xl col-md-12 col-sm-12 mb-4"
-								v-if="countMannerArr[2] > 0"
+								v-if="goodBabjangLength > 0"
 							>
 								<MannerCard
 									:mannerTitle="myManners[2][0].mannerTitle"
@@ -107,7 +107,7 @@
 							<!-- 밥장 매너: 똥매너 -->
 							<div
 								class="col-xl col-md-12 col-sm-12"
-								v-if="countMannerArr[3] > 0"
+								v-if="badBabjangLength > 0"
 							>
 								<MannerCard
 									:mannerTitle="myManners[3][0].mannerTitle"
@@ -136,7 +136,12 @@ export default {
 	data() {
 		return {
 			showCard: true,
-			countMannerArr: [],
+			// 받은 매너가 있을 경우에만 화면 렌더링
+			goodCommonLength: 0,
+			badCommonLength: 0,
+			goodBabjangLength: 0,
+			badBabjangLength: 0,
+			// ----------------------------------
 			commonQuestions: [],
 			babjangQuestions: [],
 			// 서버에서 값을 받을 때 받은 평가가 없다면 mannerTitle 객체와 , 빈 배열[]로 받을 것
@@ -168,15 +173,15 @@ export default {
 				[
 					{ mannerTitle: '받은 금매너' },
 					[
-						{ id: 'bg1', question: '당신은 겸상 매너요정 이에요.', count: 9 },
-						{ id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', count: 10 },
+						// { id: 'bg1', question: '당신은 겸상 매너요정 이에요.', count: 9 },
+						// { id: 'bg2', question: '밥장이 밥상을 잘 주도해요.', count: 10 },
 					],
 				],
 				[
 					{ mannerTitle: '받은 똥매너' },
 					[
-						{ id: 'bb1', question: '밥장이 사람을 차별해요.', count: 2 },
-						{ id: 'bb2', question: '밥장이 독단적으로 행동해요.', count: 1 },
+						// { id: 'bb1', question: '밥장이 사람을 차별해요.', count: 2 },
+						// { id: 'bb2', question: '밥장이 독단적으로 행동해요.', count: 1 },
 					],
 				],
 			],
@@ -185,9 +190,6 @@ export default {
 	setup() {},
 	created() {},
 	mounted() {
-		this.getCommonQuestions();
-		this.getBabjangQuestions();
-		this.countManner(this.myManners);
 		this.getMyQuestions();
 	},
 	unmounted() {},
@@ -198,88 +200,145 @@ export default {
 		selectBabjangMannerCard() {
 			this.showCard = false;
 		},
-		countManner(manners) {
-			for (const i of manners) {
-				this.countMannerArr.push(i[1].length);
-			}
-			console.log(this.countMannerArr);
-		},
-		// 받은 매너
+		// 받은 매너 GET
 		async getMyQuestions() {
-			const loader = this.$loading.show({ canCancel: false });
+			let loader = this.$loading.show({ canCancel: false });
 
-			const question = (
+			const myManners = (
 				await this.$get('https://nicespoons.com/api/v1/aggregation')
 			).result;
 
 			loader.hide();
 
-			let mannerArr = Object.entries(question[0]);
+			let mannerArr = Object.entries(myManners[0]);
 
-			let resultArr = [];
+			console.log('myManners : ', myManners);
 
+			// 받은 매너 카운트
+			let temp = [];
 			for (let arr of mannerArr) {
-				if (
-					arr[0].substring(0, 6) === 'common' &&
-					arr[0].substring(7, 8) === 'g'
-				) {
+				if (arr[0].substring(0, 6) === 'common' && arr[1] !== 0) {
 					let newKeyName = '';
-					if (
-						arr[0].substring(0, 6) === 'common' &&
-						arr[0].substring(7, 8) === 'g'
-					) {
+					if (arr[0].substring(7, 8) === 'g') {
 						newKeyName = 'sg' + arr[0].slice(-7, arr[0].length - 6);
-						console.log(newKeyName, arr[1]);
+						temp.push([newKeyName, arr[1]]);
+					} else if (arr[0].substring(7, 8) === 'b') {
+						newKeyName = 'sb' + arr[0].slice(-7, arr[0].length - 6);
+						temp.push([newKeyName, arr[1]]);
+					}
+				} else if (arr[0].substring(0, 4) === 'host' && arr[1] !== 0) {
+					let newKeyName = '';
+					if (arr[0].substring(5, 6) === 'g') {
+						newKeyName = 'bg' + arr[0].slice(-7, arr[0].length - 6);
+						temp.push([newKeyName, arr[1]]);
+					} else if (arr[0].substring(5, 6) === 'b') {
+						newKeyName = 'bb' + arr[0].slice(-7, arr[0].length - 6);
+						temp.push([newKeyName, arr[1]]);
+					}
+				}
+			}
+			console.log('받은 매너가 있는 경우 : ', temp);
+
+			// 공통 질문지-카운트 병합
+			loader = this.$loading.show({ canCancel: false });
+
+			const commonQuestions = (
+				await this.$get('https://nicespoons.com/api/v1/question?type=common')
+			).result;
+
+			loader.hide();
+
+			console.log('commonQuestion : ', commonQuestions);
+
+			let tempCommonManners = [];
+
+			for (let commonQuestion of commonQuestions) {
+				for (let t of temp) {
+					if (commonQuestion.common_questions_id === t[0]) {
+						tempCommonManners.push({
+							id: commonQuestion.common_questions_id,
+							question: commonQuestion.common_questions_description,
+							count: t[1],
+						});
 					}
 				}
 			}
 
-			console.log('resultArr : ', resultArr);
-			console.log('spoonGood : ', mannerArr);
-		},
-		// 공통 질문
-		async getCommonQuestions() {
-			const loader = this.$loading.show({ canCancel: false });
+			console.log('tempCommonManners', tempCommonManners);
 
-			const question = await this.$get(
-				'https://nicespoons.com/api/v1/question?type=common',
+			console.log(tempCommonManners[0].id.substring(0, 2) === 'sb');
+
+			let goodCommon = tempCommonManners.filter(
+				c => c.id.substring(0, 2) === 'sg',
 			);
+			let badCommon = tempCommonManners.filter(
+				c => c.id.substring(0, 2) === 'sb',
+			);
+
+			console.log(goodCommon);
+			console.log(badCommon);
+
+			// 밥장 질문지-카운트 병합
+			loader = this.$loading.show({ canCancel: false });
+
+			const babjangQuestions = (
+				await this.$get('https://nicespoons.com/api/v1/question?type=host')
+			).result;
 
 			loader.hide();
 
-			console.log('공통 질문 가공전 : ', question);
+			console.log('babjangQuestions : ', babjangQuestions);
 
-			let good = question.result.filter(q => q.common_questions_type === 'G');
-			let bad = question.result.filter(q => q.common_questions_type === 'B');
+			let tempBabjangManners = [];
 
-			let result = [
-				[{ mannerTitle: '받은 금매너' }, [...good]],
-				[{ mannerTitle: '받은 똥매너' }, [...bad]],
-			];
+			for (let babjangQuestion of babjangQuestions) {
+				for (let t of temp) {
+					if (babjangQuestion.host_questions_id === t[0]) {
+						tempBabjangManners.push({
+							id: babjangQuestion.host_questions_id,
+							question: babjangQuestion.host_questions_description,
+							count: t[1],
+						});
+					}
+				}
+			}
 
-			this.commonQuestions = result;
-			console.log('공통 질문 : ', this.commonQuestions);
-		},
-		// 밥장 질문
-		async getBabjangQuestions() {
-			const loader = this.$loading.show({ canCancel: false });
+			console.log('tempBabjangManners', tempBabjangManners);
 
-			const question = await this.$get(
-				'https://nicespoons.com/api/v1/question?type=host',
+			// console.log(tempBabjangManners[0].id.substring(0, 2) === 'bb');
+
+			let goodBabjang = tempBabjangManners.filter(
+				c => c.id.substring(0, 2) === 'bg',
+			);
+			let badBabjang = tempBabjangManners.filter(
+				c => c.id.substring(0, 2) === 'bb',
 			);
 
-			loader.hide();
+			console.log(goodBabjang);
+			console.log(badBabjang);
 
-			let good = question.result.filter(q => q.host_questions_type === 'G');
-			let bad = question.result.filter(q => q.host_questions_type === 'B');
-
-			let result = [
-				[{ mannerTitle: '받은 금매너' }, [...good]],
-				[{ mannerTitle: '받은 똥매너' }, [...bad]],
+			let totalResult = [
+				[{ mannerTitle: '받은 금매너' }, [...goodCommon]],
+				[{ mannerTitle: '받은 똥매너' }, [...badCommon]],
+				[{ mannerTitle: '받은 금매너' }, [...goodBabjang]],
+				[{ mannerTitle: '받은 똥매너' }, [...badBabjang]],
 			];
 
-			this.babjangQuestions = result;
-			console.log('밥장 질문 : ', this.babjangQuestions);
+			this.goodCommonLength = goodCommon.length;
+			this.badCommonLength = badCommon.length;
+			this.goodBabjangLength = goodBabjang.length;
+			this.badBabjangLength = badBabjang.length;
+
+			console.log(this.goodCommonLength);
+			console.log(this.badCommonLength);
+			console.log(this.goodBabjangLength);
+			console.log(this.badBabjangLength);
+
+			console.log('totalResult', totalResult);
+
+			this.myManners = totalResult;
+
+			console.log('myManners : ', myManners);
 		},
 	},
 };

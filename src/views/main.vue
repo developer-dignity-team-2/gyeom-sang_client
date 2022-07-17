@@ -32,84 +32,140 @@
 				</div>
 			</div>
 		</div>
+		<!-- 검색 필터 -->
 		<div class="row">
-			<div class="my-3">
-				<ul class="nav nav-pills">
-					<li class="nav-item dropdown">
-						<a
-							class="nav-link dropdown-toggle"
-							data-bs-toggle="dropdown"
-							href="#"
-							role="button"
-							aria-haspopup="true"
-							aria-expanded="false"
-							>지역</a
-						>
-						<div class="dropdown-menu" style="">
-							<a class="dropdown-item" href="#">서울</a>
-							<a class="dropdown-item" href="#">대전</a>
-							<a class="dropdown-item" href="#">대구</a>
-							<!-- <div class="dropdown-divider"></div> -->
-							<a class="dropdown-item" href="#">부산</a>
-						</div>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">기간</a>
-					</li>
-
-					<li class="nav-item dropdown">
-						<a
-							class="nav-link dropdown-toggle"
-							data-bs-toggle="dropdown"
-							href="#"
-							role="button"
-							aria-haspopup="true"
-							aria-expanded="false"
-							>성별</a
-						>
-						<div class="dropdown-menu" style="">
-							<a class="dropdown-item" href="#">혼성</a>
-							<a class="dropdown-item" href="#">남성</a>
-							<a class="dropdown-item" href="#">여성</a>
-						</div>
-					</li>
-				</ul>
-			</div>
+			<SearchFilter
+				@area="getAreaValue"
+				@date="getDateValue"
+				@gender="getGenderValue"
+			></SearchFilter>
 		</div>
 		<!-- 밥상카드 -->
 		<div class="row">
-			<MainCardList :babsangData="babsangData.result" />
+			<MainCardList :babsangData="babsangData" />
+			<div
+				v-if="babsangData.length === 0"
+				class="d-flex justify-content-center align-items-center"
+			>
+				일치하는 조건의 밥상이 없습니다😭
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 import MainCardList from '@/components/main/MainCardList';
-
+import SearchFilter from '@/components/main/SearchFilter';
 export default {
 	name: 'Main',
 	components: {
 		MainCardList,
+		SearchFilter,
 	},
 	data() {
 		return {
 			babsangData: [],
+			allData: [],
+			areaArr: '',
+			dateArr: '',
+			genderArr: '',
+			filterArr: '',
 			babsangSearchValue: '',
+			areaVal: '',
+			genderVal: '',
+			date: {
+				start: '',
+				end: '',
+			},
 		};
 	},
-	computed: {},
-	created() {
+	watch: {
+		babsangData(newVal) {
+			this.babsangData = newVal;
+		},
+	},
+	mounted() {
 		this.getBabsang();
 	},
-	mounted() {},
 	methods: {
+		// 기간 필터
+		getDateValue(start, end) {
+			const s_year = start.getFullYear();
+			let s_month = start.getMonth() + 1;
+			s_month = s_month >= 10 ? s_month : '0' + s_month;
+			const s_day = start.getDate();
+			this.date.start = `${s_year}-${s_month}-${s_day}`;
+
+			const e_year = end.getFullYear();
+			let e_month = end.getMonth() + 1;
+			e_month = e_month >= 10 ? e_month : '0' + e_month;
+			const e_day = end.getDate();
+			this.date.end = `${e_year}-${e_month}-${e_day}`;
+
+			this.searchFilter(this.date.start, this.date.end);
+			this.dateFilter(this.date.start, this.date.end);
+		},
+		dateFilter(start, end) {
+			this.babsangData = this.allData;
+
+			const startDate = new Date(start);
+			const endDate = new Date(end);
+			this.dateArr = this.babsangData.filter(item => {
+				let date = new Date(item.dining_datetime.slice(0, 10));
+				return date >= startDate && date <= endDate;
+			});
+			console.log('선택된 기간 array : ', this.dateArr);
+		},
+		// 성별 필터
+		getGenderValue(gender) {
+			this.babsangData = this.allData;
+			this.genderVal = gender;
+			console.log('선택한 성별 :', this.genderVal);
+			this.genderArr = this.babsangData.filter(item =>
+				item.gender_check.includes(this.genderVal),
+			);
+			console.log('선택된 성별 Array :', this.genderArr);
+			this.searchFilter();
+		},
+		//지역 필터
+		getAreaValue(area) {
+			this.babsangData = this.allData;
+			if (area === '전국') {
+				area = '';
+			}
+			this.areaVal = area;
+			console.log('선택한 지역 :', this.areaVal);
+			this.areaArr = this.babsangData.filter(item =>
+				item.restaurant_location.includes(this.areaVal),
+			);
+			console.log('선택된 지역 Array : ', this.areaArr);
+			this.searchFilter();
+		},
+		//필터 체이닝
+		searchFilter(start, end) {
+			this.filterData = this.babsangData
+				.filter(item => item.restaurant_location.includes(this.areaVal))
+				.filter(item => item.gender_check.includes(this.genderVal))
+				.filter(item => {
+					const startDate = new Date(start);
+					console.log(startDate);
+					const endDate = new Date(end);
+					console.log(endDate);
+					let date = new Date(item.dining_datetime.slice(0, 10));
+					console.log(date);
+					return date >= startDate && date <= endDate;
+				});
+			console.log('filter Array :', this.filterData);
+		},
+
 		async getBabsang(type = '') {
 			this.babsangData = await this.$get(`/babsang${type}`);
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
 			});
-			console.log('-------------basang data list-------------');
-			console.log(this.babsangData.result);
+			this.babsangData = this.babsangData.result;
+			this.allData = this.babsangData;
+			console.log('밥상 데이터 리스트', this.babsangData);
 		},
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {
