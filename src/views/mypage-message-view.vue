@@ -93,7 +93,7 @@
 								type="button"
 								class="btn btn-primary me-3"
 								style="width: 80px"
-								@click="message()"
+								@click="goMessageList()"
 							>
 								목록
 							</button>
@@ -149,7 +149,7 @@ export default {
 	},
 	mounted() {},
 	methods: {
-		message() {
+		goMessageList() {
 			this.$router.push('/mypage/message');
 		},
 		// 메시지 상세 정보 가져오기
@@ -237,7 +237,6 @@ export default {
 	color: #575757;
 	background-color: #ffcb00;
 	border-color: #ffcb00;
-	pointer-events: none;
 }
 .btn-outline-primary {
 	color: #575757;
