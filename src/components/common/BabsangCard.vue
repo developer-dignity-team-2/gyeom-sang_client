@@ -66,7 +66,7 @@
 				</div>
 
 				<!-- 식당 이름/식사 일시 -->
-				<div class="my-4">
+				<div class="my-3">
 					<div class="card-text mb-1">
 						<i class="bi bi-geo-alt bi-w"></i>
 						<span> {{ itemData.restaurant_name }}</span>
