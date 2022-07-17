@@ -157,15 +157,18 @@ export default {
 		async getSelectedList() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const Babsang = await this.$get(
-				'https://nicespoons.com/api/v1/babsang/get?type=selectedList',
-			);
+			const babsang = (
+				await this.$get(
+					'https://nicespoons.com/api/v1/babsang/get?type=selectedList',
+				)
+			).result;
 
 			loader.hide();
 
-			this.doDescOrder(Babsang.result, 'id');
-			// console.log(babsangData.result);
-			this.babsangData = Babsang.result;
+			console.log('선정된 밥상 숟갈 빼기전 : ', babsang);
+
+			this.doDescOrder(babsang, 'id');
+			this.babsangData = babsang;
 		},
 		// 밥상 정렬(모집중/마감, 최신순/오래된순)
 		doAscOrder(data) {
