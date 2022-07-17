@@ -39,6 +39,12 @@
 		<!-- 밥상카드 -->
 		<div class="row">
 			<MainCardList :babsangData="babsangData" />
+			<div
+				v-show="babsangData.length === 0"
+				class="d-flex justify-content-center align-items-center"
+			>
+				일치하는 조건의 밥상이 없습니다😭
+			</div>
 		</div>
 	</div>
 </template>
@@ -72,6 +78,9 @@ export default {
 	},
 	methods: {
 		getAreaValue(area) {
+			if (area === '전국') {
+				area = '';
+			}
 			this.babsangData = this.allData;
 			this.filterData = this.babsangData.filter(item =>
 				item.restaurant_location.includes(area),

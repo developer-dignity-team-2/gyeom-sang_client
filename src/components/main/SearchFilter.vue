@@ -72,12 +72,7 @@ export default {
 	},
 	methods: {
 		selectArea(e) {
-			const value = e.target.innerText;
-			if (value === '전국') {
-				this.areaValue = '';
-			} else {
-				this.areaValue = value;
-			}
+			this.areaValue = e.target.innerText;
 			console.log('선택한 지역 : ', this.areaValue);
 		},
 	},
