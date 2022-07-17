@@ -148,17 +148,23 @@
 
 						<!-- 숟갈 선택하기 -->
 						<div class="col border rounded mt-3 p-3">
-							<p>지금까지 신청한 숟갈들</p>
-							<p style="font-size: 1.5rem">
-								<font-awesome-icon icon="fa-solid fa-spoon" />
-								<span class="ps-3">{{ countAppliedSpoons }}명 !</span>
-							</p>
-							<div v-if="selectedUsers.length !== 0">
-								<p>함께할 숟갈들</p>
+							<div class="mb-2">
+								<p class="mb-1">지금까지 신청한 숟갈들</p>
+								<p style="font-size: 1.5rem">
+									<font-awesome-icon icon="fa-solid fa-spoon" />
+									<span class="ps-3">{{ countAppliedSpoons }}명 !</span>
+								</p>
+							</div>
+							<div v-if="selectedUsers.length !== 0 && isLeader" class="mb-3">
+								<p class="mb-1">선택된 숟갈들</p>
 								<div class="selected-user">
 									<ul class="d-flex me-1 mb-1">
-										<li v-for="(user, index) in selectedUsers" :key="index">
-											<div>
+										<li
+											v-for="(user, index) in selectedUsers"
+											:key="index"
+											class="me-1"
+										>
+											<div class="d-flex flex-column align-item-center">
 												<div class="thumb-wrap">
 													<img
 														:src="user.spoon_profile_image"
@@ -190,7 +196,7 @@
 									숟갈 얹기
 								</button> -->
 								<button
-									class="btn btn-primary"
+									class="btn btn-primary me-2 mb-2"
 									data-bs-toggle="modal"
 									data-bs-target="#toggleSpoonModal"
 									v-if="!spoonStatus"
@@ -198,14 +204,24 @@
 									숟갈 얹기
 								</button>
 								<button
-									class="btn btn-primary"
+									class="btn btn-primary me-2 mb-2"
 									@click="cancelSpoon"
 									v-if="spoonStatus"
 								>
 									숟갈 빼기
 								</button>
+								<button
+									class="btn btn-secondary me-2 mb-2"
+									@click="goScorePage"
+								>
+									매너 평가(임시)
+								</button>
 							</div>
-							<button class="btn btn-secondary me-2 mb-2" @click="goScorePage">
+							<button
+								v-if="isLeader"
+								class="btn btn-secondary me-2 mb-2"
+								@click="goScorePage"
+							>
 								매너 평가(임시)
 							</button>
 						</div>
@@ -360,9 +376,8 @@ export default {
 				user => user.apply_yn === 'Y',
 			).length;
 			this.selectedUsers = confirmUsers.filter(
-				user => user.selected_yn === 'Y',
+				user => user.selected_yn === 'Y' && user.apply_yn !== 'N',
 			);
-			// this.countAppliedSpoons = this.selectedUsers.length;
 			console.log('전체 유저', confirmUsers);
 			console.log('선택된 숟갈', this.selectedUsers);
 		},
