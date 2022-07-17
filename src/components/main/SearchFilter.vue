@@ -11,12 +11,25 @@
 					aria-expanded="false"
 					>지역</a
 				>
-				<div class="dropdown-menu" style="">
+				<div class="dropdown-menu" style="" @click="selectArea($event)">
 					<a class="dropdown-item" href="#">서울</a>
-					<a class="dropdown-item" href="#">대전</a>
-					<a class="dropdown-item" href="#">대구</a>
-					<!-- <div class="dropdown-divider"></div> -->
 					<a class="dropdown-item" href="#">부산</a>
+					<a class="dropdown-item" href="#">대구</a>
+					<a class="dropdown-item" href="#">인천</a>
+					<a class="dropdown-item" href="#">광주</a>
+					<a class="dropdown-item" href="#">대전</a>
+					<a class="dropdown-item" href="#">울산</a>
+					<a class="dropdown-item" href="#">세종</a>
+					<a class="dropdown-item" href="#">경기</a>
+					<a class="dropdown-item" href="#">강원</a>
+					<a class="dropdown-item" href="#">충북</a>
+					<a class="dropdown-item" href="#">충남</a>
+					<a class="dropdown-item" href="#">전북</a>
+					<a class="dropdown-item" href="#">전남</a>
+					<a class="dropdown-item" href="#">경북</a>
+					<a class="dropdown-item" href="#">경남</a>
+					<a class="dropdown-item" href="#">제주</a>
+					<!-- <div class="dropdown-divider"></div> -->
 				</div>
 			</li>
 			<li class="nav-item">
@@ -44,5 +57,23 @@
 </template>
 
 <script>
-export default {};
+export default {
+	name: 'SearchFilter',
+	data() {
+		return {
+			areaValue: '',
+		};
+	},
+	watch: {
+		areaValue(newVal) {
+			this.$emit('change', newVal);
+		},
+	},
+	methods: {
+		selectArea(e) {
+			// console.log(e.target.innerText);
+			this.areaValue = e.target.innerText;
+		},
+	},
+};
 </script>

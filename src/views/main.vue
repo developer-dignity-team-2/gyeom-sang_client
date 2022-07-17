@@ -34,11 +34,11 @@
 		</div>
 		<!-- 검색 필터 -->
 		<div class="row">
-			<SearchFilter></SearchFilter>
+			<SearchFilter @change="getAreaValue"></SearchFilter>
 		</div>
 		<!-- 밥상카드 -->
 		<div class="row">
-			<MainCardList :babsangData="babsangData.result" />
+			<MainCardList :babsangData="babsangData" />
 		</div>
 	</div>
 </template>
@@ -55,22 +55,38 @@ export default {
 	data() {
 		return {
 			babsangData: [],
+			allData: [],
+			filterData: [],
 			babsangSearchValue: '',
 		};
 	},
 	computed: {},
-	created() {
+	created() {},
+	watch: {
+		babsangData(newVal) {
+			this.babsangData = newVal;
+		},
+	},
+	mounted() {
 		this.getBabsang();
 	},
-	mounted() {},
 	methods: {
+		getAreaValue(area) {
+			this.babsangData = this.allData;
+			this.filterData = this.babsangData.filter(item =>
+				item.restaurant_location.includes(area),
+			);
+			this.babsangData = this.filterData;
+		},
 		async getBabsang(type = '') {
 			this.babsangData = await this.$get(`/babsang${type}`);
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
 			});
+			this.babsangData = this.babsangData.result;
+			this.allData = this.babsangData;
 			console.log('-------------babsang data list-------------');
-			console.log(this.babsangData.result);
+			// console.log(this.babsangData.result);
 		},
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {
