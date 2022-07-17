@@ -95,7 +95,7 @@
 						{{ itemData.dining_count }}인상
 					</button>
 				</div>
-				<!-- <div>
+				<div>
 					<div class="mt-3" style="font-size: 0.8rem">3명이 신청했어요</div>
 					<div class="author-image">
 						<img
@@ -114,7 +114,7 @@
 							style="width: 1.5rem; height: 1.5rem; border-radius: 50%"
 						/>
 					</div>
-				</div> -->
+				</div>
 			</div>
 		</div>
 	</div>
