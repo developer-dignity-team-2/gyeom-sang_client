@@ -202,7 +202,7 @@ export default {
 		},
 		// 받은 매너 GET
 		async getMyQuestions() {
-			const loader = this.$loading.show({ canCancel: false });
+			let loader = this.$loading.show({ canCancel: false });
 
 			const myManners = (
 				await this.$get('https://nicespoons.com/api/v1/aggregation')
@@ -240,7 +240,7 @@ export default {
 			console.log('받은 매너가 있는 경우 : ', temp);
 
 			// 공통 질문지-카운트 병합
-			loader.show();
+			loader = this.$loading.show({ canCancel: false });
 
 			const commonQuestions = (
 				await this.$get('https://nicespoons.com/api/v1/question?type=common')
@@ -279,7 +279,7 @@ export default {
 			console.log(badCommon);
 
 			// 밥장 질문지-카운트 병합
-			loader.show();
+			loader = this.$loading.show({ canCancel: false });
 
 			const babjangQuestions = (
 				await this.$get('https://nicespoons.com/api/v1/question?type=host')
