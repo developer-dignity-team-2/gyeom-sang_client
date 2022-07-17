@@ -32,10 +32,7 @@
 				<!--					</button>-->
 				<!--				</div>-->
 			</div>
-			<div
-				class="card-body"
-				style="cursor: pointer; padding: 2.3rem 2rem 1.5rem"
-			>
+			<div class="card-body" style="cursor: pointer; padding: 2rem 2rem 2rem">
 				<div class="d-flex justify-content-between aling-item-center">
 					<h5
 						class="card-title m-0"
@@ -343,7 +340,7 @@ i.bi-w {
 
 .card-img-center {
 	width: 100%;
-	height: 16rem;
+	height: 14rem;
 	object-fit: cover;
 }
 
