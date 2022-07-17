@@ -214,17 +214,28 @@ export default {
 
 			loader.hide();
 
-			let spoonGood = question.filter(sg => sg)[0];
+			let mannerArr = Object.entries(question[0]);
 
-			// let result = [
-			// 	[{ mannerTitle: '받은 금매너' }, [...good]],
-			// 	[{ mannerTitle: '받은 똥매너' }, [...bad]],
-			// ];
+			let resultArr = [];
 
-			// this.commonQuestions = result;
-			// console.log(this.commonQuestions);
+			for (let arr of mannerArr) {
+				if (
+					arr[0].substring(0, 6) === 'common' &&
+					arr[0].substring(7, 8) === 'g'
+				) {
+					let newKeyName = '';
+					if (
+						arr[0].substring(0, 6) === 'common' &&
+						arr[0].substring(7, 8) === 'g'
+					) {
+						newKeyName = 'sg' + arr[0].slice(-7, arr[0].length - 6);
+						console.log(newKeyName, arr[1]);
+					}
+				}
+			}
 
-			console.log('spoonGood : ', spoonGood);
+			console.log('resultArr : ', resultArr);
+			console.log('spoonGood : ', mannerArr);
 		},
 		// 공통 질문
 		async getCommonQuestions() {
