@@ -4,8 +4,9 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showOperationBabsang === 'open',
-					'btn btn-outline-primary': showOperationBabsang !== 'open',
+					'btn btn-primary': this.$store.state.button.buttonOCSign === 'open',
+					'btn btn-outline-primary':
+						this.$store.state.button.buttonOCSign !== 'open',
 				}"
 				style="width: 50%"
 				@click="changeOperationBabsang"
@@ -15,8 +16,9 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showOperationBabsang === 'close',
-					'btn btn-outline-primary': showOperationBabsang !== 'close',
+					'btn btn-primary': this.$store.state.button.buttonOCSign === 'close',
+					'btn btn-outline-primary':
+						this.$store.state.button.buttonOCSign !== 'close',
 				}"
 				style="width: 50%"
 				@click="changeOperationBabsang"
@@ -38,8 +40,9 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showPeriodBabsang === 'young',
-					'btn btn-outline-primary': showPeriodBabsang !== 'young',
+					'btn btn-primary': this.$store.state.button.buttonYOSign === 'young',
+					'btn btn-outline-primary':
+						this.$store.state.button.buttonYOSign !== 'young',
 				}"
 				style="width: 100%"
 				@click="changePeriodBabsang"
@@ -49,8 +52,9 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showPeriodBabsang === 'old',
-					'btn btn-outline-primary': showPeriodBabsang !== 'old',
+					'btn btn-primary': this.$store.state.button.buttonYOSign === 'old',
+					'btn btn-outline-primary':
+						this.$store.state.button.buttonYOSign !== 'old',
 				}"
 				style="width: 100%"
 				@click="changePeriodBabsang"
@@ -77,19 +81,23 @@ export default {
 		changeOperationBabsang() {
 			if (this.showOperationBabsang === 'open') {
 				this.showOperationBabsang = 'close';
-				this.$emit('button-signal', this.showOperationBabsang);
+				this.$store.commit('button/getButtonOCSign', this.showOperationBabsang);
+				console.log('자식이 만든 신호 close : ', this.showOperationBabsang);
 			} else {
 				this.showOperationBabsang = 'open';
-				this.$emit('button-signal', this.showOperationBabsang);
+				this.$store.commit('button/getButtonOCSign', this.showOperationBabsang);
+				console.log('자식이 만든 신호 open : ', this.showOperationBabsang);
 			}
 		},
 		changePeriodBabsang() {
 			if (this.showPeriodBabsang === 'young') {
 				this.showPeriodBabsang = 'old';
-				this.$emit('button-signal', this.showPeriodBabsang);
+				this.$store.commit('button/getButtonYOSign', this.showPeriodBabsang);
+				console.log('자식이 만든 신호 old : ', this.showPeriodBabsang);
 			} else {
 				this.showPeriodBabsang = 'young';
-				this.$emit('button-signal', this.showPeriodBabsang);
+				this.$store.commit('button/getButtonYOSign', this.showPeriodBabsang);
+				console.log('자식이 만든 신호 young : ', this.showPeriodBabsang);
 			}
 		},
 	},

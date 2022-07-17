@@ -3,6 +3,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 import { user } from './user';
 import { message } from './message';
+import { button } from './button';
 
 export default createStore({
 	state() {
@@ -28,6 +29,7 @@ export default createStore({
 	modules: {
 		user,
 		message,
+		button,
 	},
 	plugins: [
 		createPersistedState({
