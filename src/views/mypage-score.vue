@@ -142,7 +142,6 @@ export default {
 			goodBabjangLength: 0,
 			badBabjangLength: 0,
 			// ----------------------------------
-			countMannerArr: [],
 			commonQuestions: [],
 			babjangQuestions: [],
 			// 서버에서 값을 받을 때 받은 평가가 없다면 mannerTitle 객체와 , 빈 배열[]로 받을 것
@@ -191,7 +190,6 @@ export default {
 	setup() {},
 	created() {},
 	mounted() {
-		this.countManner(this.myManners);
 		this.getMyQuestions();
 	},
 	unmounted() {},
@@ -201,12 +199,6 @@ export default {
 		},
 		selectBabjangMannerCard() {
 			this.showCard = false;
-		},
-		countManner(manners) {
-			for (const i of manners) {
-				this.countMannerArr.push(i.length);
-			}
-			console.log(this.countMannerArr);
 		},
 		// 받은 매너
 		async getMyQuestions() {
