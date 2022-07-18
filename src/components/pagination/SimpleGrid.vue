@@ -128,11 +128,22 @@ export default {
         this.$store.state.message.checkedMessage
       );
     },
-    async getMessageDetail() {
-      const userMessages = await this.$get(
-        'https://nicespoons.com/api/v1/message/13'
+    // 메시지 읽음 처리
+    async putReadMessage(id) {
+      const loader = this.$loading.show({ canCancel: false });
+
+      const readMessage = await this.$put(
+        `https://nicespoons.com/api/v1/message/${id}`,
+        {
+          param: {
+            // "message_description": "읽음 처리했습니다.",
+            "read_check": "Y"
+          },
+        },
       );
-      console.log(userMessages);
+
+			loader.hide();
+      console.log(readMessage);
     },
     // 메시지 상세보기 라우터
     messageView(id) {
@@ -141,6 +152,7 @@ export default {
         name: 'MypageMessageView',
         query: { messageId: id },
       });
+      this.putReadMessage(id); // 메시지 읽음 처리
     },
   },
 };
@@ -162,5 +174,10 @@ td {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+// 메시지 읽음 처리
+.readMessage {
+  color: #f4f4f4
 }
 </style>
