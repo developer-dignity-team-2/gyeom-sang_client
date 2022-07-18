@@ -121,6 +121,7 @@ export default {
 	unmounted() {
 		// 필터, 정렬 설정 초기화
 		this.$store.commit('button/checkedSign', false);
+		console.log('unmounted : ', this.$store.state.button.checkedSign);
 		this.$store.commit('button/buttonSign', 'open');
 	},
 	methods: {
@@ -247,7 +248,7 @@ export default {
 		},
 		// 밥상 정렬
 		doOrder(babsangs, sign) {
-			if (sign === false) {
+			if (sign === true) {
 				let asc = babsangs.sort(
 					(a, b) => new Date(a.dining_datetime) - new Date(b.dining_datetime),
 				);
