@@ -118,6 +118,11 @@ export default {
 	mounted() {
 		this.showAppliedBabsang();
 	},
+	unmounted() {
+		// 필터, 정렬 설정 초기화
+		this.$store.commit('button/checkedSign', false);
+		this.$store.commit('button/buttonSign', 'open');
+	},
 	methods: {
 		// 버튼 이벤트 순서 결정
 		makeSequence() {
