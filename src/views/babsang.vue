@@ -403,7 +403,7 @@ export default {
 		// 숟갈 얹기 로직
 		async applySpoon() {
 			// 이미 숟갈 얹은 경우인지 확인
-			const loader = this.$loading.show({ canCancel: false });
+			let loader = this.$loading.show({ canCancel: false });
 
 			let alreadySpoon = await this.alreadySpoon();
 
@@ -422,13 +422,13 @@ export default {
 				return;
 			}
 
-			const loaderB = this.$loading.show({ canCancel: false });
+			loader = this.$loading.show({ canCancel: false });
 
 			await this.postSpoon(); // 숟갈 얹기
 			await this.countSpoons(); // 신청한 숟갈 계산
 			await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
 
-			loaderB.hide();
+			loader.hide();
 
 			this.$swal({
 				title: '숟갈 얹기 성공!',

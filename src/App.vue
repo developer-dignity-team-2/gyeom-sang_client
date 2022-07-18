@@ -7,7 +7,10 @@
 					<li class="d-flex flex-column align-items-center mb-1 me-2">
 						<div class="pf-wrap" style="width: 2.5rem">
 							<div class="img-wrap">
-								<img src="@/assets/img/symbol/gs_symbol_1.png" alt="프로필" />
+								<img
+									src="@/assets/img/symbol/gs_simbol_1_e2.png"
+									alt="프로필"
+								/>
 							</div>
 						</div>
 					</li>
