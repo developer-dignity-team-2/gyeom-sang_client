@@ -106,15 +106,23 @@ export default {
 		'$store.state.button.buttonSign': function (value) {
 			console.log('$store.state.button.buttonSign : ', value);
 			this.makeSequence();
+			this.makeBabsangResult();
 		},
 		// 임박(정렬) 버튼 이벤트 순서 결정
 		'$store.state.button.checkedSign': function (value) {
 			console.log('this.$store.state.button.checkedSign : ', value);
 			this.makeSequence();
+			this.makeBabsangResult();
 		},
 	},
 	mounted() {
 		this.showAppliedBabsang();
+	},
+	unmounted() {
+		// 필터, 정렬 설정 초기화
+		this.$store.commit('button/checkedSign', false);
+		console.log('unmounted : ', this.$store.state.button.checkedSign);
+		this.$store.commit('button/buttonSign', 'open');
 	},
 	methods: {
 		// 버튼 이벤트 순서 결정
@@ -129,25 +137,58 @@ export default {
 		showAppliedBabsang() {
 			this.showBabsang = 'A';
 			this.makeSequence();
-			this.getAppliedBabsang();
+			// this.getAppliedBabsang();
+			this.makeBabsangResult();
 		},
 		// 차려 놓은 밥상 버튼 이벤트
 		showMadeBabsang() {
 			this.showBabsang = 'M';
 			this.makeSequence();
-			this.getCreatedBabsang();
+			// this.getCreatedBabsang();
+			this.makeBabsangResult();
 		},
 		// 선정된 밥상 버튼 이벤트
 		showChosenBabsang() {
 			this.showBabsang = 'C';
 			this.makeSequence();
-			this.getSelectedList();
+			// this.getSelectedList();
+			this.makeBabsangResult();
+		},
+		// 밥상 조회 최종 결과(조회, 필터, 정렬 적용)
+		async makeBabsangResult() {
+			// 서버로 부터 밥상 목록 가져오기
+			let tempResult = [];
+			if (this.signArr[0] === 'A') {
+				tempResult = await this.getAppliedBabsang();
+			} else if (this.signArr[0] === 'M') {
+				tempResult = await this.getCreatedBabsang();
+			} else {
+				tempResult = await this.getSelectedList();
+			}
+
+			// 필터 수행
+			if (this.signArr[1] === 'open') {
+				tempResult = this.filterBabsang(tempResult, 'open');
+			} else {
+				tempResult = this.filterBabsang(tempResult, 'close');
+			}
+
+			// 정열 수행
+			if (this.signArr[2] === false) {
+				tempResult = this.doOrder(tempResult, false);
+				console.log('false', this.signArr[2]);
+			} else {
+				tempResult = this.doOrder(tempResult, true);
+				console.log('true', this.signArr[2]);
+			}
+
+			this.babsangData = tempResult;
 		},
 		// 숟갈 얹은 밥상 목록 가져오기
 		async getAppliedBabsang() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const Babsangs = (
+			const babsangs = (
 				await this.$get(
 					'https://nicespoons.com/api/v1/babsang/get?type=appliedList',
 				)
@@ -155,7 +196,7 @@ export default {
 
 			loader.hide();
 
-			return Babsangs;
+			return babsangs;
 			// this.doDescOrder(Babsang.result, 'id');
 			// this.babsangData = Babsang.result;
 			// console.log(this.babsangData);
@@ -164,7 +205,7 @@ export default {
 		async getCreatedBabsang() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const Babsangs = (
+			const babsangs = (
 				await this.$get(
 					'https://nicespoons.com/api/v1/babsang/get?type=createdList',
 				)
@@ -172,7 +213,7 @@ export default {
 
 			loader.hide();
 
-			return Babsangs;
+			return babsangs;
 			// this.doDescOrder(Babsang.result, 'id');
 			// console.log(babsangData.result);
 			// this.babsangData = Babsang.result;
@@ -193,6 +234,7 @@ export default {
 			// this.doDescOrder(babsang, 'id');
 			// this.babsangData = babsang;
 		},
+		// 밥상 필터
 		filterBabsang(babsangs, sign) {
 			if (sign === 'close') {
 				let close = babsangs.filter(b => b.dining_status > 0);
@@ -206,16 +248,16 @@ export default {
 		},
 		// 밥상 정렬
 		doOrder(babsangs, sign) {
-			if (sign === false) {
-				let asc = babsangs.sort(function (a, b) {
-					return a.dining_datetime - b.dining_datetime;
-				});
+			if (sign === true) {
+				let asc = babsangs.sort(
+					(a, b) => new Date(a.dining_datetime) - new Date(b.dining_datetime),
+				);
 				console.log(asc);
 				return asc;
 			} else {
-				let desc = babsangs.sort(function (a, b) {
-					return b.dining_datetime - a.dining_datetime;
-				});
+				let desc = babsangs.sort(
+					(a, b) => new Date(b.dining_datetime) - new Date(a.dining_datetime),
+				);
 				console.log(desc);
 				return desc;
 			}
