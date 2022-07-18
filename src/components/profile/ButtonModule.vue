@@ -1,5 +1,5 @@
 <template>
-	<div class="col-6 btn-group">
+	<div class="col-8 btn-group">
 		<div class="col-12 btn-group" role="group" aria-label="Basic example">
 			<button
 				type="button"
@@ -35,7 +35,7 @@
 			</button> -->
 		</div>
 	</div>
-	<div class="col-6 btn-group">
+	<!-- <div class="col-6 btn-group">
 		<div class="col-12 btn-group" role="group" aria-label="Basic example">
 			<button
 				type="button"
@@ -62,6 +62,14 @@
 				오래된 순
 			</button>
 		</div>
+	</div> -->
+	<div class="col-4">
+		<section class="model-8">
+			<div class="checkbox">
+				<input type="checkbox" />
+				<label></label>
+			</div>
+		</section>
 	</div>
 </template>
 <script>
@@ -110,6 +118,7 @@ export default {
 	background-color: #ffcb00;
 	border-color: #ffcb00;
 	pointer-events: none;
+	height: 38px;
 }
 .btn-outline-primary {
 	color: #575757;
@@ -117,5 +126,110 @@ export default {
 	&:hover {
 		background-color: #fff9e1;
 	}
+	height: 38px;
+}
+
+// 토글 버튼
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+body {
+	text-align: center;
+	background: #eee;
+}
+
+section {
+	float: left;
+	min-width: 150px;
+	width: 33.33%;
+	// padding: 25px 0;
+	// min-height: 100px;
+}
+
+/*=====================*/
+.checkbox {
+	position: relative;
+	display: inline-block;
+}
+.checkbox:after,
+.checkbox:before {
+	font-family: FontAwesome;
+	font-feature-settings: normal;
+	-webkit-font-kerning: auto;
+	font-kerning: auto;
+	font-language-override: normal;
+	font-stretch: normal;
+	font-style: normal;
+	font-synthesis: weight style;
+	font-variant: normal;
+	font-weight: normal;
+	text-rendering: auto;
+}
+.checkbox label {
+	width: 90px;
+	// height: 42px;
+	height: 38px;
+	background: #ccc;
+	position: relative;
+	display: inline-block;
+	border-radius: 46px;
+	transition: 0.4s;
+}
+.checkbox label:after {
+	content: '임박';
+	text-align: center;
+	padding: 7px;
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	left: 0;
+	top: -5px;
+	z-index: 2;
+	background: #fff;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	transition: 0.4s;
+}
+.checkbox input {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 5;
+	opacity: 0;
+	cursor: pointer;
+}
+.checkbox input:hover + label:after {
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2), 0 3px 8px 0 rgba(0, 0, 0, 0.15);
+}
+.checkbox input:checked + label:after {
+	left: 40px;
+}
+
+.model-8 .checkbox label {
+	background: #ddd;
+	width: 95px;
+	border-radius: 6.4px;
+	// border-radius: 10px;
+}
+.model-8 .checkbox label:after {
+	background: #fff;
+	border-radius: 6.4px;
+	// border-radius: 10px;
+	top: 0;
+	width: 60px;
+	height: 38px;
+	// height: 42px;
+}
+.model-8 .checkbox input:checked + label {
+	// background: #ff980f;
+	background: #ffcb00;
+}
+.model-8 .checkbox input:checked + label:after {
+	left: 35px;
 }
 </style>
