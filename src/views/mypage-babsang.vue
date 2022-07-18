@@ -165,8 +165,6 @@ export default {
 
 			loader.hide();
 
-			console.log('선정된 밥상 숟갈 빼기전 : ', babsang);
-
 			this.doDescOrder(babsang, 'id');
 			this.babsangData = babsang;
 		},
