@@ -68,6 +68,7 @@
 
 				<!-- 댓글 내용 -->
 				<div v-if="list.secret_check === 'N'">
+					<div class="col-md-11" style="margin-left: auto">공개댓글입니다.</div>
 					<div class="form-group">
 						<textarea
 							:disabled="!(list.id === this.changeSelectedId)"
@@ -92,6 +93,7 @@
 				</div>
 				<!-- 비밀댓글 -> 밥장도 볼 수 있게 수정, 비밀댓글입니다. 나타내는 문구&디자인 수정  -->
 				<div v-if="list.secret_check === 'Y'">
+					<div class="col-md-11" style="margin-left: auto">비밀댓글입니다.</div>
 					<div class="form-group">
 						<textarea
 							:disabled="!(list.id === this.changeSelectedId)"
@@ -219,6 +221,7 @@
 </template>
 <script>
 import RecommentCreate from '@/components/babsang/RecommentCreate';
+
 export default {
 	components: { RecommentCreate },
 	computed: {
