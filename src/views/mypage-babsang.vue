@@ -96,68 +96,92 @@ export default {
 	data() {
 		return {
 			showBabsang: 'A', // 숟갈 얹은 밥상 A, 차려 놓은 밥상 M, 선정된 밥상 C
+			signArr: [],
 			babsangData: [],
 		};
 	},
 	computed: {},
+	watch: {
+		// 모집중/모집마감 버튼 이벤트 순서 결정
+		'$store.state.button.buttonSign': function (value) {
+			console.log('$store.state.button.buttonSign : ', value);
+			this.makeSequence();
+		},
+		// 임박(정렬) 버튼 이벤트 순서 결정
+		'$store.state.button.checkedSign': function (value) {
+			console.log('this.$store.state.button.checkedSign : ', value);
+			this.makeSequence();
+		},
+	},
 	mounted() {
-		this.initShowBabsang();
+		this.showAppliedBabsang();
 	},
 	methods: {
-		initShowBabsang() {
-			if (this.showBabsang === 'A') {
-				this.getAppliedBabsang();
-			} else if (this.showBabsang === 'M') {
-				this.getCreatedBabsang();
-			} else if (this.showBabsang === 'C') {
-				this.getSelectedList();
-			}
+		// 버튼 이벤트 순서 결정
+		makeSequence() {
+			this.signArr = [];
+			this.signArr.push(this.showBabsang);
+			this.signArr.push(this.$store.state.button.buttonSign);
+			this.signArr.push(this.$store.state.button.checkedSign);
+			console.log('버튼 시그널 배열 : ', this.signArr);
 		},
+		// 숟갈 얹은 밥상 버튼 이벤트
 		showAppliedBabsang() {
 			this.showBabsang = 'A';
+			this.makeSequence();
 			this.getAppliedBabsang();
 		},
+		// 차려 놓은 밥상 버튼 이벤트
 		showMadeBabsang() {
 			this.showBabsang = 'M';
+			this.makeSequence();
 			this.getCreatedBabsang();
 		},
+		// 선정된 밥상 버튼 이벤트
 		showChosenBabsang() {
 			this.showBabsang = 'C';
+			this.makeSequence();
 			this.getSelectedList();
 		},
 		// 숟갈 얹은 밥상 목록 가져오기
 		async getAppliedBabsang() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const Babsang = await this.$get(
-				'https://nicespoons.com/api/v1/babsang/get?type=appliedList',
-			);
+			const Babsangs = (
+				await this.$get(
+					'https://nicespoons.com/api/v1/babsang/get?type=appliedList',
+				)
+			).result;
 
 			loader.hide();
 
-			this.doDescOrder(Babsang.result, 'id');
-			this.babsangData = Babsang.result;
-			console.log(this.babsangData);
+			return Babsangs;
+			// this.doDescOrder(Babsang.result, 'id');
+			// this.babsangData = Babsang.result;
+			// console.log(this.babsangData);
 		},
 		// 차려 놓은 밥상 목록 가져오기
 		async getCreatedBabsang() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const Babsang = await this.$get(
-				'https://nicespoons.com/api/v1/babsang/get?type=createdList',
-			);
+			const Babsangs = (
+				await this.$get(
+					'https://nicespoons.com/api/v1/babsang/get?type=createdList',
+				)
+			).result;
 
 			loader.hide();
 
-			this.doDescOrder(Babsang.result, 'id');
+			return Babsangs;
+			// this.doDescOrder(Babsang.result, 'id');
 			// console.log(babsangData.result);
-			this.babsangData = Babsang.result;
+			// this.babsangData = Babsang.result;
 		},
 		// 선정된 밥상 목록 가져오기
 		async getSelectedList() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const babsang = (
+			const babsangs = (
 				await this.$get(
 					'https://nicespoons.com/api/v1/babsang/get?type=selectedList',
 				)
@@ -165,21 +189,36 @@ export default {
 
 			loader.hide();
 
-			console.log('선정된 밥상 숟갈 빼기전 : ', babsang);
-
-			this.doDescOrder(babsang, 'id');
-			this.babsangData = babsang;
+			return babsangs;
+			// this.doDescOrder(babsang, 'id');
+			// this.babsangData = babsang;
 		},
-		// 밥상 정렬(모집중/마감, 최신순/오래된순)
-		doAscOrder(data) {
-			this.babsangData = data.sort(function (a, b) {
-				return a.dining_datetime - b.dining_datetime;
-			});
+		filterBabsang(babsangs, sign) {
+			if (sign === 'close') {
+				let close = babsangs.filter(b => b.dining_status > 0);
+				console.log(close);
+				return close;
+			} else {
+				let open = babsangs.filter(b => b.dining_status === 0);
+				console.log(open);
+				return open;
+			}
 		},
-		doDescOrder(data) {
-			this.babsangData = data.sort(function (a, b) {
-				return b.dining_datetime - a.dining_datetime;
-			});
+		// 밥상 정렬
+		doOrder(babsangs, sign) {
+			if (sign === false) {
+				let asc = babsangs.sort(function (a, b) {
+					return a.dining_datetime - b.dining_datetime;
+				});
+				console.log(asc);
+				return asc;
+			} else {
+				let desc = babsangs.sort(function (a, b) {
+					return b.dining_datetime - a.dining_datetime;
+				});
+				console.log(desc);
+				return desc;
+			}
 		},
 	},
 };
