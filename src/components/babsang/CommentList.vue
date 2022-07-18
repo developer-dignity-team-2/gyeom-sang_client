@@ -67,28 +67,55 @@
 				</div>
 
 				<!-- 댓글 내용 -->
+				<div v-if="list.secret_check === 'N'">
+					<div class="form-group">
+						<textarea
+							:disabled="!(list.id === this.changeSelectedId)"
+							class="form-control"
+							v-model="list.comment_description"
+							id="Textarea"
+							rows="3"
+							style="height: 128px; resize: none"
+							placeholder="댓글 내용"
+						></textarea>
+					</div>
+					<div class="pad-ver text-end pe-4">
+						<button
+							type="button"
+							class="btn btn-outline-primary btn-sm"
+							style="margin-top: 8px"
+							@click="CeateToggle(list.id)"
+						>
+							답글
+						</button>
+					</div>
+				</div>
+				<!-- 비밀댓글 -> 밥장도 볼 수 있게 수정, 비밀댓글입니다. 나타내는 문구&디자인 수정  -->
+				<div v-if="list.secret_check === 'Y'">
+					<div class="form-group">
+						<textarea
+							:disabled="!(list.id === this.changeSelectedId)"
+							v-show="list.user_email === user.email"
+							class="form-control"
+							v-model="list.comment_description"
+							id="Textarea"
+							rows="3"
+							style="height: 128px; resize: none"
+							placeholder="댓글 내용"
+						></textarea>
+					</div>
+					<div class="pad-ver text-end pe-4">
+						<button
+							type="button"
+							class="btn btn-outline-primary btn-sm"
+							style="margin-top: 8px"
+							@click="CeateToggle(list.id)"
+						>
+							답글
+						</button>
+					</div>
+				</div>
 
-				<div class="form-group">
-					<textarea
-						:disabled="!(list.id === this.changeSelectedId)"
-						class="form-control"
-						v-model="list.comment_description"
-						id="Textarea"
-						rows="3"
-						style="height: 128px; resize: none"
-						placeholder="댓글 내용"
-					></textarea>
-				</div>
-				<div class="pad-ver text-end pe-4">
-					<button
-						type="button"
-						class="btn btn-outline-primary btn-sm"
-						style="margin-top: 8px"
-						@click="CeateToggle(list.id)"
-					>
-						답글
-					</button>
-				</div>
 				<!-- RecommentCreate에 parent_id를 넘겨주는 부분  -->
 				<div
 					v-show="recommentSave && list.id === this.recommentSelectedId"
@@ -219,6 +246,12 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
+		// secretComment(secret) {
+		// 	if (secret === 'Y') {
+		// 		console.log(secret);
+		// 		return true;
+		// 	}
+		// },
 		// 댓글 수정/취소하는 함수 o
 		doCommentSave(ListId) {
 			console.log(ListId);
