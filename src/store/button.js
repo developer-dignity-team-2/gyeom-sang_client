@@ -2,19 +2,23 @@ export const button = {
 	namespaced: true,
 	state() {
 		return {
-			buttonOCSign: 'open',
-			buttonYOSign: 'young',
+			buttonSign: 'open',
+			buttonSignYO: 'young',
+			checkedSign: [],
 		};
 	},
 
 	getters: {},
 
 	mutations: {
-		getButtonOCSign(state, sign) {
-			state.buttonOCSign = sign;
+		buttonSign(state, data) {
+			state.buttonSign = data;
 		},
-		getButtonYOSign(state, sign) {
-			state.buttonYOSign = sign;
+		buttonSignYO(state, data) {
+			state.buttonSignYO = data;
+		},
+		checkedSign(state, data) {
+			state.checkedSign = data;
 		},
 	},
 

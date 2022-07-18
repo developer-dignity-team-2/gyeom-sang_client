@@ -1,12 +1,12 @@
 <template>
-	<div class="col-8 btn-group">
+	<div class="col-6 btn-group">
 		<div class="col-12 btn-group" role="group" aria-label="Basic example">
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': this.$store.state.button.buttonOCSign === 'open',
+					'btn btn-primary': this.$store.state.button.buttonSign === 'open',
 					'btn btn-outline-primary':
-						this.$store.state.button.buttonOCSign !== 'open',
+						this.$store.state.button.buttonSign !== 'open',
 				}"
 				style="width: 50%"
 				@click="changeOperationBabsang"
@@ -16,57 +16,49 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': this.$store.state.button.buttonOCSign === 'close',
+					'btn btn-primary': this.$store.state.button.buttonSign === 'close',
 					'btn btn-outline-primary':
-						this.$store.state.button.buttonOCSign !== 'close',
+						this.$store.state.button.buttonSign !== 'close',
 				}"
 				style="width: 50%"
 				@click="changeOperationBabsang"
 			>
 				모집 마감
 			</button>
-			<!-- <button
-				type="button"
-				class="btn btn-primary"
-				v-else-if="diningStatus === 'T'"
-				@click="diningStatus = 'O'"
-			>
-				전체 보기
-			</button> -->
 		</div>
 	</div>
-	<!-- <div class="col-6 btn-group">
+	<div class="col-6 btn-group" v-if="$route.path === '/mypage/message'">
 		<div class="col-12 btn-group" role="group" aria-label="Basic example">
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': this.$store.state.button.buttonYOSign === 'young',
+					'btn btn-primary': this.$store.state.button.buttonSignYO === 'young',
 					'btn btn-outline-primary':
-						this.$store.state.button.buttonYOSign !== 'young',
+						this.$store.state.button.buttonSignYO !== 'young',
 				}"
 				style="width: 100%"
-				@click="changePeriodBabsang"
+				@click="sortMessageAge"
 			>
 				최신순
 			</button>
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': this.$store.state.button.buttonYOSign === 'old',
+					'btn btn-primary': this.$store.state.button.buttonSignYO === 'old',
 					'btn btn-outline-primary':
-						this.$store.state.button.buttonYOSign !== 'old',
+						this.$store.state.button.buttonSignYO !== 'old',
 				}"
 				style="width: 100%"
-				@click="changePeriodBabsang"
+				@click="sortMessageAge"
 			>
 				오래된 순
 			</button>
 		</div>
-	</div> -->
-	<div class="col-4">
+	</div>
+	<div class="col-6" v-if="$route.path !== '/mypage/message'">
 		<section class="model-8">
 			<div class="checkbox">
-				<input type="checkbox" />
+				<input type="checkbox" v-model="showPeriodBabsang" />
 				<label></label>
 			</div>
 		</section>
@@ -78,8 +70,16 @@ export default {
 	data() {
 		return {
 			showOperationBabsang: 'open', // 모집 중 open, 모집 마감 close
-			showPeriodBabsang: 'young', // 최신 순 young, 오래된 순 old
+			showSortedMessage: 'young', // 최신 순 young, 오래된 순 old
+			showPeriodBabsang: '', // 임박한 순 true, 기본값 false
 		};
+	},
+	watch: {
+		showPeriodBabsang: function (value) {
+			// console.log(value);
+			this.$store.commit('button/checkedSign', value);
+			console.log(this.$store.state.button.checkedSign);
+		},
 	},
 	setup() {},
 	created() {},
@@ -89,23 +89,35 @@ export default {
 		changeOperationBabsang() {
 			if (this.showOperationBabsang === 'open') {
 				this.showOperationBabsang = 'close';
-				this.$store.commit('button/getButtonOCSign', this.showOperationBabsang);
-				console.log('자식이 만든 신호 close : ', this.showOperationBabsang);
+				this.$store.commit('button/buttonSign', this.showOperationBabsang);
+				console.log(
+					'자식이 만든 신호 close : ',
+					this.$store.state.button.buttonSign,
+				);
 			} else {
 				this.showOperationBabsang = 'open';
-				this.$store.commit('button/getButtonOCSign', this.showOperationBabsang);
-				console.log('자식이 만든 신호 open : ', this.showOperationBabsang);
+				this.$store.commit('button/buttonSign', this.showOperationBabsang);
+				console.log(
+					'자식이 만든 신호 open : ',
+					this.$store.state.button.buttonSign,
+				);
 			}
 		},
-		changePeriodBabsang() {
-			if (this.showPeriodBabsang === 'young') {
-				this.showPeriodBabsang = 'old';
-				this.$store.commit('button/getButtonYOSign', this.showPeriodBabsang);
-				console.log('자식이 만든 신호 old : ', this.showPeriodBabsang);
+		sortMessageAge() {
+			if (this.showSortedMessage === 'young') {
+				this.showSortedMessage = 'old';
+				this.$store.commit('button/buttonSignYO', this.showSortedMessage);
+				console.log(
+					'자식이 만든 신호 old : ',
+					this.$store.state.button.buttonSignYO,
+				);
 			} else {
-				this.showPeriodBabsang = 'young';
-				this.$store.commit('button/getButtonYOSign', this.showPeriodBabsang);
-				console.log('자식이 만든 신호 young : ', this.showPeriodBabsang);
+				this.showSortedMessage = 'young';
+				this.$store.commit('button/buttonSignYO', this.showSortedMessage);
+				console.log(
+					'자식이 만든 신호 young : ',
+					this.$store.state.button.buttonSignYO,
+				);
 			}
 		},
 	},
