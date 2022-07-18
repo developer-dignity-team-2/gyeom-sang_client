@@ -4,7 +4,7 @@ export const button = {
 		return {
 			buttonSign: 'open',
 			buttonSignYO: 'young',
-			checkedSign: [],
+			checkedSign: false,
 		};
 	},
 

@@ -71,7 +71,7 @@ export default {
 		return {
 			showOperationBabsang: 'open', // 모집 중 open, 모집 마감 close
 			showSortedMessage: 'young', // 최신 순 young, 오래된 순 old
-			showPeriodBabsang: '', // 임박한 순 true, 기본값 false
+			showPeriodBabsang: false, // 임박한 순 true, 기본값 false
 		};
 	},
 	watch: {

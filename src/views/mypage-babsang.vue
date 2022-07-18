@@ -96,33 +96,51 @@ export default {
 	data() {
 		return {
 			showBabsang: 'A', // 숟갈 얹은 밥상 A, 차려 놓은 밥상 M, 선정된 밥상 C
+			signArr: [],
 			babsangData: [],
 		};
 	},
 	computed: {},
+	watch: {
+		// 모집중/모집마감 버튼 이벤트 순서 결정
+		'$store.state.button.buttonSign': function (value) {
+			console.log('$store.state.button.buttonSign : ', value);
+			this.makeSequence();
+		},
+		// 임박(정렬) 버튼 이벤트 순서 결정
+		'$store.state.button.checkedSign': function (value) {
+			console.log('this.$store.state.button.checkedSign : ', value);
+			this.makeSequence();
+		},
+	},
 	mounted() {
-		this.initShowBabsang();
+		this.showAppliedBabsang();
 	},
 	methods: {
-		initShowBabsang() {
-			if (this.showBabsang === 'A') {
-				this.getAppliedBabsang();
-			} else if (this.showBabsang === 'M') {
-				this.getCreatedBabsang();
-			} else if (this.showBabsang === 'C') {
-				this.getSelectedList();
-			}
+		// 버튼 이벤트 순서 결정
+		makeSequence() {
+			this.signArr = [];
+			this.signArr.push(this.showBabsang);
+			this.signArr.push(this.$store.state.button.buttonSign);
+			this.signArr.push(this.$store.state.button.checkedSign);
+			console.log('버튼 시그널 배열 : ', this.signArr);
 		},
+		// 숟갈 얹은 밥상 버튼 이벤트
 		showAppliedBabsang() {
 			this.showBabsang = 'A';
+			this.makeSequence();
 			this.getAppliedBabsang();
 		},
+		// 차려 놓은 밥상 버튼 이벤트
 		showMadeBabsang() {
 			this.showBabsang = 'M';
+			this.makeSequence();
 			this.getCreatedBabsang();
 		},
+		// 선정된 밥상 버튼 이벤트
 		showChosenBabsang() {
 			this.showBabsang = 'C';
+			this.makeSequence();
 			this.getSelectedList();
 		},
 		// 숟갈 얹은 밥상 목록 가져오기
@@ -135,9 +153,9 @@ export default {
 
 			loader.hide();
 
-			this.doDescOrder(Babsang.result, 'id');
+			// this.doDescOrder(Babsang.result, 'id');
 			this.babsangData = Babsang.result;
-			console.log(this.babsangData);
+			// console.log(this.babsangData);
 		},
 		// 차려 놓은 밥상 목록 가져오기
 		async getCreatedBabsang() {
@@ -149,7 +167,7 @@ export default {
 
 			loader.hide();
 
-			this.doDescOrder(Babsang.result, 'id');
+			// this.doDescOrder(Babsang.result, 'id');
 			// console.log(babsangData.result);
 			this.babsangData = Babsang.result;
 		},
@@ -165,7 +183,7 @@ export default {
 
 			loader.hide();
 
-			this.doDescOrder(babsang, 'id');
+			// this.doDescOrder(babsang, 'id');
 			this.babsangData = babsang;
 		},
 		// 밥상 정렬(모집중/마감, 최신순/오래된순)
