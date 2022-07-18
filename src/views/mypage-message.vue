@@ -49,7 +49,7 @@
 						<!-- 모집중/모집 마감/전체 보기, 최신순/오래된 순, 삭제 -->
 						<div class="col-xl-8 col-12 mb-3">
 							<div class="row">
-								<div class="col-xl-10 col-md-12 col-sm-12 mb-2">
+								<div class="col-xl-10 col-md-12 col-sm-12">
 									<div class="row">
 										<ButtonModule @button-signal="buttonSignal" />
 									</div>
