@@ -61,7 +61,7 @@
 					<!-- 찜 기능 -->
 					<div
 						class="favorite"
-						style="z-index: 1; margin-top: -0.18rem"
+						style="margin-top: -0.18rem"
 						@click.stop="addFavorite(itemData.id)"
 					>
 						<i
