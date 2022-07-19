@@ -10,7 +10,7 @@ const routes = [
 		meta: { authRequired: false },
 	},
 	{
-		path: '/babsang-create',
+		path: '/babsang-create/:babsangId?',
 		name: 'BabsangCreate',
 		component: () => import('../views/babsang-create'),
 		meta: { authRequired: true },

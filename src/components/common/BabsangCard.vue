@@ -61,7 +61,7 @@
 					<!-- 찜 기능 -->
 					<div
 						class="favorite"
-						style="z-index: 1; margin-top: -0.18rem"
+						style="margin-top: -0.18rem"
 						@click.stop="addFavorite(itemData.id)"
 					>
 						<i
@@ -159,8 +159,6 @@ export default {
 			this.countAppliedSpoons = confirmUsers.filter(
 				user => user.apply_yn === 'Y',
 			);
-			console.log('신청한 숟갈들 리스트 :', this.countAppliedSpoons);
-			console.log(this.itemData.id);
 		},
 		currentStatus() {
 			let currentStatus = this.itemData.dining_status;

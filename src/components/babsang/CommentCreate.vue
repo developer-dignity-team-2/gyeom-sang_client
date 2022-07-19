@@ -25,6 +25,7 @@
 				value=""
 				id="flexCheckDefault"
 				style="margin: auto"
+				@change="checkedSecert"
 			/>
 			<label
 				class="form-check-label"
@@ -54,7 +55,7 @@ export default {
 	data() {
 		return {
 			comment_description: '',
-			secret_check: false,
+			secret_check: 'N',
 		};
 	},
 	setup() {},
@@ -62,12 +63,20 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
+		checkedSecert() {
+			if (this.secret_check === true) {
+				console.log('비밀');
+			} else {
+				console.log('공개');
+			}
+		},
 		async createComment() {
 			await this.$post('/comment', {
 				param: {
 					dining_id: this.$route.params.babsangId,
 					user_email: 'qg@ilyah.com',
 					comment_description: this.comment_description,
+					secret_check: this.secret_check,
 				},
 			});
 			this.comment_description = '';

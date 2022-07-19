@@ -32,18 +32,6 @@
 					<div class="dropdown-item">제주</div>
 				</div>
 			</li>
-			<li class="nav-item">
-				<div class="nav-link" href="#">
-					기간 :
-					<Datepicker
-						v-model="date"
-						range
-						:enableTimePicker="false"
-						:minDate="new Date()"
-						style="display: inline-block"
-					></Datepicker>
-				</div>
-			</li>
 
 			<li class="nav-item dropdown">
 				<a
@@ -61,6 +49,19 @@
 					<div class="dropdown-item">여성</div>
 				</div>
 			</li>
+			<li class="nav-item" style="margin-bottom: 0.4rem">
+				<div class="nav-link" href="#">
+					기간 :
+					<Datepicker
+						v-model="date"
+						range
+						:enableTimePicker="false"
+						:minDate="new Date()"
+						style="display: inline-block"
+						placeholder="날짜 선택하기"
+					></Datepicker>
+				</div>
+			</li>
 			<!--			<li class="nav-item">-->
 			<!--				<a class="nav-link" data-bs-toggle="dropdown" href="#" role="button"-->
 			<!--					>필터 초기화</a-->
@@ -73,6 +74,7 @@
 <script>
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
+
 export default {
 	name: 'SearchFilter',
 	components: { Datepicker },
@@ -117,3 +119,13 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.nav {
+	align-items: center;
+	.nav-item {
+		.nav-link {
+			color: #888888;
+		}
+	}
+}
+</style>

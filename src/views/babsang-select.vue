@@ -487,6 +487,7 @@ button {
 	color: #575757;
 	background-color: #ffcb00;
 	border-color: #ffcb00;
+	height: 38px;
 }
 .btn-outline-primary {
 	color: #575757;
@@ -494,5 +495,6 @@ button {
 	&:hover {
 		background-color: #fff9e1;
 	}
+	height: 38px;
 }
 </style>

@@ -678,6 +678,9 @@ dt {
 	color: #575757;
 	border-color: #ffcb00;
 	&:hover {
+		background-color: #fff9e1;
+	}
+	&:active {
 		background-color: #ffcb00;
 	}
 }

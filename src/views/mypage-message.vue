@@ -23,23 +23,26 @@
 									<button
 										type="button"
 										:class="{
-											'btn btn-primary': showMessage === 'R',
-											'btn btn-outline-primary': showMessage === 'S',
+											'btn btn-primary':
+												$store.state.button.showMessage === 'R',
+											'btn btn-outline-primary':
+												$store.state.button.showMessage === 'S',
 										}"
 										style="width: 100%"
-										@click="selectReceivedMessage"
+										@click="showMessages('R')"
 									>
-										<!-- <button type="button" class="btn btn-outline-primary"> -->
 										받은 메세지
 									</button>
 									<button
 										type="button"
 										:class="{
-											'btn btn-primary': showMessage === 'S',
-											'btn btn-outline-primary': showMessage === 'R',
+											'btn btn-primary':
+												$store.state.button.showMessage === 'S',
+											'btn btn-outline-primary':
+												$store.state.button.showMessage === 'R',
 										}"
 										style="width: 100%"
-										@click="selectSentMessages"
+										@click="showMessages('S')"
 									>
 										보낸 메세지
 									</button>
@@ -49,9 +52,9 @@
 						<!-- 모집중/모집 마감/전체 보기, 최신순/오래된 순, 삭제 -->
 						<div class="col-xl-8 col-12 mb-3">
 							<div class="row">
-								<div class="col-xl-10 col-md-12 col-sm-12">
+								<div class="col-xl-10 col-md-12 col-sm-12 mb-2">
 									<div class="row">
-										<ButtonModule @button-signal="buttonSignal" />
+										<ButtonModule />
 									</div>
 								</div>
 								<!-- 삭제 -->
@@ -76,10 +79,15 @@
 						</div>
 					</div>
 					<!-- pagination -->
-					<div v-if="showMessage === 'R' && receivedMessage.length !== 0">
+					<div
+						v-if="
+							$store.state.button.showMessage === 'R' &&
+							messagesData.length !== 0
+						"
+					>
 						<grid-pagination
 							:headers="headers"
-							:items="receivedMessage"
+							:items="messagesData"
 							@click-buttons="handleClickButtons"
 						/>
 					</div>
@@ -91,14 +99,22 @@
 							justify-content: center;
 							align-item: center;
 						"
-						v-if="showMessage === 'R' && receivedMessage.length === 0"
+						v-if="
+							$store.state.button.showMessage === 'R' &&
+							messagesData.length === 0
+						"
 					>
 						받은 메시지가 없습니다.
 					</div>
-					<div v-if="showMessage === 'S' && sentMessage.length !== 0">
+					<div
+						v-if="
+							$store.state.button.showMessage === 'S' &&
+							messagesData.length !== 0
+						"
+					>
 						<grid-pagination
 							:headers="headers"
-							:items="sentMessage"
+							:items="messagesData"
 							@click-buttons="handleClickButtons"
 						/>
 					</div>
@@ -110,7 +126,10 @@
 							justify-content: center;
 							align-item: center;
 						"
-						v-if="showMessage === 'S' && sentMessage.length === 0"
+						v-if="
+							$store.state.button.showMessage === 'S' &&
+							messagesData.length === 0
+						"
 					>
 						보낸 메시지가 없습니다.
 					</div>
@@ -129,119 +148,155 @@ export default {
 	components: { CompUserProfile, ButtonModule, GridPagination },
 	data() {
 		return {
-			userMessages: [],
-			receivedMessage: [],
-			sentMessage: [],
-			showMessage: 'R', // 받은 메시지 R, 보낸 메시지 S
+			// showMessage: 'R', // 받은 메시지 신호 R, 보낸 메시지 신호 S
+			signArr: [], // 신호 순서
+			messagesData: [], // 가공 완료된 메시지 데이터
 			headers: [
-				{
-					title: '닉네임',
-					key: 'sender_nickname',
-				},
-				{ title: '내용', key: 'message_description' },
-				{ title: '장소', key: 'restaurant_location' },
-				{ title: '날짜', key: 'create_date' },
+				[
+					{
+						title: '닉네임',
+						key: 'sender_nickname',
+					},
+					{ title: '내용', key: 'message_description' },
+					{ title: '장소', key: 'restaurant_location' },
+					{ title: '날짜', key: 'create_date' },
+				],
+				[
+					{
+						title: '닉네임',
+						key: 'receiver_nickname',
+					},
+					{ title: '내용', key: 'message_description' },
+					{ title: '장소', key: 'restaurant_location' },
+					{ title: '날짜', key: 'create_date' },
+				],
 			],
 		};
 	},
 	setup() {},
-	created() {
-		this.getMessages();
+	created() {},
+	watch: {
+		// 모집중/모집마감 버튼 이벤트 순서 결정
+		'$store.state.button.buttonSign': function (value) {
+			console.log('$store.state.button.buttonSign : ', value);
+			this.makeSequence();
+			this.makeMessageResult();
+		},
+		// 임박(정렬) 버튼 이벤트 순서 결정
+		'$store.state.button.buttonSignYO': function (value) {
+			console.log('this.$store.state.button.buttonSignYO : ', value);
+			this.makeSequence();
+			this.makeMessageResult();
+		},
 	},
-	mounted() {},
+	mounted() {
+		// this.showReceivedMessages();
+		this.showMessages(this.$store.state.button.showMessage);
+	},
 	unmounted() {},
 	methods: {
-		buttonSignal(sign) {
-			if (this.showMessage === 'R') {
-				let tmp = this.receivedMessage;
-				if (sign === 'open') {
-					console.log('open');
-					tmp = this.controlMessage(tmp, sign);
-					this.receivedMessage = tmp;
-				} else if (sign === 'close') {
-					console.log('close');
-					tmp = this.controlMessage(tmp, sign);
-					console.log('후 : ', tmp);
-					this.receivedMessage = tmp;
-				} else if (sign === 'young') {
-					console.log('young');
-					tmp = this.controlMessage(tmp, sign);
-					this.receivedMessage = tmp;
-				} else if (sign === 'old') {
-					console.log('old');
-					tmp = this.controlMessage(tmp, sign);
-					this.receivedMessage = tmp;
-				}
-			} else if (this.showMessage === 'S') {
-				console.log(sign);
+		// 메시지 버튼 이벤트
+		showMessages(sign) {
+			this.$store.commit('button/showMessage', sign);
+			this.makeSequence();
+			this.makeMessageResult();
+		},
+		makeSequence() {
+			this.signArr = [];
+			this.signArr.push(this.$store.state.button.showMessage);
+			this.signArr.push(this.$store.state.button.buttonSign);
+			this.signArr.push(this.$store.state.button.buttonSignYO);
+			console.log('버튼 시그널 배열 : ', this.signArr);
+		},
+		// 밥상 조회 최종 결과(조회, 필터, 정렬 적용)
+		async makeMessageResult() {
+			// 서버로 부터 밥상 목록 가져오기
+			let tempResult = [];
+			if (this.signArr[0] === 'R') {
+				tempResult = await this.getReceivedMessages();
+			} else {
+				tempResult = await this.getSentMessages();
 			}
-		},
-		selectReceivedMessage() {
-			this.showMessage = 'R';
-		},
-		selectSentMessages() {
-			this.showMessage = 'S';
-		},
-		// 메시지 필터, 정렬 모듈
-		controlMessage(data, sign) {
-			if (sign === 'open') {
-				// 보낸 메시지(모집중)
-				const rstMessage = data.filter(m => m.dining_status < 1);
-				console.log('모집 중');
-				console.log(rstMessage);
-				return rstMessage;
-			} else if (sign === 'close') {
-				// 보낸 메시지(모집완료)
-				const rstMessage = data.filter(m => m.dining_status > 0);
-				console.log('모집 마감');
-				console.log(rstMessage);
-				return rstMessage;
-			} else if (sign === 'young') {
-				// 보낸 메시지(최신순)
-				const rstMessage = data.sort((a, b) => b.id - a.id);
-				console.log('최신순');
-				console.log(rstMessage);
-				return rstMessage;
-			} else if (sign === 'old') {
-				// 보낸 메시지(오래된 순)
-				const rstMessage = data.sort((a, b) => a.id - b.id);
-				console.log('오래된 순');
-				console.log(rstMessage);
-				return rstMessage;
+
+			// 필터 수행
+			if (this.signArr[1] === 'open') {
+				tempResult = this.filterMessage(tempResult, 'open');
+			} else {
+				tempResult = this.filterMessage(tempResult, 'close');
 			}
+
+			// 정열 수행
+			if (this.signArr[2] === 'young') {
+				tempResult = this.doOrder(tempResult, 'young');
+			} else {
+				tempResult = this.doOrder(tempResult, 'old');
+			}
+
+			this.messagesData = tempResult;
 		},
-		// 메시지 정보 가져오기
-		async getMessages() {
-			const userMessages = await this.$get(
-				'https://nicespoons.com/api/v1/message',
-			);
-			this.userMessages = userMessages.result;
-			console.log(userMessages);
-			// console.log(this.$store.state.user.userData.email);
+		// 받은 메시지 정보 가져오기
+		async getReceivedMessages() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const userMessages = (
+				await this.$get('https://nicespoons.com/api/v1/message')
+			).result;
+
+			loader.hide();
+
+			console.log('사용자 이메일 : ', this.$store.state.user.userData.email);
+			console.log('전체 메시지 : ', userMessages);
 
 			// 받은 메시지
-			let tmpReceivedMessage = this.userMessages.filter(
+			let tmpReceivedMessage = userMessages.filter(
 				message =>
 					message.sender_email !== this.$store.state.user.userData.email,
 			);
-			// 받은 메시지 초기화(모집중, 최신순)
-			tmpReceivedMessage = this.controlMessage(
-				this.controlMessage(tmpReceivedMessage, 'open'),
-				'young',
-			);
-			this.receivedMessage = tmpReceivedMessage;
+
+			console.log('받은 메시지 : ', tmpReceivedMessage);
+			return tmpReceivedMessage;
+		},
+		// 보낸 메시지 정보 가져오기
+		async getSentMessages() {
+			const loader = this.$loading.show({ canCancel: false });
+
+			const userMessages = (
+				await this.$get('https://nicespoons.com/api/v1/message')
+			).result;
+
+			loader.hide();
+
+			console.log('사용자 이메일 : ', this.$store.state.user.userData.email);
+			console.log('전체 메시지 : ', userMessages);
 
 			// 보낸 메시지
-			let tmpSentMessage = this.userMessages.filter(
+			let tmpSentMessage = userMessages.filter(
 				message =>
 					message.sender_email === this.$store.state.user.userData.email,
 			);
-			// 받은 메시지 초기화(모집중, 최신순)
-			tmpSentMessage = this.controlMessage(
-				this.controlMessage(tmpSentMessage, 'open'),
-				'young',
-			);
-			this.sentMessage = tmpSentMessage;
+
+			console.log('보낸 메시지 : ', tmpSentMessage);
+			return tmpSentMessage;
+		},
+		// 메시지 필터(모집중/모집마감)
+		filterMessage(messages, sign) {
+			if (sign === 'close') {
+				let close = messages.filter(b => b.dining_status > 0);
+				return close;
+			} else {
+				let open = messages.filter(b => b.dining_status === 0);
+				return open;
+			}
+		},
+		// 밥상 정렬(최신순/오래된 순)
+		doOrder(messages, sign) {
+			if (sign === 'old') {
+				let asc = messages.sort((a, b) => a.id - b.id);
+				return asc;
+			} else {
+				let desc = messages.sort((a, b) => b.id - a.id);
+				return desc;
+			}
 		},
 		// Pagination
 		handleClickButtons(method, id) {
@@ -291,7 +346,7 @@ export default {
 							confirmButtonColor: '#ffcb00',
 						});
 						this.$store.commit('message/checkedMessage', []); // vuex 초기화
-						this.getMessages(); // 메시지 새로 고침
+						this.showMessages(this.$store.state.button.showMessage); // 메시지 새로 고침
 					} else if (r.status === 501) {
 						this.$swal({
 							title: '메시지 삭제 실패!',
@@ -301,7 +356,7 @@ export default {
 							confirmButtonText: '확인',
 							confirmButtonColor: '#ffcb00',
 						});
-						this.getMessages();
+						this.showMessages(this.$store.state.button.showMessage); // 메시지 새로 고침
 					}
 				}
 			});
@@ -357,6 +412,7 @@ dt {
 	background-color: #ffcb00;
 	border-color: #ffcb00;
 	pointer-events: none;
+	height: 38px;
 }
 .btn-outline-primary {
 	color: #575757;
@@ -364,6 +420,7 @@ dt {
 	&:hover {
 		background-color: #fff9e1;
 	}
+	height: 38px;
 }
 
 // 모집 중/모집 완료, 최신순/오래된 순 버튼

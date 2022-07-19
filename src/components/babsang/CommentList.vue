@@ -67,28 +67,60 @@
 				</div>
 
 				<!-- 댓글 내용 -->
+				<div v-if="list.secret_check === 'N'">
+					<div class="col-md-11" style="margin-left: auto">공개댓글입니다.</div>
+					<div class="form-group">
+						<textarea
+							:disabled="!(list.id === this.changeSelectedId)"
+							class="form-control"
+							v-model="list.comment_description"
+							id="Textarea"
+							rows="3"
+							style="height: 128px; resize: none"
+							placeholder="댓글 내용"
+						></textarea>
+					</div>
+					<div class="pad-ver text-end pe-4">
+						<button
+							type="button"
+							class="btn btn-outline-primary btn-sm"
+							style="margin-top: 8px"
+							@click="CeateToggle(list.id)"
+						>
+							답글
+						</button>
+					</div>
+				</div>
+				<!-- 비밀댓글 >>> 밥장도 볼 수 있게 수정  -->
+				<div v-if="list.secret_check === 'Y'">
+					<div class="col-md-11" style="margin-left: auto">비밀댓글입니다.</div>
+					<div class="form-group">
+						<textarea
+							:disabled="!(list.id === this.changeSelectedId)"
+							v-show="
+								list.user_email === user.email ||
+								this.babsangDetailData.id === list.dining_id
+							"
+							class="form-control"
+							v-model="list.comment_description"
+							id="Textarea"
+							rows="3"
+							style="height: 128px; resize: none"
+							placeholder="댓글 내용"
+						></textarea>
+					</div>
+					<div class="pad-ver text-end pe-4">
+						<button
+							type="button"
+							class="btn btn-outline-primary btn-sm"
+							style="margin-top: 8px"
+							@click="CeateToggle(list.id)"
+						>
+							답글
+						</button>
+					</div>
+				</div>
 
-				<div class="form-group">
-					<textarea
-						:disabled="!(list.id === this.changeSelectedId)"
-						class="form-control"
-						v-model="list.comment_description"
-						id="Textarea"
-						rows="3"
-						style="height: 128px; resize: none"
-						placeholder="댓글 내용"
-					></textarea>
-				</div>
-				<div class="pad-ver text-end pe-4">
-					<button
-						type="button"
-						class="btn btn-outline-primary btn-sm"
-						style="margin-top: 8px"
-						@click="CeateToggle(list.id)"
-					>
-						답글
-					</button>
-				</div>
 				<!-- RecommentCreate에 parent_id를 넘겨주는 부분  -->
 				<div
 					v-show="recommentSave && list.id === this.recommentSelectedId"
@@ -173,16 +205,42 @@
 							</div>
 						</div>
 					</div>
-					<!-- 댓글 내용 -->
-					<div>
-						<textarea
-							:disabled="!(recomment.id === this.changeSelectedId)"
-							class="form-control"
-							v-model="recomment.comment_description"
-							id="Textarea"
-							rows="3"
-							style="height: 128px; resize: none"
-						></textarea>
+					<!-- 대댓글 내용 -->
+					<div v-if="recomment.secret_check === 'N'">
+						<div class="col-md-11" style="margin-left: auto">
+							공개 대댓글입니다.
+						</div>
+						<div class="form-group">
+							<textarea
+								:disabled="!(recomment.id === this.changeSelectedId)"
+								class="form-control"
+								v-model="recomment.comment_description"
+								id="Textarea"
+								rows="3"
+								style="height: 128px; resize: none"
+								placeholder="댓글 내용"
+							></textarea>
+						</div>
+					</div>
+					<div v-if="recomment.secret_check === 'Y'">
+						<div class="col-md-11" style="margin-left: auto">
+							비밀 대댓글입니다.
+						</div>
+						<div class="form-group">
+							<textarea
+								:disabled="!(recomment.id === this.changeSelectedId)"
+								v-show="
+									recomment.user_email === user.email ||
+									recomment.comment_parent_id === list.id
+								"
+								class="form-control"
+								v-model="recomment.comment_description"
+								id="Textarea"
+								rows="3"
+								style="height: 128px; resize: none"
+								placeholder="댓글 내용"
+							></textarea>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -192,11 +250,20 @@
 </template>
 <script>
 import RecommentCreate from '@/components/babsang/RecommentCreate';
+
 export default {
 	components: { RecommentCreate },
 	computed: {
 		user() {
 			return this.$store.state.user.userData;
+		},
+	},
+	props: {
+		babsangDetailData: {
+			type: Array,
+			default: function () {
+				return [];
+			},
 		},
 	},
 	data() {
@@ -219,6 +286,12 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
+		// secretComment(secret) {
+		// 	if (secret === 'Y') {
+		// 		console.log(secret);
+		// 		return true;
+		// 	}
+		// },
 		// 댓글 수정/취소하는 함수 o
 		doCommentSave(ListId) {
 			console.log(ListId);
@@ -260,6 +333,8 @@ export default {
 			this.commentList = this.commentList.result;
 			console.log('------------commentList------------');
 			console.log(this.commentList);
+			console.log(this.$route.params.babsangId);
+			console.log(this.babsangDetailData.id);
 		},
 		// 대댓글 나오게 하는 함수
 		// CeateToggle(recommentId) {
