@@ -1,6 +1,6 @@
 <template>
 	<!-- 받은 메시지 -->
-	<div style="overflow: auto" v-if="showMessage === 'R'">
+	<div style="overflow: auto" v-if="$store.state.button.showMessage === 'R'">
 		<table class="table table-hover" v-if="items.length > 0">
 			<thead>
 				<tr>
@@ -58,7 +58,7 @@
 		</table>
 	</div>
 	<!-- 보낸 메시지 -->
-	<div style="overflow: auto" v-if="showMessage === 'S'">
+	<div style="overflow: auto" v-if="$store.state.button.showMessage === 'S'">
 		<table class="table table-hover" v-if="items.length > 0">
 			<thead>
 				<tr>
@@ -127,7 +127,6 @@ export default {
         return [];
       },
     },
-    showMessage: String,
     headers: {
       type: Array,
       default: function () {

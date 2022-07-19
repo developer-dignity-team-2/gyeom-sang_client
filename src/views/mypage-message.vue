@@ -23,22 +23,26 @@
 									<button
 										type="button"
 										:class="{
-											'btn btn-primary': showMessage === 'R',
-											'btn btn-outline-primary': showMessage === 'S',
+											'btn btn-primary':
+												$store.state.button.showMessage === 'R',
+											'btn btn-outline-primary':
+												$store.state.button.showMessage === 'S',
 										}"
 										style="width: 100%"
-										@click="showReceivedMessages()"
+										@click="showMessages('R')"
 									>
 										받은 메세지
 									</button>
 									<button
 										type="button"
 										:class="{
-											'btn btn-primary': showMessage === 'S',
-											'btn btn-outline-primary': showMessage === 'R',
+											'btn btn-primary':
+												$store.state.button.showMessage === 'S',
+											'btn btn-outline-primary':
+												$store.state.button.showMessage === 'R',
 										}"
 										style="width: 100%"
-										@click="showSentMessages()"
+										@click="showMessages('S')"
 									>
 										보낸 메세지
 									</button>
@@ -75,11 +79,15 @@
 						</div>
 					</div>
 					<!-- pagination -->
-					<div v-if="showMessage === 'R' && messagesData.length !== 0">
+					<div
+						v-if="
+							$store.state.button.showMessage === 'R' &&
+							messagesData.length !== 0
+						"
+					>
 						<grid-pagination
 							:headers="headers"
 							:items="messagesData"
-							:showMessage="showMessage"
 							@click-buttons="handleClickButtons"
 						/>
 					</div>
@@ -91,15 +99,22 @@
 							justify-content: center;
 							align-item: center;
 						"
-						v-if="showMessage === 'R' && messagesData.length === 0"
+						v-if="
+							$store.state.button.showMessage === 'R' &&
+							messagesData.length === 0
+						"
 					>
 						받은 메시지가 없습니다.
 					</div>
-					<div v-if="showMessage === 'S' && messagesData.length !== 0">
+					<div
+						v-if="
+							$store.state.button.showMessage === 'S' &&
+							messagesData.length !== 0
+						"
+					>
 						<grid-pagination
 							:headers="headers"
 							:items="messagesData"
-							:showMessage="showMessage"
 							@click-buttons="handleClickButtons"
 						/>
 					</div>
@@ -111,7 +126,10 @@
 							justify-content: center;
 							align-item: center;
 						"
-						v-if="showMessage === 'S' && messagesData.length === 0"
+						v-if="
+							$store.state.button.showMessage === 'S' &&
+							messagesData.length === 0
+						"
 					>
 						보낸 메시지가 없습니다.
 					</div>
@@ -130,7 +148,7 @@ export default {
 	components: { CompUserProfile, ButtonModule, GridPagination },
 	data() {
 		return {
-			showMessage: 'R', // 받은 메시지 신호 R, 보낸 메시지 신호 S
+			// showMessage: 'R', // 받은 메시지 신호 R, 보낸 메시지 신호 S
 			signArr: [], // 신호 순서
 			messagesData: [], // 가공 완료된 메시지 데이터
 			headers: [
@@ -156,12 +174,7 @@ export default {
 		};
 	},
 	setup() {},
-	created() {
-		// 필터, 정렬 설정 초기화
-		this.$store.commit('button/buttonSign', 'open');
-		this.$store.commit('button/buttonSignYO', 'young');
-		this.$store.commit('button/checkedSign', false);
-	},
+	created() {},
 	watch: {
 		// 모집중/모집마감 버튼 이벤트 순서 결정
 		'$store.state.button.buttonSign': function (value) {
@@ -177,26 +190,20 @@ export default {
 		},
 	},
 	mounted() {
-		this.showReceivedMessages();
+		// this.showReceivedMessages();
+		this.showMessages(this.$store.state.button.showMessage);
 	},
 	unmounted() {},
 	methods: {
-		// 받은 메시지 버튼 이벤트
-		showReceivedMessages() {
-			this.showMessage = 'R';
+		// 메시지 버튼 이벤트
+		showMessages(sign) {
+			this.$store.commit('button/showMessage', sign);
 			this.makeSequence();
 			this.makeMessageResult();
 		},
-		// 보낸 메시지 버튼 이벤트
-		showSentMessages() {
-			this.showMessage = 'S';
-			this.makeSequence();
-			this.makeMessageResult();
-		},
-		// 버튼 이벤트 순서 결정
 		makeSequence() {
 			this.signArr = [];
-			this.signArr.push(this.showMessage);
+			this.signArr.push(this.$store.state.button.showMessage);
 			this.signArr.push(this.$store.state.button.buttonSign);
 			this.signArr.push(this.$store.state.button.buttonSignYO);
 			console.log('버튼 시그널 배열 : ', this.signArr);

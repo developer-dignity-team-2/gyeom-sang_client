@@ -111,6 +111,7 @@ export default {
 			});
 			this.$store.commit('user/getUserData', {});
 			this.$store.commit('user/userCheck', false);
+			this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 			localStorage.removeItem('jwt');
 		},
 		kakaoLogout() {
@@ -118,24 +119,37 @@ export default {
 				console.log(response);
 				this.$store.commit('user/getUserData', {});
 				this.$store.commit('user/userCheck', false);
+				this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 				localStorage.removeItem('jwt');
 				alert('로그아웃 되었습니다');
 			});
 		},
 		userProfile() {
+			this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 			this.$router.push('/mypage/profile');
 		},
 		joinBabsang() {
+			this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 			this.$router.push('/mypage/babsang');
 		},
 		favoriteBabsang() {
+			this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 			this.$router.push('/mypage/favorites');
 		},
 		message() {
+			this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 			this.$router.push('/mypage/message');
 		},
 		score() {
+			this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 			this.$router.push('/mypage/score');
+		},
+		// 필터, 정렬 버튼 설정 초기화
+		initialButton() {
+			this.$store.commit('button/buttonSign', 'open');
+			this.$store.commit('button/buttonSignYO', 'young');
+			this.$store.commit('button/checkedSign', false);
+			this.$store.commit('button/showMessage', 'R');
 		},
 	},
 };

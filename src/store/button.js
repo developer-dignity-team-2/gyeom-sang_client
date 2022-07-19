@@ -5,6 +5,7 @@ export const button = {
 			buttonSign: 'open',
 			buttonSignYO: 'young',
 			checkedSign: false,
+			showMessage: 'R', // 받은 메시지 보기 신호 R, 보낸 메시지 보기 신호 S
 		};
 	},
 
@@ -19,6 +20,9 @@ export const button = {
 		},
 		checkedSign(state, data) {
 			state.checkedSign = data;
+		},
+		showMessage(state, data) {
+			state.showMessage = data;
 		},
 	},
 
