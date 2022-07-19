@@ -70,6 +70,7 @@
 				</strong>
 			</li>
 			<li>
+				<slot-modal></slot-modal>
 				<div class="dropdown-item rounded-2 cursor" @click="kakaoLogout()">
 					로그아웃
 				</div>
@@ -85,6 +86,8 @@
 </template>
 
 <script>
+import SlotModal from '@/components/common/SlotModal';
+
 export default {
 	name: 'CompUserProfile',
 	data() {
@@ -92,7 +95,9 @@ export default {
 			user: [],
 		};
 	},
-	setup() {},
+	components: {
+		SlotModal,
+	},
 	created() {
 		this.user = this.$store.state.user.userData;
 	},
@@ -121,7 +126,14 @@ export default {
 				this.$store.commit('user/userCheck', false);
 				this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 				localStorage.removeItem('jwt');
-				alert('로그아웃 되었습니다');
+				this.$swal({
+					title: '로그아웃되었습니다.',
+					// text: `{kakao_account.profile.nickname}님 환영합니다.`,
+					icon: 'info',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
 			});
 		},
 		userProfile() {
