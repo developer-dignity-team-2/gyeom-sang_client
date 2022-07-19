@@ -125,7 +125,7 @@
 					</div>
 					<!-- 댓글 -->
 					<div class="col my-3">
-						<CommentList />
+						<CommentList :babsangDetailData="babsangDetailData" />
 						<CommentCreate />
 					</div>
 				</div>

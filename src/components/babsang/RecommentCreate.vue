@@ -60,7 +60,7 @@ export default {
 	data() {
 		return {
 			comment_description: '',
-			secret_check: false,
+			secret_check: 'N',
 		};
 	},
 	setup() {},

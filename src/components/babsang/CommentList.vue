@@ -91,13 +91,16 @@
 						</button>
 					</div>
 				</div>
-				<!-- 비밀댓글 -> 밥장도 볼 수 있게 수정, 비밀댓글입니다. 나타내는 문구&디자인 수정  -->
+				<!-- 비밀댓글 >>> 밥장도 볼 수 있게 수정  -->
 				<div v-if="list.secret_check === 'Y'">
 					<div class="col-md-11" style="margin-left: auto">비밀댓글입니다.</div>
 					<div class="form-group">
 						<textarea
 							:disabled="!(list.id === this.changeSelectedId)"
-							v-show="list.user_email === user.email"
+							v-show="
+								list.user_email === user.email ||
+								this.babsangDetailData.id === list.dining_id
+							"
 							class="form-control"
 							v-model="list.comment_description"
 							id="Textarea"
@@ -202,16 +205,42 @@
 							</div>
 						</div>
 					</div>
-					<!-- 댓글 내용 -->
-					<div>
-						<textarea
-							:disabled="!(recomment.id === this.changeSelectedId)"
-							class="form-control"
-							v-model="recomment.comment_description"
-							id="Textarea"
-							rows="3"
-							style="height: 128px; resize: none"
-						></textarea>
+					<!-- 대댓글 내용 -->
+					<div v-if="recomment.secret_check === 'N'">
+						<div class="col-md-11" style="margin-left: auto">
+							공개 대댓글입니다.
+						</div>
+						<div class="form-group">
+							<textarea
+								:disabled="!(recomment.id === this.changeSelectedId)"
+								class="form-control"
+								v-model="recomment.comment_description"
+								id="Textarea"
+								rows="3"
+								style="height: 128px; resize: none"
+								placeholder="댓글 내용"
+							></textarea>
+						</div>
+					</div>
+					<div v-if="recomment.secret_check === 'Y'">
+						<div class="col-md-11" style="margin-left: auto">
+							비밀 대댓글입니다.
+						</div>
+						<div class="form-group">
+							<textarea
+								:disabled="!(recomment.id === this.changeSelectedId)"
+								v-show="
+									recomment.user_email === user.email ||
+									recomment.comment_parent_id === list.id
+								"
+								class="form-control"
+								v-model="recomment.comment_description"
+								id="Textarea"
+								rows="3"
+								style="height: 128px; resize: none"
+								placeholder="댓글 내용"
+							></textarea>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -227,6 +256,14 @@ export default {
 	computed: {
 		user() {
 			return this.$store.state.user.userData;
+		},
+	},
+	props: {
+		babsangDetailData: {
+			type: Array,
+			default: function () {
+				return [];
+			},
 		},
 	},
 	data() {
@@ -296,6 +333,8 @@ export default {
 			this.commentList = this.commentList.result;
 			console.log('------------commentList------------');
 			console.log(this.commentList);
+			console.log(this.$route.params.babsangId);
+			console.log(this.babsangDetailData.id);
 		},
 		// 대댓글 나오게 하는 함수
 		// CeateToggle(recommentId) {
