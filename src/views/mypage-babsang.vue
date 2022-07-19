@@ -115,15 +115,11 @@ export default {
 			this.makeBabsangResult();
 		},
 	},
+	create() {},
 	mounted() {
 		this.showAppliedBabsang();
 	},
-	unmounted() {
-		// 필터, 정렬 설정 초기화
-		this.$store.commit('button/checkedSign', false);
-		console.log('unmounted : ', this.$store.state.button.checkedSign);
-		this.$store.commit('button/buttonSign', 'open');
-	},
+	unmounted() {},
 	methods: {
 		// 버튼 이벤트 순서 결정
 		makeSequence() {
@@ -272,6 +268,7 @@ export default {
 	background-color: #ffcb00;
 	border-color: #ffcb00;
 	pointer-events: none;
+	height: 38px;
 }
 .btn-outline-primary {
 	color: #575757;
@@ -279,5 +276,6 @@ export default {
 	&:hover {
 		background-color: #fff9e1;
 	}
+	height: 38px;
 }
 </style>

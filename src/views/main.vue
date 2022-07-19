@@ -7,7 +7,7 @@
 			>
 				<div class="">
 					<input
-						class="search-bar form-control me-3"
+						class="search-bar form-control"
 						type="search"
 						placeholder="원하는 식당 이름을 검색해보세요!"
 						v-model.trim="babsangSearchValue"
@@ -194,6 +194,18 @@ export default {
 	border-radius: 3rem;
 	border: 2px solid #999;
 	font-size: 0.9rem;
+}
+@media (max-width: 767px) {
+	.search-bar {
+		width: 27rem;
+		padding-left: 4rem;
+		line-height: 3rem;
+		background: url('../assets/img/svg/search.svg') no-repeat 1.5rem 1.2rem;
+		background-size: 1.3rem;
+		border-radius: 3rem;
+		border: 2px solid #999;
+		font-size: 0.9rem;
+	}
 }
 .nav {
 	.nav-item {

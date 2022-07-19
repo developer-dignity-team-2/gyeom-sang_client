@@ -70,6 +70,7 @@ export default {
 			this.makeBabsangResult();
 		},
 	},
+	created() {},
 	mounted() {
 		this.showFavoritesBabsang();
 	},
