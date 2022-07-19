@@ -159,8 +159,6 @@ export default {
 			this.countAppliedSpoons = confirmUsers.filter(
 				user => user.apply_yn === 'Y',
 			);
-			console.log('신청한 숟갈들 리스트 :', this.countAppliedSpoons);
-			console.log(this.itemData.id);
 		},
 		currentStatus() {
 			let currentStatus = this.itemData.dining_status;
