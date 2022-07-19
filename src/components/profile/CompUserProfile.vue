@@ -13,9 +13,9 @@
 		<ul
 			class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 mb-3 shadow w-220px"
 		>
-			<li>
+			<!-- <li>
 				<div class="dropdown-item rounded-2 title">내 정보</div>
-			</li>
+			</li> -->
 			<li>
 				<div
 					class="dropdown-item rounded-2 cursor"
@@ -34,9 +34,10 @@
 					식사 매너 점수
 				</div>
 			</li>
-			<li>
+			<!-- <li>
 				<div class="dropdown-item rounded-2 title">밥상 정보</div>
-			</li>
+			</li> -->
+			<li><hr class="dropdown-divider" style="border-color: #f4f4f4" /></li>
 			<li>
 				<div
 					class="dropdown-item rounded-2 cursor"
@@ -52,10 +53,10 @@
 					:class="{ active: $route.path == '/mypage/favorites' }"
 					@click="favoriteBabsang()"
 				>
-					찜한 밥상
+					찜한 밥상 목록
 				</div>
 			</li>
-			<li><hr class="dropdown-divider" /></li>
+			<li><hr class="dropdown-divider" style="border-color: #f4f4f4" /></li>
 			<li>
 				<strong
 					class="dropdown-item rounded-2 cursor"
@@ -75,9 +76,17 @@
 					로그아웃
 				</div>
 			</li>
-			<li><hr class="dropdown-divider" /></li>
+			<li><hr class="dropdown-divider" style="border-color: #f4f4f4" /></li>
 			<li>
-				<div class="dropdown-item rounded-2 cursor" @click="unlinkApp()">
+				<div
+					class="dropdown-item rounded-2 font-color-withdraw cursor"
+					@click="unlinkApp()"
+				>
+					<!-- <div
+					class="dropdown-item rounded-2 cursor nav-link"
+					style="color: #cfcfcf"
+					@click="unlinkApp()"
+				> -->
 					탈퇴하기
 				</div>
 			</li>
@@ -179,5 +188,12 @@ export default {
 
 .font-color {
 	color: white;
+}
+// 탈퇴하기 글자색
+.font-color-withdraw {
+	color: #cfcfcf;
+	&:hover {
+		color: #575757;
+	}
 }
 </style>
