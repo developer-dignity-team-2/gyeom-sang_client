@@ -110,11 +110,15 @@
 						</div>
 					</div>
 					<div class="col d-flex justify-content-center my-5">
-						<button class="btn btn-secondary mx-2">수정</button>
+						<button class="btn btn-secondary mx-2" v-if="isLeader">수정</button>
 						<button class="btn btn-secondary mx-2" @click="$goMain">
 							목록
 						</button>
-						<button class="btn btn-secondary mx-2" @click="deleteBabsang">
+						<button
+							class="btn btn-secondary mx-2"
+							@click="deleteBabsang"
+							v-if="isLeader"
+						>
 							삭제
 						</button>
 					</div>
