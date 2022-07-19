@@ -70,6 +70,12 @@ export default {
 			this.makeBabsangResult();
 		},
 	},
+	created() {
+		// 필터, 정렬 설정 초기화
+		this.$store.commit('button/buttonSign', 'open');
+		this.$store.commit('button/buttonSignYO', 'young');
+		this.$store.commit('button/checkedSign', false);
+	},
 	mounted() {
 		this.showFavoritesBabsang();
 	},

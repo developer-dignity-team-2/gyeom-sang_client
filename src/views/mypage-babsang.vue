@@ -115,15 +115,16 @@ export default {
 			this.makeBabsangResult();
 		},
 	},
+	create() {
+		// 필터, 정렬 설정 초기화
+		this.$store.commit('button/buttonSign', 'open');
+		this.$store.commit('button/buttonSignYO', 'young');
+		this.$store.commit('button/checkedSign', false);
+	},
 	mounted() {
 		this.showAppliedBabsang();
 	},
-	unmounted() {
-		// 필터, 정렬 설정 초기화
-		this.$store.commit('button/checkedSign', false);
-		console.log('unmounted : ', this.$store.state.button.checkedSign);
-		this.$store.commit('button/buttonSign', 'open');
-	},
+	unmounted() {},
 	methods: {
 		// 버튼 이벤트 순서 결정
 		makeSequence() {

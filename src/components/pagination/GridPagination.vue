@@ -3,6 +3,7 @@
 		<simple-grid
 			:headers="headers"
 			:items="items"
+			:showMessage="showMessage"
 			:sliceStart="sliceStart"
 			:sliceEnd="sliceEnd"
 			@click-buttons="handleClickButtons"
@@ -32,6 +33,7 @@ export default {
 				return [];
 			},
 		},
+		showMessage: String,
 	},
 	data() {
 		return {

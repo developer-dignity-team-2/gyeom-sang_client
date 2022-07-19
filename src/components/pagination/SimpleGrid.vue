@@ -1,5 +1,6 @@
 <template>
-	<div style="overflow: auto">
+	<!-- 받은 메시지 -->
+	<div style="overflow: auto" v-if="showMessage === 'R'">
 		<table class="table table-hover" v-if="items.length > 0">
 			<thead>
 				<tr>
@@ -11,20 +12,18 @@
 							@change="doSelectAll"
 						/>
 					</th>
-					<!-- <th style="text-align: center">#</th> -->
 					<th
 						style="text-align: center"
 						:class="{
 							'th-description-width': th.key === 'message_description',
 						}"
 						:key="th.key"
-						v-for="th in headers"
+						v-for="th in headers[0]"
 					>
 						{{ th.title }}
 					</th>
 				</tr>
 			</thead>
-			<!-- <tbody v-if="showMessage === 'R'"> -->
 			<tbody>
 				<tr
 					style="text-align: center; cursor: pointer"
@@ -40,13 +39,69 @@
 							@change="doSelect"
 						/>
 					</td>
-					<!-- <td style="text-align: center">{{ i + 1 + sliceStart }}</td> -->
 					<td
-						v-for="th in headers"
+						v-for="th in headers[0]"
 						:key="th.key"
 						class="text-left"
 						:class="{
-							'nickname-width': th.key === 'nickname',
+							'nickname-width': th.key === 'sender_nickname',
+							'description-width': th.key === 'message_description',
+							'location-width': th.key === 'restaurant_location',
+						}"
+						@click="messageView(user.id)"
+					>
+						{{ user[th.key] }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- 보낸 메시지 -->
+	<div style="overflow: auto" v-if="showMessage === 'S'">
+		<table class="table table-hover" v-if="items.length > 0">
+			<thead>
+				<tr>
+					<th scope="col" style="text-align: center">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							v-model="checked_all"
+							@change="doSelectAll"
+						/>
+					</th>
+					<th
+						style="text-align: center"
+						:class="{
+							'th-description-width': th.key === 'message_description',
+						}"
+						:key="th.key"
+						v-for="th in headers[1]"
+					>
+						{{ th.title }}
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					style="text-align: center; cursor: pointer"
+					:key="i"
+					v-for="(user, i) in formattedItems"
+				>
+					<td style="width: 40px">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							:value="user.id"
+							v-model="checked"
+							@change="doSelect"
+						/>
+					</td>
+					<td
+						v-for="th in headers[1]"
+						:key="th.key"
+						class="text-left"
+						:class="{
+							'nickname-width': th.key === 'receiver_nickname',
 							'description-width': th.key === 'message_description',
 							'location-width': th.key === 'restaurant_location',
 						}"
@@ -70,6 +125,7 @@ export default {
         return [];
       },
     },
+    showMessage: String,
     headers: {
       type: Array,
       default: function () {
@@ -147,7 +203,7 @@ export default {
     },
     // 메시지 상세보기 라우터
     messageView(id) {
-      console.log(id);
+      console.log("messageView : ", id);
       this.$router.push({
         name: 'MypageMessageView',
         query: { messageId: id },
