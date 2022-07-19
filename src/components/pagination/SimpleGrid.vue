@@ -47,6 +47,7 @@
 							'nickname-width': th.key === 'sender_nickname',
 							'description-width': th.key === 'message_description',
 							'location-width': th.key === 'restaurant_location',
+							readMessage: user.read_check === 'Y',
 						}"
 						@click="messageView(user.id)"
 					>
@@ -104,6 +105,7 @@
 							'nickname-width': th.key === 'receiver_nickname',
 							'description-width': th.key === 'message_description',
 							'location-width': th.key === 'restaurant_location',
+							readMessage: user.read_check === 'Y',
 						}"
 						@click="messageView(user.id)"
 					>
@@ -234,6 +236,6 @@ td {
 
 // 메시지 읽음 처리
 .readMessage {
-  color: #f4f4f4
+  color: #CFCFCF
 }
 </style>
