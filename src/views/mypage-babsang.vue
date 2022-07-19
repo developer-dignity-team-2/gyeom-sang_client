@@ -268,6 +268,7 @@ export default {
 	background-color: #ffcb00;
 	border-color: #ffcb00;
 	pointer-events: none;
+	height: 38px;
 }
 .btn-outline-primary {
 	color: #575757;
@@ -275,5 +276,6 @@ export default {
 	&:hover {
 		background-color: #fff9e1;
 	}
+	height: 38px;
 }
 </style>

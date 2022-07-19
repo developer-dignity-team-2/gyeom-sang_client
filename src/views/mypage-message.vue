@@ -412,6 +412,7 @@ dt {
 	background-color: #ffcb00;
 	border-color: #ffcb00;
 	pointer-events: none;
+	height: 38px;
 }
 .btn-outline-primary {
 	color: #575757;
@@ -419,6 +420,7 @@ dt {
 	&:hover {
 		background-color: #fff9e1;
 	}
+	height: 38px;
 }
 
 // 모집 중/모집 완료, 최신순/오래된 순 버튼
