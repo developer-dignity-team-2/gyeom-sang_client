@@ -58,7 +58,7 @@
 									</div>
 								</div>
 								<!-- 삭제 -->
-								<!-- <div
+								<div
 									class="col-xl-2 col-md-3btn-group"
 									role="group"
 									aria-label="Basic example"
@@ -74,7 +74,7 @@
 										<i class="bi bi-trash3-fill"></i>
 										삭제
 									</button>
-								</div> -->
+								</div>
 							</div>
 						</div>
 					</div>
@@ -346,7 +346,7 @@ export default {
 							confirmButtonColor: '#ffcb00',
 						});
 						this.$store.commit('message/checkedMessage', []); // vuex 초기화
-						this.showReceivedMessage(); // 메시지 새로 고침
+						this.showMessages(this.$store.state.button.showMessage); // 메시지 새로 고침
 					} else if (r.status === 501) {
 						this.$swal({
 							title: '메시지 삭제 실패!',
@@ -356,7 +356,7 @@ export default {
 							confirmButtonText: '확인',
 							confirmButtonColor: '#ffcb00',
 						});
-						this.showReceivedMessage(); // 메시지 새로 고침
+						this.showMessages(this.$store.state.button.showMessage); // 메시지 새로 고침
 					}
 				}
 			});
