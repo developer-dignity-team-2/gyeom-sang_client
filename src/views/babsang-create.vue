@@ -46,7 +46,7 @@
 		<!-- 신청폼 -->
 		<div class="row" style="margin-bottom: 4rem">
 			<div class="col">
-				<form class="border rounded p-4" @submit.prevent="onSubmitForm">
+				<form class="border rounded p-4">
 					<fieldset>
 						<div class="form-group">
 							<label for="title" class="form-label mt-4">밥상 제목</label>
@@ -98,7 +98,9 @@
 								:lowerLimit="new Date()"
 								style="cursor: default"
 								class="form-control mt-2"
-								placeholder="식사 일시"
+								:placeholder="
+									isModify ? modifyData.dining_datetime : '식사 일시'
+								"
 								minimumView="time"
 								inputFormat="yyyy-MM-dd HH:mm"
 							/>
@@ -117,7 +119,9 @@
 									:lowerLimit="new Date()"
 									class="form-control"
 									style="cursor: default"
-									placeholder="모집 시작"
+									:placeholder="
+										isModify ? modifyData.recruit_start_date : '모집 시작'
+									"
 								/>
 							</div>
 							<div class="col">
@@ -127,7 +131,9 @@
 									:lowerLimit="this.recruit_start_date"
 									class="form-control"
 									style="cursor: default"
-									placeholder="모집 마감"
+									:placeholder="
+										isModify ? modifyData.recruit_end_date : '모집 마감'
+									"
 								/>
 							</div>
 						</div>
@@ -275,13 +281,33 @@
 						</div>
 						<div class="d-flex justify-content-center mt-5">
 							<button
+								v-if="isModify"
+								type="button"
+								class="btn btn-secondary mx-3"
+								@click="$goBack"
+							>
+								취소
+							</button>
+							<button
+								v-else
 								type="button"
 								class="btn btn-secondary mx-3"
 								@click="$goBack"
 							>
 								밥상 엎기
 							</button>
-							<button type="submit" class="btn btn-primary mx-3">
+							<button
+								v-if="isModify"
+								@click.prevent="modifyBabsang"
+								class="btn btn-primary mx-3"
+							>
+								밥상 수정하기
+							</button>
+							<button
+								v-else
+								@click.prevent="onSubmitForm"
+								class="btn btn-primary mx-3"
+							>
 								밥상 차리기
 							</button>
 						</div>
@@ -326,9 +352,14 @@ export default {
 			placeLongitude: '',
 			title: '',
 			socket: '',
+			modifyData: '',
 		};
 	},
-	computed: {},
+	computed: {
+		isModify() {
+			return !!this.$route.params.babsangId;
+		},
+	},
 	validations() {
 		return {
 			title: {
@@ -360,15 +391,32 @@ export default {
 			},
 		};
 	},
-	beforeMount() {
-		console.log('--------------현재 유저 정보--------------');
-		console.log(this.$store.state.user.userData);
-	},
+
 	mounted() {
 		this.socket = io('http://localhost:3000');
+		console.log('isModify :', this.isModify);
+		this.getBabsangDetailData();
 	},
 
 	methods: {
+		async modifyBabsang() {
+			await this.$put('/babsang/' + this.$route.params.babsangId, {
+				param: {
+					dining_table_title: this.title,
+					restaurant_name: this.placeName,
+					dining_datetime: this.diningDatetime(),
+					recruit_start_date: this.recruitStartDate(),
+					recruit_end_date: this.recruitEndDate(),
+					gender_check: this.gender_check,
+					dining_description: this.dining_description,
+					dining_thumbnail: this.dining_thumbnail,
+					restaurant_location: this.placeAddress,
+					dining_count: this.dining_count,
+					restaurant_latitude: this.placeLatitude,
+					restaurant_longitude: this.placeLongitude,
+				},
+			});
+		},
 		placeInfo(name, address, lat, long) {
 			console.log('-----------------------');
 			console.log(name, address);
@@ -432,6 +480,25 @@ export default {
 			console.log(res);
 			this.dining_thumbnail = res.filename;
 		},
+		// 수정모드시 밥상 데이터 불러오기.
+		async getBabsangDetailData() {
+			if (this.isModify) {
+				this.modifyData = await this.$get(
+					'/babsang/' + this.$route.params.babsangId,
+				);
+				this.modifyData = this.modifyData.result[0];
+
+				console.log('수정할 밥상 데이터 :', this.modifyData);
+				this.title = this.modifyData.dining_table_title;
+				this.placeName = this.modifyData.restaurant_name;
+				this.placeAddress = this.modifyData.restaurant_location;
+				this.gender_check = this.modifyData.gender_check;
+				this.dining_count = this.modifyData.dining_count;
+				this.dining_description = this.modifyData.dining_description;
+				this.imageData = `https://nicespoons.com/static/images/${this.modifyData.dining_thumbnail}`;
+			}
+		},
+
 		//밥상 생성하기
 		async onSubmitForm() {
 			const isFormCorrect = await this.v$.$validate();
