@@ -124,7 +124,7 @@ export default {
 				// cancelButtonColor: '#f4f4f4',
 				cancelButtonColor: '#d33',
 				cancelButtonText: '취소',
-				confirmButtonText: '탈퇴',
+				confirmButtonText: '확인',
 			}).then(async result => {
 				if (result.isConfirmed) {
 					window.Kakao.API.request({
@@ -139,6 +139,10 @@ export default {
 								confirmButtonText: '확인',
 								confirmButtonColor: '#ffcb00',
 							});
+							this.$store.commit('user/getUserData', {});
+							this.$store.commit('user/userCheck', false);
+							this.initialButton(); // 필터, 정렬 버튼 설정 초기화
+							localStorage.removeItem('jwt');
 						},
 						fail: err => {
 							// alert('fail: ' + JSON.stringify(err));
@@ -152,10 +156,6 @@ export default {
 							});
 						},
 					});
-					this.$store.commit('user/getUserData', {});
-					this.$store.commit('user/userCheck', false);
-					this.initialButton(); // 필터, 정렬 버튼 설정 초기화
-					localStorage.removeItem('jwt');
 				}
 			});
 		},
