@@ -98,7 +98,7 @@
 					</div>
 				</div>
 				<!-- 비밀댓글  -->
-				<div v-if="list.secret_check === 'Y'">
+				<div v-if="isLeader">
 					<div class="col-md-11" style="margin-left: auto">비밀댓글입니다.</div>
 					<div class="form-group">
 						<textarea
@@ -268,6 +268,17 @@ export default {
 	computed: {
 		user() {
 			return this.$store.state.user.userData;
+		},
+		isLeader() {
+			// 현재 유저 정보와 밥상 이메일정보가 일치하면 true
+			if (
+				this.$store.state.user.userData.email ===
+				this.babsangDetailData.host_email
+			) {
+				return true;
+			} else {
+				return false;
+			}
 		},
 	},
 	props: {

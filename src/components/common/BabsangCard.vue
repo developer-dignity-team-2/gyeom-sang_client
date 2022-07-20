@@ -32,7 +32,10 @@
 				<!--					</button>-->
 				<!--				</div>-->
 			</div>
-			<div class="card-body" style="cursor: pointer; padding: 2rem 2rem 2rem">
+			<div
+				class="card-body"
+				style="cursor: pointer; padding: 2rem 2rem 2rem; min-height: 17rem"
+			>
 				<div class="d-flex justify-content-between aling-item-center">
 					<h5
 						class="card-title m-0"
