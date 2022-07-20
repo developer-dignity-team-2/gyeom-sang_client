@@ -72,6 +72,7 @@
 					<div class="form-group">
 						<textarea
 							:disabled="!(list.id === this.changeSelectedId)"
+							v-show="list.user_email === user.email"
 							class="form-control"
 							v-model="list.comment_description"
 							id="Textarea"
@@ -213,6 +214,7 @@
 						<div class="form-group">
 							<textarea
 								:disabled="!(recomment.id === this.changeSelectedId)"
+								v-show="list.user_email === user.email"
 								class="form-control"
 								v-model="recomment.comment_description"
 								id="Textarea"
@@ -222,6 +224,7 @@
 							></textarea>
 						</div>
 					</div>
+					<!-- 비밀 대댓글 내용 -->
 					<div v-if="recomment.secret_check === 'Y'">
 						<div class="col-md-11" style="margin-left: auto">
 							비밀 대댓글입니다.
