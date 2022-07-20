@@ -17,9 +17,8 @@
 								role="group"
 								style="cursor: pointer; margin-right: 5px"
 							>
-								{{ list.nickname }}
-								<!-- 비밀댓글 작성시 프로필 이름 옆에 아이콘 -->
-								<i
+								{{ list.nickname
+								}}<i
 									class="bi bi-file-lock"
 									style="margin-left: 5px"
 									v-if="list.secret_check === 'Y'"
@@ -98,15 +97,12 @@
 					</div>
 				</div>
 				<!-- 비밀댓글  -->
-				<div v-if="isLeader">
+				<div v-if="list.secret_check === 'Y'">
 					<div class="col-md-11" style="margin-left: auto">비밀댓글입니다.</div>
 					<div class="form-group">
 						<textarea
 							:disabled="!(list.id === this.changeSelectedId)"
-							v-show="
-								list.user_email === user.email ||
-								this.babsangDetailData.id === list.dining_id
-							"
+							v-show="list.user_email === user.email || isLeader"
 							class="form-control"
 							v-model="list.comment_description"
 							id="Textarea"
@@ -243,7 +239,8 @@
 								:disabled="!(recomment.id === this.changeSelectedId)"
 								v-show="
 									recomment.user_email === user.email ||
-									recomment.comment_parent_id === list.id
+									recomment.comment_parent_id === list.id ||
+									isLeader
 								"
 								class="form-control"
 								v-model="recomment.comment_description"
@@ -262,7 +259,6 @@
 </template>
 <script>
 import RecommentCreate from '@/components/babsang/RecommentCreate';
-
 export default {
 	components: { RecommentCreate },
 	computed: {
