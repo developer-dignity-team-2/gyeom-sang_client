@@ -116,7 +116,7 @@ export default {
 		unlinkApp() {
 			this.$swal({
 				title: 'ㅠ_ㅠ',
-				text: '정말 탈퇴하실건가요?',
+				text: '정말 탈퇴하실 건가요?',
 				icon: 'warning',
 				showCancelButton: true,
 				iconColor: '#ffcb00',
@@ -124,56 +124,71 @@ export default {
 				// cancelButtonColor: '#f4f4f4',
 				cancelButtonColor: '#d33',
 				cancelButtonText: '취소',
-				confirmButtonText: '탈퇴',
+				confirmButtonText: '확인',
 			}).then(async result => {
 				if (result.isConfirmed) {
 					window.Kakao.API.request({
 						url: '/v1/user/unlink',
-						success: function () {
-							alert('탈퇴 처리가 되었습니다.');
-							// this.$swal({
-							// 	title: 'ㅠ_ㅠ',
-							// 	text: '꼭 다시 만나요~',
-							// 	icon: 'success',
-							// 	iconColor: '#ffcb00',
-							// 	confirmButtonText: '확인',
-							// 	confirmButtonColor: '#ffcb00',
-							// });
+						success: () => {
+							// alert('탈퇴 처리가 되었습니다.');
+							this.$swal({
+								title: 'ㅠ_ㅠ',
+								text: '꼭 다시 만나요~',
+								icon: 'success',
+								iconColor: '#ffcb00',
+								confirmButtonText: '확인',
+								confirmButtonColor: '#ffcb00',
+							});
+							this.$store.commit('user/getUserData', {});
+							this.$store.commit('user/userCheck', false);
+							this.initialButton(); // 필터, 정렬 버튼 설정 초기화
+							localStorage.removeItem('jwt');
 						},
-						fail: function (err) {
-							alert('fail: ' + JSON.stringify(err));
-							// this.$swal({
-							// 	title: '탈퇴 실패!',
-							// 	text: `fail: ${JSON.stringify(err)}`,
-							// 	icon: 'warning',
-							// 	iconColor: '#ffcb00',
-							// 	confirmButtonText: '확인',
-							// 	confirmButtonColor: '#ffcb00',
-							// });
+						fail: err => {
+							// alert('fail: ' + JSON.stringify(err));
+							this.$swal({
+								title: '탈퇴 실패!',
+								text: `fail: ${JSON.stringify(err)}`,
+								icon: 'warning',
+								iconColor: '#ffcb00',
+								confirmButtonText: '확인',
+								confirmButtonColor: '#ffcb00',
+							});
 						},
 					});
-					this.$store.commit('user/getUserData', {});
-					this.$store.commit('user/userCheck', false);
-					this.initialButton(); // 필터, 정렬 버튼 설정 초기화
-					localStorage.removeItem('jwt');
 				}
 			});
 		},
 		kakaoLogout() {
-			window.Kakao.Auth.logout(response => {
-				console.log(response);
-				this.$store.commit('user/getUserData', {});
-				this.$store.commit('user/userCheck', false);
-				this.initialButton(); // 필터, 정렬 버튼 설정 초기화
-				localStorage.removeItem('jwt');
-				this.$swal({
-					title: '로그아웃되었습니다.',
-					// text: `{kakao_account.profile.nickname}님 환영합니다.`,
-					icon: 'info',
-					iconColor: '#ffcb00',
-					confirmButtonText: '확인',
-					confirmButtonColor: '#ffcb00',
-				});
+			this.$swal({
+				title: '로그아웃',
+				text: '정말 하실 건가요?',
+				icon: 'warning',
+				showCancelButton: true,
+				iconColor: '#ffcb00',
+				confirmButtonColor: '#ffcb00',
+				// cancelButtonColor: '#f4f4f4',
+				cancelButtonColor: '#d33',
+				cancelButtonText: '취소',
+				confirmButtonText: '확인',
+			}).then(async result => {
+				if (result.isConfirmed) {
+					window.Kakao.Auth.logout(response => {
+						console.log(response);
+						this.$store.commit('user/getUserData', {});
+						this.$store.commit('user/userCheck', false);
+						this.initialButton(); // 필터, 정렬 버튼 설정 초기화
+						localStorage.removeItem('jwt');
+						this.$swal({
+							title: '로그아웃되었습니다.',
+							// text: `{kakao_account.profile.nickname}님 환영합니다.`,
+							icon: 'info',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						});
+					});
+				}
 			});
 		},
 		userProfile() {

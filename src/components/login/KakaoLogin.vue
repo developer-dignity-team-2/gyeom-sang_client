@@ -55,6 +55,9 @@ export default {
 						confirmButtonText: '확인',
 						confirmButtonColor: '#ffcb00',
 					});
+					this.$router.push({
+						path: '/',
+					});
 				},
 			});
 		},
