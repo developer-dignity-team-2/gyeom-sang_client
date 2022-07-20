@@ -352,7 +352,7 @@
 				<button
 					type="button"
 					class="btn btn-outline-primary"
-					@click="doPretreat"
+					@click="doAccumulate()"
 				>
 					테스트(임시)
 				</button>
@@ -623,6 +623,7 @@ export default {
 			console.log('spoon2CommonScore : ', spoon2CommonScore);
 		},
 		doPretreat() {
+			// 임시 더미 데이터
 			let manners = [
 				{
 					email: 'ubithus@naver.com',
@@ -653,7 +654,7 @@ export default {
 			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
 
 			// 기존 사용자 질문 및 점수 목록
-			let tempArr = [];
+			let result = [];
 			for (let key in manners[0]) {
 				console.log(key, manners[0][key]);
 				// sg, sb, bg, bb
@@ -675,16 +676,58 @@ export default {
 					key.substring(key.length - 7, key.length - 6),
 				);
 
-				tempArr.push([compoundID, key, manners[0][key]]);
+				result.push([compoundID, key, manners[0][key]]);
 			}
-			console.log('사용자 질문 및 점수 목록 가공 결과 : ', tempArr);
-			return tempArr;
+			console.log('사용자 질문 및 점수 목록 가공 결과 : ', result);
+			return result;
 		},
 		// 받은 매너 누적
-		// accumulate(existing, newManners) {
-		// 	let temp;
+		// 각 평가 유형 별로 호출될 메서드
+		// accumulate(older, newer) {
+		doAccumulate() {
+			let older = this.doPretreat();
 
-		// },
+			let newer = this.checkedBabjangManner;
+			// let newer = this.checkedCommonBabjangManner;
+			// let newer = this.checkedSpoonManner1;
+			// let newer = this.checkedSpoonManner2;
+
+			console.log('평가자가 선택한 매너 : ', newer);
+			// console.log(checkedCommonBabjangManner);
+			// console.log(checkedSpoonManner1);
+			// console.log(checkedSpoonManner2);
+
+			let tempArr = [];
+
+			if (newer[0].host_questions_id.substring(0, 1) === 'b') {
+				// 밥장 매너 누적
+				for (let manner of older) {
+					let mannerID = manner[0];
+					for (let selected of newer) {
+						if (selected.host_questions_id === mannerID) {
+							let tempObject = {
+								[manner[1]]: manner[2] + selected.host_questions_weight,
+							};
+							console.log('밥장 매너 누적 : ', tempObject);
+						}
+					}
+				}
+			} else {
+				// 식사 매너 누적
+				for (let manner of older) {
+					let mannerID = manner[0];
+					for (let selected of newer) {
+						if (selected.common_questions_id === mannerID) {
+							let tempObject = {
+								[manner[1]]: manner[2] + selected.common_questions_weight,
+							};
+							console.log('밥장 식사 매너 누적 : ', tempObject);
+						}
+					}
+				}
+			}
+			console.log(tempArr);
+		},
 		// 점수 PUT
 		async putScore(manner, score, email) {
 			const putScore = await this.$put(
