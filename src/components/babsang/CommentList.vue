@@ -236,9 +236,7 @@
 							비밀 대댓글입니다.
 						</div>
 						<div class="form-group">
-							<!-- 대댓글작성자, 댓글작성자, 게시글의 밥장만 댓글내용이 보임 
-							
-							***********댓글 작성자만 대댓글을 볼 수 있게 해야함************-->
+							<!-- 대댓글작성자, 댓글작성자, 게시글의 밥장만 댓글내용이 보임 -->
 							<textarea
 								:disabled="!(recomment.id === this.changeSelectedId)"
 								v-show="
