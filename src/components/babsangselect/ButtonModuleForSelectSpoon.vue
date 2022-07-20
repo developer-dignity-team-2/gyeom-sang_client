@@ -63,6 +63,7 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
+		// 매너 점수 순
 		changeMannerScore() {
 			if (this.$store.state.button.buttonSignHL === 'H') {
 				this.$store.commit('button/buttonSignHL', 'L');
@@ -72,6 +73,7 @@ export default {
 				console.log(this.$store.state.button.buttonSignHL);
 			}
 		},
+		// 신청 순
 		changeRecruitDate() {
 			if (this.$store.state.button.buttonSignFS === 'F') {
 				this.$store.commit('button/buttonSignFS', 'S');
@@ -85,7 +87,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-// 모집 중/모집 완료, 최신순/오래된 순 버튼
 .btn-primary {
 	color: #575757;
 	background-color: #ffcb00;

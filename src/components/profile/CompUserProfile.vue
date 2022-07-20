@@ -129,27 +129,27 @@ export default {
 				if (result.isConfirmed) {
 					window.Kakao.API.request({
 						url: '/v1/user/unlink',
-						success: function () {
-							alert('탈퇴 처리가 되었습니다.');
-							// this.$swal({
-							// 	title: 'ㅠ_ㅠ',
-							// 	text: '꼭 다시 만나요~',
-							// 	icon: 'success',
-							// 	iconColor: '#ffcb00',
-							// 	confirmButtonText: '확인',
-							// 	confirmButtonColor: '#ffcb00',
-							// });
+						success: () => {
+							// alert('탈퇴 처리가 되었습니다.');
+							this.$swal({
+								title: 'ㅠ_ㅠ',
+								text: '꼭 다시 만나요~',
+								icon: 'success',
+								iconColor: '#ffcb00',
+								confirmButtonText: '확인',
+								confirmButtonColor: '#ffcb00',
+							});
 						},
-						fail: function (err) {
-							alert('fail: ' + JSON.stringify(err));
-							// this.$swal({
-							// 	title: '탈퇴 실패!',
-							// 	text: `fail: ${JSON.stringify(err)}`,
-							// 	icon: 'warning',
-							// 	iconColor: '#ffcb00',
-							// 	confirmButtonText: '확인',
-							// 	confirmButtonColor: '#ffcb00',
-							// });
+						fail: err => {
+							// alert('fail: ' + JSON.stringify(err));
+							this.$swal({
+								title: '탈퇴 실패!',
+								text: `fail: ${JSON.stringify(err)}`,
+								icon: 'warning',
+								iconColor: '#ffcb00',
+								confirmButtonText: '확인',
+								confirmButtonColor: '#ffcb00',
+							});
 						},
 					});
 					this.$store.commit('user/getUserData', {});
