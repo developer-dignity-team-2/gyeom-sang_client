@@ -349,9 +349,13 @@
 				>
 					다음
 				</button>
-				<!-- <button type="button" class="btn btn-outline-primary" @click="doTest">
+				<button
+					type="button"
+					class="btn btn-outline-primary"
+					@click="doPretreat"
+				>
 					테스트(임시)
-				</button> -->
+				</button>
 			</div>
 		</div>
 	</div>
@@ -618,12 +622,82 @@ export default {
 			console.log('spoon1CommonScore : ', spoon1CommonScore);
 			console.log('spoon2CommonScore : ', spoon2CommonScore);
 		},
-		// 점수 PUT
-		// async putScore() {
-		// 	if (spoonEmail === userEmail) {
-		// 		await this.$put('https://nicespoons.com/api/v1/aggregation');
-		// 	}
+		doPretreat() {
+			let manners = [
+				{
+					email: 'ubithus@naver.com',
+					common_good_question01_count: 0,
+					common_good_question02_count: 231,
+					common_good_question03_count: 0,
+					common_good_question04_count: 0,
+					common_good_question05_count: 0,
+					common_bad_question01_count: 0,
+					common_bad_question02_count: 0,
+					common_bad_question03_count: 0,
+					common_bad_question04_count: 0,
+					common_bad_question05_count: 0,
+					host_good_question01_count: 10,
+					host_good_question02_count: 0,
+					host_bad_question01_count: 0,
+					host_bad_question02_count: 0,
+					dining_score: 3,
+				},
+			];
+
+			console.log('checkedBabjangManner : ', this.checkedBabjangManner);
+			console.log(
+				'checkedCommonBabjangManner : ',
+				this.checkedCommonBabjangManner,
+			);
+			console.log('checkedSpoonManner1 : ', this.checkedCommonSpoonManner1);
+			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
+
+			// 기존 사용자 질문 및 점수 목록
+			let tempArr = [];
+			for (let key in manners[0]) {
+				console.log(key, manners[0][key]);
+				// sg, sb, bg, bb
+				let compoundID = ''.concat(
+					key.substring(0, 6) === 'common'
+						? 's'
+						: key.substring(0, 4) === 'host'
+						? 'b'
+						: '',
+					key.substring(7, 8) === 'g'
+						? 'g'
+						: key.substring(7, 8) === 'b'
+						? 'b'
+						: key.substring(5, 6) === 'g'
+						? 'g'
+						: key.substring(5, 6) === 'b'
+						? 'b'
+						: '',
+					key.substring(key.length - 7, key.length - 6),
+				);
+
+				tempArr.push([compoundID, key, manners[0][key]]);
+			}
+			console.log('사용자 질문 및 점수 목록 가공 결과 : ', tempArr);
+			return tempArr;
+		},
+		// 받은 매너 누적
+		// accumulate(existing, newManners) {
+		// 	let temp;
+
 		// },
+		// 점수 PUT
+		async putScore(manner, score, email) {
+			const putScore = await this.$put(
+				'https://nicespoons.com/api/v1/aggregation',
+				{
+					param: {
+						[manner]: score,
+					},
+					email: email,
+				},
+			);
+			console.log(putScore);
+		},
 	},
 };
 </script>
