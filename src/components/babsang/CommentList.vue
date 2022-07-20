@@ -17,8 +17,9 @@
 								role="group"
 								style="cursor: pointer; margin-right: 5px"
 							>
-								{{ list.nickname
-								}}<i
+								{{ list.nickname }}
+								<!-- 비밀댓글 작성시 프로필 이름 옆에 아이콘 -->
+								<i
 									class="bi bi-file-lock"
 									style="margin-left: 5px"
 									v-if="list.secret_check === 'Y'"
