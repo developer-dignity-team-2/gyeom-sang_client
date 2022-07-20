@@ -170,8 +170,11 @@ export default {
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
 			});
-			this.babsangData = this.babsangData.result;
-			console.log('밥상 데이터 리스트', this.babsangData);
+			console.log('모든 밥상 리스트 :', this.babsangData);
+			this.babsangData = this.babsangData.result.filter(
+				item => item.dining_status === 0,
+			);
+			console.log('모집중인 밥상', this.babsangData);
 		},
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {

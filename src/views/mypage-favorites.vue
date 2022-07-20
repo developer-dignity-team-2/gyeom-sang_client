@@ -8,7 +8,7 @@
 			<!-- 본문영역 -->
 			<div class="col-xl-9 col-md-8 col-sm-12">
 				<div class="col border rounded p-3">
-					<h3>찜한 밥상</h3>
+					<h3>찜한 밥상 목록</h3>
 					<div class="row mt-4 mb-2">
 						<div>
 							<!-- 버튼 -->

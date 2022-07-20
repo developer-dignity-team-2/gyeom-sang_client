@@ -13,9 +13,9 @@
 		<ul
 			class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 mb-3 shadow w-220px"
 		>
-			<li>
+			<!-- <li>
 				<div class="dropdown-item rounded-2 title">내 정보</div>
-			</li>
+			</li> -->
 			<li>
 				<div
 					class="dropdown-item rounded-2 cursor"
@@ -34,9 +34,10 @@
 					식사 매너 점수
 				</div>
 			</li>
-			<li>
+			<!-- <li>
 				<div class="dropdown-item rounded-2 title">밥상 정보</div>
-			</li>
+			</li> -->
+			<li><hr class="dropdown-divider" style="border-color: #f4f4f4" /></li>
 			<li>
 				<div
 					class="dropdown-item rounded-2 cursor"
@@ -52,10 +53,10 @@
 					:class="{ active: $route.path == '/mypage/favorites' }"
 					@click="favoriteBabsang()"
 				>
-					찜한 밥상
+					찜한 밥상 목록
 				</div>
 			</li>
-			<li><hr class="dropdown-divider" /></li>
+			<li><hr class="dropdown-divider" style="border-color: #f4f4f4" /></li>
 			<li>
 				<strong
 					class="dropdown-item rounded-2 cursor"
@@ -70,13 +71,22 @@
 				</strong>
 			</li>
 			<li>
+				<slot-modal></slot-modal>
 				<div class="dropdown-item rounded-2 cursor" @click="kakaoLogout()">
 					로그아웃
 				</div>
 			</li>
-			<li><hr class="dropdown-divider" /></li>
+			<li><hr class="dropdown-divider" style="border-color: #f4f4f4" /></li>
 			<li>
-				<div class="dropdown-item rounded-2 cursor" @click="unlinkApp()">
+				<div
+					class="dropdown-item rounded-2 font-color-withdraw cursor"
+					@click="unlinkApp()"
+				>
+					<!-- <div
+					class="dropdown-item rounded-2 cursor nav-link"
+					style="color: #cfcfcf"
+					@click="unlinkApp()"
+				> -->
 					탈퇴하기
 				</div>
 			</li>
@@ -85,6 +95,8 @@
 </template>
 
 <script>
+import SlotModal from '@/components/common/SlotModal';
+
 export default {
 	name: 'CompUserProfile',
 	data() {
@@ -92,7 +104,9 @@ export default {
 			user: [],
 		};
 	},
-	setup() {},
+	components: {
+		SlotModal,
+	},
 	created() {
 		this.user = this.$store.state.user.userData;
 	},
@@ -100,19 +114,50 @@ export default {
 	unmounted() {},
 	methods: {
 		unlinkApp() {
-			window.Kakao.API.request({
-				url: '/v1/user/unlink',
-				success: function () {
-					alert('탈퇴처리가 퇴었습니다');
-				},
-				fail: function (err) {
-					alert('fail: ' + JSON.stringify(err));
-				},
+			this.$swal({
+				title: 'ㅠ_ㅠ',
+				text: '정말 탈퇴하실건가요?',
+				icon: 'warning',
+				showCancelButton: true,
+				iconColor: '#ffcb00',
+				confirmButtonColor: '#ffcb00',
+				// cancelButtonColor: '#f4f4f4',
+				cancelButtonColor: '#d33',
+				cancelButtonText: '취소',
+				confirmButtonText: '탈퇴',
+			}).then(async result => {
+				if (result.isConfirmed) {
+					window.Kakao.API.request({
+						url: '/v1/user/unlink',
+						success: function () {
+							alert('탈퇴 처리가 되었습니다.');
+							// this.$swal({
+							// 	title: 'ㅠ_ㅠ',
+							// 	text: '꼭 다시 만나요~',
+							// 	icon: 'success',
+							// 	iconColor: '#ffcb00',
+							// 	confirmButtonText: '확인',
+							// 	confirmButtonColor: '#ffcb00',
+							// });
+						},
+						fail: function (err) {
+							alert('fail: ' + JSON.stringify(err));
+							// this.$swal({
+							// 	title: '탈퇴 실패!',
+							// 	text: `fail: ${JSON.stringify(err)}`,
+							// 	icon: 'warning',
+							// 	iconColor: '#ffcb00',
+							// 	confirmButtonText: '확인',
+							// 	confirmButtonColor: '#ffcb00',
+							// });
+						},
+					});
+					this.$store.commit('user/getUserData', {});
+					this.$store.commit('user/userCheck', false);
+					this.initialButton(); // 필터, 정렬 버튼 설정 초기화
+					localStorage.removeItem('jwt');
+				}
 			});
-			this.$store.commit('user/getUserData', {});
-			this.$store.commit('user/userCheck', false);
-			this.initialButton(); // 필터, 정렬 버튼 설정 초기화
-			localStorage.removeItem('jwt');
 		},
 		kakaoLogout() {
 			window.Kakao.Auth.logout(response => {
@@ -121,7 +166,14 @@ export default {
 				this.$store.commit('user/userCheck', false);
 				this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 				localStorage.removeItem('jwt');
-				alert('로그아웃 되었습니다');
+				this.$swal({
+					title: '로그아웃되었습니다.',
+					// text: `{kakao_account.profile.nickname}님 환영합니다.`,
+					icon: 'info',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
 			});
 		},
 		userProfile() {
@@ -167,5 +219,12 @@ export default {
 
 .font-color {
 	color: white;
+}
+// 탈퇴하기 글자색
+.font-color-withdraw {
+	color: #cfcfcf;
+	&:hover {
+		color: #575757;
+	}
 }
 </style>

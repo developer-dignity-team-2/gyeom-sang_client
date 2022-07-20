@@ -110,11 +110,21 @@
 						</div>
 					</div>
 					<div class="col d-flex justify-content-center my-5">
-						<button class="btn btn-secondary mx-2">수정</button>
+						<button
+							class="btn btn-secondary mx-2"
+							v-if="isLeader"
+							@click="modifyBabsang"
+						>
+							수정
+						</button>
 						<button class="btn btn-secondary mx-2" @click="$goMain">
 							목록
 						</button>
-						<button class="btn btn-secondary mx-2" @click="deleteBabsang">
+						<button
+							class="btn btn-secondary mx-2"
+							@click="deleteBabsang"
+							v-if="isLeader"
+						>
 							삭제
 						</button>
 					</div>
@@ -334,6 +344,14 @@ export default {
 	},
 
 	methods: {
+		modifyBabsang() {
+			this.$router.push({
+				name: 'BabsangCreate',
+				params: {
+					babsangId: this.$route.params.babsangId,
+				},
+			});
+		},
 		writeMessage() {
 			console.log('겸상 일시 : ', this.babsangDetailData.dining_datetime);
 			this.spoonMessage = `밥장님, ${this.babsangDetailData.restaurant_name} 밥상(${this.babsangDetailData.dining_datetime})에서 겸상하고 싶어요~`;

@@ -7,13 +7,16 @@
 		>
 			로그인
 		</p>
+		<slot-modal></slot-modal>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
+import SlotModal from '@/components/common/SlotModal';
+
 export default {
-	components: {},
+	components: { SlotModal },
 	computed: {
 		user() {
 			return this.$store.state.user.userData;
@@ -24,14 +27,7 @@ export default {
 			sampleData: '',
 		};
 	},
-	beforeCreate() {},
-	created() {},
-	beforeMount() {},
-	mounted() {},
-	beforeUpdate() {},
-	updated() {},
-	beforeUnmount() {},
-	unmounted() {},
+
 	methods: {
 		/* 카카오톡 로그인 */
 		kakaoLogin() {
@@ -51,7 +47,14 @@ export default {
 					console.log('---------------kakao account---------------');
 					console.log(kakao_account);
 					this.login(kakao_account);
-					alert('로그인 성공!');
+					this.$swal({
+						title: '로그인 성공!',
+						text: `${kakao_account.profile.nickname}님 환영합니다.`,
+						icon: 'success',
+						iconColor: '#ffcb00',
+						confirmButtonText: '확인',
+						confirmButtonColor: '#ffcb00',
+					});
 				},
 			});
 		},

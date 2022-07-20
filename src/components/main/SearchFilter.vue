@@ -32,18 +32,6 @@
 					<div class="dropdown-item">제주</div>
 				</div>
 			</li>
-			<li class="nav-item">
-				<div class="nav-link" href="#">
-					기간 :
-					<Datepicker
-						v-model="date"
-						range
-						:enableTimePicker="false"
-						:minDate="new Date()"
-						style="display: inline-block"
-					></Datepicker>
-				</div>
-			</li>
 
 			<li class="nav-item dropdown">
 				<a
@@ -61,6 +49,19 @@
 					<div class="dropdown-item">여성</div>
 				</div>
 			</li>
+			<li class="nav-item" style="margin-bottom: 0.4rem">
+				<div class="nav-link" href="#">
+					기간 :
+					<Datepicker
+						v-model="date"
+						range
+						:enableTimePicker="false"
+						:minDate="new Date()"
+						style="display: inline-block"
+						placeholder="날짜 선택하기"
+					></Datepicker>
+				</div>
+			</li>
 			<!--			<li class="nav-item">-->
 			<!--				<a class="nav-link" data-bs-toggle="dropdown" href="#" role="button"-->
 			<!--					>필터 초기화</a-->
@@ -73,6 +74,7 @@
 <script>
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
+
 export default {
 	name: 'SearchFilter',
 	components: { Datepicker },
@@ -117,3 +119,37 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+::v-global(.dp__theme_light) {
+	--dp-background-color: #fff;
+	--dp-text-color: #212121;
+	--dp-hover-color: #f3f3f3;
+	--dp-hover-text-color: #212121;
+	--dp-hover-icon-color: #959595;
+	--dp-primary-color: #ffcb00;
+	--dp-primary-disabled-color: #6bacea;
+	--dp-primary-text-color: #f8f5f5;
+	--dp-secondary-color: #c0c4cc;
+	--dp-border-color: #ddd;
+	--dp-menu-border-color: #ddd;
+	--dp-border-color-hover: #aaaeb7;
+	--dp-disabled-color: #f6f6f6;
+	--dp-scroll-bar-background: #f3f3f3;
+	--dp-scroll-bar-color: #959595;
+	--dp-success-color: #ffcb00;
+	--dp-success-color-disabled: #a3d9b1;
+	--dp-icon-color: #959595;
+	--dp-danger-color: #ff6f60;
+	--dp-marker-color: #ff6f60;
+	--dp-tooltip-color: #fafafa;
+	--dp-disabled-color-text: #8e8e8e;
+}
+.nav {
+	align-items: center;
+	.nav-item {
+		.nav-link {
+			color: #888888;
+		}
+	}
+}
+</style>
