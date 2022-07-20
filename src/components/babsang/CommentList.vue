@@ -160,7 +160,12 @@
 									role="group"
 									style="cursor: pointer; margin-right: 5px"
 								>
-									{{ recomment.nickname }}
+									{{ recomment.nickname
+									}}<i
+										class="bi bi-file-lock"
+										style="margin-left: 5px"
+										v-if="recomment.secret_check === 'Y'"
+									></i>
 								</div>
 								<p class="text-muted">{{ recomment.create_date }}</p>
 							</div>
