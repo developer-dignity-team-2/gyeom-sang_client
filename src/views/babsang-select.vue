@@ -179,8 +179,10 @@ export default {
 			selectedSpoons: [], // 현재 선택한 숟갈
 			fixedSpoons: [], // 신청한 숟갈 중 이미 선택된 숟갈
 			checkedEmail: [], // 현재 선택한 숟갈의 이메일(함께할 숟갈 화면 표시용)
+			signArr: [], // 신호 순서
 		};
 	},
+	// computed는 "함께할 숟갈" 선택 기능 관련
 	computed: {
 		buttonSignal: function () {
 			return this.mixSpoons.length - (this.babsangInfo.dining_count - 1);
@@ -189,18 +191,101 @@ export default {
 			return [...this.fixedSpoons, ...this.selectedSpoons];
 		},
 	},
+	watch: {
+		// 매너 점수 순 정렬 이벤트
+		'$store.state.button.buttonSignHL': function (value) {
+			console.log('$store.state.button.buttonSignHL : ', value);
+			this.showSpoonCard();
+		},
+		// 신청 순 버튼 이벤트
+		'$store.state.button.buttonSignFS': function (value) {
+			console.log('this.$store.state.button.buttonSignFS : ', value);
+			this.showSpoonCard();
+		},
+	},
 	setup() {},
 	created() {},
 	mounted() {
-		this.getBabsangInfo();
-		this.getBabsangSpoons();
+		this.initialButton();
+		this.showSpoonCard();
 		console.log(this.mixSpoons);
 		console.log(this.selectedSpoons.length);
 		// console.log(this.$store.state.user.userData);
 	},
 	unmounted() {},
 	methods: {
-		// 신청한 숟갈, 선택된 숟갈 정보 가져오기
+		// 신청 숟갈 카드 보이기
+		async showSpoonCard() {
+			await this.getBabsangInfo();
+			this.makeSequence();
+			await this.makeMessageResult();
+		},
+		// 정렬 조건 순서
+		makeSequence() {
+			this.signArr = [];
+			this.signArr.push(this.$store.state.button.buttonSignHL);
+			this.signArr.push(this.$store.state.button.buttonSignFS);
+			console.log('버튼 시그널 배열 : ', this.signArr);
+		},
+		// 정렬 최종 결과
+		async makeMessageResult() {
+			// 서버로 부터 신청 숟갈 목록 가져오기
+			let tempResult = [];
+			await this.getBabsangSpoons();
+
+			// 1차 정열 수행
+			if (this.signArr[1] === 'H') {
+				tempResult = this.doSortHL(this.appliedSpoons, 'H');
+			} else if (this.signArr[1] === 'L') {
+				tempResult = this.doSortHL(this.appliedSpoons, 'L');
+			} else if (this.signArr[1] === 'F') {
+				tempResult = this.doSortFS(this.appliedSpoons, 'F');
+			} else if (this.signArr[1] === 'S') {
+				tempResult = this.doSortFS(this.appliedSpoons, 'S');
+			}
+
+			// 2차 정열 수행
+			if (this.signArr[0] === 'H') {
+				tempResult = this.doSortHL(this.appliedSpoons, 'H');
+			} else if (this.signArr[0] === 'L') {
+				tempResult = this.doSortHL(this.appliedSpoons, 'L');
+			} else if (this.signArr[0] === 'F') {
+				tempResult = this.doSortFS(this.appliedSpoons, 'F');
+			} else if (this.signArr[0] === 'S') {
+				tempResult = this.doSortFS(this.appliedSpoons, 'S');
+			}
+
+			this.appliedSpoons = tempResult;
+		},
+		// 매너 점수 순 정렬
+		doSortHL(spoons, sign) {
+			if (sign === 'L') {
+				let asc = spoons.sort(
+					(a, b) => a.spoon_dining_score - b.spoon_dining_score,
+				);
+				return asc;
+			} else {
+				let desc = spoons.sort(
+					(a, b) => b.spoon_dining_score - a.spoon_dining_score,
+				);
+				return desc;
+			}
+		},
+		// 신청 순 정렬
+		doSortFS(spoons, sign) {
+			if (sign === 'F') {
+				let asc = spoons.sort(
+					(a, b) => new Date(a.create_date) - new Date(b.create_date),
+				);
+				return asc;
+			} else {
+				let desc = spoons.sort(
+					(a, b) => new Date(b.create_date) - new Date(a.create_date),
+				);
+				return desc;
+			}
+		},
+		// 신청한 숟갈, 선택된 숟갈 목록 가져오기
 		async getBabsangSpoons() {
 			this.fixedSpoons = [];
 			this.selectedSpoons = [];
@@ -229,11 +314,12 @@ export default {
 					`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}`,
 				)
 			).result[0];
+
+			loader.hide();
+
 			this.babsangInfo = temp;
 			// console.log('밥상 정보 : ', this.babsangInfo);
 			// console.log('밥상 정보 temp : ', temp);
-
-			loader.hide();
 		},
 		// 밥장의 숟갈 선정(확정)
 		async pickSpoon(spoon_email) {
@@ -389,6 +475,11 @@ export default {
 				name: 'Babsang',
 				params: { babsangId: id },
 			});
+		},
+		// 버튼 설정 초기화
+		initialButton() {
+			this.$store.commit('button/buttonSignHL', 'H');
+			this.$store.commit('button/buttonSignFS', 'F');
 		},
 	},
 };
