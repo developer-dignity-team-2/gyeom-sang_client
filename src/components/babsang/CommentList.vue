@@ -17,7 +17,12 @@
 								role="group"
 								style="cursor: pointer; margin-right: 5px"
 							>
-								{{ list.nickname }}
+								{{ list.nickname
+								}}<i
+									class="bi bi-file-lock"
+									style="margin-left: 5px"
+									v-if="list.secret_check === 'Y'"
+								></i>
 							</div>
 							<p class="text-muted">{{ list.create_date }}</p>
 						</div>
@@ -68,7 +73,7 @@
 
 				<!-- 댓글 내용 -->
 				<div v-if="list.secret_check === 'N'">
-					<div class="col-md-11" style="margin-left: auto">공개댓글입니다.</div>
+					<!-- <div class="col-md-11" style="margin-left: auto">공개댓글입니다.</div> -->
 					<div class="form-group">
 						<textarea
 							:disabled="!(list.id === this.changeSelectedId)"
@@ -91,7 +96,7 @@
 						</button>
 					</div>
 				</div>
-				<!-- 비밀댓글 >>> 밥장도 볼 수 있게 수정  -->
+				<!-- 비밀댓글  -->
 				<div v-if="list.secret_check === 'Y'">
 					<div class="col-md-11" style="margin-left: auto">비밀댓글입니다.</div>
 					<div class="form-group">
@@ -155,7 +160,12 @@
 									role="group"
 									style="cursor: pointer; margin-right: 5px"
 								>
-									{{ recomment.nickname }}
+									{{ recomment.nickname
+									}}<i
+										class="bi bi-file-lock"
+										style="margin-left: 5px"
+										v-if="recomment.secret_check === 'Y'"
+									></i>
 								</div>
 								<p class="text-muted">{{ recomment.create_date }}</p>
 							</div>
@@ -207,9 +217,9 @@
 					</div>
 					<!-- 대댓글 내용 -->
 					<div v-if="recomment.secret_check === 'N'">
-						<div class="col-md-11" style="margin-left: auto">
+						<!-- <div class="col-md-11" style="margin-left: auto">
 							공개 대댓글입니다.
-						</div>
+						</div> -->
 						<div class="form-group">
 							<textarea
 								:disabled="!(recomment.id === this.changeSelectedId)"
@@ -222,6 +232,7 @@
 							></textarea>
 						</div>
 					</div>
+					<!-- 비밀 대댓글 내용 -->
 					<div v-if="recomment.secret_check === 'Y'">
 						<div class="col-md-11" style="margin-left: auto">
 							비밀 대댓글입니다.
