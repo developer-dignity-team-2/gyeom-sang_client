@@ -100,6 +100,7 @@
 				<div v-if="list.secret_check === 'Y'">
 					<div class="col-md-11" style="margin-left: auto">비밀댓글입니다.</div>
 					<div class="form-group">
+						<!-- 댓글작성자와 게시글의 밥장만 댓글내용이 보임 -->
 						<textarea
 							:disabled="!(list.id === this.changeSelectedId)"
 							v-show="list.user_email === user.email || isLeader"
@@ -235,12 +236,16 @@
 							비밀 대댓글입니다.
 						</div>
 						<div class="form-group">
+							<!-- 대댓글작성자, 댓글작성자, 게시글의 밥장만 댓글내용이 보임 
+							
+							***********댓글 작성자만 대댓글을 볼 수 있게 해야함************-->
 							<textarea
 								:disabled="!(recomment.id === this.changeSelectedId)"
 								v-show="
 									recomment.user_email === user.email ||
-									recomment.comment_parent_id === list.id ||
-									isLeader
+									isLeader ||
+									(list.user_email === user.email &&
+										recomment.comment_parent_id === list.id)
 								"
 								class="form-control"
 								v-model="recomment.comment_description"
@@ -296,6 +301,7 @@ export default {
 			commentList: [],
 			recommentSelectedId: '',
 			changeSelectedId: '',
+			// recommentSecret:
 		};
 	},
 	setup() {},
