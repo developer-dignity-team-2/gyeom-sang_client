@@ -174,9 +174,12 @@
 								<div class="col">
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="spoons[0].spoon_profile_image" alt="프로필" />
+											<img
+												:src="theSpoons[0].spoon_profile_image"
+												alt="프로필"
+											/>
 										</div>
-										<strong>{{ spoons[0].spoon_nickname }}</strong>
+										<strong>{{ theSpoons[0].spoon_nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -262,9 +265,12 @@
 								<div class="col">
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="spoons[1].spoon_profile_image" alt="프로필" />
+											<img
+												:src="theSpoons[1].spoon_profile_image"
+												alt="프로필"
+											/>
 										</div>
-										<strong>{{ spoons[1].spoon_nickname }}</strong>
+										<strong>{{ theSpoons[1].spoon_nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -350,9 +356,12 @@
 								<div class="col">
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
-											<img :src="spoons[2].spoon_profile_image" alt="프로필" />
+											<img
+												:src="theSpoons[2].spoon_profile_image"
+												alt="프로필"
+											/>
 										</div>
-										<strong>{{ spoons[2].spoon_nickname }}</strong>
+										<strong>{{ theSpoons[2].spoon_nickname }}</strong>
 									</div>
 								</div>
 							</div>
@@ -458,18 +467,19 @@ export default {
 	data() {
 		return {
 			showCard: true,
-			userIndex: 0,
-			babsangInfo: [], // 밥장 정보 포함
+			userIndex: 0, // 로그인 사용자(평가자)의 밥장, 숟갈 여부(0은 숟갈, 1은 밥장)
+			babsangInfo: [], // 밥장 정보 포함*
 			loginUser: [], // 로인 사용자 정보
-			spoons: [],
-			commonQuestions: [[[]], [[]]],
-			babjangQuestions: [[[]], [[]]],
+			spoons: [], // 숟갈 얹은 사용자들 정보
+			theSpoons: [], // 매너 평가 대상 숟갈 정보*
+			commonQuestions: [[[]], [[]]], // 공통용 매너 질문 정보
+			babjangQuestions: [[[]], [[]]], // 밥장용 매너 질문 정보
 			// 로그인 사용자가 평가한 각 유저의 매너 평가 결과
-			checkedBabjangManner: [],
-			checkedCommonBabjangManner: [],
-			checkedCommonSpoonManner1: [],
-			checkedCommonSpoonManner2: [],
-			checkedCommonSpoonManner3: [],
+			checkedBabjangManner: [], // 밥장이 받은 밥상 운영 매너
+			checkedCommonBabjangManner: [], // 밥장이 받은 식사 매너
+			checkedCommonSpoonManner1: [], // 숟갈1이 받은 식사 매너
+			checkedCommonSpoonManner2: [], // 숟갈2이 받은 식사 매너
+			checkedCommonSpoonManner3: [], // 숟갈3이 받은 식사 매너
 			// 임시 더미 데이터
 			tempData: [
 				{
@@ -536,89 +546,95 @@ export default {
 	},
 	setup() {},
 	created() {
-		this.getCommonQuestions();
-		this.getBabjangQuestions();
-		this.getBabsangSpoons();
-		this.getBabsangInfo();
-		this.getLoginUser();
+		this.doInitialInfo(); // 서버에서 필요한 정보 가져오기
+		console.log('created에서 theSpoons? ', this.theSpoons);
 	},
 	mounted() {},
 	unmounted() {},
 	methods: {
-		// 로그인 사용자 정보 가져오기
-		async getLoginUser() {
-			const user = await this.$get('https://nicespoons.com/api/v1/user');
-			let loginUser = user.result[0];
-			return loginUser;
-		},
-		// 신청한 숟갈, 선택된 숟갈 정보 가져오기
-		async getBabsangSpoons() {
+		// ========== [이하] 서버로 부터 필요한 정보 가져와서 용도에 맞게 가공 처리 ==========
+		// 로그인 사용자(평가자)의 밥장, 숟갈 여부
+		async doInitialInfo() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const temp = await this.$get(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
-			);
+			let babsangInfo = await this.getBabsang(); // 밥상(밥장) 정보 가져오기
+			console.log('밥상 정보 : ', babsangInfo);
+			this.babsangInfo = babsangInfo;
 
 			let loginUser = await this.getLoginUser(); // 로그인 사용자 정보 가져오기
 			console.log('로그인 사용자 : ', loginUser);
+			this.loginUser = loginUser;
+
+			if (babsangInfo.host_email === loginUser.email) {
+				this.userIndex = 1;
+				console.log('평가자는 밥장입니다.');
+			} else {
+				this.babjangYN = 0;
+				console.log('평가자는 밥장이 아닙니다.');
+			}
+
+			let babsangSpoons = await this.getBabsangSpoons(); // 숟갈 얹은 사용자 정보 가져오기
+			console.log('숟갈 얹은 사용자 : ', babsangSpoons);
+			this.spoons = babsangSpoons;
+
+			this.doFilterBabsangSpoons(); // 평가 대상 숟갈 정보 가져오기
+			this.getCommonQuestions(); // 공통용 매너 질문 정보 가져오기
+			this.getBabjangQuestions(); // 밥장용 매너 질문 정보 가져오기
 
 			loader.hide();
-
-			// 신청한 숟갈
-			let appliedSpoonY = temp.result.filter(spoon => spoon.apply_yn === 'Y');
-			console.log('신청한 숟갈 : ', appliedSpoonY);
-
-			// 선택된 숟갈
-			let selectedSpoonY = appliedSpoonY.filter(
-				spoon => spoon.selected_yn === 'Y',
-			);
-			console.log('선택된 숟갈 : ', selectedSpoonY);
-
-			// 평가할 숟갈
-			let spoons = selectedSpoonY.filter(
-				spoon => spoon.spoon_email !== loginUser.email,
-			);
-			console.log('평가할 숟갈 : ', spoons);
-
-			this.spoons = spoons;
 		},
 		// 밥상 정보 가져오기
-		async getBabsangInfo() {
-			const loader = this.$loading.show({ canCancel: false });
-
+		async getBabsang() {
 			const temp = (
 				await this.$get(
 					`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}`,
 				)
 			).result[0];
 
-			let loginUser = await this.getLoginUser(); // 로그인 사용자 정보 가져오기
-			this.loginUser = loginUser;
-			console.log('로그인 사용자 : ', loginUser);
-
-			loader.hide();
-
-			this.babsangInfo = temp;
-			console.log('밥상 정보 : ', this.babsangInfo);
-
-			if (temp.host_email === loginUser.email) {
-				this.userIndex = 1;
-
-				console.log('평가자는 밥장입니다.');
-			} else {
-				this.babjangYN = 0;
-				console.log('평가자는 밥장이 아닙니다.');
-			}
+			return temp;
 		},
-		// 공통 질문
-		async getCommonQuestions() {
-			const loader = this.$loading.show({ canCancel: false });
+		// 로그인 사용자 정보 가져오기
+		async getLoginUser() {
+			const user = await this.$get('https://nicespoons.com/api/v1/user');
+			let loginUser = user.result[0];
 
+			return loginUser;
+		},
+		// 숟갈 얹은 사용자들 정보
+		async getBabsangSpoons() {
+			const temp = await this.$get(
+				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
+			);
+
+			return temp;
+		},
+		// 매너 평가 대상 숟갈 가져오기
+		doFilterBabsangSpoons() {
+			// 신청한 숟갈
+			let appliedSpoonY = this.spoons.result.filter(
+				spoon => spoon.apply_yn === 'Y',
+			);
+			console.log('1차 필터링 결과 신청한 숟갈 : ', appliedSpoonY);
+
+			// 선택된 숟갈
+			let selectedSpoonY = appliedSpoonY.filter(
+				spoon => spoon.selected_yn === 'Y',
+			);
+			console.log('2차 필터링 결과 선택된 숟갈 : ', selectedSpoonY);
+
+			// 매너 평가 대상 숟갈
+			let theSpoons = selectedSpoonY.filter(
+				spoon => spoon.spoon_email !== this.loginUser.email,
+			);
+			console.log('3차 필터링 결과 매너 평가 대상 숟갈 : ', theSpoons);
+
+			this.theSpoons = theSpoons;
+		},
+		// 공통용 매너 질문 정보 가져오기
+		async getCommonQuestions() {
 			const question = await this.$get(
 				'https://nicespoons.com/api/v1/question?type=common',
 			);
-
-			loader.hide();
 
 			console.log('공통 질문 가공전 : ', question);
 
@@ -631,17 +647,13 @@ export default {
 			];
 
 			this.commonQuestions = result;
-			console.log('공통 질문 : ', this.commonQuestions);
+			console.log('공통용 매너 질문 정보 가져오기 : ', this.commonQuestions);
 		},
-		// 밥장 질문
+		// 밥장용 매너 질문 정보 가져오기
 		async getBabjangQuestions() {
-			const loader = this.$loading.show({ canCancel: false });
-
 			const question = await this.$get(
 				'https://nicespoons.com/api/v1/question?type=host',
 			);
-
-			loader.hide();
 
 			let good = question.result.filter(q => q.host_questions_type === 'G');
 			let bad = question.result.filter(q => q.host_questions_type === 'B');
@@ -654,52 +666,54 @@ export default {
 			this.babjangQuestions = result;
 			console.log('밥장 질문 : ', this.babjangQuestions);
 		},
+		// ========== [이상] 서버로 부터 필요한 정보 가져와서 용도에 맞게 가공 처리 ==========
 
-		// 버튼(이전/다음)
-		nextScore() {
-			if (this.userIndex < this.spoons.length) {
-				this.userIndex++;
-				this.computeResult();
-			} else {
-				this.$router.push('/');
-				this.computeResult();
-			}
-			console.log('userIndex : ', this.userIndex);
-		},
-		backScore() {
-			// 로그인 사용자가 밥장인 경우에는 밥장 자신을 평가 할 수 없도록 처리
-			if (this.babsangInfo.host_email === this.loginUser.email) {
-				if (this.userIndex > 1) {
-					this.userIndex--;
-				}
-				console.log('userIndex : ', this.userIndex);
-			} else {
-				if (this.userIndex > 0) {
-					this.userIndex--;
-				}
-				console.log('userIndex : ', this.userIndex);
-			}
-		},
-		// 이전 버튼 disabled 처리
-		disabledBackButton() {
-			if (this.babsangInfo.host_email === this.loginUser.email) {
-				if (this.userIndex === 1) {
-					console.log('평가자가 밥장인 경우 이전 버튼 disabled');
-					return true;
-				} else {
-					return false;
-				}
-			} else if (this.userIndex === 0) {
-				console.log('평가자가 밥장이 아닌 경우 이전 버튼 enabled');
-				return true;
-			} else {
-				return false;
-			}
-		},
+		// ========== [이하] 평가한 매너 점수 계산 ==========
 		doTest() {
 			this.computeResult();
 		},
-		// 밥장 점수 계산
+		// 로그인 사용자가 평가한 최종 매너 점수 취합(호출용)
+		computeResult() {
+			console.log('checkedBabjangManner 결과 : ', this.checkedBabjangManner);
+			console.log(
+				'checkedCommonBabjangManner 결과 : ',
+				this.checkedCommonBabjangManner,
+			);
+			console.log(
+				'checkedSpoonManner1 결과 : ',
+				this.checkedCommonSpoonManner1,
+			);
+			console.log(
+				'checkedSpoonManner2 결과 : ',
+				this.checkedCommonSpoonManner2,
+			);
+			console.log(
+				'checkedSpoonManner3 결과 : ',
+				this.checkedCommonSpoonManner3,
+			);
+
+			let babjangScore = this.computeBabjangScore(this.checkedBabjangManner);
+			let babjangCommonScore = this.computeCommonScore(
+				this.checkedCommonBabjangManner,
+			);
+			let spoon1CommonScore = this.computeCommonScore(
+				this.checkedCommonSpoonManner1,
+			);
+			let spoon2CommonScore = this.computeCommonScore(
+				this.checkedCommonSpoonManner2,
+			);
+			let spoon3CommonScore = this.computeCommonScore(
+				this.checkedCommonSpoonManner3,
+			);
+
+			// 서버에 PUT 할때 이 정보를 함께 보내야 함(현재는 콘솔로그 처리 중)
+			console.log('babjangScore 최종 매너 점수 : ', babjangScore);
+			console.log('babjangCommonScore 최종 매너 점수 : ', babjangCommonScore);
+			console.log('spoon1CommonScore 최종 매너 점수 : ', spoon1CommonScore);
+			console.log('spoon2CommonScore 최종 매너 점수 : ', spoon2CommonScore);
+			console.log('spoon3CommonScore 최종 매너 점수 : ', spoon3CommonScore);
+		},
+		// 밥장 점수 계산 함수(computeResult() 내에서 작동)
 		computeBabjangScore(chk) {
 			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): -0.02)
 			let temp;
@@ -720,7 +734,7 @@ export default {
 
 			return sum;
 		},
-		// 공통 점수 계산
+		// 공통 점수 계산 함수(computeResult() 내에서 작동)
 		computeCommonScore(chk) {
 			// 가중치 적용(숟갈 금매너(sg): 0.02, 숟갈 똥매너(sb): -0.03)
 			let temp;
@@ -747,48 +761,15 @@ export default {
 
 			return sum;
 		},
-		// 밥상 점수 설문 취합
-		computeResult() {
-			console.log('checkedBabjangManner : ', this.checkedBabjangManner);
-			console.log(
-				'checkedCommonBabjangManner : ',
-				this.checkedCommonBabjangManner,
-			);
-			console.log('checkedSpoonManner1 : ', this.checkedCommonSpoonManner1);
-			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
-			console.log('checkedSpoonManner3 : ', this.checkedCommonSpoonManner3);
+		// ========== [이상] 평가한 매너 점수 계산 ==========
 
-			let babjangScore = this.computeBabjangScore(this.checkedBabjangManner);
-			let babjangCommonScore = this.computeCommonScore(
-				this.checkedCommonBabjangManner,
-			);
-			let spoon1CommonScore = this.computeCommonScore(
-				this.checkedCommonSpoonManner1,
-			);
-			let spoon2CommonScore = this.computeCommonScore(
-				this.checkedCommonSpoonManner2,
-			);
-			let spoon3CommonScore = this.computeCommonScore(
-				this.checkedCommonSpoonManner3,
-			);
+		// ========== [이하] 평가한 매너 항목 정리 ==========
+		// https://www.nicespoons.com/aggregation?extraEmail=
+		// 위 API 호출 메서드 백단에서 제공시 연동 요망
+		// API 연동 후 해당 정보를 doPretreat()에 제공
 
-			console.log('babjangScore : ', babjangScore);
-			console.log('babjangCommonScore : ', babjangCommonScore);
-			console.log('spoon1CommonScore : ', spoon1CommonScore);
-			console.log('spoon2CommonScore : ', spoon2CommonScore);
-			console.log('spoon3CommonScore : ', spoon3CommonScore);
-		},
+		// 평가 대상의 기존 받은 매너 및 점수에 ID 부여(평가 대상 별로 각각 호출)
 		doPretreat(manners) {
-			console.log('checkedBabjangManner : ', this.checkedBabjangManner);
-			console.log(
-				'checkedCommonBabjangManner : ',
-				this.checkedCommonBabjangManner,
-			);
-			console.log('checkedSpoonManner1 : ', this.checkedCommonSpoonManner1);
-			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
-			console.log('checkedSpoonManner3 : ', this.checkedCommonSpoonManner3);
-
-			// 기존 사용자 질문 및 점수 목록
 			let result = [];
 			for (let key in manners[0]) {
 				console.log(key, manners[0][key]);
@@ -816,16 +797,15 @@ export default {
 			console.log('사용자 질문 및 점수 목록 가공 결과 : ', result);
 			return result;
 		},
-		// 받은 매너 누적
-		// 각 평가 유형 별로 호출될 메서드
-		accumulate(older, newer) {
+		// 로그인 사용자가 부여한 매너 누적(각 평가 대상 별로 각각 호출될 메서드)
+		doAccumulate(older, newer) {
 			// let older = this.doPretreat();
 			// let newer = this.checkedBabjangManner;
 			// let newer = this.checkedCommonBabjangManner;
 			// let newer = this.checkedSpoonManner1;
 			// let newer = this.checkedSpoonManner2;
 
-			console.log('평가자가 선택한 매너 : ', newer);
+			console.log('로그인 사용자가 부여한 매너 항목들 : ', newer);
 			// console.log(checkedCommonBabjangManner);
 			// console.log(checkedSpoonManner1);
 			// console.log(checkedSpoonManner2);
@@ -874,6 +854,50 @@ export default {
 			);
 			console.log(putScore);
 		},
+
+		// ========== [이하] 버튼 처리 ==========
+		// 버튼(이전/다음)
+		nextScore() {
+			if (this.userIndex < this.theSpoons.length) {
+				this.userIndex++;
+				this.computeResult();
+			} else {
+				this.$router.push('/');
+				this.computeResult();
+			}
+			console.log('userIndex : ', this.userIndex);
+		},
+		backScore() {
+			// 로그인 사용자가 밥장인 경우에는 밥장 자신을 평가 할 수 없도록 처리
+			if (this.babsangInfo.host_email === this.loginUser.email) {
+				if (this.userIndex > 1) {
+					this.userIndex--;
+				}
+				console.log('userIndex : ', this.userIndex);
+			} else {
+				if (this.userIndex > 0) {
+					this.userIndex--;
+				}
+				console.log('userIndex : ', this.userIndex);
+			}
+		},
+		// 이전 버튼 disabled 처리
+		disabledBackButton() {
+			if (this.babsangInfo.host_email === this.loginUser.email) {
+				if (this.userIndex === 1) {
+					console.log('평가자가 밥장인 경우 이전 버튼 disabled');
+					return true;
+				} else {
+					return false;
+				}
+			} else if (this.userIndex === 0) {
+				console.log('평가자가 밥장이 아닌 경우 이전 버튼 enabled');
+				return true;
+			} else {
+				return false;
+			}
+		},
+		// ========== 이상 버튼 처리 ==========
 	},
 };
 </script>
