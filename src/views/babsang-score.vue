@@ -378,7 +378,7 @@
 													name=""
 													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedCommonSpoonManner2"
+													v-model="checkedCommonSpoonManner3"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
@@ -409,7 +409,7 @@
 													name=""
 													:id="manner.common_questions_id"
 													:value="manner"
-													v-model="checkedCommonSpoonManner2"
+													v-model="checkedCommonSpoonManner3"
 												/><label
 													class="list-group-item rounded-3 py-3"
 													style="text-align: center; cursor: pointer"
@@ -469,6 +469,64 @@ export default {
 			checkedCommonBabjangManner: [],
 			checkedCommonSpoonManner1: [],
 			checkedCommonSpoonManner2: [],
+			checkedCommonSpoonManner3: [],
+			// 임시 더미 데이터
+			tempData: [
+				{
+					email: 'diddpwl80@naver.com',
+					common_good_question01_count: 0,
+					common_good_question02_count: 0,
+					common_good_question03_count: 0,
+					common_good_question04_count: 0,
+					common_good_question05_count: 0,
+					common_bad_question01_count: 0,
+					common_bad_question02_count: 0,
+					common_bad_question03_count: 0,
+					common_bad_question04_count: 0,
+					common_bad_question05_count: 0,
+					host_good_question01_count: 0,
+					host_good_question02_count: 0,
+					host_bad_question01_count: 0,
+					host_bad_question02_count: 0,
+					dining_score: 3,
+				},
+				{
+					email: 'dasol63728@gmail.com',
+					common_good_question01_count: 0,
+					common_good_question02_count: 0,
+					common_good_question03_count: 0,
+					common_good_question04_count: 0,
+					common_good_question05_count: 0,
+					common_bad_question01_count: 0,
+					common_bad_question02_count: 0,
+					common_bad_question03_count: 0,
+					common_bad_question04_count: 0,
+					common_bad_question05_count: 0,
+					host_good_question01_count: 0,
+					host_good_question02_count: 0,
+					host_bad_question01_count: 0,
+					host_bad_question02_count: 0,
+					dining_score: 3,
+				},
+				{
+					email: 'kus07177@nate.com',
+					common_good_question01_count: 0,
+					common_good_question02_count: 0,
+					common_good_question03_count: 0,
+					common_good_question04_count: 0,
+					common_good_question05_count: 0,
+					common_bad_question01_count: 0,
+					common_bad_question02_count: 0,
+					common_bad_question03_count: 0,
+					common_bad_question04_count: 0,
+					common_bad_question05_count: 0,
+					host_good_question01_count: 0,
+					host_good_question02_count: 0,
+					host_bad_question01_count: 0,
+					host_bad_question02_count: 0,
+					dining_score: 3,
+				},
+			],
 		};
 	},
 	computed: {
@@ -596,6 +654,7 @@ export default {
 			this.babjangQuestions = result;
 			console.log('밥장 질문 : ', this.babjangQuestions);
 		},
+
 		// 버튼(이전/다음)
 		nextScore() {
 			if (this.userIndex < this.spoons.length) {
@@ -697,6 +756,7 @@ export default {
 			);
 			console.log('checkedSpoonManner1 : ', this.checkedCommonSpoonManner1);
 			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
+			console.log('checkedSpoonManner3 : ', this.checkedCommonSpoonManner3);
 
 			let babjangScore = this.computeBabjangScore(this.checkedBabjangManner);
 			let babjangCommonScore = this.computeCommonScore(
@@ -708,35 +768,17 @@ export default {
 			let spoon2CommonScore = this.computeCommonScore(
 				this.checkedCommonSpoonManner2,
 			);
+			let spoon3CommonScore = this.computeCommonScore(
+				this.checkedCommonSpoonManner3,
+			);
 
 			console.log('babjangScore : ', babjangScore);
 			console.log('babjangCommonScore : ', babjangCommonScore);
 			console.log('spoon1CommonScore : ', spoon1CommonScore);
 			console.log('spoon2CommonScore : ', spoon2CommonScore);
+			console.log('spoon3CommonScore : ', spoon3CommonScore);
 		},
-		doPretreat() {
-			// 임시 더미 데이터
-			let manners = [
-				{
-					email: 'ubithus@naver.com',
-					common_good_question01_count: 0,
-					common_good_question02_count: 231,
-					common_good_question03_count: 0,
-					common_good_question04_count: 0,
-					common_good_question05_count: 0,
-					common_bad_question01_count: 0,
-					common_bad_question02_count: 0,
-					common_bad_question03_count: 0,
-					common_bad_question04_count: 0,
-					common_bad_question05_count: 0,
-					host_good_question01_count: 10,
-					host_good_question02_count: 0,
-					host_bad_question01_count: 0,
-					host_bad_question02_count: 0,
-					dining_score: 3,
-				},
-			];
-
+		doPretreat(manners) {
 			console.log('checkedBabjangManner : ', this.checkedBabjangManner);
 			console.log(
 				'checkedCommonBabjangManner : ',
@@ -744,6 +786,7 @@ export default {
 			);
 			console.log('checkedSpoonManner1 : ', this.checkedCommonSpoonManner1);
 			console.log('checkedSpoonManner2 : ', this.checkedCommonSpoonManner2);
+			console.log('checkedSpoonManner3 : ', this.checkedCommonSpoonManner3);
 
 			// 기존 사용자 질문 및 점수 목록
 			let result = [];
@@ -775,11 +818,9 @@ export default {
 		},
 		// 받은 매너 누적
 		// 각 평가 유형 별로 호출될 메서드
-		// accumulate(older, newer) {
-		doAccumulate() {
-			let older = this.doPretreat();
-
-			let newer = this.checkedBabjangManner;
+		accumulate(older, newer) {
+			// let older = this.doPretreat();
+			// let newer = this.checkedBabjangManner;
 			// let newer = this.checkedCommonBabjangManner;
 			// let newer = this.checkedSpoonManner1;
 			// let newer = this.checkedSpoonManner2;
