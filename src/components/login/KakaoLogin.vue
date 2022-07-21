@@ -2,7 +2,7 @@
 	<div>
 		<p
 			v-if="user.email === undefined"
-			@click="kakaoLogin"
+			@click="kakaoLogin()"
 			style="display: inline; cursor: pointer; vertical-align: middle"
 		>
 			로그인
@@ -55,6 +55,7 @@ export default {
 						confirmButtonText: '확인',
 						confirmButtonColor: '#ffcb00',
 					});
+					this.$router.go();
 					this.$router.push({
 						path: '/',
 					});

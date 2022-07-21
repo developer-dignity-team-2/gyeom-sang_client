@@ -143,6 +143,10 @@ export default {
 							this.$store.commit('user/userCheck', false);
 							this.initialButton(); // 필터, 정렬 버튼 설정 초기화
 							localStorage.removeItem('jwt');
+							// 탈퇴 성공 후 메인 화면으로 가기
+							this.$router.push({
+								path: '/',
+							});
 						},
 						fail: err => {
 							// alert('fail: ' + JSON.stringify(err));
@@ -153,6 +157,11 @@ export default {
 								iconColor: '#ffcb00',
 								confirmButtonText: '확인',
 								confirmButtonColor: '#ffcb00',
+							});
+							// 탈퇴 실패 후 메인 화면으로 가기
+
+							this.$router.push({
+								path: '/',
 							});
 						},
 					});
@@ -187,6 +196,11 @@ export default {
 							confirmButtonText: '확인',
 							confirmButtonColor: '#ffcb00',
 						});
+					});
+					// 로그아웃 후 메인 화면으로 가기
+
+					this.$router.push({
+						path: '/',
 					});
 				}
 			});
