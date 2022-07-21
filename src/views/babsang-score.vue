@@ -159,6 +159,10 @@
 				<!-- 숟갈1 점수 주기 -->
 				<div v-if="this.userIndex === 1">
 					<div class="col-12 border rounded p-3 text-center mb-4">
+						<!-- <div
+						class="col-12 border rounded p-3 text-center mb-4"
+						v-if="spoons.length !== 0"
+					> -->
 						<div
 							style="
 								display: flex;
@@ -261,6 +265,94 @@
 											<img :src="spoons[1].spoon_profile_image" alt="프로필" />
 										</div>
 										<strong>{{ spoons[1].spoon_nickname }}</strong>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h4>숟갈의 밥상 매너는 어땠나요?</h4>
+					<div class="row">
+						<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ commonQuestions[0][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.common_questions_id"
+											v-for="manner in commonQuestions[0][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner.common_questions_id"
+													:value="manner"
+													v-model="checkedCommonSpoonManner2"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.common_questions_id"
+													>{{ manner.common_questions_description }}</label
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6 col-md-12 col-sm-12">
+							<div class="card rounded p-3" style="overflow: hidden">
+								<div>
+									<div
+										class="list-group list-group-checkable d-grid gap-3 border-0 w-auto"
+									>
+										<h5>{{ commonQuestions[1][0].mannerTitle }}</h5>
+										<ul
+											:key="manner.common_questions_id"
+											v-for="manner in commonQuestions[1][1]"
+										>
+											<li>
+												<input
+													type="checkbox"
+													class="list-group-item-check pe-none"
+													name=""
+													:id="manner.common_questions_id"
+													:value="manner"
+													v-model="checkedCommonSpoonManner2"
+												/><label
+													class="list-group-item rounded-3 py-3"
+													style="text-align: center; cursor: pointer"
+													:for="manner.common_questions_id"
+													>{{ manner.common_questions_description }}</label
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 숟갈3 점수 주기 -->
+				<div v-if="this.userIndex === 3">
+					<div class="col-12 border rounded p-3 text-center mb-4">
+						<div
+							style="
+								display: flex;
+								align-items: center;
+								justify-content: center;
+							"
+						>
+							<div class="row">
+								<div class="col">
+									<div style="width: 12rem">
+										<div class="img-wrap pf rounded-circle mb-1">
+											<img :src="spoons[2].spoon_profile_image" alt="프로필" />
+										</div>
+										<strong>{{ spoons[2].spoon_nickname }}</strong>
 									</div>
 								</div>
 							</div>

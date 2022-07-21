@@ -54,10 +54,13 @@ export default {
 						iconColor: '#ffcb00',
 						confirmButtonText: '확인',
 						confirmButtonColor: '#ffcb00',
-					});
-					this.$router.go(); // 새로고침
-					this.$router.push({
-						path: '/',
+					}).then(async result => {
+						if (result.isConfirmed) {
+							this.$router.go(); // 새로고침
+							// this.$router.push({
+							// 	path: '/',
+							// });
+						}
 					});
 				},
 			});

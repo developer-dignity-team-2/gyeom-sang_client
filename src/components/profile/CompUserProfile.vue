@@ -198,7 +198,6 @@ export default {
 						});
 					});
 					// 로그아웃 후 메인 화면으로 가기
-
 					this.$router.push({
 						path: '/',
 					});
