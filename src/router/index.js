@@ -83,6 +83,14 @@ router.beforeEach((to, from, next) => {
 		})
 	) {
 		alert('로그인해 주세요!');
+		// swal({
+		// 	title: '>_<',
+		// 	text: '로그인해 주세요!',
+		// 	icon: 'warning',
+		// 	iconColor: '#ffcb00',
+		// 	confirmButtonText: '확인',
+		// 	confirmButtonColor: '#ffcb00',
+		// });
 		router.push({
 			path: '/',
 		});

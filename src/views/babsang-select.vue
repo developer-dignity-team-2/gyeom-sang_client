@@ -76,7 +76,7 @@
 									'btn btn-primary': buttonSignal === 0,
 									'btn btn-outline-primary': buttonSignal !== 0,
 								}"
-								@click="doFinalSpoons()"
+								@click="doConfirmSpoons()"
 							>
 								총 {{ babsangInfo.dining_count - 1 }}명 중
 								{{ mixSpoons.length }}명 확정(메시지 발송)
@@ -438,15 +438,64 @@ export default {
 			loader.hide();
 		},
 		// 선택된 숟갈 확정 및 메시지 발송
-		async doFinalSpoons() {
+		async doConfirmSpoons() {
+			let oldSpoonArr = [];
+			let newSpoonArr = [];
 			// console.log(this.mixSpoons);
 			for (let spoon of this.mixSpoons) {
-				// console.log(spoon.spoon_email, ' : ', spoon.selected_yn);
 				// 메시지 발송시 이미 확정 메시지를 받은 경우는 제외
 				if (spoon.selected_yn !== 'Y') {
 					await this.pickSpoon(spoon.spoon_email); // 숟갈 확정
 					await this.sendMessage(spoon.spoon_email, this.babsangMessage); // 확정된 숟갈 메시지 발송
+					newSpoonArr.push(spoon.spoon_nickname);
+				} else {
+					oldSpoonArr.push(spoon.spoon_nickname);
 				}
+			}
+			// 숟갈 확정 스윗얼럿
+			if (
+				oldSpoonArr.length === 0 &&
+				this.babsangInfo.dining_count - 1 - this.mixSpoons.length === 0
+			) {
+				this.$swal({
+					title: '숟갈 선정 완료!',
+					text: `${newSpoonArr} 숟갈님 확정! 숟갈 선정을 완료하셨습니다.`,
+
+					icon: 'success',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
+			} else if (oldSpoonArr.length === 0) {
+				this.$swal({
+					title: '숟갈 확정!',
+					text: `${newSpoonArr} 숟갈님 확정! 계속 선정해주세요.`,
+					icon: 'success',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
+			} else if (
+				this.babsangInfo.dining_count - 1 - this.mixSpoons.length ===
+				0
+			) {
+				this.$swal({
+					title: '숟갈 선정 완료!',
+					text: `${oldSpoonArr} 숟갈님에 이어 ${newSpoonArr} 숟갈님 확정! 숟갈 선정을 완료하셨습니다.`,
+					icon: 'success',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
+			} else {
+				this.$swal({
+					title: '숟갈 확정!',
+					text: `${oldSpoonArr} 숟갈님에 이어 ${newSpoonArr} 숟갈님 확정! 계속 선정해주세요.`,
+					icon: 'success',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
 			}
 			await this.getBabsangSpoons(); // 새로고침
 		},

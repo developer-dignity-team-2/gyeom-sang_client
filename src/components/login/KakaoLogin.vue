@@ -55,7 +55,7 @@ export default {
 						confirmButtonText: '확인',
 						confirmButtonColor: '#ffcb00',
 					});
-					this.$router.go();
+					this.$router.go(); // 새로고침
 					this.$router.push({
 						path: '/',
 					});
