@@ -399,22 +399,55 @@ export default {
 	},
 
 	methods: {
-		async modifyBabsang() {
-			await this.$put('/babsang/' + this.$route.params.babsangId, {
-				param: {
-					dining_table_title: this.title,
-					restaurant_name: this.placeName,
-					dining_datetime: this.diningDatetime(),
-					recruit_start_date: this.recruitStartDate(),
-					recruit_end_date: this.recruitEndDate(),
-					gender_check: this.gender_check,
-					dining_description: this.dining_description,
-					dining_thumbnail: this.dining_thumbnail,
-					restaurant_location: this.placeAddress,
-					dining_count: this.dining_count,
-					restaurant_latitude: this.placeLatitude,
-					restaurant_longitude: this.placeLongitude,
-				},
+		modifyBabsang() {
+			this.$swal({
+				title: `밥상을 수정하시겠습니까?`,
+				icon: 'warning',
+				showCancelButton: true,
+				iconColor: '#ffcb00',
+				confirmButtonColor: '#ffcb00',
+				cancelButtonColor: '#d33',
+				cancelButtonText: '취소',
+				confirmButtonText: '확인',
+			}).then(async result => {
+				if (result.isConfirmed) {
+					const loader = this.$loading.show({ canCancel: false });
+					let r = await this.$put('/babsang/' + this.$route.params.babsangId, {
+						param: {
+							dining_table_title: this.title, // OK
+							restaurant_name: this.placeName, // OK
+							dining_datetime: this.diningDatetime(),
+							recruit_start_date: this.recruitStartDate(),
+							recruit_end_date: this.recruitEndDate(),
+							gender_check: this.gender_check, // OK
+							dining_description: this.dining_description, // OK
+							dining_thumbnail: this.dining_thumbnail, // OK
+							restaurant_location: this.placeAddress, // OK
+							dining_count: this.dining_count, // OK
+							restaurant_latitude: this.placeLatitude, // OK
+							restaurant_longitude: this.placeLongitude, // OK
+						},
+					});
+					loader.hide();
+					console.log(r);
+					const isFormCorrect = await this.v$.$validate();
+					if (!isFormCorrect) {
+						window.scrollTo(0, 0);
+						return;
+					} else if (r.status === 200) {
+						this.$swal({
+							title: `밥상 수정 완료!`,
+							icon: 'success',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						}).then(() => {
+							this.$router.push({
+								path: `/babsang/${this.$route.params.babsangId}`,
+							});
+						});
+					}
+				}
 			});
 		},
 		placeInfo(name, address, lat, long) {
@@ -495,6 +528,12 @@ export default {
 				this.gender_check = this.modifyData.gender_check;
 				this.dining_count = this.modifyData.dining_count;
 				this.dining_description = this.modifyData.dining_description;
+				this.dining_thumbnail = this.modifyData.dining_thumbnail;
+				this.placeLatitude = this.modifyData.restaurant_latitude;
+				this.placeLongitude = this.modifyData.restaurant_longitude;
+				this.dining_datetime = new Date(this.modifyData.dining_datetime);
+				this.recruit_start_date = new Date(this.modifyData.recruit_start_date);
+				this.recruit_end_date = new Date(this.modifyData.recruit_end_date);
 				this.imageData = `https://nicespoons.com/static/images/${this.modifyData.dining_thumbnail}`;
 			}
 		},
