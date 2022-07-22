@@ -329,7 +329,6 @@ import KakaoMap from '@/components/kakaoMap/KakaoMap.vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Datepicker from 'vue3-datepicker';
-import { io } from 'socket.io-client';
 import InputTextWarning from '@/components/input/InputTextWarning.vue';
 
 export default {
@@ -357,7 +356,6 @@ export default {
 			placeLatitude: '',
 			placeLongitude: '',
 			title: '',
-			socket: '',
 			modifyData: '',
 			openInputWarningMsg: false,
 		};
@@ -400,7 +398,6 @@ export default {
 	},
 
 	mounted() {
-		this.socket = io('http://localhost:3000');
 		console.log('isModify :', this.isModify);
 		this.getBabsangDetailData();
 	},
