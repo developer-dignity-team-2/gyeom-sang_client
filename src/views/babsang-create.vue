@@ -273,7 +273,13 @@
 								id="dining_description"
 								v-model.trim="dining_description"
 								style="resize: none; height: 10rem"
+								@input="onChangeDiningDescription"
+								maxlength="512"
 							></textarea>
+							<InputTextWarning
+								inputMaxLength="512"
+								:open="openInputWarningMsg"
+							/>
 							<div class="error-msg" v-if="v$.dining_description.$error">
 								밥장님의 밥상을 소개해 주세요.
 							</div>
@@ -324,10 +330,11 @@ import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Datepicker from 'vue3-datepicker';
 import { io } from 'socket.io-client';
+import InputTextWarning from '@/components/input/InputTextWarning.vue';
 
 export default {
 	name: 'BabsangCreate',
-	components: { Datepicker, KakaoMap },
+	components: { Datepicker, KakaoMap, InputTextWarning },
 	setup() {
 		return {
 			v$: useVuelidate(),
@@ -352,6 +359,7 @@ export default {
 			title: '',
 			socket: '',
 			modifyData: '',
+			openInputWarningMsg: false,
 		};
 	},
 	computed: {
@@ -583,6 +591,15 @@ export default {
 			this.$router.push({
 				path: `/babsang/${idMax}`,
 			});
+		},
+
+		onChangeDiningDescription(e) {
+			console.log(e);
+			if (e.target.value.length >= 512) {
+				this.openInputWarningMsg = true;
+			} else {
+				this.openInputWarningMsg = false;
+			}
 		},
 	},
 };
