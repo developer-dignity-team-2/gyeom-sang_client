@@ -80,7 +80,10 @@
 					</div>
 					<!-- 소개 내용 -->
 					<div class="col">
-						<div class="border rounded p-3" style="min-height: 20rem">
+						<div
+							class="border rounded p-3"
+							style="max-height: 20rem; overflow-x: hidden; overflow-y: auto"
+						>
 							{{ babsangDetailData.dining_description }}
 						</div>
 					</div>
