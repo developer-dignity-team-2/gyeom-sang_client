@@ -16,11 +16,7 @@
 							accept="image/png, image/jpeg"
 							@change="onSelectFile"
 						/>
-						<div
-							class="upload-background"
-							@click="chooseImage"
-							v-if="!imageData"
-						>
+						<div class="upload-background" v-if="!imageData">
 							<font-awesome-icon
 								icon="fa-regular fa-image"
 								style="color: rgba(0, 0, 0, 0.3); font-size: 2rem"
