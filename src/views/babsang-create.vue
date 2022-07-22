@@ -13,7 +13,7 @@
 							type="file"
 							class="form-control file-control"
 							ref="fileInput"
-							accept="image/png, image/jpeg"
+							accept="image/png, image/jpeg, image/jpg"
 							@change="onSelectFile"
 						/>
 						<div class="upload-background" v-if="!imageData">
@@ -25,10 +25,13 @@
 								class="mt-2"
 								style="
 									font-weight: bold;
-									color: rgba(0, 0, 0, 0.3);
+									color: rgba(0, 0, 0, 0.5);
 									display: block;
 								"
 								>밥상 사진을 업로드 해주세요 !</span
+							>
+							<small style="font-weight: light; color: rgba(0, 0, 0, 0.5)"
+								>(이미지 용량 1M 제한입니다.)</small
 							>
 						</div>
 					</div>
@@ -502,12 +505,26 @@ export default {
 		},
 		async onSelectFile() {
 			const input = this.$refs.fileInput;
-			const files = input.files[0];
-			console.log(files);
-			const res = await this.$upload('/upload/image', files);
-			this.imageData = `https://nicespoons.com/static/images/${res.filename}`;
-			console.log(res);
-			this.dining_thumbnail = res.filename;
+			const file = input.files[0];
+			console.log(file);
+			if (file && file.type.substr(0, 5) === 'image') {
+				const maxSize = 1 * 1024 * 1024;
+				const fileSize = file.size;
+				if (fileSize <= maxSize) {
+					const res = await this.$upload('/upload/image', file);
+					this.imageData = `https://nicespoons.com/static/images/${res.filename}`;
+					console.log(res);
+					this.dining_thumbnail = res.filename;
+				} else {
+					this.$swal({
+						title: '이미지 용량 1M 제한입니다!',
+						icon: 'warning',
+						iconColor: '#ffcb00',
+						confirmButtonColor: '#ffcb00',
+						confirmButtonText: '확인',
+					});
+				}
+			}
 		},
 		// 수정모드시 밥상 데이터 불러오기.
 		async getBabsangDetailData() {
