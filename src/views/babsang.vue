@@ -41,7 +41,7 @@
 									class="btn btn-secondary"
 									style="height: 2.2rem; line-height: 1.5rem"
 								>
-									1/{{ babsangDetailData.dining_count }}
+									{{ babsangDetailData.dining_count }}인상
 								</button>
 							</div>
 						</div>
