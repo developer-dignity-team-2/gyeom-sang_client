@@ -76,13 +76,21 @@ const router = createRouter({
 	routes,
 });
 
-router.beforeEach(function (to, from, next) {
+router.beforeEach((to, from, next) => {
 	if (
 		to.matched.some(function (routeInfo) {
 			return routeInfo.meta.authRequired && !store.state.user.isUser;
 		})
 	) {
-		alert('로그인 해주세요!');
+		alert('로그인해 주세요!');
+		// swal({
+		// 	title: '>_<',
+		// 	text: '로그인해 주세요!',
+		// 	icon: 'warning',
+		// 	iconColor: '#ffcb00',
+		// 	confirmButtonText: '확인',
+		// 	confirmButtonColor: '#ffcb00',
+		// });
 		router.push({
 			path: '/',
 		});

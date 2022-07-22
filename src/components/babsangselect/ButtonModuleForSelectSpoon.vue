@@ -4,8 +4,8 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showMannerScore === 'H',
-					'btn btn-outline-primary': showMannerScore !== 'H',
+					'btn btn-primary': $store.state.button.buttonSignHL === 'H',
+					'btn btn-outline-primary': $store.state.button.buttonSignHL !== 'H',
 				}"
 				style="width: 100%"
 				@click="changeMannerScore"
@@ -15,8 +15,8 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showMannerScore === 'L',
-					'btn btn-outline-primary': showMannerScore !== 'L',
+					'btn btn-primary': $store.state.button.buttonSignHL === 'L',
+					'btn btn-outline-primary': $store.state.button.buttonSignHL !== 'L',
 				}"
 				style="width: 100%"
 				@click="changeMannerScore"
@@ -30,8 +30,8 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showRecruitDate === 'F',
-					'btn btn-outline-primary': showRecruitDate !== 'F',
+					'btn btn-primary': $store.state.button.buttonSignFS === 'F',
+					'btn btn-outline-primary': $store.state.button.buttonSignFS !== 'F',
 				}"
 				style="width: 100%"
 				@click="changeRecruitDate"
@@ -41,8 +41,8 @@
 			<button
 				type="button"
 				:class="{
-					'btn btn-primary': showRecruitDate === 'S',
-					'btn btn-outline-primary': showRecruitDate !== 'S',
+					'btn btn-primary': $store.state.button.buttonSignFS === 'S',
+					'btn btn-outline-primary': $store.state.button.buttonSignFS !== 'S',
 				}"
 				style="width: 100%"
 				@click="changeRecruitDate"
@@ -56,35 +56,37 @@
 export default {
 	components: {},
 	data() {
-		return {
-			showMannerScore: 'H', // 식사 매너 점수 높은 순 H, 식사 매너 점수 낮은 순 L
-			showRecruitDate: 'F', // 신청이 빠른 순 F, 신청이 느린 순 S
-		};
+		return {};
 	},
 	setup() {},
 	created() {},
 	mounted() {},
 	unmounted() {},
 	methods: {
+		// 매너 점수 순
 		changeMannerScore() {
-			if (this.showMannerScore === 'H') {
-				this.showMannerScore = 'L';
+			if (this.$store.state.button.buttonSignHL === 'H') {
+				this.$store.commit('button/buttonSignHL', 'L');
+				console.log(this.$store.state.button.buttonSignHL);
 			} else {
-				this.showMannerScore = 'H';
+				this.$store.commit('button/buttonSignHL', 'H');
+				console.log(this.$store.state.button.buttonSignHL);
 			}
 		},
+		// 신청 순
 		changeRecruitDate() {
-			if (this.showRecruitDate === 'F') {
-				this.showRecruitDate = 'S';
+			if (this.$store.state.button.buttonSignFS === 'F') {
+				this.$store.commit('button/buttonSignFS', 'S');
+				console.log(this.$store.state.button.buttonSignFS);
 			} else {
-				this.showRecruitDate = 'F';
+				this.$store.commit('button/buttonSignFS', 'F');
+				console.log(this.$store.state.button.buttonSignFS);
 			}
 		},
 	},
 };
 </script>
 <style scoped lang="scss">
-// 모집 중/모집 완료, 최신순/오래된 순 버튼
 .btn-primary {
 	color: #575757;
 	background-color: #ffcb00;

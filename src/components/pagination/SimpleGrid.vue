@@ -199,7 +199,7 @@ export default {
         },
       );
 
-			loader.hide();
+	  loader.hide();
       console.log(readMessage);
     },
     // 메시지 상세보기 라우터

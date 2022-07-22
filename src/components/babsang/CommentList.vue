@@ -17,7 +17,12 @@
 								role="group"
 								style="cursor: pointer; margin-right: 5px"
 							>
-								{{ list.nickname }}
+								{{ list.nickname
+								}}<i
+									class="bi bi-file-lock"
+									style="margin-left: 5px"
+									v-if="list.secret_check === 'Y'"
+								></i>
 							</div>
 							<p class="text-muted">{{ list.create_date }}</p>
 						</div>
@@ -68,7 +73,7 @@
 
 				<!-- 댓글 내용 -->
 				<div v-if="list.secret_check === 'N'">
-					<div class="col-md-11" style="margin-left: auto">공개댓글입니다.</div>
+					<!-- <div class="col-md-11" style="margin-left: auto">공개댓글입니다.</div> -->
 					<div class="form-group">
 						<textarea
 							:disabled="!(list.id === this.changeSelectedId)"
@@ -91,16 +96,14 @@
 						</button>
 					</div>
 				</div>
-				<!-- 비밀댓글 >>> 밥장도 볼 수 있게 수정  -->
+				<!-- 비밀댓글  -->
 				<div v-if="list.secret_check === 'Y'">
 					<div class="col-md-11" style="margin-left: auto">비밀댓글입니다.</div>
 					<div class="form-group">
+						<!-- 댓글작성자와 게시글의 밥장만 댓글내용이 보임 -->
 						<textarea
 							:disabled="!(list.id === this.changeSelectedId)"
-							v-show="
-								list.user_email === user.email ||
-								this.babsangDetailData.id === list.dining_id
-							"
+							v-show="list.user_email === user.email || isLeader"
 							class="form-control"
 							v-model="list.comment_description"
 							id="Textarea"
@@ -155,7 +158,12 @@
 									role="group"
 									style="cursor: pointer; margin-right: 5px"
 								>
-									{{ recomment.nickname }}
+									{{ recomment.nickname
+									}}<i
+										class="bi bi-file-lock"
+										style="margin-left: 5px"
+										v-if="recomment.secret_check === 'Y'"
+									></i>
 								</div>
 								<p class="text-muted">{{ recomment.create_date }}</p>
 							</div>
@@ -207,9 +215,9 @@
 					</div>
 					<!-- 대댓글 내용 -->
 					<div v-if="recomment.secret_check === 'N'">
-						<div class="col-md-11" style="margin-left: auto">
+						<!-- <div class="col-md-11" style="margin-left: auto">
 							공개 대댓글입니다.
-						</div>
+						</div> -->
 						<div class="form-group">
 							<textarea
 								:disabled="!(recomment.id === this.changeSelectedId)"
@@ -222,16 +230,20 @@
 							></textarea>
 						</div>
 					</div>
+					<!-- 비밀 대댓글 내용 -->
 					<div v-if="recomment.secret_check === 'Y'">
 						<div class="col-md-11" style="margin-left: auto">
 							비밀 대댓글입니다.
 						</div>
 						<div class="form-group">
+							<!-- 대댓글작성자, 댓글작성자, 게시글의 밥장만 댓글내용이 보임 -->
 							<textarea
 								:disabled="!(recomment.id === this.changeSelectedId)"
 								v-show="
 									recomment.user_email === user.email ||
-									recomment.comment_parent_id === list.id
+									isLeader ||
+									(list.user_email === user.email &&
+										recomment.comment_parent_id === list.id)
 								"
 								class="form-control"
 								v-model="recomment.comment_description"
@@ -250,12 +262,22 @@
 </template>
 <script>
 import RecommentCreate from '@/components/babsang/RecommentCreate';
-
 export default {
 	components: { RecommentCreate },
 	computed: {
 		user() {
 			return this.$store.state.user.userData;
+		},
+		isLeader() {
+			// 현재 유저 정보와 밥상 이메일정보가 일치하면 true
+			if (
+				this.$store.state.user.userData.email ===
+				this.babsangDetailData.host_email
+			) {
+				return true;
+			} else {
+				return false;
+			}
 		},
 	},
 	props: {
@@ -277,6 +299,7 @@ export default {
 			commentList: [],
 			recommentSelectedId: '',
 			changeSelectedId: '',
+			// recommentSecret:
 		};
 	},
 	setup() {},
