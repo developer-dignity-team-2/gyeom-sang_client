@@ -277,7 +277,7 @@
 								maxlength="512"
 							></textarea>
 							<InputTextWarning
-								inputMaxLength="512"
+								:inputMaxLength="inputWarningMsgLength"
 								:open="openInputWarningMsg"
 							/>
 							<div class="error-msg" v-if="v$.dining_description.$error">
@@ -358,6 +358,7 @@ export default {
 			title: '',
 			modifyData: '',
 			openInputWarningMsg: false,
+			inputWarningMsgLength: 512,
 		};
 	},
 	computed: {
