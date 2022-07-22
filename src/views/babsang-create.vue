@@ -402,18 +402,18 @@ export default {
 		async modifyBabsang() {
 			await this.$put('/babsang/' + this.$route.params.babsangId, {
 				param: {
-					dining_table_title: this.title,
-					restaurant_name: this.placeName,
+					dining_table_title: this.title, // OK
+					restaurant_name: this.placeName, // OK
 					dining_datetime: this.diningDatetime(),
 					recruit_start_date: this.recruitStartDate(),
 					recruit_end_date: this.recruitEndDate(),
-					gender_check: this.gender_check,
-					dining_description: this.dining_description,
-					dining_thumbnail: this.dining_thumbnail,
-					restaurant_location: this.placeAddress,
-					dining_count: this.dining_count,
-					restaurant_latitude: this.placeLatitude,
-					restaurant_longitude: this.placeLongitude,
+					gender_check: this.gender_check, // OK
+					dining_description: this.dining_description, // OK
+					dining_thumbnail: this.dining_thumbnail, // OK
+					restaurant_location: this.placeAddress, // OK
+					dining_count: this.dining_count, // OK
+					restaurant_latitude: this.placeLatitude, // OK
+					restaurant_longitude: this.placeLongitude, // OK
 				},
 			});
 		},
@@ -495,6 +495,12 @@ export default {
 				this.gender_check = this.modifyData.gender_check;
 				this.dining_count = this.modifyData.dining_count;
 				this.dining_description = this.modifyData.dining_description;
+				this.dining_thumbnail = this.modifyData.dining_thumbnail;
+				this.placeLatitude = this.modifyData.restaurant_latitude;
+				this.placeLongitude = this.modifyData.restaurant_longitude;
+				this.dining_datetime = new Date(this.modifyData.dining_datetime);
+				this.recruit_start_date = new Date(this.modifyData.recruit_start_date);
+				this.recruit_end_date = new Date(this.modifyData.recruit_end_date);
 				this.imageData = `https://nicespoons.com/static/images/${this.modifyData.dining_thumbnail}`;
 			}
 		},
