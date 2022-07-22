@@ -450,10 +450,15 @@
 				>
 					다음
 				</button>
-				<button
+				<!-- <button
 					type="button"
 					class="btn btn-outline-primary"
 					@click="doAccumulate()"
+				> -->
+				<button
+					type="button"
+					class="btn btn-outline-primary"
+					@click="doMakeMannerLists()"
 				>
 					테스트(임시)
 				</button>
@@ -480,63 +485,6 @@ export default {
 			checkedCommonSpoonManner1: [], // 숟갈1이 받은 식사 매너
 			checkedCommonSpoonManner2: [], // 숟갈2이 받은 식사 매너
 			checkedCommonSpoonManner3: [], // 숟갈3이 받은 식사 매너
-			// 임시 더미 데이터
-			tempData: [
-				{
-					email: 'diddpwl80@naver.com',
-					common_good_question01_count: 0,
-					common_good_question02_count: 0,
-					common_good_question03_count: 0,
-					common_good_question04_count: 0,
-					common_good_question05_count: 0,
-					common_bad_question01_count: 0,
-					common_bad_question02_count: 0,
-					common_bad_question03_count: 0,
-					common_bad_question04_count: 0,
-					common_bad_question05_count: 0,
-					host_good_question01_count: 0,
-					host_good_question02_count: 0,
-					host_bad_question01_count: 0,
-					host_bad_question02_count: 0,
-					dining_score: 3,
-				},
-				{
-					email: 'dasol63728@gmail.com',
-					common_good_question01_count: 0,
-					common_good_question02_count: 0,
-					common_good_question03_count: 0,
-					common_good_question04_count: 0,
-					common_good_question05_count: 0,
-					common_bad_question01_count: 0,
-					common_bad_question02_count: 0,
-					common_bad_question03_count: 0,
-					common_bad_question04_count: 0,
-					common_bad_question05_count: 0,
-					host_good_question01_count: 0,
-					host_good_question02_count: 0,
-					host_bad_question01_count: 0,
-					host_bad_question02_count: 0,
-					dining_score: 3,
-				},
-				{
-					email: 'kus07177@nate.com',
-					common_good_question01_count: 0,
-					common_good_question02_count: 0,
-					common_good_question03_count: 0,
-					common_good_question04_count: 0,
-					common_good_question05_count: 0,
-					common_bad_question01_count: 0,
-					common_bad_question02_count: 0,
-					common_bad_question03_count: 0,
-					common_bad_question04_count: 0,
-					common_bad_question05_count: 0,
-					host_good_question01_count: 0,
-					host_good_question02_count: 0,
-					host_bad_question01_count: 0,
-					host_bad_question02_count: 0,
-					dining_score: 3,
-				},
-			],
 		};
 	},
 	computed: {
@@ -764,15 +712,41 @@ export default {
 		// ========== [이상] 평가한 매너 점수 계산 ==========
 
 		// ========== [이하] 평가한 매너 항목 정리 ==========
-		// https://www.nicespoons.com/aggregation?extraEmail=
-		// 위 API 호출 메서드 백단에서 제공시 연동 요망
-		// API 연동 후 해당 정보를 doPretreat()에 제공
-
-		// 평가 대상의 기존 받은 매너 및 점수에 ID 부여(평가 대상 별로 각각 호출)
-		doPretreat(manners) {
+		// 모든 평가 대상자들의 매너 항목과 점수 누적 결과
+		async doMakeMannerLists() {
+			// let older = this.doPretreat();
+			// let newer = this.checkedBabjangManner;
+			// let newer = this.checkedCommonBabjangManner;
+			// let newer = this.checkedSpoonManner1;
+			// let newer = this.checkedSpoonManner2;
+			// let newer = this.checkedSpoonManner3;
+			for (let theSpoon of this.theSpoons) {
+				let addedID = await this.doMakeMannerList(theSpoon);
+				await this.doAccumulateSpoon(addedID);
+			}
+		},
+		// 평가 대상자의 매너 항목과 점수 가져와 ID 부여
+		async doMakeMannerList(theSpoon) {
+			let temp = theSpoon.spoon_email;
+			let manners = await this.getAggregation(temp); // 서버에서 평가 대상자의 매너 점수 가져오기
+			console.log(manners);
+			let result = this.doAddID(manners); // 서버에서 가져온 평가 대상자의 매너 및 점수에 ID 부여
+			return result;
+		},
+		// 서버에서 평가 대상자의 매너 점수 가져오기
+		async getAggregation(email) {
+			const temp = (
+				await this.$get(
+					`https://nicespoons.com/api/v1/aggregation?extraEmail=${email}`,
+				)
+			).result[0];
+			return temp;
+		},
+		// 서버에서 가져온 평가 대상자의 매너 및 점수에 ID 부여
+		doAddID(manners) {
 			let result = [];
-			for (let key in manners[0]) {
-				console.log(key, manners[0][key]);
+			for (let key in manners) {
+				// console.log(key, manners[key]);
 				// sg, sb, bg, bb
 				let compoundID = ''.concat(
 					key.substring(0, 6) === 'common'
@@ -792,54 +766,129 @@ export default {
 					key.substring(key.length - 7, key.length - 6),
 				);
 
-				result.push([compoundID, key, manners[0][key]]);
+				result.push([compoundID, key, manners[key]]);
 			}
-			console.log('사용자 질문 및 점수 목록 가공 결과 : ', result);
+			// console.log('사용자 질문 및 점수 목록 가공 결과 : ', result);
 			return result;
 		},
-		// 로그인 사용자가 부여한 매너 누적(각 평가 대상 별로 각각 호출될 메서드)
-		doAccumulate(older, newer) {
+		// 로그인 사용자가 부여한 밥장의 매너 누적(각 평가 대상 별로 각각 호출될 메서드)
+		doAccumulateBabjang(older) {
+			let resultArr = [];
+
+			console.log(older);
+			console.log(this.checkedBabjangManner.length);
+			console.log(this.checkedCommonBabjangManner.length);
+
+			// 밥장1 매너 누적
+			let newerBabjang = this.checkedBabjangManner;
+			if (newerBabjang.length !== 0) {
+				let tempArr = [];
+				for (let manner of older) {
+					let mannerID = manner[0];
+					for (let selected of newerBabjang) {
+						if (selected.host_questions_id === mannerID) {
+							let tempObject = {
+								[manner[1]]: manner[2] + selected.host_questions_weight,
+							};
+							tempArr.push(tempObject);
+						}
+					}
+				}
+				console.log('밥장1 매너 누적 결과 : ', tempArr);
+				resultArr.push(tempArr);
+			}
+			// 밥장1 매너 누적
+			let newerCommonBabjang = this.checkedCommonBabjangManner;
+			if (newerCommonBabjang.length !== 0) {
+				let tempArr = [];
+				for (let manner of older) {
+					let mannerID = manner[0];
+					for (let selected of newerCommonBabjang) {
+						if (selected.common_questions_id === mannerID) {
+							let tempObject = {
+								[manner[1]]: manner[2] + selected.common_questions_weight,
+							};
+							tempArr.push(tempObject);
+						}
+					}
+				}
+				console.log('밥장1 식사 매너 누적 결과 : ', tempArr);
+				resultArr.push(tempArr);
+			}
+			console.log('밥장의 매너 누적 결과 : ', resultArr);
+			return resultArr;
+		},
+		// 로그인 사용자가 부여한 숟갈의 매너 누적(각 평가 대상 별로 각각 호출될 메서드)
+		doAccumulateSpoon(older) {
 			// let older = this.doPretreat();
 			// let newer = this.checkedBabjangManner;
 			// let newer = this.checkedCommonBabjangManner;
 			// let newer = this.checkedSpoonManner1;
 			// let newer = this.checkedSpoonManner2;
 
-			console.log('로그인 사용자가 부여한 매너 항목들 : ', newer);
-			// console.log(checkedCommonBabjangManner);
-			// console.log(checkedSpoonManner1);
-			// console.log(checkedSpoonManner2);
+			let resultArr = [];
 
-			let tempArr = [];
+			console.log(older);
+			console.log(this.checkedCommonSpoonManner1);
+			console.log(this.checkedCommonSpoonManner2.length);
+			console.log(this.checkedCommonSpoonManner3.length);
 
-			if (newer[0].host_questions_id.substring(0, 1) === 'b') {
-				// 밥장 매너 누적
+			// 숟갈1 식사 매너 누적
+			let newerSpoon1 = this.checkedCommonSpoonManner1;
+			if (newerSpoon1.length !== 0) {
+				let tempArr = [];
 				for (let manner of older) {
 					let mannerID = manner[0];
-					for (let selected of newer) {
-						if (selected.host_questions_id === mannerID) {
-							let tempObject = {
-								[manner[1]]: manner[2] + selected.host_questions_weight,
-							};
-							console.log('밥장 매너 누적 : ', tempObject);
-						}
-					}
-				}
-			} else {
-				// 식사 매너 누적
-				for (let manner of older) {
-					let mannerID = manner[0];
-					for (let selected of newer) {
+					for (let selected of newerSpoon1) {
 						if (selected.common_questions_id === mannerID) {
 							let tempObject = {
 								[manner[1]]: manner[2] + selected.common_questions_weight,
 							};
-							console.log('밥장 식사 매너 누적 : ', tempObject);
+							tempArr.push(tempObject);
 						}
 					}
 				}
+				console.log('숟갈1 식사 매너 누적 결과 : ', tempArr);
+				resultArr.push(tempArr);
 			}
-			console.log(tempArr);
+			// 숟갈2 식사 매너 누적
+			let newerSpoon2 = this.checkedCommonSpoonManner2;
+			if (newerSpoon2.length !== 0) {
+				let tempArr = [];
+				for (let manner of older) {
+					let mannerID = manner[0];
+					for (let selected of newerSpoon2) {
+						if (selected.common_questions_id === mannerID) {
+							let tempObject = {
+								[manner[1]]: manner[2] + selected.common_questions_weight,
+							};
+							tempArr.push(tempObject);
+						}
+					}
+				}
+				console.log('숟갈2 식사 매너 누적 결과 : ', tempArr);
+				resultArr.push(tempArr);
+			}
+			// 숟갈3 식사 매너 누적
+			let newerSpoon3 = this.checkedCommonSpoonManner3;
+			if (newerSpoon3.length !== 0) {
+				let tempArr = [];
+				for (let manner of older) {
+					let mannerID = manner[0];
+					for (let selected of newerSpoon3) {
+						if (selected.common_questions_id === mannerID) {
+							let tempObject = {
+								[manner[1]]: manner[2] + selected.common_questions_weight,
+							};
+							tempArr.push(tempObject);
+						}
+					}
+				}
+				console.log('숟갈3 식사 매너 누적 결과 : ', tempArr);
+				resultArr.push(tempArr);
+			}
+			console.log('숟갈들의 식사 매너 누적 결과 : ', resultArr);
+			return resultArr;
 		},
 		// 점수 PUT
 		async putScore(manner, score, email) {
