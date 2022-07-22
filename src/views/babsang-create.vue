@@ -399,22 +399,55 @@ export default {
 	},
 
 	methods: {
-		async modifyBabsang() {
-			await this.$put('/babsang/' + this.$route.params.babsangId, {
-				param: {
-					dining_table_title: this.title, // OK
-					restaurant_name: this.placeName, // OK
-					dining_datetime: this.diningDatetime(),
-					recruit_start_date: this.recruitStartDate(),
-					recruit_end_date: this.recruitEndDate(),
-					gender_check: this.gender_check, // OK
-					dining_description: this.dining_description, // OK
-					dining_thumbnail: this.dining_thumbnail, // OK
-					restaurant_location: this.placeAddress, // OK
-					dining_count: this.dining_count, // OK
-					restaurant_latitude: this.placeLatitude, // OK
-					restaurant_longitude: this.placeLongitude, // OK
-				},
+		modifyBabsang() {
+			this.$swal({
+				title: `밥상을 수정하시겠습니까?`,
+				icon: 'warning',
+				showCancelButton: true,
+				iconColor: '#ffcb00',
+				confirmButtonColor: '#ffcb00',
+				cancelButtonColor: '#d33',
+				cancelButtonText: '취소',
+				confirmButtonText: '확인',
+			}).then(async result => {
+				if (result.isConfirmed) {
+					const loader = this.$loading.show({ canCancel: false });
+					let r = await this.$put('/babsang/' + this.$route.params.babsangId, {
+						param: {
+							dining_table_title: this.title, // OK
+							restaurant_name: this.placeName, // OK
+							dining_datetime: this.diningDatetime(),
+							recruit_start_date: this.recruitStartDate(),
+							recruit_end_date: this.recruitEndDate(),
+							gender_check: this.gender_check, // OK
+							dining_description: this.dining_description, // OK
+							dining_thumbnail: this.dining_thumbnail, // OK
+							restaurant_location: this.placeAddress, // OK
+							dining_count: this.dining_count, // OK
+							restaurant_latitude: this.placeLatitude, // OK
+							restaurant_longitude: this.placeLongitude, // OK
+						},
+					});
+					loader.hide();
+					console.log(r);
+					const isFormCorrect = await this.v$.$validate();
+					if (!isFormCorrect) {
+						window.scrollTo(0, 0);
+						return;
+					} else if (r.status === 200) {
+						this.$swal({
+							title: `밥상 수정 완료!`,
+							icon: 'success',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						}).then(() => {
+							this.$router.push({
+								path: `/babsang/${this.$route.params.babsangId}`,
+							});
+						});
+					}
+				}
 			});
 		},
 		placeInfo(name, address, lat, long) {
