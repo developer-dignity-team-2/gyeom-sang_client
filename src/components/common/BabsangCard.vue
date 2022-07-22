@@ -111,7 +111,7 @@
 					<!--					</button>-->
 				</div>
 				<div>
-					<div class="mt-3" style="font-size: 0.8rem">
+					<div class="mt-3" style="font-size: 0.8rem; margin-bottom: 4px">
 						{{ countAppliedSpoons.length }}명이 신청했어요
 					</div>
 					<div class="d-flex">
