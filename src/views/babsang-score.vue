@@ -840,9 +840,14 @@ export default {
 							tempArr.push(tempObject);
 						}
 					}
+					if (manner[1] === 'dining_score') {
+						let tempObject = {
+							[manner[1]]: manner[2] + this.computeCommonScore(newer),
+						};
+						tempArr.push(tempObject);
+					}
 				}
 				// 받은 매너 점수 누적
-				tempArr.push(this.computeCommonScore(newer));
 				console.log('숟갈의 받은 식사 매너 누적 결과 : ', tempArr);
 				// return tempArr;
 			}
