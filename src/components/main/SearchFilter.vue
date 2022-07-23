@@ -59,6 +59,7 @@
 						:minDate="new Date()"
 						style="display: inline-block"
 						placeholder="날짜 선택하기"
+						:clearable="false"
 					></Datepicker>
 				</div>
 			</li>
