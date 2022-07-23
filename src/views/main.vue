@@ -114,20 +114,20 @@ export default {
 			const e_day = end.getDate();
 			this.date.end = `${e_year}-${e_month}-${e_day}`;
 
-			this.searchFilter(this.date.start, this.date.end);
-			this.dateFilter(this.date.start, this.date.end);
+			this.searchFilter();
+			// this.dateFilter(this.date.start, this.date.end);
 		},
-		dateFilter(start, end) {
-			// this.babsangData = this.allData;
-
-			const startDate = new Date(start);
-			const endDate = new Date(end);
-			this.dateArr = this.babsangData.filter(item => {
-				let date = new Date(item.dining_datetime.slice(0, 10));
-				return date >= startDate && date <= endDate;
-			});
-			console.log('선택된 기간 array : ', this.dateArr);
-		},
+		// dateFilter(start, end) {
+		// 	// this.babsangData = this.allData;
+		//
+		// 	const startDate = new Date(start);
+		// 	const endDate = new Date(end);
+		// 	this.dateArr = this.babsangData.filter(item => {
+		// 		let date = new Date(item.dining_datetime.slice(0, 10));
+		// 		return date >= startDate && date <= endDate;
+		// 	});
+		// 	console.log('선택된 기간 array : ', this.dateArr);
+		// },
 		// 성별 필터
 		getGenderValue(gender) {
 			// this.babsangData = this.allData;
@@ -154,7 +154,9 @@ export default {
 			this.searchFilter();
 		},
 		//필터 체이닝
-		searchFilter(start, end) {
+		searchFilter() {
+			let start = this.date.start;
+			let end = this.date.end;
 			this.filterData = this.babsangInit;
 			// console.log('this.babsangData = ', this.babsangData);
 			this.filterData = this.filterData
