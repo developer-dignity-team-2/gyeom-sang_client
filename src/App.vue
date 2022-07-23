@@ -73,12 +73,30 @@ import KakaoLogin from '@/components/login/KakaoLogin.vue';
 
 export default {
 	components: { KakaoLogin },
+	data() {
+		return {
+			userCheck: '',
+		};
+	},
+	mounted() {
+		this.getProfileData();
+	},
 	computed: {
 		user() {
 			return this.$store.state.user.userData;
 		},
 	},
-	methods: {},
+	methods: {
+		async getProfileData() {
+			const userCheck = await this.$get('https://nicespoons.com/api/v1/user');
+			this.userCheck = userCheck.result[0];
+			if (!this.userCheck) {
+				this.$store.commit('user/getUserData', {});
+				this.$store.commit('user/userCheck', false);
+				localStorage.removeItem('jwt');
+			}
+		},
+	},
 };
 </script>
 
