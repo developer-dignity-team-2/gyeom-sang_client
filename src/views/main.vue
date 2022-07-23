@@ -78,6 +78,7 @@ export default {
 				start: '',
 				end: '',
 			},
+			babsangInit: '',
 		};
 	},
 	watch: {
@@ -87,8 +88,18 @@ export default {
 	},
 	mounted() {
 		this.getBabsang();
+		// this.test();
 	},
 	methods: {
+		// test() {
+		// 	const num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+		// 	const sum1 = num.reduce(function (acc, cur) {
+		// 		console.log('acc', acc);
+		// 		console.log('cur', cur);
+		// 		return acc + cur;
+		// 	});
+		// 	console.log(sum1);
+		// },
 		// 기간 필터
 		getDateValue(start, end) {
 			const s_year = start.getFullYear();
@@ -144,7 +155,8 @@ export default {
 		},
 		//필터 체이닝
 		searchFilter(start, end) {
-			console.log('this.babsangData = ', this.babsangData);
+			this.filterData = this.babsangInit;
+			// console.log('this.babsangData = ', this.babsangData);
 			this.filterData = this.filterData
 				.filter(item => item.restaurant_location.includes(this.areaVal))
 				.filter(item => item.gender_check.includes(this.genderVal));
@@ -166,6 +178,7 @@ export default {
 		async getBabsang(type = '') {
 			this.babsangData = await this.$get(`/babsang${type}`);
 			this.filterData = this.babsangData.result;
+			this.babsangInit = this.babsangData.result;
 
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
