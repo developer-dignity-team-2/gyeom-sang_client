@@ -19,31 +19,14 @@
 			</router-link>
 			<div class="collapse navbar-collapse" id="navbarColor03">
 				<ul class="navbar-nav me-auto">
-					<!-- <li class="nav-item">
-						<router-link to="/" class="nav-link">밥상 검색 </router-link>
-					</li> -->
 					<li class="nav-item">
 						<router-link to="/babsang-create" class="nav-link"
 							>밥상 차리기
 						</router-link>
 					</li>
-					<!-- <li class="nav-item">
-						<router-link to="/babsang-score" class="nav-link"
-							>매너 평가
-						</router-link>
-					</li> -->
 				</ul>
 			</div>
 			<ul class="nav-r d-flex justify-content-center align-items-center me-2">
-				<!-- <li class="me-4">
-					<a href="">
-						<i
-							class="bi bi-bell-fill"
-							style="color: #5a5a5a; font-size: 1.3rem"
-						></i>
-						<i class="bi bi-bell" style="color: #5a5a5a; font-size: 1.3rem"></i>
-					</a>
-				</li> -->
 				<li>
 					<KakaoLogin />
 				</li>
@@ -75,22 +58,18 @@ export default {
 	components: { KakaoLogin },
 	data() {
 		return {
-			userCheck: '',
+			user: '',
 		};
 	},
 	mounted() {
-		this.getProfileData();
-	},
-	computed: {
-		user() {
-			return this.$store.state.user.userData;
-		},
+		this.checkJwt();
 	},
 	methods: {
-		async getProfileData() {
-			const userCheck = await this.$get('https://nicespoons.com/api/v1/user');
-			this.userCheck = userCheck.result[0];
-			if (!this.userCheck) {
+		async checkJwt() {
+			const jwtStatus = await this.$get('https://nicespoons.com/api/v1/user');
+			if (jwtStatus.code === 200) {
+				this.user = this.$store.state.user.userData;
+			} else {
 				this.$store.commit('user/getUserData', {});
 				this.$store.commit('user/userCheck', false);
 				localStorage.removeItem('jwt');
