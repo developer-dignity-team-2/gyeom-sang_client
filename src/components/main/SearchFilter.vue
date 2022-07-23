@@ -62,6 +62,11 @@
 					></Datepicker>
 				</div>
 			</li>
+			<li>
+				<button class="btn btn-secondary reset" @click="reset">
+					<i class="bi bi-arrow-clockwise" style="line-height: 1em"></i>
+				</button>
+			</li>
 		</ul>
 	</div>
 </template>
@@ -92,6 +97,9 @@ export default {
 		},
 	},
 	methods: {
+		reset() {
+			this.$emit('reset');
+		},
 		selectGender(e) {
 			const value = e.target.innerText;
 			this.gender = value;
@@ -142,6 +150,12 @@ export default {
 		.nav-link {
 			color: #888888;
 		}
+	}
+}
+button {
+	&.reset {
+		background: #fff;
+		border: 1px solid #ddd;
 	}
 }
 </style>
