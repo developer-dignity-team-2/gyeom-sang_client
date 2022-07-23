@@ -91,9 +91,16 @@ export default {
 	},
 	watch: {
 		date() {
-			this.startDate = this.date[0];
-			this.endDate = this.date[1];
-			this.$emit('date', this.startDate, this.endDate);
+			if (this.date[1] === null) {
+				this.startDate = this.date[0];
+				this.endDate = this.date[0];
+				this.date[1] = this.date[0];
+				this.$emit('date', this.startDate, this.endDate);
+			} else {
+				this.startDate = this.date[0];
+				this.endDate = this.date[1];
+				this.$emit('date', this.startDate, this.endDate);
+			}
 		},
 	},
 	methods: {
