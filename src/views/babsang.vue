@@ -114,7 +114,7 @@
 					</div>
 					<div class="col d-flex justify-content-center my-5">
 						<button
-							class="btn btn-secondary mx-2"
+							class="btn btn-secondary mx-2 modify"
 							v-if="isLeader"
 							@click="modifyBabsang"
 						>
@@ -124,7 +124,7 @@
 							목록
 						</button>
 						<button
-							class="btn btn-secondary mx-2"
+							class="btn btn-secondary mx-2 delete"
 							@click="deleteBabsang"
 							v-if="isLeader"
 						>
@@ -609,6 +609,14 @@ dt {
 	}
 	.nickname {
 		font-size: 0.5rem;
+	}
+}
+button {
+	&.modify {
+		color: #003dff;
+	}
+	&.delete {
+		color: #fe3900;
 	}
 }
 
