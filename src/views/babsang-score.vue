@@ -522,7 +522,7 @@ export default {
 			}
 
 			let babsangSpoons = await this.getBabsangSpoons(); // 숟갈 얹은 사용자 정보 가져오기
-			console.log('숟갈 얹은 사용자 : ', babsangSpoons);
+			// console.log('숟갈 얹은 사용자 : ', babsangSpoons);
 			this.spoons = babsangSpoons;
 
 			this.doFilterBabsangSpoons(); // 평가 대상 숟갈 정보 가져오기
@@ -562,13 +562,13 @@ export default {
 			let appliedSpoonY = this.spoons.result.filter(
 				spoon => spoon.apply_yn === 'Y',
 			);
-			console.log('1차 필터링 결과 신청한 숟갈 : ', appliedSpoonY);
+			// console.log('1차 필터링 결과 신청한 숟갈 : ', appliedSpoonY);
 
 			// 선택된 숟갈
 			let selectedSpoonY = appliedSpoonY.filter(
 				spoon => spoon.selected_yn === 'Y',
 			);
-			console.log('2차 필터링 결과 선택된 숟갈 : ', selectedSpoonY);
+			// console.log('2차 필터링 결과 선택된 숟갈 : ', selectedSpoonY);
 
 			// 매너 평가 대상 숟갈
 			let theSpoons = selectedSpoonY.filter(
@@ -714,15 +714,18 @@ export default {
 		// ========== [이하] 평가한 매너 항목 정리 ==========
 		// 모든 평가 대상자들의 매너 항목과 점수 누적 결과
 		async doMakeMannerLists() {
-			// let older = this.doPretreat();
-			// let newer = this.checkedBabjangManner;
-			// let newer = this.checkedCommonBabjangManner;
-			// let newer = this.checkedSpoonManner1;
-			// let newer = this.checkedSpoonManner2;
-			// let newer = this.checkedSpoonManner3;
-			for (let theSpoon of this.theSpoons) {
-				let addedID = await this.doMakeMannerList(theSpoon);
-				await this.doAccumulateSpoon(addedID);
+			let newerArr = [
+				this.checkedCommonSpoonManner1,
+				this.checkedCommonSpoonManner2,
+				this.checkedCommonSpoonManner3,
+			];
+
+			console.log('newerArr : ', newerArr);
+
+			for (let i = 0; i < this.theSpoons.length; i++) {
+				let older = await this.doMakeMannerList(this.theSpoons[i]);
+				console.log('olders : ', older);
+				await this.doAccumulateSpoon(older, newerArr[i], this.theSpoons[i]);
 			}
 		},
 		// 평가 대상자의 매너 항목과 점수 가져와 ID 부여
@@ -819,27 +822,17 @@ export default {
 			return resultArr;
 		},
 		// 로그인 사용자가 부여한 숟갈의 매너 누적(각 평가 대상 별로 각각 호출될 메서드)
-		doAccumulateSpoon(older) {
-			// let older = this.doPretreat();
-			// let newer = this.checkedBabjangManner;
-			// let newer = this.checkedCommonBabjangManner;
-			// let newer = this.checkedSpoonManner1;
-			// let newer = this.checkedSpoonManner2;
-
-			let resultArr = [];
-
-			console.log(older);
-			console.log(this.checkedCommonSpoonManner1);
-			console.log(this.checkedCommonSpoonManner2.length);
-			console.log(this.checkedCommonSpoonManner3.length);
-
-			// 숟갈1 식사 매너 누적
-			let newerSpoon1 = this.checkedCommonSpoonManner1;
-			if (newerSpoon1.length !== 0) {
-				let tempArr = [];
+		// doAccumulateSpoon(older, newer, spoon) {
+		doAccumulateSpoon(older, newer, spoon) {
+			// 숟갈의 받은 식사 매너 누적
+			if (newer.length !== 0) {
+				console.log(newer);
+				console.log(spoon);
+				let tempArr = [{ email: spoon.spoon_email }]; // 평가 대상 숟갈 이메일(최종 put용 PK)
+				// 받은 매너 개수 누적
 				for (let manner of older) {
 					let mannerID = manner[0];
-					for (let selected of newerSpoon1) {
+					for (let selected of newer) {
 						if (selected.common_questions_id === mannerID) {
 							let tempObject = {
 								[manner[1]]: manner[2] + selected.common_questions_weight,
@@ -848,47 +841,11 @@ export default {
 						}
 					}
 				}
-				console.log('숟갈1 식사 매너 누적 결과 : ', tempArr);
-				resultArr.push(tempArr);
+				// 받은 매너 점수 누적
+				tempArr.push(this.computeCommonScore(newer));
+				console.log('숟갈의 받은 식사 매너 누적 결과 : ', tempArr);
+				// return tempArr;
 			}
-			// 숟갈2 식사 매너 누적
-			let newerSpoon2 = this.checkedCommonSpoonManner2;
-			if (newerSpoon2.length !== 0) {
-				let tempArr = [];
-				for (let manner of older) {
-					let mannerID = manner[0];
-					for (let selected of newerSpoon2) {
-						if (selected.common_questions_id === mannerID) {
-							let tempObject = {
-								[manner[1]]: manner[2] + selected.common_questions_weight,
-							};
-							tempArr.push(tempObject);
-						}
-					}
-				}
-				console.log('숟갈2 식사 매너 누적 결과 : ', tempArr);
-				resultArr.push(tempArr);
-			}
-			// 숟갈3 식사 매너 누적
-			let newerSpoon3 = this.checkedCommonSpoonManner3;
-			if (newerSpoon3.length !== 0) {
-				let tempArr = [];
-				for (let manner of older) {
-					let mannerID = manner[0];
-					for (let selected of newerSpoon3) {
-						if (selected.common_questions_id === mannerID) {
-							let tempObject = {
-								[manner[1]]: manner[2] + selected.common_questions_weight,
-							};
-							tempArr.push(tempObject);
-						}
-					}
-				}
-				console.log('숟갈3 식사 매너 누적 결과 : ', tempArr);
-				resultArr.push(tempArr);
-			}
-			console.log('숟갈들의 식사 매너 누적 결과 : ', resultArr);
-			return resultArr;
 		},
 		// 점수 PUT
 		async putScore(manner, score, email) {
