@@ -19,30 +19,34 @@
 					</div>
 					<!-- 타이틀 -->
 					<div class="col my-4">
-						<div class="title d-flex">
+						<div class="title">
 							<h3 class="me-4" style="line-height: 1.5em">
 								{{ babsangDetailData.dining_table_title }}
 							</h3>
 
-							<div class="status">
-								<button
-									class="btn btn-primary me-2"
-									style="height: 2.2rem; line-height: 1.5rem"
-								>
-									{{ currentStatus() }}
-								</button>
-								<button
-									class="btn btn-secondary me-2"
-									style="height: 2.2rem; line-height: 1.5rem"
-								>
-									{{ recruitGender() }}
-								</button>
-								<button
-									class="btn btn-secondary"
-									style="height: 2.2rem; line-height: 1.5rem"
-								>
-									{{ babsangDetailData.dining_count }}인상
-								</button>
+							<div class="status babsang-info mb-2">
+								<span>#{{ currentStatus() }}</span>
+								<span>#{{ recruitGender() }}</span>
+								<span>#{{ babsangDetailData.dining_count }}인상</span>
+
+								<!--								<button-->
+								<!--									class="btn btn-primary me-2"-->
+								<!--									style="height: 2.2rem; line-height: 1.5rem"-->
+								<!--								>-->
+								<!--									{{ currentStatus() }}-->
+								<!--								</button>-->
+								<!--								<button-->
+								<!--									class="btn btn-secondary me-2"-->
+								<!--									style="height: 2.2rem; line-height: 1.5rem"-->
+								<!--								>-->
+								<!--									{{ recruitGender() }}-->
+								<!--								</button>-->
+								<!--								<button-->
+								<!--									class="btn btn-secondary"-->
+								<!--									style="height: 2.2rem; line-height: 1.5rem"-->
+								<!--								>-->
+								<!--									{{ babsangDetailData.dining_count }}인상-->
+								<!--								</button>-->
 							</div>
 						</div>
 						<ul>
@@ -639,7 +643,14 @@ button {
 		color: #fe3900;
 	}
 }
-
+.babsang-info {
+	span {
+		margin-right: 1rem;
+		font-size: 1rem;
+		font-weight: bold;
+		color: #ffcb00;
+	}
+}
 // Sweetalert
 .swal-button {
 	padding: 7px 19px;
