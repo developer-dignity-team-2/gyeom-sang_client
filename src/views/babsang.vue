@@ -83,9 +83,8 @@
 						<div
 							class="border rounded p-3"
 							style="max-height: 20rem; overflow-x: hidden; overflow-y: auto"
-						>
-							{{ babsangDetailData.dining_description }}
-						</div>
+							v-html="babsangDesciprion"
+						></div>
 					</div>
 					<!-- 구분선 -->
 					<div class="col my-3 px-4">
@@ -302,6 +301,7 @@ export default {
 			spoonMessage: '',
 			selectedUsers: '',
 			socket: '',
+			babsangDesciprion: '',
 		};
 	},
 
@@ -324,7 +324,10 @@ export default {
 		},
 	},
 	created() {},
+	beforeUnmount() {},
+
 	mounted() {
+		this.scrollInit();
 		this.socket = io('https://nicespoons.com');
 		console.log('socket', this.socket);
 		this.socket.on('increment', () => {
@@ -336,12 +339,9 @@ export default {
 			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
 
-		window.scrollTo(0, 0);
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
-		console.log('---------------밥상 data---------------');
 		this.getBabsangDetailData();
-		console.log('---------------isUser---------------');
-		console.log(this.$store.state.user.isUser);
+		console.log('isUser : ', this.$store.state.user.isUser);
 		this.countSpoons();
 		this.initialButton();
 	},
@@ -372,6 +372,9 @@ export default {
 			} else {
 				this.spoonStatus = false;
 			}
+		},
+		scrollInit() {
+			window.scrollTo(0, 0);
 		},
 		// 로그인 사용자가 숟갈 얹은 유저인지 확인
 		async alreadySpoon() {
@@ -530,8 +533,13 @@ export default {
 				'/babsang/' + this.$route.params.babsangId,
 			);
 			this.babsangDetailData = this.babsangDetailData.result[0];
+			this.babsangDesciprion =
+				this.babsangDetailData.dining_description.replaceAll(
+					/(\n|\r\n)/g,
+					'<br>',
+				);
 			console.log('----------babsangDetailData----------');
-			console.log(this.babsangDetailData);
+
 			this.writeMessage(); // 숟갈 메시지 초기화
 		},
 		currentStatus() {
