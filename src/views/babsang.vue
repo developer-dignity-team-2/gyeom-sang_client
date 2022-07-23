@@ -304,8 +304,17 @@ export default {
 			babsangDesciprion: '',
 		};
 	},
+	// watch: {
+	// 	test(newVal) {
+	// 		console.log('route', newVal);
+	// 		window.scrollTo(0, 0);
+	// 	},
+	// },
 
 	computed: {
+		// test() {
+		// 	return this.$route.params.babsangId;
+		// },
 		// 밥장/숟갈/게스트 분기처리
 		isLeader() {
 			// 유저 정보가 없을 때 false
@@ -323,11 +332,15 @@ export default {
 			}
 		},
 	},
-	created() {},
+	created() {
+		setTimeout(() => {
+			this.scrollInit();
+		}, 100);
+	},
+	unmounted() {},
 	beforeUnmount() {},
 
 	mounted() {
-		this.scrollInit();
 		this.socket = io('https://nicespoons.com');
 		console.log('socket', this.socket);
 		this.socket.on('increment', () => {
@@ -347,6 +360,9 @@ export default {
 	},
 
 	methods: {
+		scrollInit() {
+			window.scrollTo(0, 0);
+		},
 		modifyBabsang() {
 			this.$router.push({
 				name: 'BabsangCreate',
@@ -372,9 +388,6 @@ export default {
 			} else {
 				this.spoonStatus = false;
 			}
-		},
-		scrollInit() {
-			window.scrollTo(0, 0);
 		},
 		// 로그인 사용자가 숟갈 얹은 유저인지 확인
 		async alreadySpoon() {
@@ -538,7 +551,6 @@ export default {
 					/(\n|\r\n)/g,
 					'<br>',
 				);
-			console.log('----------babsangDetailData----------');
 
 			this.writeMessage(); // 숟갈 메시지 초기화
 		},
