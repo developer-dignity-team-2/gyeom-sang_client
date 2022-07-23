@@ -284,8 +284,7 @@ export default {
 			selectedUsers: '',
 			socket: '',
 			babsangDesciprion: '',
-			thumbnail:
-				'https://blog.kakaocdn.net/dn/ddGD7k/btrAA1vEmnA/4iBdyjmcKve8zWeNIobNdk/img.png',
+			thumbnail: 'https://nicespoons.com/static/images/default_img.jpeg',
 		};
 	},
 
