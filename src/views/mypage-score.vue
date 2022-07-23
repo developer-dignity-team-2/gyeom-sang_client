@@ -266,7 +266,7 @@ export default {
 
 			console.log('tempCommonManners', tempCommonManners);
 
-			console.log(tempCommonManners[0].id.substring(0, 2) === 'sb');
+			// console.log(tempCommonManners[0].id.substring(0, 2) === 'sb');
 
 			let goodCommon = tempCommonManners.filter(
 				c => c.id.substring(0, 2) === 'sg',

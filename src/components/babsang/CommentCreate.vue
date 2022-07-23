@@ -16,22 +16,17 @@
 				></textarea>
 			</div>
 		</form>
-		<div class="d-flex justify-content-between">
+		<div class="d-flex justify-content-between align-items-center">
 			<!-- 비밀댓글 체크여부 -->
-			<input
-				class="form-check-input"
-				v-model="secret_check"
-				type="checkbox"
-				value=""
-				id="flexCheckDefault"
-				style="margin: auto"
-				@change="checkedSecert"
-			/>
-			<label
-				class="form-check-label"
-				for="flexCheckDefault"
-				style="margin: auto 8px"
-			>
+
+			<label class="col form-check-label">
+				<input
+					class="form-check-input"
+					v-model="secret_check"
+					type="checkbox"
+					style="margin-right: 4px"
+					@change="checkedSecert"
+				/>
 				비밀댓글
 			</label>
 

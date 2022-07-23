@@ -41,7 +41,7 @@
 									class="btn btn-secondary"
 									style="height: 2.2rem; line-height: 1.5rem"
 								>
-									1/{{ babsangDetailData.dining_count }}
+									{{ babsangDetailData.dining_count }}인상
 								</button>
 							</div>
 						</div>
@@ -80,9 +80,11 @@
 					</div>
 					<!-- 소개 내용 -->
 					<div class="col">
-						<div class="border rounded p-3" style="min-height: 20rem">
-							{{ babsangDetailData.dining_description }}
-						</div>
+						<div
+							class="border rounded p-3"
+							style="max-height: 20rem; overflow-x: hidden; overflow-y: auto"
+							v-html="babsangDesciprion"
+						></div>
 					</div>
 					<!-- 구분선 -->
 					<div class="col my-3 px-4">
@@ -111,7 +113,7 @@
 					</div>
 					<div class="col d-flex justify-content-center my-5">
 						<button
-							class="btn btn-secondary mx-2"
+							class="btn btn-secondary mx-2 modify"
 							v-if="isLeader"
 							@click="modifyBabsang"
 						>
@@ -121,7 +123,7 @@
 							목록
 						</button>
 						<button
-							class="btn btn-secondary mx-2"
+							class="btn btn-secondary mx-2 delete"
 							@click="deleteBabsang"
 							v-if="isLeader"
 						>
@@ -299,10 +301,20 @@ export default {
 			spoonMessage: '',
 			selectedUsers: '',
 			socket: '',
+			babsangDesciprion: '',
 		};
 	},
+	// watch: {
+	// 	test(newVal) {
+	// 		console.log('route', newVal);
+	// 		window.scrollTo(0, 0);
+	// 	},
+	// },
 
 	computed: {
+		// test() {
+		// 	return this.$route.params.babsangId;
+		// },
 		// 밥장/숟갈/게스트 분기처리
 		isLeader() {
 			// 유저 정보가 없을 때 false
@@ -320,7 +332,14 @@ export default {
 			}
 		},
 	},
-	created() {},
+	created() {
+		setTimeout(() => {
+			this.scrollInit();
+		}, 100);
+	},
+	unmounted() {},
+	beforeUnmount() {},
+
 	mounted() {
 		this.socket = io('https://nicespoons.com');
 		console.log('socket', this.socket);
@@ -333,17 +352,17 @@ export default {
 			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
 
-		window.scrollTo(0, 0);
 		console.log('밥상 ID : ' + this.$route.params.babsangId);
-		console.log('---------------밥상 data---------------');
 		this.getBabsangDetailData();
-		console.log('---------------isUser---------------');
-		console.log(this.$store.state.user.isUser);
+		console.log('isUser : ', this.$store.state.user.isUser);
 		this.countSpoons();
 		this.initialButton();
 	},
 
 	methods: {
+		scrollInit() {
+			window.scrollTo(0, 0);
+		},
 		modifyBabsang() {
 			this.$router.push({
 				name: 'BabsangCreate',
@@ -527,8 +546,12 @@ export default {
 				'/babsang/' + this.$route.params.babsangId,
 			);
 			this.babsangDetailData = this.babsangDetailData.result[0];
-			console.log('----------babsangDetailData----------');
-			console.log(this.babsangDetailData);
+			this.babsangDesciprion =
+				this.babsangDetailData.dining_description.replaceAll(
+					/(\n|\r\n)/g,
+					'<br>',
+				);
+
 			this.writeMessage(); // 숟갈 메시지 초기화
 		},
 		currentStatus() {
@@ -606,6 +629,14 @@ dt {
 	}
 	.nickname {
 		font-size: 0.5rem;
+	}
+}
+button {
+	&.modify {
+		color: #003dff;
+	}
+	&.delete {
+		color: #fe3900;
 	}
 }
 

@@ -13,14 +13,10 @@
 							type="file"
 							class="form-control file-control"
 							ref="fileInput"
-							accept="image/png, image/jpeg"
+							accept="image/png, image/jpeg, image/jpg"
 							@change="onSelectFile"
 						/>
-						<div
-							class="upload-background"
-							@click="chooseImage"
-							v-if="!imageData"
-						>
+						<div class="upload-background" v-if="!imageData">
 							<font-awesome-icon
 								icon="fa-regular fa-image"
 								style="color: rgba(0, 0, 0, 0.3); font-size: 2rem"
@@ -29,10 +25,13 @@
 								class="mt-2"
 								style="
 									font-weight: bold;
-									color: rgba(0, 0, 0, 0.3);
+									color: rgba(0, 0, 0, 0.5);
 									display: block;
 								"
 								>밥상 사진을 업로드 해주세요 !</span
+							>
+							<small style="font-weight: light; color: rgba(0, 0, 0, 0.5)"
+								>(이미지 용량 1M 제한입니다.)</small
 							>
 						</div>
 					</div>
@@ -274,7 +273,13 @@
 								id="dining_description"
 								v-model.trim="dining_description"
 								style="resize: none; height: 10rem"
+								@input="onChangeDiningDescription"
+								maxlength="512"
 							></textarea>
+							<InputTextWarning
+								:inputMaxLength="inputWarningMsgLength"
+								:open="openInputWarningMsg"
+							/>
 							<div class="error-msg" v-if="v$.dining_description.$error">
 								밥장님의 밥상을 소개해 주세요.
 							</div>
@@ -324,11 +329,11 @@ import KakaoMap from '@/components/kakaoMap/KakaoMap.vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Datepicker from 'vue3-datepicker';
-import { io } from 'socket.io-client';
+import InputTextWarning from '@/components/input/InputTextWarning.vue';
 
 export default {
 	name: 'BabsangCreate',
-	components: { Datepicker, KakaoMap },
+	components: { Datepicker, KakaoMap, InputTextWarning },
 	setup() {
 		return {
 			v$: useVuelidate(),
@@ -351,8 +356,9 @@ export default {
 			placeLatitude: '',
 			placeLongitude: '',
 			title: '',
-			socket: '',
 			modifyData: '',
+			openInputWarningMsg: false,
+			inputWarningMsgLength: 512,
 		};
 	},
 	computed: {
@@ -393,7 +399,6 @@ export default {
 	},
 
 	mounted() {
-		this.socket = io('http://localhost:3000');
 		console.log('isModify :', this.isModify);
 		this.getBabsangDetailData();
 	},
@@ -506,12 +511,26 @@ export default {
 		},
 		async onSelectFile() {
 			const input = this.$refs.fileInput;
-			const files = input.files[0];
-			console.log(files);
-			const res = await this.$upload('/upload/image', files);
-			this.imageData = `https://nicespoons.com/static/images/${res.filename}`;
-			console.log(res);
-			this.dining_thumbnail = res.filename;
+			const file = input.files[0];
+			console.log(file);
+			if (file && file.type.substr(0, 5) === 'image') {
+				const maxSize = 1 * 1024 * 1024;
+				const fileSize = file.size;
+				if (fileSize <= maxSize) {
+					const res = await this.$upload('/upload/image', file);
+					this.imageData = `https://nicespoons.com/static/images/${res.filename}`;
+					console.log(res);
+					this.dining_thumbnail = res.filename;
+				} else {
+					this.$swal({
+						title: '이미지 용량 1M 제한입니다!',
+						icon: 'warning',
+						iconColor: '#ffcb00',
+						confirmButtonColor: '#ffcb00',
+						confirmButtonText: '확인',
+					});
+				}
+			}
 		},
 		// 수정모드시 밥상 데이터 불러오기.
 		async getBabsangDetailData() {
@@ -570,6 +589,15 @@ export default {
 			this.$router.push({
 				path: `/babsang/${idMax}`,
 			});
+		},
+
+		onChangeDiningDescription(e) {
+			console.log(e);
+			if (e.target.value.length >= 512) {
+				this.openInputWarningMsg = true;
+			} else {
+				this.openInputWarningMsg = false;
+			}
 		},
 	},
 };

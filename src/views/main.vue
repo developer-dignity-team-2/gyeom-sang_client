@@ -41,15 +41,17 @@
 			></SearchFilter>
 		</div>
 		<!-- 밥상카드 -->
-		<div class="row">
-			<MainCardList :babsangData="babsangData" />
-			<div
-				v-if="babsangData.length === 0"
-				class="d-flex justify-content-center align-items-center"
-			>
-				일치하는 조건의 밥상이 없습니다😭
+		<transition name="babsang">
+			<div class="row">
+				<MainCardList :babsangData="babsangData" />
+				<div
+					v-if="babsangData.length === 0"
+					class="d-flex justify-content-center align-items-center"
+				>
+					일치하는 조건의 밥상이 없습니다😭
+				</div>
 			</div>
-		</div>
+		</transition>
 	</div>
 </template>
 
@@ -65,11 +67,6 @@ export default {
 	data() {
 		return {
 			babsangData: [],
-			allData: [],
-			areaArr: '',
-			dateArr: '',
-			genderArr: '',
-			filterArr: '',
 			filterData: '',
 			babsangSearchValue: '',
 			areaVal: '',
@@ -78,18 +75,15 @@ export default {
 				start: '',
 				end: '',
 			},
+			babsangInitData: '',
 		};
 	},
-	watch: {
-		babsangData(newVal) {
-			this.babsangData = newVal;
-		},
-	},
+	watch: {},
 	mounted() {
 		this.getBabsang();
 	},
 	methods: {
-		// 기간 필터
+		// 기간 데이터
 		getDateValue(start, end) {
 			const s_year = start.getFullYear();
 			let s_month = start.getMonth() + 1;
@@ -103,48 +97,32 @@ export default {
 			const e_day = end.getDate();
 			this.date.end = `${e_year}-${e_month}-${e_day}`;
 
-			this.searchFilter(this.date.start, this.date.end);
-			this.dateFilter(this.date.start, this.date.end);
-		},
-		dateFilter(start, end) {
-			// this.babsangData = this.allData;
-
-			const startDate = new Date(start);
-			const endDate = new Date(end);
-			this.dateArr = this.babsangData.filter(item => {
-				let date = new Date(item.dining_datetime.slice(0, 10));
-				return date >= startDate && date <= endDate;
-			});
-			console.log('선택된 기간 array : ', this.dateArr);
-		},
-		// 성별 필터
-		getGenderValue(gender) {
-			// this.babsangData = this.allData;
-			this.genderVal = gender;
-			console.log('선택한 성별 :', this.genderVal);
-			this.genderArr = this.babsangData.filter(item =>
-				item.gender_check.includes(this.genderVal),
-			);
-			console.log('선택된 성별 Array :', this.genderArr);
 			this.searchFilter();
 		},
-		//지역 필터
+
+		// 성별 데이터
+		getGenderValue(gender) {
+			this.genderVal = gender;
+			console.log('선택한 성별 :', this.genderVal);
+
+			this.searchFilter();
+		},
+		//지역 데이터
 		getAreaValue(area) {
-			// this.babsangData = this.allData;
 			if (area === '전국') {
 				area = '';
 			}
 			this.areaVal = area;
 			console.log('선택한 지역 :', this.areaVal);
-			this.areaArr = this.babsangData.filter(item =>
-				item.restaurant_location.includes(this.areaVal),
-			);
-			console.log('선택된 지역 Array : ', this.areaArr);
+
 			this.searchFilter();
 		},
-		//필터 체이닝
-		searchFilter(start, end) {
-			console.log('this.babsangData = ', this.babsangData);
+		//필터
+		searchFilter() {
+			let start = this.date.start;
+			let end = this.date.end;
+			this.filterData = this.babsangInitData;
+
 			this.filterData = this.filterData
 				.filter(item => item.restaurant_location.includes(this.areaVal))
 				.filter(item => item.gender_check.includes(this.genderVal));
@@ -165,7 +143,7 @@ export default {
 
 		async getBabsang(type = '') {
 			this.babsangData = await this.$get(`/babsang${type}`);
-			this.filterData = this.babsangData.result;
+			this.babsangInitData = this.babsangData.result;
 
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;

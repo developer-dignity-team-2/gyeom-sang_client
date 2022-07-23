@@ -62,11 +62,6 @@
 					></Datepicker>
 				</div>
 			</li>
-			<!--			<li class="nav-item">-->
-			<!--				<a class="nav-link" data-bs-toggle="dropdown" href="#" role="button"-->
-			<!--					>필터 초기화</a-->
-			<!--				>-->
-			<!--			</li>-->
 		</ul>
 	</div>
 </template>
@@ -97,9 +92,6 @@ export default {
 		},
 	},
 	methods: {
-		// getformat(date) {
-		// 	console.log(date);
-		// },
 		selectGender(e) {
 			const value = e.target.innerText;
 			this.gender = value;
