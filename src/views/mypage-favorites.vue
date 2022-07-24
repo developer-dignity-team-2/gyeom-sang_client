@@ -89,11 +89,8 @@ export default {
 		async getBabsangs() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const babsangs = (
-				await this.$get(
-					'https://nicespoons.com/api/v1/babsang/get?type=bookmarkedList',
-				)
-			).result;
+			const babsangs = (await this.$get('/babsang/get?type=bookmarkedList'))
+				.result;
 
 			loader.hide();
 

@@ -184,11 +184,8 @@ export default {
 		async getAppliedBabsang() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const babsangs = (
-				await this.$get(
-					'https://nicespoons.com/api/v1/babsang/get?type=appliedList',
-				)
-			).result;
+			const babsangs = (await this.$get('/babsang/get?type=appliedList'))
+				.result;
 
 			loader.hide();
 
@@ -201,11 +198,8 @@ export default {
 		async getCreatedBabsang() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const babsangs = (
-				await this.$get(
-					'https://nicespoons.com/api/v1/babsang/get?type=createdList',
-				)
-			).result;
+			const babsangs = (await this.$get('/babsang/get?type=createdList'))
+				.result;
 
 			loader.hide();
 
@@ -218,11 +212,8 @@ export default {
 		async getSelectedList() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const babsangs = (
-				await this.$get(
-					'https://nicespoons.com/api/v1/babsang/get?type=selectedList',
-				)
-			).result;
+			const babsangs = (await this.$get('/babsang/get?type=selectedList'))
+				.result;
 
 			loader.hide();
 

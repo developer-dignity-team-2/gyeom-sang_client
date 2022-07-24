@@ -53,6 +53,7 @@
 				<div class="nav-link" href="#">
 					기간 :
 					<Datepicker
+						input-class-name="range-pick"
 						v-model="date"
 						range
 						:enableTimePicker="false"
@@ -84,7 +85,7 @@ export default {
 			areaValue: '전국',
 			genderValue: '혼성',
 			gender: '선택',
-			date: null,
+			date: [],
 			startDate: '',
 			endDate: '',
 			format: '',
@@ -93,10 +94,19 @@ export default {
 	watch: {
 		date() {
 			if (this.date[1] === null) {
-				this.startDate = this.date[0];
-				this.endDate = this.date[0];
-				this.date[1] = this.date[0];
+				this.$swal({
+					title: `마지막 날짜를 선택해 주세요.`,
+					icon: 'warning',
+					iconColor: '#ffcb00',
+					confirmButtonColor: '#ffcb00',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '확인',
+				});
+				this.date = [];
+				this.startDate = '';
+				this.endDate = '';
 				this.$emit('date', this.startDate, this.endDate);
+				this.$el.querySelector('.range-pick').placeholder = '날짜 선택하기';
 			} else {
 				this.startDate = this.date[0];
 				this.endDate = this.date[1];

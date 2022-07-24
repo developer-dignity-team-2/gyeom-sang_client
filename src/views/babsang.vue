@@ -358,7 +358,7 @@ export default {
 		async alreadySpoon() {
 			const confirmUsers = (
 				await this.$get(
-					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+					`/babsang/${this.$route.params.babsangId}/babsangSpoons`,
 				)
 			).result;
 			let user = this.$store.state.user.userData.email;
@@ -371,7 +371,7 @@ export default {
 		async countSpoons() {
 			const confirmUsers = (
 				await this.$get(
-					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons`,
+					`/babsang/${this.$route.params.babsangId}/babsangSpoons`,
 				)
 			).result;
 			this.countAppliedSpoons = confirmUsers.filter(
@@ -387,7 +387,7 @@ export default {
 			this.socket.emit('postSpoon');
 
 			await this.$post(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
+				`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=apply`,
 				{
 					param: {
 						spoon_email: this.$store.state.user.userData.email,
@@ -459,7 +459,7 @@ export default {
 			// 숟갈 얹은 유저이면 숟갈 빼기
 			if (spoonEmail === userEmail) {
 				await this.$put(
-					`https://nicespoons.com/api/v1/babsang/${this.$route.params.babsangId}/babsangSpoons?type=applyCancel`,
+					`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=applyCancel`,
 					{
 						spoon_email: userEmail,
 						param: {
@@ -599,10 +599,12 @@ dt {
 }
 button {
 	&.modify {
-		color: #003dff;
+		color: #fff;
+		background-color: #ffc144;
 	}
 	&.delete {
-		color: #fe3900;
+		color: #fff;
+		background-color: #ff7851;
 	}
 }
 .babsang-info {

@@ -238,9 +238,7 @@ export default {
 		async getReceivedMessages() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const userMessages = (
-				await this.$get('https://nicespoons.com/api/v1/message')
-			).result;
+			const userMessages = (await this.$get('/message')).result;
 
 			loader.hide();
 
@@ -260,9 +258,7 @@ export default {
 		async getSentMessages() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const userMessages = (
-				await this.$get('https://nicespoons.com/api/v1/message')
-			).result;
+			const userMessages = (await this.$get('/message')).result;
 
 			loader.hide();
 
@@ -329,9 +325,7 @@ export default {
 					let r = [];
 
 					for (let chk of checked) {
-						r = await this.$delete(
-							`https://nicespoons.com/api/v1/message/${chk}`,
-						);
+						r = await this.$delete(`/message/${chk}`);
 					}
 
 					loader.hide();

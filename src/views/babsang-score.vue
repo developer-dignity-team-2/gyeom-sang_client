@@ -536,17 +536,14 @@ export default {
 		},
 		// 밥상 정보 가져오기
 		async getBabsang() {
-			const temp = (
-				await this.$get(
-					`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}`,
-				)
-			).result[0];
+			const temp = (await this.$get(`/babsang/${this.$route.query.babsangId}`))
+				.result[0];
 
 			return temp;
 		},
 		// 로그인 사용자 정보 가져오기
 		async getLoginUser() {
-			const user = await this.$get('https://nicespoons.com/api/v1/user');
+			const user = await this.$get('/user');
 			let loginUser = user.result[0];
 
 			return loginUser;
@@ -554,7 +551,7 @@ export default {
 		// 숟갈 얹은 사용자들 정보
 		async getBabsangSpoons() {
 			const temp = await this.$get(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
+				`/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
 
 			return temp;
@@ -583,9 +580,7 @@ export default {
 		},
 		// 공통용 매너 질문 정보 가져오기
 		async getCommonQuestions() {
-			const question = await this.$get(
-				'https://nicespoons.com/api/v1/question?type=common',
-			);
+			const question = await this.$get('/question?type=common');
 
 			console.log('공통 질문 가공전 : ', question);
 
@@ -602,9 +597,7 @@ export default {
 		},
 		// 밥장용 매너 질문 정보 가져오기
 		async getBabjangQuestions() {
-			const question = await this.$get(
-				'https://nicespoons.com/api/v1/question?type=host',
-			);
+			const question = await this.$get('/question?type=host');
 
 			let good = question.result.filter(q => q.host_questions_type === 'G');
 			let bad = question.result.filter(q => q.host_questions_type === 'B');
@@ -754,7 +747,18 @@ export default {
 					this.theSpoons[i].spoon_email,
 				);
 			}
-			// 남은 작업 : this.mannerScoreResult 내 각 평가 대상별 누적 매너 항목 및 점수를 PUT해야 함!!!
+			// 평가 대상자의 평가 결과 DB에 PUT
+			for (let result of this.mannerScoreResult) {
+				if (result !== undefined) {
+					console.log(
+						'서버로 보낼 각 평가 대상의 가공된 데이터 : ',
+						result[0].email,
+					);
+					for (let i = 1; i < result.length; i++) {
+						console.log(result[i]);
+					}
+				}
+			}
 		},
 		// 평가 대상자의 매너 항목과 점수 가져와 ID 부여
 		async doMakeMannerList(userEmail) {
@@ -766,11 +770,8 @@ export default {
 		},
 		// 서버에서 평가 대상자의 매너 점수 가져오기
 		async getAggregation(email) {
-			const temp = (
-				await this.$get(
-					`https://nicespoons.com/api/v1/aggregation?extraEmail=${email}`,
-				)
-			).result[0];
+			const temp = (await this.$get(`/aggregation?extraEmail=${email}`))
+				.result[0];
 			return temp;
 		},
 		// 서버에서 가져온 평가 대상자의 매너 및 점수에 ID 부여
@@ -872,15 +873,12 @@ export default {
 		},
 		// 점수 PUT
 		async putScore(manner, score, email) {
-			const putScore = await this.$put(
-				`https://nicespoons.com/api/v1/aggregation`,
-				{
-					param: {
-						[manner]: score,
-					},
-					email: email,
+			const putScore = await this.$put(`/aggregation`, {
+				param: {
+					[manner]: score,
 				},
-			);
+				email: email,
+			});
 			console.log(`${email}의 누적 매너 항목 및 점수 PUT 성공 : `, putScore);
 		},
 

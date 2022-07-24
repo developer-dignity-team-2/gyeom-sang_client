@@ -90,56 +90,70 @@
 
 						<!-- datepicker 삽입
 						lowerLimit: 지정한 기준으로 하한인 날은 disable -->
-						<div class="form-group mt-4">
-							식사 일시
-							<datepicker
-								v-model="dining_datetime"
-								:lowerLimit="new Date()"
-								style="cursor: default"
-								class="form-control mt-2"
-								:placeholder="
-									isModify ? modifyData.dining_datetime : '식사 일시'
-								"
-								minimumView="time"
-								inputFormat="yyyy-MM-dd HH:mm"
-							/>
+						<div class="form-group row mt-4">
+							<div class="col">
+								식사 일시
+								<datepicker
+									hideInputIcon
+									v-model="dining_datetime"
+									:placeholder="
+										isModify ? modifyData.dining_datetime : '식사 일시'
+									"
+									:minDate="new Date()"
+									format="yyyy-MM-dd"
+									:enableTimePicker="false"
+									:clearable="false"
+									:transitions="false"
+								></datepicker>
+								<div class="error-msg" v-if="v$.dining_datetime.$error">
+									식사 일시를 선택해 주세요.
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<div>식사 시간</div>
+									<Datepicker
+										input-class-name="time-picker"
+										:placeholder="isModify ? modify_time() : '식사 시간'"
+										v-model="time"
+										timePicker
+										hideInputIcon
+										:min-time="minTime()"
+										:disabled="!this.dining_datetime"
+										minutesIncrement="30"
+										noMinutesOverlay
+										:clearable="false"
+										:start-time="{
+											hours: new Date().getHours() + 1,
+											minutes: 0,
+										}"
+										:transitions="false"
+									/>
+								</div>
+								<div class="error-msg" v-if="v$.time.$error">
+									식사 시간을 선택해 주세요.
+								</div>
+							</div>
 						</div>
-						<div class="error-msg" v-if="v$.dining_datetime.$error">
-							식사 일시를 선택해 주세요.
-						</div>
-						<!-- datepicker 삽입
-						upperLimit: 지정한 날짜 기준으로 상한인 날은 disable -->
+
 						<div class="form-group mt-4 row">
 							<div class="col-12 mb-1">모집 기간</div>
-							<div class="col">
-								<datepicker
-									v-model="recruit_start_date"
-									:upperLimit="this.dining_datetime"
-									:lowerLimit="new Date()"
-									class="form-control"
-									style="cursor: default"
-									:placeholder="
-										isModify ? modifyData.recruit_start_date : '모집 시작'
-									"
-								/>
-							</div>
-							<div class="col">
-								<datepicker
-									v-model="recruit_end_date"
-									:upperLimit="this.dining_datetime"
-									:lowerLimit="this.recruit_start_date"
-									class="form-control"
-									style="cursor: default"
-									:placeholder="
-										isModify ? modifyData.recruit_end_date : '모집 마감'
-									"
-								/>
-							</div>
+							<datepicker
+								input-class-name="recruit-picker"
+								range
+								v-model="recruit_date"
+								:placeholder="isModify ? m_recruit_date() : '모집 기간'"
+								:minDate="new Date()"
+								:maxDate="dining_datetime"
+								:disabled="!time"
+								format="yyyy-MM-dd"
+								hideInputIcon
+								:enableTimePicker="false"
+								:clearable="false"
+								:transitions="false"
+							></datepicker>
 						</div>
-						<div
-							class="error-msg"
-							v-if="v$.recruit_start_date.$error || v$.recruit_end_date.$error"
-						>
+						<div class="error-msg" v-if="v$.recruit_date.$error">
 							모집 기간을 선택해 주세요.
 						</div>
 
@@ -328,7 +342,8 @@
 import KakaoMap from '@/components/kakaoMap/KakaoMap.vue';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import Datepicker from 'vue3-datepicker';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 import InputTextWarning from '@/components/input/InputTextWarning.vue';
 
 export default {
@@ -342,6 +357,7 @@ export default {
 	data() {
 		return {
 			dining_datetime: '',
+			recruit_date: '',
 			recruit_start_date: '',
 			recruit_end_date: '',
 			gender_check: '',
@@ -359,7 +375,32 @@ export default {
 			modifyData: '',
 			openInputWarningMsg: false,
 			inputWarningMsgLength: 512,
+			time: '',
 		};
+	},
+	watch: {
+		dining_datetime() {
+			if (this.isModify || this.recruit_date) {
+				this.resetData();
+			}
+		},
+		recruit_date(newVal) {
+			if (newVal[1] === null) {
+				// alert('모집 마감 날짜를 선택해주세요.');
+
+				this.$swal({
+					title: `모집 마감 날짜를 선택해주세요.`,
+					icon: 'warning',
+					iconColor: '#ffcb00',
+					confirmButtonColor: '#ffcb00',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '확인',
+				});
+				this.recruit_date = '';
+			} else {
+				this.setRecruitDate();
+			}
+		},
 	},
 	computed: {
 		isModify() {
@@ -377,10 +418,10 @@ export default {
 			dining_datetime: {
 				required,
 			},
-			recruit_start_date: {
+			time: {
 				required,
 			},
-			recruit_end_date: {
+			recruit_date: {
 				required,
 			},
 			dining_thumbnail: {
@@ -399,11 +440,57 @@ export default {
 	},
 
 	mounted() {
+		window.scrollTo(0, 0);
 		console.log('isModify :', this.isModify);
 		this.getBabsangDetailData();
 	},
 
 	methods: {
+		m_recruit_date() {
+			if (
+				this.modifyData.recruit_start_date &&
+				this.modifyData.recruit_end_date
+			) {
+				return `${this.modifyData.recruit_start_date.slice(
+					0,
+					10,
+				)} - ${this.modifyData.recruit_end_date.slice(0, 10)}`;
+			}
+		},
+		modify_time() {
+			if (this.modifyData.dining_datetime) {
+				return this.modifyData.dining_datetime.slice(11, 16);
+			}
+		},
+		resetData() {
+			this.time = '';
+			this.recruit_date = '';
+			this.$el.querySelector('.time-picker').placeholder = '식사 시간';
+			this.$el.querySelector('.recruit-picker').placeholder = '모집 기간';
+		},
+		minTime() {
+			const date = new Date(this.dining_datetime);
+			const s_year = date.getFullYear();
+			const s_month = date.getMonth() + 1;
+			const s_date = date.getDate();
+
+			const today = new Date();
+			const t_year = today.getFullYear();
+			const t_month = today.getMonth() + 1;
+			const t_date = today.getDate();
+
+			if (s_year === t_year && s_month === t_month && s_date === t_date) {
+				return {
+					hours: today.getHours(),
+					minutes: today.getMinutes(),
+				};
+			} else {
+				return {
+					hours: '',
+					minutes: '',
+				};
+			}
+		},
 		modifyBabsang() {
 			this.$swal({
 				title: `밥상을 수정하시겠습니까?`,
@@ -422,8 +509,8 @@ export default {
 							dining_table_title: this.title, // OK
 							restaurant_name: this.placeName, // OK
 							dining_datetime: this.diningDatetime(),
-							recruit_start_date: this.recruitStartDate(),
-							recruit_end_date: this.recruitEndDate(),
+							recruit_start_date: this.recruit_start_date,
+							recruit_end_date: this.recruit_end_date,
 							gender_check: this.gender_check, // OK
 							dining_description: this.dining_description, // OK
 							dining_thumbnail: this.dining_thumbnail, // OK
@@ -437,7 +524,6 @@ export default {
 					console.log(r);
 					const isFormCorrect = await this.v$.$validate();
 					if (!isFormCorrect) {
-						window.scrollTo(0, 0);
 						return;
 					} else if (r.status === 200) {
 						this.$swal({
@@ -476,33 +562,30 @@ export default {
 			}
 		},
 		diningDatetime() {
-			const result = new Date(this.dining_datetime * 1 + 3600000 * 9)
-				.toISOString()
-				.replace('T', ' ')
-				.replace(/\..*/, '')
-				.toString()
-				.slice(0, 16);
+			if (this.dining_datetime && this.time) {
+				let date = new Date(this.dining_datetime);
+				let dateTime = date.toISOString().replace('T', ' ').slice(0, 10);
+				let hour = this.time.hours;
+				let min =
+					this.time.minutes === 0 ? this.time.minutes + '0' : this.time.minutes;
+				return `${dateTime} ${hour}:${min}`;
+			}
+		},
+		setRecruitDate() {
+			if (this.recruit_date) {
+				const startDate = new Date(this.recruit_date[0]);
+				const endDate = new Date(this.recruit_date[1]);
 
-			console.log(result);
-			return result;
-		},
-		recruitStartDate() {
-			const result = new Date(this.recruit_start_date * 1 + 3600000 * 9)
-				.toISOString()
-				.replace('T', ' ')
-				.replace(/\..*/, '')
-				.toString()
-				.slice(0, 16);
-			return result;
-		},
-		recruitEndDate() {
-			const result = new Date(this.recruit_end_date * 1 + 3600000 * 9)
-				.toISOString()
-				.replace('T', ' ')
-				.replace(/\..*/, '')
-				.toString()
-				.slice(0, 16);
-			return result;
+				this.recruit_start_date = startDate
+					.toISOString()
+					.replace('T', ' ')
+					.slice(0, 10);
+
+				this.recruit_end_date = endDate
+					.toISOString()
+					.replace('T', ' ')
+					.slice(0, 10);
+			}
 		},
 
 		// thumbnail upload
@@ -567,8 +650,8 @@ export default {
 			await this.$post('/babsang', {
 				param: {
 					dining_datetime: this.diningDatetime(),
-					recruit_start_date: this.recruitStartDate(),
-					recruit_end_date: this.recruitEndDate(),
+					recruit_start_date: this.recruit_start_date,
+					recruit_end_date: this.recruit_end_date,
 					gender_check: this.gender_check,
 					dining_description: this.dining_description,
 					dining_thumbnail: this.dining_thumbnail,
@@ -586,6 +669,7 @@ export default {
 			this.babsangId = await this.$get('/babsang');
 			const idArr = this.babsangId.result.map(item => item.id);
 			const idMax = Math.max(...idArr);
+			window.scrollTo(0, 0);
 			this.$router.push({
 				path: `/babsang/${idMax}`,
 			});

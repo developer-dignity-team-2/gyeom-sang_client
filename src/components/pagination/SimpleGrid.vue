@@ -189,22 +189,19 @@ export default {
     async putReadMessage(id) {
       const loader = this.$loading.show({ canCancel: false });
 
-      const readMessage = await this.$put(
-        `https://nicespoons.com/api/v1/message/${id}`,
-        {
-          param: {
-            // "message_description": "읽음 처리했습니다.",
-            "read_check": "Y"
-          },
+      const readMessage = await this.$put(`/message/${id}`, {
+        param: {
+          // "message_description": "읽음 처리했습니다.",
+          read_check: 'Y',
         },
-      );
+      });
 
-	  loader.hide();
+      loader.hide();
       console.log(readMessage);
     },
     // 메시지 상세보기 라우터
     messageView(id) {
-      console.log("messageView : ", id);
+      console.log('messageView : ', id);
       this.$router.push({
         name: 'MypageMessageView',
         query: { messageId: id },
@@ -235,6 +232,6 @@ td {
 
 // 메시지 읽음 처리
 .readMessage {
-  color: #CFCFCF
+  color: #cfcfcf;
 }
 </style>

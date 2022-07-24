@@ -204,9 +204,7 @@ export default {
 		async getMyQuestions() {
 			let loader = this.$loading.show({ canCancel: false });
 
-			const myManners = (
-				await this.$get('https://nicespoons.com/api/v1/aggregation')
-			).result;
+			const myManners = (await this.$get('/aggregation')).result;
 
 			loader.hide();
 
@@ -242,9 +240,7 @@ export default {
 			// 공통 질문지-카운트 병합
 			loader = this.$loading.show({ canCancel: false });
 
-			const commonQuestions = (
-				await this.$get('https://nicespoons.com/api/v1/question?type=common')
-			).result;
+			const commonQuestions = (await this.$get('/question?type=common')).result;
 
 			loader.hide();
 
@@ -281,9 +277,7 @@ export default {
 			// 밥장 질문지-카운트 병합
 			loader = this.$loading.show({ canCancel: false });
 
-			const babjangQuestions = (
-				await this.$get('https://nicespoons.com/api/v1/question?type=host')
-			).result;
+			const babjangQuestions = (await this.$get('/question?type=host')).result;
 
 			loader.hide();
 
