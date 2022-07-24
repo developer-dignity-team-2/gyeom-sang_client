@@ -114,14 +114,7 @@ export default {
 	props: {
 		itemData: Object,
 	},
-	computed: {
-		// VUE_APP_DOMAIN_URL() {
-		// 	return process.env.VUE_APP_DOMAIN_URL;
-		// },
-	},
-	mounted() {
-		console.log(process.env.VUE_APP_DOMAIN_URL);
-	},
+
 	created() {
 		this.favorite = this.itemData.active_yn;
 		this.countSpoons();

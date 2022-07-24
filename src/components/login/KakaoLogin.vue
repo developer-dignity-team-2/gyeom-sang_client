@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<p
+			v-if="user.email === undefined"
 			@click="kakaoLogin()"
 			style="display: inline; cursor: pointer; vertical-align: middle"
 		>
@@ -13,7 +14,6 @@
 <script>
 import axios from 'axios';
 import SlotModal from '@/components/common/SlotModal';
-
 export default {
 	components: { SlotModal },
 	computed: {
@@ -26,7 +26,6 @@ export default {
 			sampleData: '',
 		};
 	},
-
 	methods: {
 		/* 카카오톡 로그인 */
 		kakaoLogin() {
@@ -80,7 +79,6 @@ export default {
 			console.log(res.data);
 			localStorage.setItem('jwt', res.data.jwt);
 			console.log(res.data.jwt);
-
 			// vuex에 해당 유저정보를 저장
 			this.$store.commit('user/getUserData', kakao_account);
 			this.$store.commit('user/userCheck', true);
