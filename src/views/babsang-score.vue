@@ -460,7 +460,7 @@
 					class="btn btn-outline-primary"
 					@click="doMakeMannerLists()"
 				>
-					테스트(임시)
+					PUT테스트(임시)
 				</button>
 			</div>
 		</div>
