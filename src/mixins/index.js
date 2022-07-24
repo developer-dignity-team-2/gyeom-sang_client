@@ -12,6 +12,11 @@ export default {
 	data() {
 		return {};
 	},
+	computed: {
+		VUE_APP_DOMAIN_URL() {
+			return process.env.VUE_APP_DOMAIN_URL;
+		},
+	},
 	methods: {
 		async $get(url) {
 			return (

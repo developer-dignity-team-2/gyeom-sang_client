@@ -601,7 +601,7 @@ export default {
 				const fileSize = file.size;
 				if (fileSize <= maxSize) {
 					const res = await this.$upload('/upload/image', file);
-					this.imageData = `https://nicespoons.com/static/images/${res.filename}`;
+					this.imageData = `${process.env.VUE_APP_DOMAIN_URL}/static/images/${res.filename}`;
 					console.log(res);
 					this.dining_thumbnail = res.filename;
 				} else {
@@ -636,7 +636,7 @@ export default {
 				this.dining_datetime = new Date(this.modifyData.dining_datetime);
 				this.recruit_start_date = new Date(this.modifyData.recruit_start_date);
 				this.recruit_end_date = new Date(this.modifyData.recruit_end_date);
-				this.imageData = `https://nicespoons.com/static/images/${this.modifyData.dining_thumbnail}`;
+				this.imageData = `${process.env.VUE_APP_DOMAIN_URL}/static/images/${this.modifyData.dining_thumbnail}`;
 			}
 		},
 
