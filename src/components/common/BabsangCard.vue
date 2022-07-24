@@ -162,17 +162,16 @@ export default {
 			let s_year = strValue.slice(0, 4);
 			let s_month = strValue.slice(5, 7);
 			let s_day = strValue.slice(8, 10);
-			let startDay = new Date(s_year, s_month - 1, s_day);
+			let startDay = new Date(+s_year, s_month - 1, +s_day);
 
 			const endValue = this.itemData.recruit_end_date;
 			let e_year = endValue.slice(0, 4);
 			let e_month = endValue.slice(5, 7);
 			let e_day = endValue.slice(8, 10);
-			let endDay = new Date(e_year, e_month - 1, e_day);
+			let endDay = new Date(+e_year, e_month - 1, +e_day);
 
 			const gap = endDay.getTime() - startDay.getTime();
-			const result = Math.ceil(gap / (1000 * 60 * 60 * 24));
-			return result;
+			return Math.ceil(gap / (1000 * 60 * 60 * 24));
 		},
 		dateFormat() {
 			const dayValue = this.itemData.dining_datetime;
@@ -192,12 +191,11 @@ export default {
 			} else {
 				this.hourVal = hour;
 			}
-			let dayObj = new Date(year, month - 1, day);
+			let dayObj = new Date(+year, month - 1, +day);
 			const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 			let week = WEEKDAY[dayObj.getDay()];
 
 			return `${month}월 ${day}일(${week}) ${this.ampm} ${this.hourVal}:${min}`;
-			// return `${month}/${day}(${week}) ${this.ampm} ${this.hourVal}:${min}`;
 		},
 
 		// 찜 여부 표시
