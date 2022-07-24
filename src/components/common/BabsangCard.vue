@@ -97,18 +97,6 @@
 					<span>#D-{{ countDday() }}</span>
 					<span>#{{ recruitGender() }}</span>
 					<span>#{{ itemData.dining_count }}인상</span>
-					<!--					<button type="button" class="btn btn-primary me-2">-->
-					<!--						{{ currentStatus() }}-->
-					<!--					</button>-->
-					<!--					<button type="button" class="btn btn-primary me-2">-->
-					<!--						D-{{ countDday() }}-->
-					<!--					</button>-->
-					<!--					<button type="button" class="btn btn-secondary me-2">-->
-					<!--						{{ recruitGender() }}-->
-					<!--					</button>-->
-					<!--					<button type="button" class="btn btn-secondary">-->
-					<!--						{{ itemData.dining_count }}인상-->
-					<!--					</button>-->
 				</div>
 				<div>
 					<div class="mt-3" style="font-size: 0.8rem; margin-bottom: 4px">
@@ -155,9 +143,7 @@ export default {
 	methods: {
 		async countSpoons() {
 			const confirmUsers = (
-				await this.$get(
-					`https://nicespoons.com/api/v1/babsang/${this.itemData.id}/babsangSpoons`,
-				)
+				await this.$get(`/babsang/${this.itemData.id}/babsangSpoons`)
 			).result;
 			this.countAppliedSpoons = confirmUsers.filter(
 				user => user.apply_yn === 'Y',
@@ -235,7 +221,7 @@ export default {
 			const likeId = id;
 			if (this.favorite === 'N') {
 				this.favorite = 'Y';
-				await this.$post('https://nicespoons.com/api/v1/babsang/bookmark', {
+				await this.$post('/babsang/bookmark', {
 					param: {
 						dining_table_id: likeId,
 						active_yn: this.favorite,
@@ -246,7 +232,7 @@ export default {
 			} else {
 				this.favorite = 'N';
 
-				await this.$put('https://nicespoons.com/api/v1/babsang/bookmark', {
+				await this.$put('/babsang/bookmark', {
 					param: {
 						active_yn: this.favorite,
 						cancel_date: new Date()

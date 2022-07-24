@@ -190,7 +190,7 @@ export default {
       const loader = this.$loading.show({ canCancel: false });
 
       const readMessage = await this.$put(
-        `https://nicespoons.com/api/v1/message/${id}`,
+        `/message/${id}`,
         {
           param: {
             // "message_description": "읽음 처리했습니다.",
