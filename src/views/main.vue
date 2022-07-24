@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container d-flex flex-column">
 		<!-- 검색창 -->
 		<div class="row row-cols-1 mt-3">
 			<div
@@ -53,17 +53,20 @@
 				</div>
 			</div>
 		</transition>
+		<ScrollToTop />
 	</div>
 </template>
 
 <script>
 import MainCardList from '@/components/main/MainCardList';
 import SearchFilter from '@/components/main/SearchFilter';
+import ScrollToTop from '@/components/main/ScrollToTop';
 export default {
 	name: 'Main',
 	components: {
 		MainCardList,
 		SearchFilter,
+		ScrollToTop,
 	},
 	data() {
 		return {
