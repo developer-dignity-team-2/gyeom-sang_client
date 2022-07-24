@@ -229,7 +229,8 @@ section {
 	// border-radius: 10px;
 }
 .model-8 .checkbox label:after {
-	background: #fff;
+	background: #ff7851;
+	color: #ffffff;
 	border-radius: 6.4px;
 	// border-radius: 10px;
 	top: 0;
