@@ -68,7 +68,6 @@ export default {
 					this.$store.commit('user/getUserData', {});
 					this.$store.commit('user/userCheck', false);
 					localStorage.removeItem('jwt');
-					console.log('user :', this.$store.state.user.userData);
 				});
 		},
 	},
