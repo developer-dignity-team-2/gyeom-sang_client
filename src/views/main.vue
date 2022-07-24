@@ -89,19 +89,21 @@ export default {
 		},
 		// 기간 데이터
 		getDateValue(start, end) {
-			const s_year = start.getFullYear();
-			let s_month = start.getMonth() + 1;
-			s_month = s_month >= 10 ? s_month : '0' + s_month;
-			const s_day = start.getDate();
-			this.date.start = `${s_year}-${s_month}-${s_day}`;
+			if (start && end) {
+				const s_year = start.getFullYear();
+				let s_month = start.getMonth() + 1;
+				s_month = s_month >= 10 ? s_month : '0' + s_month;
+				const s_day = start.getDate();
+				this.date.start = `${s_year}-${s_month}-${s_day}`;
 
-			const e_year = end.getFullYear();
-			let e_month = end.getMonth() + 1;
-			e_month = e_month >= 10 ? e_month : '0' + e_month;
-			const e_day = end.getDate();
-			this.date.end = `${e_year}-${e_month}-${e_day}`;
+				const e_year = end.getFullYear();
+				let e_month = end.getMonth() + 1;
+				e_month = e_month >= 10 ? e_month : '0' + e_month;
+				const e_day = end.getDate();
+				this.date.end = `${e_year}-${e_month}-${e_day}`;
 
-			this.searchFilter();
+				this.searchFilter();
+			}
 		},
 
 		// 성별 데이터
