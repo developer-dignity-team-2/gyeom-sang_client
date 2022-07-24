@@ -103,6 +103,7 @@
 									format="yyyy-MM-dd"
 									:enableTimePicker="false"
 									:clearable="false"
+									:transitions="false"
 								></datepicker>
 								<div class="error-msg" v-if="v$.dining_datetime.$error">
 									식사 일시를 선택해 주세요.
@@ -112,7 +113,7 @@
 								<div class="form-group">
 									<div>식사 시간</div>
 									<Datepicker
-										ref="timepicker"
+										input-class-name="time-picker"
 										:placeholder="isModify ? modify_time : '식사 시간'"
 										v-model="time"
 										timePicker
@@ -126,6 +127,7 @@
 											hours: new Date().getHours() + 1,
 											minutes: 0,
 										}"
+										:transitions="false"
 									/>
 								</div>
 								<div class="error-msg" v-if="v$.time.$error">
@@ -137,6 +139,7 @@
 						<div class="form-group mt-4 row">
 							<div class="col-12 mb-1">모집 기간</div>
 							<datepicker
+								input-class-name="recruit-picker"
 								range
 								v-model="recruit_date"
 								:placeholder="isModify ? m_recruit_date : '모집 기간'"
@@ -147,7 +150,7 @@
 								hideInputIcon
 								:enableTimePicker="false"
 								:clearable="false"
-								@click="rangeAlert"
+								:transitions="false"
 							></datepicker>
 						</div>
 						<div class="error-msg" v-if="v$.recruit_date.$error">
@@ -376,6 +379,11 @@ export default {
 		};
 	},
 	watch: {
+		dining_datetime() {
+			if (this.isModify || this.recruit_date) {
+				this.resetData();
+			}
+		},
 		recruit_date(newVal) {
 			if (newVal[1] === null) {
 				// alert('모집 마감 날짜를 선택해주세요.');
@@ -455,6 +463,12 @@ export default {
 	},
 
 	methods: {
+		resetData() {
+			this.time = '';
+			this.recruit_date = '';
+			this.$el.querySelector('.time-picker').placeholder = '식사 시간';
+			this.$el.querySelector('.recruit-picker').placeholder = '모집 기간';
+		},
 		minTime() {
 			const date = new Date(this.dining_datetime);
 			const s_year = date.getFullYear();
@@ -574,24 +588,6 @@ export default {
 					.slice(0, 10);
 			}
 		},
-		// recruitStartDate() {
-		// 	const result = new Date(this.recruit_start_date * 1 + 3600000 * 9)
-		// 		.toISOString()
-		// 		.replace('T', ' ')
-		// 		.replace(/\..*/, '')
-		// 		.toString()
-		// 		.slice(0, 16);
-		// 	return result;
-		// },
-		// recruitEndDate() {
-		// 	const result = new Date(this.recruit_end_date * 1 + 3600000 * 9)
-		// 		.toISOString()
-		// 		.replace('T', ' ')
-		// 		.replace(/\..*/, '')
-		// 		.toString()
-		// 		.slice(0, 16);
-		// 	return result;
-		// },
 
 		// thumbnail upload
 		chooseImage() {
