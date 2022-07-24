@@ -155,11 +155,8 @@ export default {
 		// 메시지 상세 정보 가져오기
 		async getMessageDetail() {
 			console.log('메시지 ID : ', this.$route.query.messageId);
-			const temp = (
-				await this.$get(
-					`https://nicespoons.com/api/v1/message/${this.$route.query.messageId}`,
-				)
-			).result[0];
+			const temp = (await this.$get(`/message/${this.$route.query.messageId}`))
+				.result[0];
 			console.log('temp : ', temp);
 			this.messageDetail = temp;
 		},
@@ -199,7 +196,7 @@ export default {
 					const loader = this.$loading.show({ canCancel: false });
 
 					const r = await this.$delete(
-						`https://nicespoons.com/api/v1/message/${this.$route.query.messageId}`,
+						`/message/${this.$route.query.messageId}`,
 					);
 
 					loader.hide();

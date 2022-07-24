@@ -292,7 +292,7 @@ export default {
 			const loader = this.$loading.show({ canCancel: false });
 
 			const temp = await this.$get(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons`,
+				`/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
 			this.appliedSpoons = temp.result.filter(spoon => spoon.apply_yn === 'Y');
 			console.log('신청한 숟갈 : ', this.appliedSpoons);
@@ -309,11 +309,8 @@ export default {
 		async getBabsangInfo() {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const temp = (
-				await this.$get(
-					`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}`,
-				)
-			).result[0];
+			const temp = (await this.$get(`/babsang/${this.$route.query.babsangId}`))
+				.result[0];
 
 			loader.hide();
 
@@ -326,7 +323,7 @@ export default {
 			const loader = this.$loading.show({ canCancel: false });
 
 			await this.$put(
-				`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pick`,
+				`/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pick`,
 				{
 					spoon_email: spoon_email,
 					param: {
@@ -376,7 +373,7 @@ export default {
 					const loader = this.$loading.show({ canCancel: false });
 
 					let r = await this.$put(
-						`https://nicespoons.com/api/v1/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pickCancel`,
+						`/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pickCancel`,
 						{
 							spoon_email: spoon.spoon_email,
 							param: {
@@ -426,7 +423,7 @@ export default {
 		async sendMessage(spoon_email, message) {
 			const loader = this.$loading.show({ canCancel: false });
 
-			await this.$post('https://nicespoons.com/api/v1/message', {
+			await this.$post('/message', {
 				param: {
 					receiver_email: spoon_email,
 					dining_table_id: this.babsangInfo.id,

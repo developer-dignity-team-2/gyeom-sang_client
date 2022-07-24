@@ -125,7 +125,7 @@ export default {
 	methods: {
 		// 사용자 정보 가져오기
 		async getProfileData() {
-			const user = await this.$get('https://nicespoons.com/api/v1/user');
+			const user = await this.$get('/user');
 			this.user = user.result[0];
 			this.config.rating = this.user.dining_score;
 			console.log(this.user);
@@ -133,7 +133,7 @@ export default {
 		async doModify() {
 			this.tempProfileDescription = this.user.profile_description;
 			if (this.userInfo === true) {
-				await this.$put('https://nicespoons.com/api/v1/user', {
+				await this.$put('/user', {
 					param: {
 						profile_description: this.user.profile_description,
 					},
