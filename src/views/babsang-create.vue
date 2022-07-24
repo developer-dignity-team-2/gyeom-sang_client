@@ -380,7 +380,7 @@ export default {
 	},
 	watch: {
 		dining_datetime() {
-			if (this.isModify || this.recruit_date) {
+			if (this.isModify || this.recruit_date || this.time) {
 				this.resetData();
 			}
 		},

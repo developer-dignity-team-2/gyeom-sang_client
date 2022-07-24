@@ -49,24 +49,36 @@
 					<div class="dropdown-item">여성</div>
 				</div>
 			</li>
-			<li class="nav-item" style="margin-bottom: 0.4rem">
-				<div class="nav-link" href="#">
-					기간 :
+			<li class="nav-item me-2">
+				<div class="nav-link">
+					<span>기간 : </span>
 					<Datepicker
 						input-class-name="range-pick"
 						v-model="date"
 						range
 						:enableTimePicker="false"
 						:minDate="new Date()"
-						style="display: inline-block"
+						style="display: inline-block; vertical-align: middle"
 						placeholder="날짜 선택하기"
 						:clearable="false"
 					></Datepicker>
 				</div>
 			</li>
 			<li>
-				<button class="btn btn-secondary reset" @click="reset">
-					<i class="bi bi-arrow-clockwise" style="line-height: 1em"></i>
+				<button
+					class="btn btn-secondary reset"
+					@click="reset"
+					style="line-height: 1.5rem"
+				>
+					<i
+						class="bi bi-arrow-clockwise"
+						style="
+							line-height: 1em;
+							vertical-align: text-bottom;
+							margin-right: 4px;
+						"
+					></i>
+					<span>필터 초기화</span>
 				</button>
 			</li>
 		</ul>
@@ -116,6 +128,9 @@ export default {
 	},
 	methods: {
 		reset() {
+			this.areaValue = '전국';
+			this.gender = '선택';
+			this.date = [];
 			this.$emit('reset');
 		},
 		selectGender(e) {
@@ -175,5 +190,8 @@ button {
 		background: #fff;
 		border: 1px solid #ddd;
 	}
+}
+.range-pick {
+	margin-top: 1rem;
 }
 </style>
