@@ -8,7 +8,7 @@
 					'btn btn-outline-primary':
 						this.$store.state.button.buttonSign !== 'open',
 				}"
-				style="width: 50%"
+				style="width: 45%"
 				@click="changeOperationBabsang"
 			>
 				모집 중
@@ -20,7 +20,7 @@
 					'btn btn-outline-primary':
 						this.$store.state.button.buttonSign !== 'close',
 				}"
-				style="width: 50%"
+				style="width: 55%"
 				@click="changeOperationBabsang"
 			>
 				모집 마감
@@ -229,7 +229,8 @@ section {
 	// border-radius: 10px;
 }
 .model-8 .checkbox label:after {
-	background: #fff;
+	background: #ff7851;
+	color: #ffffff;
 	border-radius: 6.4px;
 	// border-radius: 10px;
 	top: 0;
