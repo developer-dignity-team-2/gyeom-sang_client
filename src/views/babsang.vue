@@ -284,7 +284,8 @@ export default {
 			selectedUsers: '',
 			socket: '',
 			babsangDesciprion: '',
-			thumbnail: 'https://nicespoons.com/static/images/default_img.jpeg',
+			thumbnail:
+				process.env.VUE_APP_DOMAIN_URL + '/static/images/default_img.jpeg',
 		};
 	},
 
@@ -312,7 +313,7 @@ export default {
 		}, 100);
 	},
 	mounted() {
-		this.socket = io('https://nicespoons.com');
+		this.socket = io(process.env.VUE_APP_DOMAIN_URL);
 		this.socket.on('increment', () => {
 			this.countAppliedSpoons = this.countAppliedSpoons + 1;
 		});
@@ -516,7 +517,7 @@ export default {
 					'<br>',
 				);
 			// 이미지 로딩 후 thumbnail에 데이터값 재할당.
-			this.thumbnail = `https://nicespoons.com/static/images/${this.babsangDetailData.dining_thumbnail}`;
+			this.thumbnail = `${process.env.VUE_APP_DOMAIN_URL}/static/images/${this.babsangDetailData.dining_thumbnail}`;
 
 			this.writeMessage(); // 숟갈 메시지 초기화
 		},

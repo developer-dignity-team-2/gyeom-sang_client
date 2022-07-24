@@ -19,49 +19,28 @@
 			</router-link>
 			<div class="collapse navbar-collapse" id="navbarColor03">
 				<ul class="navbar-nav me-auto">
-					<!-- <li class="nav-item">
-            <router-link to="/" class="nav-link">밥상 검색 </router-link>
-          </li> -->
 					<li class="nav-item">
 						<router-link to="/babsang-create" class="nav-link"
 							>밥상 차리기
 						</router-link>
 					</li>
-					<!-- <li class="nav-item">
-            <router-link to="/babsang-score" class="nav-link"
-              >매너 평가
-            </router-link>
-          </li> -->
 				</ul>
 			</div>
 			<ul class="nav-r d-flex justify-content-center align-items-center me-2">
-				<!-- <li class="me-4">
-          <a href="">
-            <i
-              class="bi bi-bell-fill"
-              style="color: #5a5a5a; font-size: 1.3rem"
-            ></i>
-            <i class="bi bi-bell" style="color: #5a5a5a; font-size: 1.3rem"></i>
-          </a>
-        </li> -->
-				<li>
-					<KakaoLogin />
-				</li>
-				<li class="d-flex flex-column align-items-center mt-1">
-					<router-link to="/mypage/profile" v-if="user.email !== undefined">
+				<li class="d-flex flex-column align-items-center mt-1" v-if="user">
+					<router-link to="/mypage/profile">
 						<div class="pf-wrap" style="width: 2.5rem">
 							<div class="img-wrap rounded-circle">
 								<img :src="user.profile.profile_image_url" alt="프로필" />
 							</div>
 						</div>
 					</router-link>
-					<p
-						class="m-0 pt-0"
-						style="font-size: 0.6rem; cursor: default"
-						v-if="user.email !== undefined"
-					>
+					<p class="m-0 pt-0" style="font-size: 0.6rem; cursor: default">
 						{{ user.profile.nickname }}
 					</p>
+				</li>
+				<li v-else>
+					<KakaoLogin />
 				</li>
 			</ul>
 		</div>
@@ -72,12 +51,27 @@
 import KakaoLogin from '@/components/login/KakaoLogin.vue';
 export default {
 	components: { KakaoLogin },
-	computed: {
-		user() {
-			return this.$store.state.user.userData;
+	data() {
+		return { user: '' };
+	},
+	computed: {},
+	mounted() {
+		this.getProfileData();
+	},
+	methods: {
+		async getProfileData() {
+			await this.$get('/user')
+				.then(() => {
+					this.user = this.$store.state.user.userData;
+				})
+				.catch(() => {
+					this.$store.commit('user/getUserData', {});
+					this.$store.commit('user/userCheck', false);
+					localStorage.removeItem('jwt');
+					console.log('user :', this.$store.state.user.userData);
+				});
 		},
 	},
-	methods: {},
 };
 </script>
 

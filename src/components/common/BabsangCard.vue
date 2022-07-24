@@ -4,7 +4,7 @@
 			<div class="img-wrap">
 				<img
 					:src="
-						'https://nicespoons.com/static/images/' + itemData.dining_thumbnail
+						VUE_APP_DOMAIN_URL + '/static/images/' + itemData.dining_thumbnail
 					"
 					class="card-img-center"
 					:alt="itemData.restaurant_name"
@@ -22,15 +22,6 @@
 						}}</span>
 					</div>
 				</div>
-				<!--				<div class="dday-btn" v-if="countDday() < 4">-->
-				<!--					<button-->
-				<!--						type="button"-->
-				<!--						class="btn btn-primary me-2"-->
-				<!--						style="line-height: 1; font-size: 0.9rem; padding: 0.5rem"-->
-				<!--					>-->
-				<!--						D-{{ countDday() }}-->
-				<!--					</button>-->
-				<!--				</div>-->
 			</div>
 			<div
 				class="card-body"
@@ -48,18 +39,6 @@
 						"
 					>
 						{{ itemData.dining_table_title }}
-						<!-- <button
-							type="button"
-							class="btn btn-primary me-2"
-							style="
-								display: inline-block;
-								height: 1.8rem;
-								line-height: inherit;
-								color: aliceblue;
-							"
-						>
-							D-{{ countDday() }}
-						</button> -->
 					</h5>
 					<!-- 찜 기능 -->
 					<div
@@ -97,18 +76,6 @@
 					<span>#D-{{ countDday() }}</span>
 					<span>#{{ recruitGender() }}</span>
 					<span>#{{ itemData.dining_count }}인상</span>
-					<!--					<button type="button" class="btn btn-primary me-2">-->
-					<!--						{{ currentStatus() }}-->
-					<!--					</button>-->
-					<!--					<button type="button" class="btn btn-primary me-2">-->
-					<!--						D-{{ countDday() }}-->
-					<!--					</button>-->
-					<!--					<button type="button" class="btn btn-secondary me-2">-->
-					<!--						{{ recruitGender() }}-->
-					<!--					</button>-->
-					<!--					<button type="button" class="btn btn-secondary">-->
-					<!--						{{ itemData.dining_count }}인상-->
-					<!--					</button>-->
 				</div>
 				<div>
 					<div class="mt-3" style="font-size: 0.8rem; margin-bottom: 4px">
@@ -147,7 +114,14 @@ export default {
 	props: {
 		itemData: Object,
 	},
-	computed() {},
+	computed: {
+		// VUE_APP_DOMAIN_URL() {
+		// 	return process.env.VUE_APP_DOMAIN_URL;
+		// },
+	},
+	mounted() {
+		console.log(process.env.VUE_APP_DOMAIN_URL);
+	},
 	created() {
 		this.favorite = this.itemData.active_yn;
 		this.countSpoons();

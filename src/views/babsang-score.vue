@@ -755,7 +755,9 @@ export default {
 						result[0].email,
 					);
 					for (let i = 1; i < result.length; i++) {
-						console.log(result[i]);
+						for (let k in result[i]) {
+							this.putScore(k, result[i][k], result[0].email);
+						}
 					}
 				}
 			}

@@ -48,7 +48,8 @@
 								/> -->
 								<img
 									:src="
-										'https://nicespoons.com/static/images/' +
+										VUE_APP_DOMAIN_URL +
+										'/static/images/' +
 										messageDetail.dining_thumbnail
 									"
 									:alt="messageDetail.restaurant_name"

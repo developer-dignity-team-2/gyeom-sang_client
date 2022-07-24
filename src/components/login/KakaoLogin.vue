@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<p
-			v-if="user.email === undefined"
 			@click="kakaoLogin()"
 			style="display: inline; cursor: pointer; vertical-align: middle"
 		>
