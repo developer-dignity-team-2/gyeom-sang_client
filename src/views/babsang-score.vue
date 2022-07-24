@@ -754,7 +754,18 @@ export default {
 					this.theSpoons[i].spoon_email,
 				);
 			}
-			// 남은 작업 : this.mannerScoreResult 내 각 평가 대상별 누적 매너 항목 및 점수를 PUT해야 함!!!
+			// 평가 대상자의 평가 결과 DB에 PUT
+			for (let result of this.mannerScoreResult) {
+				if (result !== undefined) {
+					console.log(
+						'서버로 보낼 각 평가 대상의 가공된 데이터 : ',
+						result[0].email,
+					);
+					for (let i = 1; i < result.length; i++) {
+						console.log(result[i]);
+					}
+				}
+			}
 		},
 		// 평가 대상자의 매너 항목과 점수 가져와 ID 부여
 		async doMakeMannerList(userEmail) {
