@@ -520,18 +520,17 @@ export default {
 						this.$router.push({
 							path: '/',
 						});
+					} else if (r.status === 501) {
+						this.$swal({
+							title: '밥상 삭제 실패!',
+							text: `삭제하려는 밥상이 ${r.count}건 존재합니다.`,
+							icon: 'warning',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						});
+						this.$router.push(`/babsang/${this.$route.params.babsangId}`);
 					}
-					// else if (r.status === 501) {
-					// 	this.$swal({
-					// 		title: '밥상 삭제 실패!',
-					// 		text: `삭제하려는 밥상이 ${r.count}건 존재합니다.`,
-					// 		icon: 'warning',
-					// 		iconColor: '#ffcb00',
-					// 		confirmButtonText: '확인',
-					// 		confirmButtonColor: '#ffcb00',
-					// 	});
-					// 	this.$router.push('/mypage/message');
-					// }
 				}
 			});
 		},
