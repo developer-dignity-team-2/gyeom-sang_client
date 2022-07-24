@@ -114,7 +114,7 @@
 									<div>식사 시간</div>
 									<Datepicker
 										input-class-name="time-picker"
-										:placeholder="isModify ? modify_time : '식사 시간'"
+										:placeholder="isModify ? modify_time() : '식사 시간'"
 										v-model="time"
 										timePicker
 										hideInputIcon
@@ -142,7 +142,7 @@
 								input-class-name="recruit-picker"
 								range
 								v-model="recruit_date"
-								:placeholder="isModify ? m_recruit_date : '모집 기간'"
+								:placeholder="isModify ? m_recruit_date() : '모집 기간'"
 								:minDate="new Date()"
 								:maxDate="dining_datetime"
 								:disabled="!time"
@@ -403,23 +403,6 @@ export default {
 		},
 	},
 	computed: {
-		modify_time() {
-			if (this.modifyData.dining_datetime) {
-				return this.modifyData.dining_datetime.slice(11, 16);
-			}
-		},
-		m_recruit_date() {
-			if (
-				this.modifyData.recruit_start_date &&
-				this.modifyData.recruit_end_date
-			) {
-				return `${this.modifyData.recruit_start_date.slice(
-					0,
-					10,
-				)} - ${this.modifyData.recruit_end_date.slice(0, 10)}`;
-			}
-		},
-
 		isModify() {
 			return !!this.$route.params.babsangId;
 		},
@@ -463,6 +446,22 @@ export default {
 	},
 
 	methods: {
+		m_recruit_date() {
+			if (
+				this.modifyData.recruit_start_date &&
+				this.modifyData.recruit_end_date
+			) {
+				return `${this.modifyData.recruit_start_date.slice(
+					0,
+					10,
+				)} - ${this.modifyData.recruit_end_date.slice(0, 10)}`;
+			}
+		},
+		modify_time() {
+			if (this.modifyData.dining_datetime) {
+				return this.modifyData.dining_datetime.slice(11, 16);
+			}
+		},
 		resetData() {
 			this.time = '';
 			this.recruit_date = '';
