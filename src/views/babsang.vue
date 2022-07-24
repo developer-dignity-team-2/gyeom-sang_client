@@ -8,10 +8,7 @@
 					<div class="col">
 						<div class="img-wrap rounded">
 							<img
-								:src="
-									'https://nicespoons.com/static/images/' +
-									babsangDetailData.dining_thumbnail
-								"
+								:src="thumbnail"
 								:alt="babsangDetailData.restaurant_name"
 								style="object-fit: cover"
 							/>
@@ -19,30 +16,15 @@
 					</div>
 					<!-- 타이틀 -->
 					<div class="col my-4">
-						<div class="title d-flex">
+						<div class="title">
 							<h3 class="me-4" style="line-height: 1.5em">
 								{{ babsangDetailData.dining_table_title }}
 							</h3>
 
-							<div class="status">
-								<button
-									class="btn btn-primary me-2"
-									style="height: 2.2rem; line-height: 1.5rem"
-								>
-									{{ currentStatus() }}
-								</button>
-								<button
-									class="btn btn-secondary me-2"
-									style="height: 2.2rem; line-height: 1.5rem"
-								>
-									{{ recruitGender() }}
-								</button>
-								<button
-									class="btn btn-secondary"
-									style="height: 2.2rem; line-height: 1.5rem"
-								>
-									{{ babsangDetailData.dining_count }}인상
-								</button>
+							<div class="status babsang-info mb-2">
+								<span>#{{ currentStatus() }}</span>
+								<span>#{{ recruitGender() }}</span>
+								<span>#{{ babsangDetailData.dining_count }}인상</span>
 							</div>
 						</div>
 						<ul>
@@ -302,19 +284,11 @@ export default {
 			selectedUsers: '',
 			socket: '',
 			babsangDesciprion: '',
+			thumbnail: 'https://nicespoons.com/static/images/default_img.jpeg',
 		};
 	},
-	// watch: {
-	// 	test(newVal) {
-	// 		console.log('route', newVal);
-	// 		window.scrollTo(0, 0);
-	// 	},
-	// },
 
 	computed: {
-		// test() {
-		// 	return this.$route.params.babsangId;
-		// },
 		// 밥장/숟갈/게스트 분기처리
 		isLeader() {
 			// 유저 정보가 없을 때 false
@@ -337,24 +311,16 @@ export default {
 			this.scrollInit();
 		}, 100);
 	},
-	unmounted() {},
-	beforeUnmount() {},
-
 	mounted() {
 		this.socket = io('https://nicespoons.com');
-		console.log('socket', this.socket);
 		this.socket.on('increment', () => {
-			console.log('get event from server');
 			this.countAppliedSpoons = this.countAppliedSpoons + 1;
 		});
 		this.socket.on('decrement', () => {
-			console.log('get event from server');
 			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
 
-		console.log('밥상 ID : ' + this.$route.params.babsangId);
 		this.getBabsangDetailData();
-		console.log('isUser : ', this.$store.state.user.isUser);
 		this.countSpoons();
 		this.initialButton();
 	},
@@ -372,7 +338,6 @@ export default {
 			});
 		},
 		writeMessage() {
-			console.log('겸상 일시 : ', this.babsangDetailData.dining_datetime);
 			this.spoonMessage = `밥장님, ${this.babsangDetailData.restaurant_name} 밥상(${this.babsangDetailData.dining_datetime})에서 겸상하고 싶어요~`;
 		},
 		// 숟갈(얹기/빼기) 새로고침 버튼
@@ -415,8 +380,6 @@ export default {
 			this.selectedUsers = confirmUsers.filter(
 				user => user.selected_yn === 'Y' && user.apply_yn !== 'N',
 			);
-			console.log('전체 유저', confirmUsers);
-			console.log('선택된 숟갈', this.selectedUsers);
 		},
 
 		// 숟갈 얹기 post
@@ -546,11 +509,14 @@ export default {
 				'/babsang/' + this.$route.params.babsangId,
 			);
 			this.babsangDetailData = this.babsangDetailData.result[0];
+			// textarea 줄바꿈
 			this.babsangDesciprion =
 				this.babsangDetailData.dining_description.replaceAll(
 					/(\n|\r\n)/g,
 					'<br>',
 				);
+			// 이미지 로딩 후 thumbnail에 데이터값 재할당.
+			this.thumbnail = `https://nicespoons.com/static/images/${this.babsangDetailData.dining_thumbnail}`;
 
 			this.writeMessage(); // 숟갈 메시지 초기화
 		},
@@ -639,7 +605,14 @@ button {
 		color: #fe3900;
 	}
 }
-
+.babsang-info {
+	span {
+		margin-right: 1rem;
+		font-size: 1rem;
+		font-weight: bold;
+		color: #ffcb00;
+	}
+}
 // Sweetalert
 .swal-button {
 	padding: 7px 19px;

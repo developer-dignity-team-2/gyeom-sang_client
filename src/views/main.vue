@@ -38,6 +38,7 @@
 				@area="getAreaValue"
 				@date="getDateValue"
 				@gender="getGenderValue"
+				@reset="reset"
 			></SearchFilter>
 		</div>
 		<!-- 밥상카드 -->
@@ -83,6 +84,9 @@ export default {
 		this.getBabsang();
 	},
 	methods: {
+		reset() {
+			this.babsangData = this.babsangInitData;
+		},
 		// 기간 데이터
 		getDateValue(start, end) {
 			const s_year = start.getFullYear();

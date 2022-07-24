@@ -485,6 +485,7 @@ export default {
 			checkedCommonSpoonManner1: [], // 숟갈1이 받은 식사 매너
 			checkedCommonSpoonManner2: [], // 숟갈2이 받은 식사 매너
 			checkedCommonSpoonManner3: [], // 숟갈3이 받은 식사 매너
+			mannerScoreResult: [], // 서버에 PUT할 평가 대상자의 누적 매너 항목 및 점수
 		};
 	},
 	computed: {
@@ -512,6 +513,8 @@ export default {
 			let loginUser = await this.getLoginUser(); // 로그인 사용자 정보 가져오기
 			console.log('로그인 사용자 : ', loginUser);
 			this.loginUser = loginUser;
+
+			console.log('숟갈 얹은 유저 : ', this.theSpoons);
 
 			if (babsangInfo.host_email === loginUser.email) {
 				this.userIndex = 1;
@@ -617,9 +620,6 @@ export default {
 		// ========== [이상] 서버로 부터 필요한 정보 가져와서 용도에 맞게 가공 처리 ==========
 
 		// ========== [이하] 평가한 매너 점수 계산 ==========
-		doTest() {
-			this.computeResult();
-		},
 		// 로그인 사용자가 평가한 최종 매너 점수 취합(호출용)
 		computeResult() {
 			console.log('checkedBabjangManner 결과 : ', this.checkedBabjangManner);
@@ -712,8 +712,31 @@ export default {
 		// ========== [이상] 평가한 매너 점수 계산 ==========
 
 		// ========== [이하] 평가한 매너 항목 정리 ==========
-		// 모든 평가 대상자들의 매너 항목과 점수 누적 결과
+		// 최종 매너 평가 버튼(다음 버튼) 클릭시 서버로 보낼 평가 대상자들의 누적 매너 항목과 점수 결과
 		async doMakeMannerLists() {
+			//밥장 매너 평가 결과 데이터
+			let older = await this.doMakeMannerList(this.babsangInfo.host_email);
+			console.log('olders : ', older);
+			this.mannerScoreResult.push(
+				await this.doAccumulateBabjang(
+					older,
+					this.checkedBabjangManner,
+					this.babsangInfo,
+				),
+			);
+
+			//밥장 식사 매너 평가 결과 데이터
+			let olderCommon = await this.doMakeMannerList(
+				this.babsangInfo.host_email,
+			);
+			console.log('olders 밥장 식사 매너 : ', olderCommon);
+			await this.doAccumulateCommon(
+				older,
+				this.checkedCommonBabjangManner,
+				this.babsangInfo.host_email,
+			);
+
+			// 숟갈 식사 매너 평가 결과 데이터
 			let newerArr = [
 				this.checkedCommonSpoonManner1,
 				this.checkedCommonSpoonManner2,
@@ -723,15 +746,20 @@ export default {
 			console.log('newerArr : ', newerArr);
 
 			for (let i = 0; i < this.theSpoons.length; i++) {
-				let older = await this.doMakeMannerList(this.theSpoons[i]);
+				let older = await this.doMakeMannerList(this.theSpoons[i].spoon_email);
 				console.log('olders : ', older);
-				await this.doAccumulateSpoon(older, newerArr[i], this.theSpoons[i]);
+				await this.doAccumulateCommon(
+					older,
+					newerArr[i],
+					this.theSpoons[i].spoon_email,
+				);
 			}
+			// 남은 작업 : this.mannerScoreResult 내 각 평가 대상별 누적 매너 항목 및 점수를 PUT해야 함!!!
 		},
 		// 평가 대상자의 매너 항목과 점수 가져와 ID 부여
-		async doMakeMannerList(theSpoon) {
-			let temp = theSpoon.spoon_email;
-			let manners = await this.getAggregation(temp); // 서버에서 평가 대상자의 매너 점수 가져오기
+		async doMakeMannerList(userEmail) {
+			// let temp = theSpoon.spoon_email;
+			let manners = await this.getAggregation(userEmail); // 서버에서 평가 대상자의 매너 점수 가져오기
 			console.log(manners);
 			let result = this.doAddID(manners); // 서버에서 가져온 평가 대상자의 매너 및 점수에 ID 부여
 			return result;
@@ -775,20 +803,16 @@ export default {
 			return result;
 		},
 		// 로그인 사용자가 부여한 밥장의 매너 누적(각 평가 대상 별로 각각 호출될 메서드)
-		doAccumulateBabjang(older) {
-			let resultArr = [];
-
-			console.log(older);
-			console.log(this.checkedBabjangManner.length);
-			console.log(this.checkedCommonBabjangManner.length);
-
-			// 밥장1 매너 누적
-			let newerBabjang = this.checkedBabjangManner;
-			if (newerBabjang.length !== 0) {
-				let tempArr = [];
+		doAccumulateBabjang(older, newer, babjang) {
+			// 밥장이 받은 매너 누적
+			if (newer.length !== 0) {
+				console.log(newer);
+				console.log(babjang);
+				let tempArr = [{ email: babjang.host_email }]; // 평가 대상 밥장 이메일(최종 put용 PK)
+				// 받은 매너 개수 누적
 				for (let manner of older) {
 					let mannerID = manner[0];
-					for (let selected of newerBabjang) {
+					for (let selected of newer) {
 						if (selected.host_questions_id === mannerID) {
 							let tempObject = {
 								[manner[1]]: manner[2] + selected.host_questions_weight,
@@ -796,39 +820,29 @@ export default {
 							tempArr.push(tempObject);
 						}
 					}
-				}
-				console.log('밥장1 매너 누적 결과 : ', tempArr);
-				resultArr.push(tempArr);
-			}
-			// 밥장1 매너 누적
-			let newerCommonBabjang = this.checkedCommonBabjangManner;
-			if (newerCommonBabjang.length !== 0) {
-				let tempArr = [];
-				for (let manner of older) {
-					let mannerID = manner[0];
-					for (let selected of newerCommonBabjang) {
-						if (selected.common_questions_id === mannerID) {
-							let tempObject = {
-								[manner[1]]: manner[2] + selected.common_questions_weight,
-							};
-							tempArr.push(tempObject);
-						}
+					if (manner[1] === 'dining_score') {
+						let tempObject = {
+							[manner[1]]: manner[2] + this.computeBabjangScore(newer),
+						};
+						tempArr.push(tempObject);
 					}
 				}
-				console.log('밥장1 식사 매너 누적 결과 : ', tempArr);
-				resultArr.push(tempArr);
+				// 받은 매너 점수 누적
+				console.log('밥장의 받은 매너 누적 결과 : ', tempArr);
+				this.mannerScoreResult.push(tempArr);
 			}
-			console.log('밥장의 매너 누적 결과 : ', resultArr);
-			return resultArr;
+			console.log(
+				'서버에 PUT할 평가 대상자의 누적 매너 항목 및 점수 : ',
+				this.mannerScoreResult,
+			);
 		},
 		// 로그인 사용자가 부여한 숟갈의 매너 누적(각 평가 대상 별로 각각 호출될 메서드)
-		// doAccumulateSpoon(older, newer, spoon) {
-		doAccumulateSpoon(older, newer, spoon) {
+		doAccumulateCommon(older, newer, userEmail) {
 			// 숟갈의 받은 식사 매너 누적
 			if (newer.length !== 0) {
 				console.log(newer);
-				console.log(spoon);
-				let tempArr = [{ email: spoon.spoon_email }]; // 평가 대상 숟갈 이메일(최종 put용 PK)
+				console.log(userEmail);
+				let tempArr = [{ email: userEmail }]; // 평가 대상 숟갈 이메일(최종 put용 PK)
 				// 받은 매너 개수 누적
 				for (let manner of older) {
 					let mannerID = manner[0];
@@ -848,14 +862,18 @@ export default {
 					}
 				}
 				// 받은 매너 점수 누적
-				console.log('숟갈의 받은 식사 매너 누적 결과 : ', tempArr);
-				// return tempArr;
+				console.log('평가 받은 식사 매너 누적 결과 : ', tempArr);
+				this.mannerScoreResult.push(tempArr);
 			}
+			console.log(
+				'서버에 PUT할 평가 대상자의 누적 매너 항목 및 점수 : ',
+				this.mannerScoreResult,
+			);
 		},
 		// 점수 PUT
 		async putScore(manner, score, email) {
 			const putScore = await this.$put(
-				'https://nicespoons.com/api/v1/aggregation',
+				`https://nicespoons.com/api/v1/aggregation`,
 				{
 					param: {
 						[manner]: score,
@@ -863,7 +881,7 @@ export default {
 					email: email,
 				},
 			);
-			console.log(putScore);
+			console.log(`${email}의 누적 매너 항목 및 점수 PUT 성공 : `, putScore);
 		},
 
 		// ========== [이하] 버튼 처리 ==========

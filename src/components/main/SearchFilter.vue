@@ -59,8 +59,14 @@
 						:minDate="new Date()"
 						style="display: inline-block"
 						placeholder="날짜 선택하기"
+						:clearable="false"
 					></Datepicker>
 				</div>
+			</li>
+			<li>
+				<button class="btn btn-secondary reset" @click="reset">
+					<i class="bi bi-arrow-clockwise" style="line-height: 1em"></i>
+				</button>
 			</li>
 		</ul>
 	</div>
@@ -86,12 +92,22 @@ export default {
 	},
 	watch: {
 		date() {
-			this.startDate = this.date[0];
-			this.endDate = this.date[1];
-			this.$emit('date', this.startDate, this.endDate);
+			if (this.date[1] === null) {
+				this.startDate = this.date[0];
+				this.endDate = this.date[0];
+				this.date[1] = this.date[0];
+				this.$emit('date', this.startDate, this.endDate);
+			} else {
+				this.startDate = this.date[0];
+				this.endDate = this.date[1];
+				this.$emit('date', this.startDate, this.endDate);
+			}
 		},
 	},
 	methods: {
+		reset() {
+			this.$emit('reset');
+		},
 		selectGender(e) {
 			const value = e.target.innerText;
 			this.gender = value;
@@ -142,6 +158,12 @@ export default {
 		.nav-link {
 			color: #888888;
 		}
+	}
+}
+button {
+	&.reset {
+		background: #fff;
+		border: 1px solid #ddd;
 	}
 }
 </style>
