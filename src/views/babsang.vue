@@ -599,10 +599,12 @@ dt {
 }
 button {
 	&.modify {
-		color: #003dff;
+		color: #fff;
+		background-color: #ffc144;
 	}
 	&.delete {
-		color: #fe3900;
+		color: #fff;
+		background-color: #ff7851;
 	}
 }
 .babsang-info {
