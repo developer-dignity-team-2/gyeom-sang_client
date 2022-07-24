@@ -72,8 +72,13 @@
 				>
 					<i
 						class="bi bi-arrow-clockwise"
-						style="line-height: 1em; vertical-align: text-bottom"
+						style="
+							line-height: 1em;
+							vertical-align: text-bottom;
+							margin-right: 4px;
+						"
 					></i>
+					<span>필터 초기화</span>
 				</button>
 			</li>
 		</ul>
@@ -83,7 +88,6 @@
 <script>
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-
 export default {
 	name: 'SearchFilter',
 	components: { Datepicker },
