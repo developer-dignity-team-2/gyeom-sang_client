@@ -128,6 +128,9 @@ export default {
 		};
 	},
 	computed: {
+		VUE_APP_DOMAIN_URL() {
+			return process.env.VUE_APP_DOMAIN_URL;
+		},
 		// 밥장/숟갈/게스트 분기처리
 		isLeader() {
 			// 유저 정보가 없을 때 false
