@@ -233,7 +233,8 @@ export default {
 		},
 
 		detail(id) {
-			let userGender = this.$store.state.user.userData.gender;
+			let userGender =
+				this.$store.state.user.userData.gender === 'female' ? 'F' : 'M';
 			let itemGender = this.itemData.gender_check;
 			// 성별 validation
 			if (userGender === itemGender || itemGender === 'ALL') {
@@ -245,7 +246,7 @@ export default {
 				let gender = this.recruitGender();
 				this.$swal({
 					title: `${gender}용 밥상 ㅠㅠ`,
-					text: `이 밥상은 ${gender}용이므로 다른 밥상을 선택해 주세요~`,
+					text: `이 밥상은 ${gender}용이므로 다른 밥상을 이용해 주세요~`,
 					icon: 'warning',
 					iconColor: '#ffcb00',
 					confirmButtonText: '확인',
