@@ -233,10 +233,24 @@ export default {
 		},
 
 		detail(id) {
-			this.$router.push({
-				name: 'Babsang',
-				params: { babsangId: id },
-			});
+			let userGender = this.$store.state.user.userData.gender;
+			let itemGender = this.itemData.gender_check;
+			if (userGender === itemGender || itemGender === 'ALL') {
+				this.$router.push({
+					name: 'Babsang',
+					params: { babsangId: id },
+				});
+			} else {
+				let gender = this.recruitGender();
+				this.$swal({
+					title: `${gender}용 밥상 ㅠㅠ`,
+					text: `이 밥상은 ${gender}용이므로 다른 밥상을 선택해 주세요~`,
+					icon: 'warning',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
+			}
 		},
 	},
 };
