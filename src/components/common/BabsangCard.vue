@@ -235,6 +235,7 @@ export default {
 		detail(id) {
 			let userGender = this.$store.state.user.userData.gender;
 			let itemGender = this.itemData.gender_check;
+			// 성별 validation
 			if (userGender === itemGender || itemGender === 'ALL') {
 				this.$router.push({
 					name: 'Babsang',
