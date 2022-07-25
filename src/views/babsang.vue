@@ -486,12 +486,53 @@ export default {
 			});
 		},
 		async deleteBabsang() {
-			const confirmResult = confirm('밥상을 삭제 하시겠습니까?');
-			if (confirmResult) {
-				const babsangId = this.$route.params.babsangId;
-				await this.$delete('/babsang/' + babsangId);
-				this.$goMain();
-			}
+			this.$swal({
+				title: '밥상을 삭제하시겠습니까?',
+				text: '삭제된 밥상은 복원되지 않습니다.',
+				icon: 'warning',
+				showCancelButton: true,
+				iconColor: '#ffcb00',
+				confirmButtonColor: '#ffcb00',
+				// cancelButtonColor: '#f4f4f4',
+				cancelButtonColor: '#d33',
+				cancelButtonText: '취소',
+				confirmButtonText: '삭제',
+			}).then(async result => {
+				if (result.isConfirmed) {
+					const loader = this.$loading.show({ canCancel: false });
+
+					const r = await this.$delete(
+						`/babsang/${this.$route.params.babsangId}`,
+					);
+
+					loader.hide();
+
+					console.log(r);
+
+					if (r.status === 200) {
+						this.$swal({
+							title: '밥상이 삭제되었습니다.',
+							icon: 'success',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						});
+						this.$router.push({
+							path: '/',
+						});
+					} else if (r.status === 501) {
+						this.$swal({
+							title: '밥상 삭제 실패!',
+							text: `삭제하려는 밥상이 ${r.count}건 존재합니다.`,
+							icon: 'warning',
+							iconColor: '#ffcb00',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#ffcb00',
+						});
+						this.$router.push(`/babsang/${this.$route.params.babsangId}`);
+					}
+				}
+			});
 		},
 		goSelectPage() {
 			this.$router.push({
@@ -520,6 +561,7 @@ export default {
 			this.thumbnail = `${process.env.VUE_APP_DOMAIN_URL}/static/images/${this.babsangDetailData.dining_thumbnail}`;
 
 			this.writeMessage(); // 숟갈 메시지 초기화
+			console.log(this.babsangDetailData);
 		},
 		currentStatus() {
 			let currentStatus = this.babsangDetailData.dining_status;

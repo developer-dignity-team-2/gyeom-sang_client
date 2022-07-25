@@ -437,31 +437,22 @@
 			<div class="btn-group mt-4" role="group" aria-label="Basic example">
 				<button
 					type="button"
-					class="btn btn-outline-primary"
+					class="btn btn-primary"
 					@click="backScore"
 					:disabled="disabledBackButton()"
 				>
 					이전
 				</button>
-				<button
-					type="button"
-					class="btn btn-outline-primary"
-					@click="nextScore"
-				>
+				<button type="button" class="btn btn-primary" @click="nextScore">
 					다음
 				</button>
 				<!-- <button
 					type="button"
 					class="btn btn-outline-primary"
-					@click="doAccumulate()"
-				> -->
-				<button
-					type="button"
-					class="btn btn-outline-primary"
 					@click="doMakeMannerLists()"
 				>
 					PUT테스트(임시)
-				</button>
+				</button> -->
 			</div>
 		</div>
 	</div>
@@ -614,46 +605,46 @@ export default {
 
 		// ========== [이하] 평가한 매너 점수 계산 ==========
 		// 로그인 사용자가 평가한 최종 매너 점수 취합(호출용)
-		computeResult() {
-			console.log('checkedBabjangManner 결과 : ', this.checkedBabjangManner);
-			console.log(
-				'checkedCommonBabjangManner 결과 : ',
-				this.checkedCommonBabjangManner,
-			);
-			console.log(
-				'checkedSpoonManner1 결과 : ',
-				this.checkedCommonSpoonManner1,
-			);
-			console.log(
-				'checkedSpoonManner2 결과 : ',
-				this.checkedCommonSpoonManner2,
-			);
-			console.log(
-				'checkedSpoonManner3 결과 : ',
-				this.checkedCommonSpoonManner3,
-			);
+		// computeResult() {
+		// 	console.log('checkedBabjangManner 결과 : ', this.checkedBabjangManner);
+		// 	console.log(
+		// 		'checkedCommonBabjangManner 결과 : ',
+		// 		this.checkedCommonBabjangManner,
+		// 	);
+		// 	console.log(
+		// 		'checkedSpoonManner1 결과 : ',
+		// 		this.checkedCommonSpoonManner1,
+		// 	);
+		// 	console.log(
+		// 		'checkedSpoonManner2 결과 : ',
+		// 		this.checkedCommonSpoonManner2,
+		// 	);
+		// 	console.log(
+		// 		'checkedSpoonManner3 결과 : ',
+		// 		this.checkedCommonSpoonManner3,
+		// 	);
 
-			let babjangScore = this.computeBabjangScore(this.checkedBabjangManner);
-			let babjangCommonScore = this.computeCommonScore(
-				this.checkedCommonBabjangManner,
-			);
-			let spoon1CommonScore = this.computeCommonScore(
-				this.checkedCommonSpoonManner1,
-			);
-			let spoon2CommonScore = this.computeCommonScore(
-				this.checkedCommonSpoonManner2,
-			);
-			let spoon3CommonScore = this.computeCommonScore(
-				this.checkedCommonSpoonManner3,
-			);
+		// 	let babjangScore = this.computeBabjangScore(this.checkedBabjangManner);
+		// 	let babjangCommonScore = this.computeCommonScore(
+		// 		this.checkedCommonBabjangManner,
+		// 	);
+		// 	let spoon1CommonScore = this.computeCommonScore(
+		// 		this.checkedCommonSpoonManner1,
+		// 	);
+		// 	let spoon2CommonScore = this.computeCommonScore(
+		// 		this.checkedCommonSpoonManner2,
+		// 	);
+		// 	let spoon3CommonScore = this.computeCommonScore(
+		// 		this.checkedCommonSpoonManner3,
+		// 	);
 
-			// 서버에 PUT 할때 이 정보를 함께 보내야 함(현재는 콘솔로그 처리 중)
-			console.log('babjangScore 최종 매너 점수 : ', babjangScore);
-			console.log('babjangCommonScore 최종 매너 점수 : ', babjangCommonScore);
-			console.log('spoon1CommonScore 최종 매너 점수 : ', spoon1CommonScore);
-			console.log('spoon2CommonScore 최종 매너 점수 : ', spoon2CommonScore);
-			console.log('spoon3CommonScore 최종 매너 점수 : ', spoon3CommonScore);
-		},
+		// 	// 서버에 PUT 할때 이 정보를 함께 보내야 함(현재는 콘솔로그 처리 중)
+		// 	console.log('babjangScore 최종 매너 점수 : ', babjangScore);
+		// 	console.log('babjangCommonScore 최종 매너 점수 : ', babjangCommonScore);
+		// 	console.log('spoon1CommonScore 최종 매너 점수 : ', spoon1CommonScore);
+		// 	console.log('spoon2CommonScore 최종 매너 점수 : ', spoon2CommonScore);
+		// 	console.log('spoon3CommonScore 최종 매너 점수 : ', spoon3CommonScore);
+		// },
 		// 밥장 점수 계산 함수(computeResult() 내에서 작동)
 		computeBabjangScore(chk) {
 			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): -0.02)
@@ -708,11 +699,13 @@ export default {
 		// 최종 매너 평가 버튼(다음 버튼) 클릭시 서버로 보낼 평가 대상자들의 누적 매너 항목과 점수 결과
 		async doMakeMannerLists() {
 			//밥장 매너 평가 결과 데이터
-			let older = await this.doMakeMannerList(this.babsangInfo.host_email);
-			console.log('olders : ', older);
+			let olderBabjang = await this.doMakeMannerList(
+				this.babsangInfo.host_email,
+			);
+			// console.log('olders : ', older);
 			this.mannerScoreResult.push(
 				await this.doAccumulateBabjang(
-					older,
+					olderBabjang,
 					this.checkedBabjangManner,
 					this.babsangInfo,
 				),
@@ -724,7 +717,7 @@ export default {
 			);
 			console.log('olders 밥장 식사 매너 : ', olderCommon);
 			await this.doAccumulateCommon(
-				older,
+				olderCommon,
 				this.checkedCommonBabjangManner,
 				this.babsangInfo.host_email,
 			);
@@ -740,7 +733,7 @@ export default {
 
 			for (let i = 0; i < this.theSpoons.length; i++) {
 				let older = await this.doMakeMannerList(this.theSpoons[i].spoon_email);
-				console.log('olders : ', older);
+				// console.log('olders : ', older);
 				await this.doAccumulateCommon(
 					older,
 					newerArr[i],
@@ -750,10 +743,6 @@ export default {
 			// 평가 대상자의 평가 결과 DB에 PUT
 			for (let result of this.mannerScoreResult) {
 				if (result !== undefined) {
-					console.log(
-						'서버로 보낼 각 평가 대상의 가공된 데이터 : ',
-						result[0].email,
-					);
 					for (let i = 1; i < result.length; i++) {
 						for (let k in result[i]) {
 							this.putScore(k, result[i][k], result[0].email);
@@ -868,10 +857,6 @@ export default {
 				console.log('평가 받은 식사 매너 누적 결과 : ', tempArr);
 				this.mannerScoreResult.push(tempArr);
 			}
-			console.log(
-				'서버에 PUT할 평가 대상자의 누적 매너 항목 및 점수 : ',
-				this.mannerScoreResult,
-			);
 		},
 		// 점수 PUT
 		async putScore(manner, score, email) {
@@ -889,10 +874,19 @@ export default {
 		nextScore() {
 			if (this.userIndex < this.theSpoons.length) {
 				this.userIndex++;
-				this.computeResult();
+				// this.computeResult();
 			} else {
+				this.$swal({
+					title: '식사 매너 평가 완료!',
+					text: `${this.babsangInfo.restaurant_name} 밥상에 대해 평가해 주셔서 감사합니다 ^O^`,
+					icon: 'success',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
+				this.doMakeMannerLists();
 				this.$router.push('/');
-				this.computeResult();
+				// this.computeResult();
 			}
 			console.log('userIndex : ', this.userIndex);
 		},
@@ -974,8 +968,13 @@ dt {
 // 버튼
 .btn-primary {
 	color: #575757;
-	background-color: #ffcb00;
+	// background-color: #ffcb00;
+	background-color: #fff9e1;
 	border-color: #ffcb00;
+	&:hover {
+		background-color: #ffcb00;
+		// background-color: #fff9e1;
+	}
 }
 .btn-outline-primary {
 	color: #575757;
