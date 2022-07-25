@@ -60,7 +60,7 @@
 						<div class="error-msg" v-if="v$.title.$error">
 							밥상 제목을 입력해주세요.
 						</div>
-						<div class="form-group" @click="mapToggle">
+						<div v-show="!isModify" class="form-group" @click="mapToggle">
 							<label for="place-address" class="form-label mt-4"
 								>식당 이름</label
 							>
@@ -73,10 +73,14 @@
 								disabled
 							/>
 						</div>
-						<div class="error-msg" v-if="v$.placeName.$error">
+						<div
+							v-show="!isModify"
+							class="error-msg"
+							v-if="!isModify && v$.placeName.$error"
+						>
 							식당을 선택해 주세요.
 						</div>
-						<div class="form-group">
+						<div v-show="!isModify" class="form-group">
 							<label for="place-name" class="form-label mt-4">식당 위치</label>
 							<input
 								type="text"
@@ -90,7 +94,7 @@
 
 						<!-- datepicker 삽입
 						lowerLimit: 지정한 기준으로 하한인 날은 disable -->
-						<div class="form-group row mt-4">
+						<div v-show="!isModify" class="form-group row mt-4">
 							<div class="col">
 								식사 일시
 								<datepicker
@@ -105,7 +109,10 @@
 									:clearable="false"
 									:transitions="false"
 								></datepicker>
-								<div class="error-msg" v-if="v$.dining_datetime.$error">
+								<div
+									class="error-msg"
+									v-if="!isModify && v$.dining_datetime.$error"
+								>
 									식사 일시를 선택해 주세요.
 								</div>
 							</div>
@@ -130,13 +137,13 @@
 										:transitions="false"
 									/>
 								</div>
-								<div class="error-msg" v-if="v$.time.$error">
+								<div class="error-msg" v-if="!isModify && v$.time.$error">
 									식사 시간을 선택해 주세요.
 								</div>
 							</div>
 						</div>
 
-						<div class="form-group mt-4 row">
+						<div v-show="!isModify" class="form-group mt-4 row">
 							<div class="col-12 mb-1">모집 기간</div>
 							<datepicker
 								input-class-name="recruit-picker"
@@ -153,11 +160,15 @@
 								:transitions="false"
 							></datepicker>
 						</div>
-						<div class="error-msg" v-if="v$.recruit_date.$error">
+						<div
+							v-show="!isModify"
+							class="error-msg"
+							v-if="!isModify && v$.recruit_date.$error"
+						>
 							모집 기간을 선택해 주세요.
 						</div>
 
-						<div class="form-group">
+						<div v-show="!isModify" class="form-group">
 							<label class="mt-4">성별 선택</label>
 							<div class="row mt-2">
 								<div class="col-xl-4 col-md-4 col-sm-12 mb-2">
@@ -210,14 +221,14 @@
 								</div>
 							</div>
 							<div
-								v-if="v$.gender_check.$error"
+								v-if="!isModify && v$.gender_check.$error"
 								class="error-msg ms-1"
 								style="padding: 0"
 							>
 								모집할 숟갈의 성별을 선택해 주세요.
 							</div>
 						</div>
-						<div class="form-group">
+						<div v-show="!isModify" class="form-group">
 							<label class="form-label mt-4">밥상 유형</label>
 							<!-- <label class="form-label mt-4">모집 인원</label> -->
 							<div class="row">
@@ -271,7 +282,7 @@
 								</div>
 							</div>
 							<div
-								v-if="v$.dining_count.$error"
+								v-if="!isModify && v$.dining_count.$error"
 								class="error-msg ms-1"
 								style="padding: 0"
 							>
@@ -408,35 +419,49 @@ export default {
 		},
 	},
 	validations() {
-		return {
-			title: {
-				required,
-			},
-			dining_description: {
-				required,
-			},
-			dining_datetime: {
-				required,
-			},
-			time: {
-				required,
-			},
-			recruit_date: {
-				required,
-			},
-			dining_thumbnail: {
-				required,
-			},
-			gender_check: {
-				required,
-			},
-			dining_count: {
-				required,
-			},
-			placeName: {
-				required,
-			},
-		};
+		if (this.isModify) {
+			return {
+				title: {
+					required,
+				},
+				dining_description: {
+					required,
+				},
+				dining_thumbnail: {
+					required,
+				},
+			};
+		} else {
+			return {
+				title: {
+					required,
+				},
+				dining_description: {
+					required,
+				},
+				dining_datetime: {
+					required,
+				},
+				time: {
+					required,
+				},
+				recruit_date: {
+					required,
+				},
+				dining_thumbnail: {
+					required,
+				},
+				gender_check: {
+					required,
+				},
+				dining_count: {
+					required,
+				},
+				placeName: {
+					required,
+				},
+			};
+		}
 	},
 
 	mounted() {
@@ -506,18 +531,27 @@ export default {
 					const loader = this.$loading.show({ canCancel: false });
 					let r = await this.$put('/babsang/' + this.$route.params.babsangId, {
 						param: {
-							dining_table_title: this.title, // OK
-							restaurant_name: this.placeName, // OK
-							dining_datetime: this.diningDatetime(),
-							recruit_start_date: this.recruit_start_date,
-							recruit_end_date: this.recruit_end_date,
-							gender_check: this.gender_check, // OK
-							dining_description: this.dining_description, // OK
-							dining_thumbnail: this.dining_thumbnail, // OK
-							restaurant_location: this.placeAddress, // OK
-							dining_count: this.dining_count, // OK
-							restaurant_latitude: this.placeLatitude, // OK
-							restaurant_longitude: this.placeLongitude, // OK
+							dining_table_title: this.title,
+							// restaurant_name: this.placeName,
+							// dining_datetime: this.dining_datetime
+							// 	.toISOString()
+							// 	.replace('T', ' ')
+							// 	.slice(0, 16),
+							// recruit_start_date: this.recruit_start_date
+							// 	.toISOString()
+							// 	.replace('T', ' ')
+							// 	.slice(0, 10),
+							// recruit_end_date: this.recruit_end_date
+							// 	.toISOString()
+							// 	.replace('T', ' ')
+							// 	.slice(0, 10),
+							// gender_check: this.gender_check,
+							dining_description: this.dining_description,
+							dining_thumbnail: this.dining_thumbnail,
+							// restaurant_location: this.placeAddress,
+							// dining_count: this.dining_count,
+							// restaurant_latitude: this.placeLatitude,
+							// restaurant_longitude: this.placeLongitude,
 						},
 					});
 					loader.hide();
