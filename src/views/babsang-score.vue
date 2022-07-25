@@ -437,17 +437,13 @@
 			<div class="btn-group mt-4" role="group" aria-label="Basic example">
 				<button
 					type="button"
-					class="btn btn-outline-primary"
+					class="btn btn-primary"
 					@click="backScore"
 					:disabled="disabledBackButton()"
 				>
 					이전
 				</button>
-				<button
-					type="button"
-					class="btn btn-outline-primary"
-					@click="nextScore"
-				>
+				<button type="button" class="btn btn-primary" @click="nextScore">
 					다음
 				</button>
 				<!-- <button
@@ -703,11 +699,13 @@ export default {
 		// 최종 매너 평가 버튼(다음 버튼) 클릭시 서버로 보낼 평가 대상자들의 누적 매너 항목과 점수 결과
 		async doMakeMannerLists() {
 			//밥장 매너 평가 결과 데이터
-			let older = await this.doMakeMannerList(this.babsangInfo.host_email);
-			console.log('olders : ', older);
+			let olderBabjang = await this.doMakeMannerList(
+				this.babsangInfo.host_email,
+			);
+			// console.log('olders : ', older);
 			this.mannerScoreResult.push(
 				await this.doAccumulateBabjang(
-					older,
+					olderBabjang,
 					this.checkedBabjangManner,
 					this.babsangInfo,
 				),
@@ -719,7 +717,7 @@ export default {
 			);
 			console.log('olders 밥장 식사 매너 : ', olderCommon);
 			await this.doAccumulateCommon(
-				older,
+				olderCommon,
 				this.checkedCommonBabjangManner,
 				this.babsangInfo.host_email,
 			);
@@ -735,7 +733,7 @@ export default {
 
 			for (let i = 0; i < this.theSpoons.length; i++) {
 				let older = await this.doMakeMannerList(this.theSpoons[i].spoon_email);
-				console.log('olders : ', older);
+				// console.log('olders : ', older);
 				await this.doAccumulateCommon(
 					older,
 					newerArr[i],
@@ -970,8 +968,13 @@ dt {
 // 버튼
 .btn-primary {
 	color: #575757;
-	background-color: #ffcb00;
+	// background-color: #ffcb00;
+	background-color: #fff9e1;
 	border-color: #ffcb00;
+	&:hover {
+		background-color: #ffcb00;
+		// background-color: #fff9e1;
+	}
 }
 .btn-outline-primary {
 	color: #575757;
