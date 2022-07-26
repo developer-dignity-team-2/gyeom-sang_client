@@ -162,17 +162,16 @@ export default {
 			let s_year = strValue.slice(0, 4);
 			let s_month = strValue.slice(5, 7);
 			let s_day = strValue.slice(8, 10);
-			let startDay = new Date(s_year, s_month - 1, s_day);
+			let startDay = new Date(+s_year, s_month - 1, +s_day);
 
 			const endValue = this.itemData.recruit_end_date;
 			let e_year = endValue.slice(0, 4);
 			let e_month = endValue.slice(5, 7);
 			let e_day = endValue.slice(8, 10);
-			let endDay = new Date(e_year, e_month - 1, e_day);
+			let endDay = new Date(+e_year, e_month - 1, +e_day);
 
 			const gap = endDay.getTime() - startDay.getTime();
-			const result = Math.ceil(gap / (1000 * 60 * 60 * 24));
-			return result;
+			return Math.ceil(gap / (1000 * 60 * 60 * 24));
 		},
 		dateFormat() {
 			const dayValue = this.itemData.dining_datetime;
@@ -192,12 +191,11 @@ export default {
 			} else {
 				this.hourVal = hour;
 			}
-			let dayObj = new Date(year, month - 1, day);
+			let dayObj = new Date(+year, month - 1, +day);
 			const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 			let week = WEEKDAY[dayObj.getDay()];
 
 			return `${month}월 ${day}일(${week}) ${this.ampm} ${this.hourVal}:${min}`;
-			// return `${month}/${day}(${week}) ${this.ampm} ${this.hourVal}:${min}`;
 		},
 
 		// 찜 여부 표시
@@ -237,7 +235,16 @@ export default {
 				this.$store.state.user.userData.gender === 'female' ? 'F' : 'M';
 			let itemGender = this.itemData.gender_check;
 			// 성별 validation
-			if (userGender === itemGender || itemGender === 'ALL') {
+			/*
+			비로그인시 라우터 가드가 라이프사이클상 마지막에 auth 검사를 하다보니
+      밥상카드 선택시 유저정보가 없다보니 성별 validation 경고가 뜨게됨.
+      그래서 임시로 gender가 undefined일때도 라우터 이동을 시켜 임의로 라우터 가드가 auth 체크를 하도록 설정함.
+      */
+			if (
+				this.$store.state.user.userData.gender === undefined ||
+				userGender === itemGender ||
+				itemGender === 'ALL'
+			) {
 				this.$router.push({
 					name: 'Babsang',
 					params: { babsangId: id },

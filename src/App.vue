@@ -19,31 +19,14 @@
 			</router-link>
 			<div class="collapse navbar-collapse" id="navbarColor03">
 				<ul class="navbar-nav me-auto">
-					<!-- <li class="nav-item">
-            <router-link to="/" class="nav-link">밥상 검색 </router-link>
-          </li> -->
 					<li class="nav-item">
 						<router-link to="/babsang-create" class="nav-link"
 							>밥상 차리기
 						</router-link>
 					</li>
-					<!-- <li class="nav-item">
-            <router-link to="/babsang-score" class="nav-link"
-              >매너 평가
-            </router-link>
-          </li> -->
 				</ul>
 			</div>
 			<ul class="nav-r d-flex justify-content-center align-items-center me-2">
-				<!-- <li class="me-4">
-          <a href="">
-            <i
-              class="bi bi-bell-fill"
-              style="color: #5a5a5a; font-size: 1.3rem"
-            ></i>
-            <i class="bi bi-bell" style="color: #5a5a5a; font-size: 1.3rem"></i>
-          </a>
-        </li> -->
 				<li>
 					<KakaoLogin />
 				</li>
