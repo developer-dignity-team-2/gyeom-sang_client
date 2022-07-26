@@ -235,7 +235,16 @@ export default {
 				this.$store.state.user.userData.gender === 'female' ? 'F' : 'M';
 			let itemGender = this.itemData.gender_check;
 			// 성별 validation
-			if (userGender === itemGender || itemGender === 'ALL') {
+			/*
+			비로그인시 라우터 가드가 라이프사이클상 마지막에 auth 검사를 하다보니
+      밥상카드 선택시 유저정보가 없다보니 성별 validation 경고가 뜨게됨.
+      그래서 임시로 gender가 undefined일때도 라우터 이동을 시켜 임의로 라우터 가드가 auth 체크를 하도록 설정함.
+      */
+			if (
+				this.$store.state.user.userData.gender === undefined ||
+				userGender === itemGender ||
+				itemGender === 'ALL'
+			) {
 				this.$router.push({
 					name: 'Babsang',
 					params: { babsangId: id },

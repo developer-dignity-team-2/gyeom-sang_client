@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Main from '../views/main.vue';
-import store from '../store';
 
 const routes = [
 	{
@@ -75,28 +74,5 @@ const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),
 	routes,
 });
-
-// router.beforeEach((to, from, next) => {
-// 	if (
-// 		to.matched.some(function (routeInfo) {
-// 			return routeInfo.meta.authRequired && !store.state.user.isUser;
-// 		})
-// 	) {
-// 		alert('로그인해 주세요!');
-// 		// swal({
-// 		// 	title: '>_<',
-// 		// 	text: '로그인해 주세요!',
-// 		// 	icon: 'warning',
-// 		// 	iconColor: '#ffcb00',
-// 		// 	confirmButtonText: '확인',
-// 		// 	confirmButtonColor: '#ffcb00',
-// 		// });
-// 		router.push({
-// 			path: '/',
-// 		});
-// 	} else {
-// 		next(); // 페이지 전환
-// 	}
-// });
 
 export default router;
