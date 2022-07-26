@@ -466,7 +466,6 @@ export default {
 
 	mounted() {
 		window.scrollTo(0, 0);
-		console.log('isModify :', this.isModify);
 		this.getBabsangDetailData();
 	},
 
@@ -555,7 +554,6 @@ export default {
 						},
 					});
 					loader.hide();
-					console.log(r);
 					const isFormCorrect = await this.v$.$validate();
 					if (!isFormCorrect) {
 						return;
@@ -576,8 +574,6 @@ export default {
 			});
 		},
 		placeInfo(name, address, lat, long) {
-			console.log('-----------------------');
-			console.log(name, address);
 			this.placeName = name;
 			this.placeAddress = address;
 			this.placeLatitude = lat;
@@ -629,14 +625,12 @@ export default {
 		async onSelectFile() {
 			const input = this.$refs.fileInput;
 			const file = input.files[0];
-			console.log(file);
 			if (file && file.type.substr(0, 5) === 'image') {
 				const maxSize = 1 * 1024 * 1024;
 				const fileSize = file.size;
 				if (fileSize <= maxSize) {
 					const res = await this.$upload('/upload/image', file);
 					this.imageData = `${process.env.VUE_APP_DOMAIN_URL}/static/images/${res.filename}`;
-					console.log(res);
 					this.dining_thumbnail = res.filename;
 				} else {
 					this.$swal({
@@ -656,8 +650,6 @@ export default {
 					'/babsang/' + this.$route.params.babsangId,
 				);
 				this.modifyData = this.modifyData.result[0];
-
-				console.log('수정할 밥상 데이터 :', this.modifyData);
 				this.title = this.modifyData.dining_table_title;
 				this.placeName = this.modifyData.restaurant_name;
 				this.placeAddress = this.modifyData.restaurant_location;
@@ -710,7 +702,6 @@ export default {
 		},
 
 		onChangeDiningDescription(e) {
-			console.log(e);
 			if (e.target.value.length >= 512) {
 				this.openInputWarningMsg = true;
 			} else {

@@ -76,9 +76,7 @@ export default {
 	},
 	watch: {
 		showPeriodBabsang: function (value) {
-			// console.log(value);
 			this.$store.commit('button/checkedSign', value);
-			console.log(this.$store.state.button.checkedSign);
 		},
 	},
 	setup() {},
@@ -90,34 +88,18 @@ export default {
 			if (this.showOperationBabsang === 'open') {
 				this.showOperationBabsang = 'close';
 				this.$store.commit('button/buttonSign', this.showOperationBabsang);
-				console.log(
-					'자식이 만든 신호 close : ',
-					this.$store.state.button.buttonSign,
-				);
 			} else {
 				this.showOperationBabsang = 'open';
 				this.$store.commit('button/buttonSign', this.showOperationBabsang);
-				console.log(
-					'자식이 만든 신호 open : ',
-					this.$store.state.button.buttonSign,
-				);
 			}
 		},
 		sortMessageAge() {
 			if (this.showSortedMessage === 'young') {
 				this.showSortedMessage = 'old';
 				this.$store.commit('button/buttonSignYO', this.showSortedMessage);
-				console.log(
-					'자식이 만든 신호 old : ',
-					this.$store.state.button.buttonSignYO,
-				);
 			} else {
 				this.showSortedMessage = 'young';
 				this.$store.commit('button/buttonSignYO', this.showSortedMessage);
-				console.log(
-					'자식이 만든 신호 young : ',
-					this.$store.state.button.buttonSignYO,
-				);
 			}
 		},
 	},

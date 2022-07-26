@@ -219,8 +219,6 @@ export default {
 						active_yn: this.favorite,
 					},
 				});
-				console.log(likeId);
-				console.log(this.favorite);
 			} else {
 				this.favorite = 'N';
 
@@ -235,8 +233,6 @@ export default {
 					},
 					dining_table_id: likeId,
 				});
-				console.log(likeId);
-				console.log(this.favorite);
 			}
 		},
 

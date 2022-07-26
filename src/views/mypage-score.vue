@@ -203,15 +203,9 @@ export default {
 		// 받은 매너 GET
 		async getMyQuestions() {
 			let loader = this.$loading.show({ canCancel: false });
-
 			const myManners = (await this.$get('/aggregation')).result;
-
 			loader.hide();
-
 			let mannerArr = Object.entries(myManners[0]);
-
-			console.log('myManners : ', myManners);
-
 			// 받은 매너 카운트
 			let temp = [];
 			for (let arr of mannerArr) {
@@ -235,16 +229,12 @@ export default {
 					}
 				}
 			}
-			console.log('받은 매너가 있는 경우 : ', temp);
-
 			// 공통 질문지-카운트 병합
 			loader = this.$loading.show({ canCancel: false });
 
 			const commonQuestions = (await this.$get('/question?type=common')).result;
 
 			loader.hide();
-
-			console.log('commonQuestion : ', commonQuestions);
 
 			let tempCommonManners = [];
 
@@ -260,10 +250,6 @@ export default {
 				}
 			}
 
-			console.log('tempCommonManners', tempCommonManners);
-
-			// console.log(tempCommonManners[0].id.substring(0, 2) === 'sb');
-
 			let goodCommon = tempCommonManners.filter(
 				c => c.id.substring(0, 2) === 'sg',
 			);
@@ -271,17 +257,12 @@ export default {
 				c => c.id.substring(0, 2) === 'sb',
 			);
 
-			console.log(goodCommon);
-			console.log(badCommon);
-
 			// 밥장 질문지-카운트 병합
 			loader = this.$loading.show({ canCancel: false });
 
 			const babjangQuestions = (await this.$get('/question?type=host')).result;
 
 			loader.hide();
-
-			console.log('babjangQuestions : ', babjangQuestions);
 
 			let tempBabjangManners = [];
 
@@ -297,19 +278,12 @@ export default {
 				}
 			}
 
-			console.log('tempBabjangManners', tempBabjangManners);
-
-			// console.log(tempBabjangManners[0].id.substring(0, 2) === 'bb');
-
 			let goodBabjang = tempBabjangManners.filter(
 				c => c.id.substring(0, 2) === 'bg',
 			);
 			let badBabjang = tempBabjangManners.filter(
 				c => c.id.substring(0, 2) === 'bb',
 			);
-
-			console.log(goodBabjang);
-			console.log(badBabjang);
 
 			let totalResult = [
 				[{ mannerTitle: '받은 금매너' }, [...goodCommon]],
@@ -323,16 +297,7 @@ export default {
 			this.goodBabjangLength = goodBabjang.length;
 			this.badBabjangLength = badBabjang.length;
 
-			console.log(this.goodCommonLength);
-			console.log(this.badCommonLength);
-			console.log(this.goodBabjangLength);
-			console.log(this.badBabjangLength);
-
-			console.log('totalResult', totalResult);
-
 			this.myManners = totalResult;
-
-			console.log('myManners : ', myManners);
 		},
 	},
 };

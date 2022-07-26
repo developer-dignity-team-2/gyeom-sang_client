@@ -67,20 +67,16 @@ export default {
 		changeMannerScore() {
 			if (this.$store.state.button.buttonSignHL === 'H') {
 				this.$store.commit('button/buttonSignHL', 'L');
-				console.log(this.$store.state.button.buttonSignHL);
 			} else {
 				this.$store.commit('button/buttonSignHL', 'H');
-				console.log(this.$store.state.button.buttonSignHL);
 			}
 		},
 		// 신청 순
 		changeRecruitDate() {
 			if (this.$store.state.button.buttonSignFS === 'F') {
 				this.$store.commit('button/buttonSignFS', 'S');
-				console.log(this.$store.state.button.buttonSignFS);
 			} else {
 				this.$store.commit('button/buttonSignFS', 'F');
-				console.log(this.$store.state.button.buttonSignFS);
 			}
 		},
 	},

@@ -487,7 +487,6 @@ export default {
 	setup() {},
 	created() {
 		this.doInitialInfo(); // 서버에서 필요한 정보 가져오기
-		console.log('created에서 theSpoons? ', this.theSpoons);
 	},
 	mounted() {},
 	unmounted() {},
@@ -498,31 +497,19 @@ export default {
 			const loader = this.$loading.show({ canCancel: false });
 
 			let babsangInfo = await this.getBabsang(); // 밥상(밥장) 정보 가져오기
-			console.log('밥상 정보 : ', babsangInfo);
 			this.babsangInfo = babsangInfo;
-
 			let loginUser = await this.getLoginUser(); // 로그인 사용자 정보 가져오기
-			console.log('로그인 사용자 : ', loginUser);
 			this.loginUser = loginUser;
-
-			console.log('숟갈 얹은 유저 : ', this.theSpoons);
-
 			if (babsangInfo.host_email === loginUser.email) {
 				this.userIndex = 1;
-				console.log('평가자는 밥장입니다.');
 			} else {
 				this.babjangYN = 0;
-				console.log('평가자는 밥장이 아닙니다.');
 			}
-
 			let babsangSpoons = await this.getBabsangSpoons(); // 숟갈 얹은 사용자 정보 가져오기
-			// console.log('숟갈 얹은 사용자 : ', babsangSpoons);
 			this.spoons = babsangSpoons;
-
 			this.doFilterBabsangSpoons(); // 평가 대상 숟갈 정보 가져오기
 			this.getCommonQuestions(); // 공통용 매너 질문 정보 가져오기
 			this.getBabjangQuestions(); // 밥장용 매너 질문 정보 가져오기
-
 			loader.hide();
 		},
 		// 밥상 정보 가져오기
@@ -553,38 +540,26 @@ export default {
 			let appliedSpoonY = this.spoons.result.filter(
 				spoon => spoon.apply_yn === 'Y',
 			);
-			// console.log('1차 필터링 결과 신청한 숟갈 : ', appliedSpoonY);
-
 			// 선택된 숟갈
 			let selectedSpoonY = appliedSpoonY.filter(
 				spoon => spoon.selected_yn === 'Y',
 			);
-			// console.log('2차 필터링 결과 선택된 숟갈 : ', selectedSpoonY);
-
 			// 매너 평가 대상 숟갈
 			let theSpoons = selectedSpoonY.filter(
 				spoon => spoon.spoon_email !== this.loginUser.email,
 			);
-			console.log('3차 필터링 결과 매너 평가 대상 숟갈 : ', theSpoons);
-
 			this.theSpoons = theSpoons;
 		},
 		// 공통용 매너 질문 정보 가져오기
 		async getCommonQuestions() {
 			const question = await this.$get('/question?type=common');
-
-			console.log('공통 질문 가공전 : ', question);
-
 			let good = question.result.filter(q => q.common_questions_type === 'G');
 			let bad = question.result.filter(q => q.common_questions_type === 'B');
-
 			let result = [
 				[{ mannerTitle: '금매너' }, [...good]],
 				[{ mannerTitle: '똥매너' }, [...bad]],
 			];
-
 			this.commonQuestions = result;
-			console.log('공통용 매너 질문 정보 가져오기 : ', this.commonQuestions);
 		},
 		// 밥장용 매너 질문 정보 가져오기
 		async getBabjangQuestions() {
@@ -599,7 +574,6 @@ export default {
 			];
 
 			this.babjangQuestions = result;
-			console.log('밥장 질문 : ', this.babjangQuestions);
 		},
 		// ========== [이상] 서버로 부터 필요한 정보 가져와서 용도에 맞게 가공 처리 ==========
 
@@ -616,7 +590,6 @@ export default {
 					? { ...p, host_questions_weight: p.host_questions_weight * -0.02 }
 					: p,
 			);
-			console.log('host_questions_id : ', temp);
 
 			// 가중치 적용된 점수 합계
 			let sum = temp
@@ -643,7 +616,6 @@ export default {
 					  }
 					: p,
 			);
-			console.log('common_questions_id : ', temp);
 
 			// 가중치 적용된 점수 합계
 			let sum = temp
@@ -661,7 +633,6 @@ export default {
 			let olderBabjang = await this.doMakeMannerList(
 				this.babsangInfo.host_email,
 			);
-			// console.log('olders : ', older);
 			this.mannerScoreResult.push(
 				await this.doAccumulateBabjang(
 					olderBabjang,
@@ -674,7 +645,6 @@ export default {
 			let olderCommon = await this.doMakeMannerList(
 				this.babsangInfo.host_email,
 			);
-			console.log('olders 밥장 식사 매너 : ', olderCommon);
 			await this.doAccumulateCommon(
 				olderCommon,
 				this.checkedCommonBabjangManner,
@@ -688,11 +658,8 @@ export default {
 				this.checkedCommonSpoonManner3,
 			];
 
-			console.log('newerArr : ', newerArr);
-
 			for (let i = 0; i < this.theSpoons.length; i++) {
 				let older = await this.doMakeMannerList(this.theSpoons[i].spoon_email);
-				// console.log('olders : ', older);
 				await this.doAccumulateCommon(
 					older,
 					newerArr[i],
@@ -714,7 +681,6 @@ export default {
 		async doMakeMannerList(userEmail) {
 			// let temp = theSpoon.spoon_email;
 			let manners = await this.getAggregation(userEmail); // 서버에서 평가 대상자의 매너 점수 가져오기
-			console.log(manners);
 			let result = this.doAddID(manners); // 서버에서 가져온 평가 대상자의 매너 및 점수에 ID 부여
 			return result;
 		},
@@ -728,7 +694,6 @@ export default {
 		doAddID(manners) {
 			let result = [];
 			for (let key in manners) {
-				// console.log(key, manners[key]);
 				// sg, sb, bg, bb
 				let compoundID = ''.concat(
 					key.substring(0, 6) === 'common'
@@ -750,15 +715,12 @@ export default {
 
 				result.push([compoundID, key, manners[key]]);
 			}
-			// console.log('사용자 질문 및 점수 목록 가공 결과 : ', result);
 			return result;
 		},
 		// 로그인 사용자가 부여한 밥장의 매너 누적(각 평가 대상 별로 각각 호출될 메서드)
 		doAccumulateBabjang(older, newer, babjang) {
 			// 밥장이 받은 매너 누적
 			if (newer.length !== 0) {
-				console.log(newer);
-				console.log(babjang);
 				let tempArr = [{ email: babjang.host_email }]; // 평가 대상 밥장 이메일(최종 put용 PK)
 				// 받은 매너 개수 누적
 				for (let manner of older) {
@@ -779,20 +741,13 @@ export default {
 					}
 				}
 				// 받은 매너 점수 누적
-				console.log('밥장의 받은 매너 누적 결과 : ', tempArr);
 				this.mannerScoreResult.push(tempArr);
 			}
-			console.log(
-				'서버에 PUT할 평가 대상자의 누적 매너 항목 및 점수 : ',
-				this.mannerScoreResult,
-			);
 		},
 		// 로그인 사용자가 부여한 숟갈의 매너 누적(각 평가 대상 별로 각각 호출될 메서드)
 		doAccumulateCommon(older, newer, userEmail) {
 			// 숟갈의 받은 식사 매너 누적
 			if (newer.length !== 0) {
-				console.log(newer);
-				console.log(userEmail);
 				let tempArr = [{ email: userEmail }]; // 평가 대상 숟갈 이메일(최종 put용 PK)
 				// 받은 매너 개수 누적
 				for (let manner of older) {
@@ -813,45 +768,35 @@ export default {
 					}
 				}
 				// 받은 매너 점수 누적
-				console.log('평가 받은 식사 매너 누적 결과 : ', tempArr);
 				this.mannerScoreResult.push(tempArr);
 			}
 		},
 		// 점수 PUT
 		async putScore(manner, score, email) {
-			const putScore = await this.$put(`/aggregation`, {
+			await this.$put(`/aggregation`, {
 				param: {
 					[manner]: score,
 				},
 				email: email,
 			});
-			console.log(`${email}의 누적 매너 항목 및 점수 PUT 성공 : `, putScore);
 		},
 		// 평가 완료 여부 PUT
 		async putDoneY(email, babsangID) {
-			const isDone = await this.$put(`/babsang/review/list`, {
+			await this.$put(`/babsang/review/list`, {
 				param: {
 					is_done: 'Y',
 					email: email,
 					dining_table_id: babsangID,
 				},
 			});
-			console.log(
-				`${email}의 ${babsangID}번 밥상에 대한 매너 평가 여부 : `,
-				isDone,
-			);
 		},
 		// 사용자에게 해당되는 모든 밥상의 평가 완료시 PUT
 		async putReviewActiveN() {
-			const activeN = await this.$put(`/user`, {
+			await this.$put(`/user`, {
 				param: {
 					review_active: 'N',
 				},
 			});
-			console.log(
-				`${this.$store.state.user.email}님이 진행할 매너 평가 대상이 없을 경우 : `,
-				activeN,
-			);
 		},
 
 		// ========== [이하] 버튼 처리 ==========
@@ -873,7 +818,6 @@ export default {
 				this.$router.push('/');
 				// this.computeResult();
 			}
-			console.log('userIndex : ', this.userIndex);
 		},
 		backScore() {
 			// 로그인 사용자가 밥장인 경우에는 밥장 자신을 평가 할 수 없도록 처리
@@ -881,25 +825,21 @@ export default {
 				if (this.userIndex > 1) {
 					this.userIndex--;
 				}
-				console.log('userIndex : ', this.userIndex);
 			} else {
 				if (this.userIndex > 0) {
 					this.userIndex--;
 				}
-				console.log('userIndex : ', this.userIndex);
 			}
 		},
 		// 이전 버튼 disabled 처리
 		disabledBackButton() {
 			if (this.babsangInfo.host_email === this.loginUser.email) {
 				if (this.userIndex === 1) {
-					console.log('평가자가 밥장인 경우 이전 버튼 disabled');
 					return true;
 				} else {
 					return false;
 				}
 			} else if (this.userIndex === 0) {
-				console.log('평가자가 밥장이 아닌 경우 이전 버튼 enabled');
 				return true;
 			} else {
 				return false;

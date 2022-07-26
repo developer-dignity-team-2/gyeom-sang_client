@@ -58,13 +58,6 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
-		checkedSecert() {
-			if (this.secret_check === true) {
-				console.log('비밀');
-			} else {
-				console.log('공개');
-			}
-		},
 		async createComment() {
 			await this.$post('/comment', {
 				param: {

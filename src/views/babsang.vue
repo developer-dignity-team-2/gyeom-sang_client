@@ -507,7 +507,7 @@ export default {
 
 					loader.hide();
 
-					console.log(r);
+					r;
 
 					if (r.status === 200) {
 						this.$swal({
@@ -561,7 +561,6 @@ export default {
 			this.thumbnail = `${process.env.VUE_APP_DOMAIN_URL}/static/images/${this.babsangDetailData.dining_thumbnail}`;
 
 			this.writeMessage(); // 숟갈 메시지 초기화
-			console.log(this.babsangDetailData);
 		},
 		currentStatus() {
 			let currentStatus = this.babsangDetailData.dining_status;

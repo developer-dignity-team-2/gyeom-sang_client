@@ -182,8 +182,7 @@ export default {
 				confirmButtonText: '확인',
 			}).then(async result => {
 				if (result.isConfirmed) {
-					window.Kakao.Auth.logout(response => {
-						console.log(response);
+					window.Kakao.Auth.logout(() => {
 						this.$store.commit('user/getUserData', {});
 						this.$store.commit('user/userCheck', false);
 						this.initialButton(); // 필터, 정렬 버튼 설정 초기화

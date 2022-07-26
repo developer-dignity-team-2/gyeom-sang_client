@@ -35,15 +35,12 @@ export default {
 				success: this.getProfile,
 			});
 		},
-		getProfile(authObj) {
-			console.log('---------------authObj data---------------');
-			console.log(authObj);
+		getProfile() {
 			window.Kakao.API.request({
 				url: '/v2/user/me',
 				success: res => {
 					const kakao_account = res.kakao_account;
-					console.log('---------------kakao account---------------');
-					console.log(kakao_account);
+
 					this.login(kakao_account);
 					this.$swal({
 						title: '로그인 성공!',
@@ -75,15 +72,10 @@ export default {
 			});
 			// res.data가 빈객체{}로 출력
 			// res.data.jwt는 undefined로 출력
-			console.log('---------------res.data---------------');
-			console.log(res.data);
 			localStorage.setItem('jwt', res.data.jwt);
-			console.log(res.data.jwt);
 			// vuex에 해당 유저정보를 저장
 			this.$store.commit('user/getUserData', kakao_account);
 			this.$store.commit('user/userCheck', true);
-			console.log('----------login store-----------');
-			console.log(this.$store.state.user.userData);
 		},
 	},
 };

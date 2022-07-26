@@ -145,7 +145,6 @@ export default {
 				if (this.config.isIndicatorActive) {
 					this.isIndicatorActive = this.config.isIndicatorActive;
 				}
-				// console.log('isIndicatorActive: ', this.isIndicatorActive);
 			}
 		},
 		getFullFillColor(starData) {

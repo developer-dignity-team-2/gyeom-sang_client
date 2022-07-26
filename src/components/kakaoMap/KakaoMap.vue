@@ -86,8 +86,6 @@ export default {
 			/* global kakao */
 
 			script.addEventListener('load', () => {
-				console.log('----------kakao maps object----------');
-				console.log(kakao.maps);
 				kakao.maps.load(this.initMap);
 			});
 		} else {
@@ -109,13 +107,6 @@ export default {
 				this.placeLatitude &&
 				this.placeLongitude
 			) {
-				console.log('----------select place info----------');
-				console.log(
-					this.placeName,
-					this.placeAddress,
-					this.placeLatitude,
-					this.placeLongitude,
-				);
 				this.$store.commit('toggleShow');
 				this.$emit(
 					'placeInfo',
@@ -135,7 +126,6 @@ export default {
 				level: 6,
 			};
 			this.mapInstance = new kakao.maps.Map(container, this.options);
-			console.log(this.mapInstance);
 		},
 
 		searchPlace(e) {
@@ -150,13 +140,8 @@ export default {
 				this.search.pgn = pgn;
 				this.search.results = data;
 			});
-			console.log('----------------search');
-
-			console.log(this.search);
 		},
 		showPlace(place) {
-			console.log('------------선택한 마커 정보------------');
-			console.log(place);
 			// 해당 좌표 정보 객체 생성 (y : lat, x : long)
 			const moveLatLon = new kakao.maps.LatLng(place.y, place.x);
 			this.marker = new kakao.maps.Marker({
