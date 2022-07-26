@@ -104,9 +104,7 @@ export default {
 	},
 	setup() {},
 	created() {},
-	unmounted() {
-		window.removeEventListener('resize', this.handleResize);
-	},
+	unmounted() {},
 	computed: {},
 	mounted() {
 		console.log('items : ', this.items);

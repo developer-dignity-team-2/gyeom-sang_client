@@ -211,7 +211,9 @@ export default {
 		// this.showReceivedMessages();
 		this.showMessages(this.$store.state.button.showMessage);
 	},
-	unmounted() {},
+	unmounted() {
+		window.removeEventListener('resize', this.handleResize); // 모바일 사이즈 화면 관련
+	},
 	methods: {
 		// 모바일 사이즈 화면 관련
 		handleResize() {
