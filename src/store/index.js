@@ -9,6 +9,7 @@ export default createStore({
 	state() {
 		return {
 			isShow: false,
+			isNavShow: true,
 		};
 	},
 
@@ -23,6 +24,9 @@ export default createStore({
 			} else {
 				bodyEl.style.overflow = 'auto';
 			}
+		},
+		setNavShow(state, payload) {
+			this.state.isNavShow = payload;
 		},
 	},
 	actions: {},

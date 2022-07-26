@@ -488,8 +488,6 @@ export default {
 	created() {
 		this.doInitialInfo(); // 서버에서 필요한 정보 가져오기
 	},
-	mounted() {},
-	unmounted() {},
 	methods: {
 		// ========== [이하] 서버로 부터 필요한 정보 가져와서 용도에 맞게 가공 처리 ==========
 		// 로그인 사용자(평가자)의 밥장, 숟갈 여부

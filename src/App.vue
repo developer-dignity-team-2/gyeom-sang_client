@@ -1,5 +1,8 @@
 <template>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav
+		class="navbar navbar-expand-lg navbar-light bg-light"
+		:class="[isNavShow ? 'show' : 'hidden']"
+	>
 		<div class="container-fluid container">
 			<!-- <a class="navbar-brand" href="#">겸상</a> -->
 			<router-link to="/" class="navbar-brand fw-bold">
@@ -59,8 +62,25 @@ export default {
 		user() {
 			return this.$store.state.user.userData;
 		},
+		isNavShow() {
+			return this.$store.state.isNavShow;
+		},
 	},
-	methods: {},
+	watch: {
+		$route(to) {
+			this.navShow(to);
+		},
+	},
+	methods: {
+		navShow(route) {
+			if (route.name === 'GiveScore') {
+				this.$store.commit('setNavShow', false);
+			} else {
+				this.$store.commit('setNavShow', true);
+			}
+		},
+	},
+	mounted() {},
 };
 </script>
 
@@ -69,6 +89,9 @@ export default {
 	padding-top: 0;
 	padding-bottom: 0;
 	height: 4rem;
+	&.hidden {
+		visibility: hidden;
+	}
 }
 .img-wrap {
 	position: relative;
