@@ -1,10 +1,7 @@
 <template>
 	<!-- 받은 메시지 -->
 	<div style="overflow: auto" v-if="$store.state.button.showMessage === 'R'">
-		<table
-			class="table table-hover"
-			v-if="items.length > 0 && window.width > 767"
-		>
+		<table class="table table-hover" v-if="items.length > 0">
 			<thead>
 				<tr>
 					<th scope="col" style="text-align: center">
@@ -59,55 +56,10 @@
 				</tr>
 			</tbody>
 		</table>
-		<div v-if="items.length > 0 && window.width <= 767">
-			<div
-				class="row"
-				style="text-align: center; cursor: pointer"
-				:key="i"
-				v-for="(user, i) in formattedItems"
-			>
-				<div class="col-1">
-					<input
-						class="form-check-input"
-						type="checkbox"
-						:value="user.id"
-						v-model="checked"
-						@change="doSelect"
-					/>
-				</div>
-				<div
-					:key="item.key"
-					v-for="item in items"
-					class="col-11"
-					:class="{ readMessage: user.read_check === 'Y' }"
-					@click="messageView(user.id)"
-				>
-					<span style="display: inline-block; width: 30%; text-align: left">{{
-						item.sender_nickname
-					}}</span>
-					<span style="display: inline-block; width: 70%; text-align: right">{{
-						item.create_date
-					}}</span>
-					<div
-						class="text-left"
-						style="
-							overflow: hidden;
-							text-overflow: ellipsis;
-							white-space: nowrap;
-						"
-					>
-						{{ item.message_description }}
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<!-- 보낸 메시지 -->
 	<div style="overflow: auto" v-if="$store.state.button.showMessage === 'S'">
-		<table
-			class="table table-hover"
-			v-if="items.length > 0 && window.width > 767"
-		>
+		<table class="table table-hover" v-if="items.length > 0">
 			<thead>
 				<tr>
 					<th scope="col" style="text-align: center">
@@ -162,48 +114,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<div v-if="items.length > 0 && window.width <= 767">
-			<div
-				class="row"
-				style="text-align: center; cursor: pointer"
-				:key="i"
-				v-for="(user, i) in formattedItems"
-			>
-				<div class="col-1">
-					<input
-						class="form-check-input"
-						type="checkbox"
-						:value="user.id"
-						v-model="checked"
-						@change="doSelect"
-					/>
-				</div>
-				<div
-					:key="item.key"
-					v-for="item in items"
-					class="col-11"
-					:class="{ readMessage: user.read_check === 'Y' }"
-					@click="messageView(user.id)"
-				>
-					<span style="display: inline-block; width: 30%; text-align: left">{{
-						item.receiver_nickname
-					}}</span>
-					<span style="display: inline-block; width: 70%; text-align: right">{{
-						item.create_date
-					}}</span>
-					<div
-						class="text-left"
-						style="
-							overflow: hidden;
-							text-overflow: ellipsis;
-							white-space: nowrap;
-						"
-					>
-						{{ item.message_description }}
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 </template>
 <script>
@@ -236,17 +146,10 @@ export default {
 			// dataSortKey: '',
 			checked_all: false,
 			checked: [],
-			window: { width: 0, height: 0 },
 		};
 	},
 	setup() {},
-	created() {
-		window.addEventListener('resize', this.handleResize);
-		this.handleResize();
-	},
-	unmounted() {
-		window.removeEventListener('resize', this.handleResize);
-	},
+	created() {},
 	computed: {
 		formattedItems: function () {
 			// console.log('grid: ', this.items.length)
@@ -254,14 +157,10 @@ export default {
 		},
 	},
 	mounted() {},
-	// unmounted() {},
+	unmounted() {},
 	methods: {
-		handleResize() {
-			this.window.width = window.innerWidth;
-			this.window.height = window.innerHeight;
-		},
 		changePage(start, end) {
-			// console.log('changePage', start, end);
+			// console.log('changePage', start, end)
 			// eslint-disable-next-line vue/no-mutating-props
 			this.sliceStart = start;
 			// eslint-disable-next-line vue/no-mutating-props
@@ -331,6 +230,7 @@ td {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
 // 메시지 읽음 처리
 .readMessage {
 	color: #cfcfcf;

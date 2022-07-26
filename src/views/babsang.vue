@@ -114,9 +114,9 @@
 					</div>
 					<h5>댓글</h5>
 					<!-- 구분선 -->
-					<div class="col">
+					<!-- <div class="col">
 						<hr style="background-color: #999" />
-					</div>
+					</div> -->
 					<!-- 댓글 -->
 					<div class="col my-3">
 						<CommentList :babsangDetailData="babsangDetailData" />
