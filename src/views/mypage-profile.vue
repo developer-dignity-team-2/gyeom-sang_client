@@ -112,7 +112,6 @@ export default {
 					starHeight: 50,
 				},
 			};
-			console.log(this.user.dining_score);
 			return temp;
 		},
 	},
@@ -128,7 +127,6 @@ export default {
 			const user = await this.$get('/user');
 			this.user = user.result[0];
 			this.config.rating = this.user.dining_score;
-			console.log(this.user);
 		},
 		async doModify() {
 			this.tempProfileDescription = this.user.profile_description;
@@ -138,7 +136,6 @@ export default {
 						profile_description: this.user.profile_description,
 					},
 				});
-				console.log('수정된 자기소개 : ', this.user.profile_description);
 				this.$swal({
 					title: `${this.user.nickname}님의`,
 					text: '사용자 정보가 수정되었습니다.',

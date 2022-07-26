@@ -310,13 +310,11 @@ export default {
 	methods: {
 		// secretComment(secret) {
 		// 	if (secret === 'Y') {
-		// 		console.log(secret);
 		// 		return true;
 		// 	}
 		// },
 		// 댓글 수정/취소하는 함수 o
 		doCommentSave(ListId) {
-			console.log(ListId);
 			if (this.commentSave) {
 				this.commentSave = false;
 			} else {
@@ -326,20 +324,16 @@ export default {
 		},
 		// 수정한 댓글 값 보내는 함수
 		async doCommentPut(commentId, comment_description) {
-			console.log(commentId);
-			console.log(comment_description);
 			await this.$put('/comment/' + commentId, {
 				param: {
 					comment_description: comment_description,
 				},
 			});
-			console.log(this.commentList.comment_description);
 			this.commentSave = false;
 			this.changeSelectedId = '';
 		},
 		// 댓글 삭제하는 함수
 		async deleteComment(commentListId) {
-			console.log(commentListId);
 			const confirmResult = confirm('댓글을 삭제 하시겠습니까?');
 			if (confirmResult) {
 				// const id = this.commentList.id;
@@ -353,23 +347,17 @@ export default {
 				'/comment/' + this.$route.params.babsangId,
 			);
 			this.commentList = this.commentList.result;
-			console.log('------------commentList------------');
-			console.log(this.commentList);
-			console.log(this.$route.params.babsangId);
-			console.log(this.babsangDetailData.id);
 		},
 		// 대댓글 나오게 하는 함수
 		// CeateToggle(recommentId) {
 		//    this.commentCeateToggle = !this.commentCeateToggle;
 		//    if (this.commentCeateToggle) {
-		//       console.log(this.commentCeateToggle);
 		//       if (this.recommentSave === true) {
 		//          this.recommentSave = false;
 		//       } else {
 		//          this.recommentSave = true;
 		//       }
 		//       this.comment_parent_id = recommentId;
-		//       console.log(this.comment_parent_id);
 		//       return this.comment_parent_id;
 		//    }
 		// },

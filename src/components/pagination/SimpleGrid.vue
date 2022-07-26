@@ -152,7 +152,6 @@ export default {
 	created() {},
 	computed: {
 		formattedItems: function () {
-			// console.log('grid: ', this.items.length)
 			return this.items.slice(this.sliceStart, this.sliceEnd);
 		},
 	},
@@ -160,7 +159,6 @@ export default {
 	unmounted() {},
 	methods: {
 		changePage(start, end) {
-			// console.log('changePage', start, end)
 			// eslint-disable-next-line vue/no-mutating-props
 			this.sliceStart = start;
 			// eslint-disable-next-line vue/no-mutating-props
@@ -171,7 +169,6 @@ export default {
 		},
 		doSelect() {
 			this.$store.commit('message/checkedMessage', this.checked);
-			console.log('Vuex Test : ', this.$store.state.message.checkedMessage);
 		},
 		doSelectAll() {
 			this.checked = [];
@@ -181,16 +178,12 @@ export default {
 				}
 			}
 			this.$store.commit('message/checkedMessage', this.checked);
-			console.log(
-				'vuex에 전체 선택 메시지 테스트 : ',
-				this.$store.state.message.checkedMessage,
-			);
 		},
 		// 메시지 읽음 처리
 		async putReadMessage(id) {
 			const loader = this.$loading.show({ canCancel: false });
 
-			const readMessage = await this.$put(`/message/${id}`, {
+			await this.$put(`/message/${id}`, {
 				param: {
 					// "message_description": "읽음 처리했습니다.",
 					read_check: 'Y',
@@ -198,11 +191,9 @@ export default {
 			});
 
 			loader.hide();
-			console.log(readMessage);
 		},
 		// 메시지 상세보기 라우터
 		messageView(id) {
-			console.log('messageView : ', id);
 			this.$router.push({
 				name: 'MypageMessageView',
 				query: { messageId: id },

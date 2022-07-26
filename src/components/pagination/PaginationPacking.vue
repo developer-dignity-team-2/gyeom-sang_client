@@ -86,8 +86,6 @@ export default {
 	},
 	computed: {
 		calPageList: function () {
-			// console.log('pageList: ', this.pageList)
-			// console.log('itemCount: ', this.itemCount)
 			return this.pageList.slice(this.start - 1, this.end);
 		},
 	},
@@ -108,9 +106,6 @@ export default {
 			if (this.pageLength > 5) {
 				this.end = 5;
 			}
-			// console.log(
-			//   `resultPerPage:${this.resultPerPage} pageLength:${this.pageLength} itemCount:${this.itemCount} start:${this.start} end:${this.end} `
-			// )
 			this.changePage(1);
 		},
 		addPaging(num) {

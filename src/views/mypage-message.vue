@@ -195,14 +195,12 @@ export default {
 	},
 	watch: {
 		// 모집중/모집마감 버튼 이벤트 순서 결정
-		'$store.state.button.buttonSign': function (value) {
-			console.log('$store.state.button.buttonSign : ', value);
+		'$store.state.button.buttonSign': function () {
 			this.makeSequence();
 			this.makeMessageResult();
 		},
 		// 임박(정렬) 버튼 이벤트 순서 결정
-		'$store.state.button.buttonSignYO': function (value) {
-			console.log('this.$store.state.button.buttonSignYO : ', value);
+		'$store.state.button.buttonSignYO': function () {
 			this.makeSequence();
 			this.makeMessageResult();
 		},
@@ -231,7 +229,6 @@ export default {
 			this.signArr.push(this.$store.state.button.showMessage);
 			this.signArr.push(this.$store.state.button.buttonSign);
 			this.signArr.push(this.$store.state.button.buttonSignYO);
-			console.log('버튼 시그널 배열 : ', this.signArr);
 		},
 		// 밥상 조회 최종 결과(조회, 필터, 정렬 적용)
 		async makeMessageResult() {
@@ -267,16 +264,12 @@ export default {
 
 			loader.hide();
 
-			console.log('사용자 이메일 : ', this.$store.state.user.userData.email);
-			console.log('전체 메시지 : ', userMessages);
-
 			// 받은 메시지
 			let tmpReceivedMessage = userMessages.filter(
 				message =>
 					message.sender_email !== this.$store.state.user.userData.email,
 			);
 
-			console.log('받은 메시지 : ', tmpReceivedMessage);
 			return tmpReceivedMessage;
 		},
 		// 보낸 메시지 정보 가져오기
@@ -287,16 +280,12 @@ export default {
 
 			loader.hide();
 
-			console.log('사용자 이메일 : ', this.$store.state.user.userData.email);
-			console.log('전체 메시지 : ', userMessages);
-
 			// 보낸 메시지
 			let tmpSentMessage = userMessages.filter(
 				message =>
 					message.sender_email === this.$store.state.user.userData.email,
 			);
 
-			console.log('보낸 메시지 : ', tmpSentMessage);
 			return tmpSentMessage;
 		},
 		// 메시지 필터(모집중/모집마감)
@@ -355,7 +344,6 @@ export default {
 
 					loader.hide();
 
-					console.log(r);
 					if (r.status === 200) {
 						this.$swal({
 							title: '메시지가 삭제되었습니다.',

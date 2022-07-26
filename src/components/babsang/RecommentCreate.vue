@@ -63,13 +63,6 @@ export default {
 	mounted() {},
 	unmounted() {},
 	methods: {
-		checkedSecert() {
-			if (this.secret_check === true) {
-				console.log('비밀');
-			} else {
-				console.log('공개');
-			}
-		},
 		async createComment() {
 			await this.$post('/comment', {
 				param: {
@@ -80,7 +73,6 @@ export default {
 					secret_check: this.secret_check,
 				},
 			});
-			console.log(this.comment_parent_id);
 			this.comment_description = '';
 			this.$router.go();
 		},

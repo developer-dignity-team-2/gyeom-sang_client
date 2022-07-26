@@ -193,13 +193,11 @@ export default {
 	},
 	watch: {
 		// 매너 점수 순 정렬 이벤트
-		'$store.state.button.buttonSignHL': function (value) {
-			console.log('$store.state.button.buttonSignHL : ', value);
+		'$store.state.button.buttonSignHL': function () {
 			this.showSpoonCard();
 		},
 		// 신청 순 버튼 이벤트
-		'$store.state.button.buttonSignFS': function (value) {
-			console.log('this.$store.state.button.buttonSignFS : ', value);
+		'$store.state.button.buttonSignFS': function () {
 			this.showSpoonCard();
 		},
 	},
@@ -208,9 +206,6 @@ export default {
 	mounted() {
 		this.initialButton();
 		this.showSpoonCard();
-		console.log(this.mixSpoons);
-		console.log(this.selectedSpoons.length);
-		// console.log(this.$store.state.user.userData);
 	},
 	unmounted() {},
 	methods: {
@@ -225,7 +220,6 @@ export default {
 			this.signArr = [];
 			this.signArr.push(this.$store.state.button.buttonSignHL);
 			this.signArr.push(this.$store.state.button.buttonSignFS);
-			console.log('버튼 시그널 배열 : ', this.signArr);
 		},
 		// 정렬 최종 결과
 		async makeMessageResult() {
@@ -295,12 +289,9 @@ export default {
 				`/babsang/${this.$route.query.babsangId}/babsangSpoons`,
 			);
 			this.appliedSpoons = temp.result.filter(spoon => spoon.apply_yn === 'Y');
-			console.log('신청한 숟갈 : ', this.appliedSpoons);
 			this.fixedSpoons = this.appliedSpoons.filter(
 				spoon => spoon.selected_yn === 'Y',
 			);
-			console.log('이미 선택된 숟갈 : ', this.fixedSpoons);
-			console.log('이미 선택된 숟갈 : ', this.fixedSpoons[0]);
 			this.checkedEmail = this.fixedSpoons.map(s => s.spoon_email);
 
 			loader.hide();
@@ -315,8 +306,6 @@ export default {
 			loader.hide();
 
 			this.babsangInfo = temp;
-			// console.log('밥상 정보 : ', this.babsangInfo);
-			// console.log('밥상 정보 temp : ', temp);
 		},
 		// 밥장의 숟갈 선정(확정)
 		async pickSpoon(spoon_email) {
@@ -336,17 +325,9 @@ export default {
 		},
 		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 발송)
 		doCancel(spoon) {
-			console.log('선택 취소');
-			console.log(spoon);
-			console.log('doCancle_fixedSpoons :', this.fixedSpoons);
-
-			console.log(this.fixedSpoons.indexOf(spoon));
-
 			if (this.fixedSpoons.indexOf(spoon) >= 0) {
-				console.log('이미 선택된 숟갈의 확정 취소', spoon);
 				this.cancleSpoon(spoon);
 			} else {
-				console.log('지금 선택 중인 숟갈의 취소', spoon);
 				this.selectedSpoons = this.selectedSpoons.filter(
 					s => s.spoon_email !== spoon.spoon_email,
 				);
@@ -385,7 +366,6 @@ export default {
 
 					loader.hide();
 
-					console.log(r);
 					if (r.status === 200) {
 						this.$swal({
 							title: `${spoon.spoon_nickname}님의 숟갈 빼기 완료!`,
@@ -438,7 +418,6 @@ export default {
 		async doConfirmSpoons() {
 			let oldSpoonArr = [];
 			let newSpoonArr = [];
-			// console.log(this.mixSpoons);
 			for (let spoon of this.mixSpoons) {
 				// 메시지 발송시 이미 확정 메시지를 받은 경우는 제외
 				if (spoon.selected_yn !== 'Y') {
@@ -512,7 +491,6 @@ export default {
 				this.selectedSpoons.push(spoon);
 				this.checkedEmail.push(spoon.spoon_email);
 				this.writeMessage();
-				// console.log('mixSpoons : ', this.mixSpoons);
 			}
 		},
 		// 밥상 바로가기

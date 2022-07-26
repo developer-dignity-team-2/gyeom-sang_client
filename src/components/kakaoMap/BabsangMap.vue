@@ -35,8 +35,6 @@ export default {
 			/* global kakao */
 
 			script.addEventListener('load', () => {
-				console.log('----------kakao maps object----------');
-				console.log(kakao.maps);
 				kakao.maps.load(this.initMap);
 			});
 		} else {

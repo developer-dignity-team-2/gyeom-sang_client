@@ -19,47 +19,23 @@ export default {
 	},
 	methods: {
 		async $get(url) {
-			return (
-				await instance.get(url).catch(e => {
-					console.log(e);
-				})
-			).data;
+			return (await instance.get(url)).data;
 		},
 		async $post(url, data) {
-			return await instance
-				.post(url, data)
-				.then(res => {
-					console.log('-----------post response-----------');
-					console.log(res);
-				})
-				.catch(e => {
-					console.log(e);
-				});
+			return await instance.post(url, data);
 		},
 		async $put(url, data) {
-			return await instance.put(url, data).catch(e => {
-				console.log(e);
-			});
+			return await instance.put(url, data);
 		},
 		async $delete(url) {
-			return await instance
-				.delete(url)
-
-				.catch(e => {
-					console.log(e);
-				});
+			return await instance.delete(url);
 		},
 		async $upload(url, file) {
 			const formData = new FormData();
 			formData.append('file', file);
-			return await instance
-				.post(url, formData)
-				.then(res => {
-					return res.data;
-				})
-				.catch(e => {
-					console.log(e);
-				});
+			return await instance.post(url, formData).then(res => {
+				return res.data;
+			});
 		},
 		// router mixins
 		$goBack() {

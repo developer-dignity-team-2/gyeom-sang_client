@@ -103,14 +103,12 @@ export default {
 	computed: {},
 	watch: {
 		// 모집중/모집마감 버튼 이벤트 순서 결정
-		'$store.state.button.buttonSign': function (value) {
-			console.log('$store.state.button.buttonSign : ', value);
+		'$store.state.button.buttonSign': function () {
 			this.makeSequence();
 			this.makeBabsangResult();
 		},
 		// 임박(정렬) 버튼 이벤트 순서 결정
-		'$store.state.button.checkedSign': function (value) {
-			console.log('this.$store.state.button.checkedSign : ', value);
+		'$store.state.button.checkedSign': function () {
 			this.makeSequence();
 			this.makeBabsangResult();
 		},
@@ -127,7 +125,6 @@ export default {
 			this.signArr.push(this.showBabsang);
 			this.signArr.push(this.$store.state.button.buttonSign);
 			this.signArr.push(this.$store.state.button.checkedSign);
-			console.log('버튼 시그널 배열 : ', this.signArr);
 		},
 		// 숟갈 얹은 밥상 버튼 이벤트
 		showAppliedBabsang() {
@@ -172,10 +169,8 @@ export default {
 			// 정열 수행
 			if (this.signArr[2] === false) {
 				tempResult = this.doOrder(tempResult, false);
-				console.log('false', this.signArr[2]);
 			} else {
 				tempResult = this.doOrder(tempResult, true);
-				console.log('true', this.signArr[2]);
 			}
 
 			this.babsangData = tempResult;
@@ -192,7 +187,6 @@ export default {
 			return babsangs;
 			// this.doDescOrder(Babsang.result, 'id');
 			// this.babsangData = Babsang.result;
-			// console.log(this.babsangData);
 		},
 		// 차려 놓은 밥상 목록 가져오기
 		async getCreatedBabsang() {
@@ -205,7 +199,6 @@ export default {
 
 			return babsangs;
 			// this.doDescOrder(Babsang.result, 'id');
-			// console.log(babsangData.result);
 			// this.babsangData = Babsang.result;
 		},
 		// 선정된 밥상 목록 가져오기
@@ -225,11 +218,9 @@ export default {
 		filterBabsang(babsangs, sign) {
 			if (sign === 'close') {
 				let close = babsangs.filter(b => b.dining_status > 0);
-				console.log(close);
 				return close;
 			} else {
 				let open = babsangs.filter(b => b.dining_status === 0);
-				console.log(open);
 				return open;
 			}
 		},
@@ -239,13 +230,11 @@ export default {
 				let asc = babsangs.sort(
 					(a, b) => new Date(a.dining_datetime) - new Date(b.dining_datetime),
 				);
-				console.log(asc);
 				return asc;
 			} else {
 				let desc = babsangs.sort(
 					(a, b) => new Date(b.dining_datetime) - new Date(a.dining_datetime),
 				);
-				console.log(desc);
 				return desc;
 			}
 		},

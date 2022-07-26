@@ -134,7 +134,6 @@ export default {
 		// 성별 데이터
 		getGenderValue(gender) {
 			this.genderVal = gender;
-			console.log('선택한 성별 :', this.genderVal);
 
 			this.searchFilter();
 		},
@@ -144,7 +143,6 @@ export default {
 				area = '';
 			}
 			this.areaVal = area;
-			console.log('선택한 지역 :', this.areaVal);
 
 			this.searchFilter();
 		},
@@ -168,7 +166,6 @@ export default {
 					  })
 					: this.filterData;
 
-			console.log('filter Array :', this.filterData);
 			this.babsangData = this.filterData;
 		},
 
@@ -179,11 +176,9 @@ export default {
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
 			});
-			console.log('모든 밥상 리스트 :', this.babsangData);
 			this.babsangData = this.babsangData.result.filter(
 				item => item.dining_status === 0,
 			);
-			console.log('모집중인 밥상', this.babsangData);
 		},
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {

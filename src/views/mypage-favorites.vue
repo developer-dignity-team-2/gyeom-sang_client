@@ -58,14 +58,12 @@ export default {
 	computed: {},
 	watch: {
 		// 모집중/모집마감 버튼 이벤트 순서 결정
-		'$store.state.button.buttonSign': function (value) {
-			console.log('$store.state.button.buttonSign : ', value);
+		'$store.state.button.buttonSign': function () {
 			this.makeSequence();
 			this.makeBabsangResult();
 		},
 		// 임박(정렬) 버튼 이벤트 순서 결정
-		'$store.state.button.checkedSign': function (value) {
-			console.log('this.$store.state.button.checkedSign : ', value);
+		'$store.state.button.checkedSign': function () {
 			this.makeSequence();
 			this.makeBabsangResult();
 		},
@@ -77,7 +75,6 @@ export default {
 	unmounted() {
 		// 필터, 정렬 설정 초기화
 		this.$store.commit('button/checkedSign', false);
-		console.log('unmounted : ', this.$store.state.button.checkedSign);
 		this.$store.commit('button/buttonSign', 'open');
 	},
 	methods: {
@@ -101,7 +98,6 @@ export default {
 			this.signArr = [];
 			this.signArr.push(this.$store.state.button.buttonSign);
 			this.signArr.push(this.$store.state.button.checkedSign);
-			console.log('버튼 시그널 배열 : ', this.signArr);
 		},
 		// 밥상 조회 최종 결과(조회, 필터, 정렬 적용)
 		async makeBabsangResult() {
@@ -119,10 +115,8 @@ export default {
 			// 정열 수행
 			if (this.signArr[1] === false) {
 				tempResult = this.doOrder(tempResult, false);
-				console.log('false', this.signArr[2]);
 			} else {
 				tempResult = this.doOrder(tempResult, true);
-				console.log('true', this.signArr[2]);
 			}
 
 			this.babsangData = tempResult;
@@ -131,11 +125,9 @@ export default {
 		filterBabsang(babsangs, sign) {
 			if (sign === 'close') {
 				let close = babsangs.filter(b => b.dining_status > 0);
-				console.log(close);
 				return close;
 			} else {
 				let open = babsangs.filter(b => b.dining_status === 0);
-				console.log(open);
 				return open;
 			}
 		},
@@ -145,13 +137,11 @@ export default {
 				let asc = babsangs.sort(
 					(a, b) => new Date(a.dining_datetime) - new Date(b.dining_datetime),
 				);
-				console.log(asc);
 				return asc;
 			} else {
 				let desc = babsangs.sort(
 					(a, b) => new Date(b.dining_datetime) - new Date(a.dining_datetime),
 				);
-				console.log(desc);
 				return desc;
 			}
 		},
