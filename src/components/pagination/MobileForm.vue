@@ -23,7 +23,7 @@
 					item.receiver_nickname
 				}}</span>
 				<span style="display: inline-block; width: 70%; text-align: right">{{
-					item.create_date
+					item.create_date.slice(0, 10)
 				}}</span>
 				<div
 					class="text-left"
@@ -60,11 +60,11 @@
 				style="cursor: pointer"
 				@click="messageView(item.id)"
 			>
-				<span style="display: inline-block; width: 30%; text-align: left">{{
-					item.receiver_nickname
-				}}</span>
+				<span style="display: inline-block; width: 30%; text-align: left"
+					><strong>{{ item.receiver_nickname }}</strong></span
+				>
 				<span style="display: inline-block; width: 70%; text-align: right">{{
-					item.create_date
+					item.create_date.slice(0, 10)
 				}}</span>
 				<div
 					class="text-left"

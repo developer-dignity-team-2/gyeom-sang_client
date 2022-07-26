@@ -172,7 +172,7 @@ export default {
 					},
 					{ title: '내용', key: 'message_description' },
 					{ title: '장소', key: 'restaurant_location' },
-					{ title: '날짜', key: 'create_date' },
+					{ title: '작성 일시', key: 'create_date' },
 				],
 				[
 					{
@@ -181,7 +181,7 @@ export default {
 					},
 					{ title: '내용', key: 'message_description' },
 					{ title: '장소', key: 'restaurant_location' },
-					{ title: '날짜', key: 'create_date' },
+					{ title: '작성 일시', key: 'create_date' },
 				],
 			],
 			window: { width: 0, height: 0 }, // 모바일 사이즈 화면 관련

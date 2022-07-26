@@ -9,6 +9,9 @@
 				<div class="col border rounded p-3">
 					<h3>메세지 내용</h3>
 					<!-- 밥상메세지 -->
+					<h6 style="text-align: left">
+						작성 일시 : {{ messageDetail.create_date }}
+					</h6>
 					<div class="card border mb-3" style="max-width: 80rem">
 						<div class="card-body">
 							<div class="card-text" style="height: 8rem">
