@@ -58,12 +58,15 @@
 import KakaoLogin from '@/components/login/KakaoLogin.vue';
 export default {
 	components: { KakaoLogin },
+	data() {
+		return {
+			isNavShow: true,
+		};
+	},
+
 	computed: {
 		user() {
 			return this.$store.state.user.userData;
-		},
-		isNavShow() {
-			return this.$store.state.isNavShow;
 		},
 	},
 	watch: {
@@ -73,11 +76,7 @@ export default {
 	},
 	methods: {
 		navShow(route) {
-			if (route.name === 'GiveScore') {
-				this.$store.commit('setNavShow', false);
-			} else {
-				this.$store.commit('setNavShow', true);
-			}
+			this.isNavShow = route.name !== 'GiveScore';
 		},
 	},
 	mounted() {},
