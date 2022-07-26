@@ -604,47 +604,6 @@ export default {
 		// ========== [이상] 서버로 부터 필요한 정보 가져와서 용도에 맞게 가공 처리 ==========
 
 		// ========== [이하] 평가한 매너 점수 계산 ==========
-		// 로그인 사용자가 평가한 최종 매너 점수 취합(호출용)
-		// computeResult() {
-		// 	console.log('checkedBabjangManner 결과 : ', this.checkedBabjangManner);
-		// 	console.log(
-		// 		'checkedCommonBabjangManner 결과 : ',
-		// 		this.checkedCommonBabjangManner,
-		// 	);
-		// 	console.log(
-		// 		'checkedSpoonManner1 결과 : ',
-		// 		this.checkedCommonSpoonManner1,
-		// 	);
-		// 	console.log(
-		// 		'checkedSpoonManner2 결과 : ',
-		// 		this.checkedCommonSpoonManner2,
-		// 	);
-		// 	console.log(
-		// 		'checkedSpoonManner3 결과 : ',
-		// 		this.checkedCommonSpoonManner3,
-		// 	);
-
-		// 	let babjangScore = this.computeBabjangScore(this.checkedBabjangManner);
-		// 	let babjangCommonScore = this.computeCommonScore(
-		// 		this.checkedCommonBabjangManner,
-		// 	);
-		// 	let spoon1CommonScore = this.computeCommonScore(
-		// 		this.checkedCommonSpoonManner1,
-		// 	);
-		// 	let spoon2CommonScore = this.computeCommonScore(
-		// 		this.checkedCommonSpoonManner2,
-		// 	);
-		// 	let spoon3CommonScore = this.computeCommonScore(
-		// 		this.checkedCommonSpoonManner3,
-		// 	);
-
-		// 	// 서버에 PUT 할때 이 정보를 함께 보내야 함(현재는 콘솔로그 처리 중)
-		// 	console.log('babjangScore 최종 매너 점수 : ', babjangScore);
-		// 	console.log('babjangCommonScore 최종 매너 점수 : ', babjangCommonScore);
-		// 	console.log('spoon1CommonScore 최종 매너 점수 : ', spoon1CommonScore);
-		// 	console.log('spoon2CommonScore 최종 매너 점수 : ', spoon2CommonScore);
-		// 	console.log('spoon3CommonScore 최종 매너 점수 : ', spoon3CommonScore);
-		// },
 		// 밥장 점수 계산 함수(computeResult() 내에서 작동)
 		computeBabjangScore(chk) {
 			// 가중치 적용(밥장 금매너(bg): 0.03, 밥장 똥매너(bb): -0.02)
@@ -867,6 +826,32 @@ export default {
 				email: email,
 			});
 			console.log(`${email}의 누적 매너 항목 및 점수 PUT 성공 : `, putScore);
+		},
+		// 평가 완료 여부 PUT
+		async putDoneY(email, babsangID) {
+			const isDone = await this.$put(`/babsang/review/list`, {
+				param: {
+					is_done: 'Y',
+					email: email,
+					dining_table_id: babsangID,
+				},
+			});
+			console.log(
+				`${email}의 ${babsangID}번 밥상에 대한 매너 평가 여부 : `,
+				isDone,
+			);
+		},
+		// 사용자에게 해당되는 모든 밥상의 평가 완료시 PUT
+		async putReviewActiveN() {
+			const activeN = await this.$put(`/user`, {
+				param: {
+					review_active: 'N',
+				},
+			});
+			console.log(
+				`${this.$store.state.user.email}님이 진행할 매너 평가 대상이 없을 경우 : `,
+				activeN,
+			);
 		},
 
 		// ========== [이하] 버튼 처리 ==========
