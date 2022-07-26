@@ -61,6 +61,8 @@
 import MainCardList from '@/components/main/MainCardList';
 import SearchFilter from '@/components/main/SearchFilter';
 import ScrollToTop from '@/components/main/ScrollToTop';
+import store from '../store';
+import router from '../router';
 export default {
 	name: 'Main',
 	components: {
@@ -85,6 +87,26 @@ export default {
 	watch: {},
 	mounted() {
 		this.getBabsang();
+	},
+	beforeRouteLeave(to, from, next) {
+		if (
+			to.matched.some(function (routeInfo) {
+				return routeInfo.meta.authRequired && !store.state.user.isUser;
+			})
+		) {
+			this.$swal({
+				text: '로그인이 필요한 서비스 입니다',
+				icon: 'warning',
+				iconColor: '#ffcb00',
+				confirmButtonText: '확인',
+				confirmButtonColor: '#ffcb00',
+			});
+			router.push({
+				path: '/',
+			});
+		} else {
+			next(); // 페이지 전환
+		}
 	},
 	methods: {
 		reset() {
