@@ -89,6 +89,12 @@
 							:headers="headers"
 							:items="messagesData"
 							@click-buttons="handleClickButtons"
+							v-if="window.width > 767"
+						/>
+						<mobile-form
+							:items="messagesData"
+							@click-buttons="handleClickButtons"
+							v-if="window.width <= 767"
 						/>
 					</div>
 					<div
@@ -116,6 +122,12 @@
 							:headers="headers"
 							:items="messagesData"
 							@click-buttons="handleClickButtons"
+							v-if="window.width > 767"
+						/>
+						<mobile-form
+							:items="messagesData"
+							@click-buttons="handleClickButtons"
+							v-if="window.width <= 767"
 						/>
 					</div>
 					<div
@@ -143,9 +155,10 @@
 import CompUserProfile from '@/components/profile/CompUserProfile';
 import ButtonModule from '@/components/profile/ButtonModule';
 import GridPagination from '@/components/pagination/GridPagination';
+import MobileForm from '@/components/pagination/MobileForm';
 export default {
 	nickname: 'MypagMessage',
-	components: { CompUserProfile, ButtonModule, GridPagination },
+	components: { CompUserProfile, ButtonModule, GridPagination, MobileForm },
 	data() {
 		return {
 			// showMessage: 'R', // 받은 메시지 신호 R, 보낸 메시지 신호 S
@@ -171,10 +184,15 @@ export default {
 					{ title: '날짜', key: 'create_date' },
 				],
 			],
+			window: { width: 0, height: 0 }, // 모바일 사이즈 화면 관련
 		};
 	},
 	setup() {},
-	created() {},
+	created() {
+		// 모바일 사이즈 화면 관련
+		window.addEventListener('resize', this.handleResize);
+		this.handleResize();
+	},
 	watch: {
 		// 모집중/모집마감 버튼 이벤트 순서 결정
 		'$store.state.button.buttonSign': function (value) {
@@ -195,6 +213,11 @@ export default {
 	},
 	unmounted() {},
 	methods: {
+		// 모바일 사이즈 화면 관련
+		handleResize() {
+			this.window.width = window.innerWidth;
+			this.window.height = window.innerHeight;
+		},
 		// 메시지 버튼 이벤트
 		showMessages(sign) {
 			this.$store.commit('button/showMessage', sign);
