@@ -200,6 +200,16 @@ export default {
 
 		// 찜 여부 표시
 		async addFavorite(id) {
+			if (this.$store.state.user.userData.gender === undefined) {
+				this.$swal({
+					text: '로그인이 필요한 서비스 입니다.',
+					icon: 'warning',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
+				return;
+			}
 			const likeId = id;
 			if (this.favorite === 'N') {
 				this.favorite = 'Y';
