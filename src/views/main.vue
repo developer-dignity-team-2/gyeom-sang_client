@@ -211,7 +211,7 @@ export default {
 				return b.id - a.id;
 			});
 			this.babsangData = this.babsangData.result.filter(
-				item => item.dining_status === 0 || item.dining_status === 2,
+				item => item.dining_status === 0,
 			);
 			this.babsangInitData = this.babsangData;
 		},
