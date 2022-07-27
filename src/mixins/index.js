@@ -61,7 +61,7 @@ export default {
 					range = '30대';
 					break;
 				case '4':
-					range = '20대(이고 싶다 ㅠ_ㅠ)';
+					range = '40대';
 					break;
 				case '5':
 					range = '50대';
