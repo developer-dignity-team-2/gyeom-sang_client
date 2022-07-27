@@ -197,20 +197,20 @@
 								>
 									숟갈 빼기
 								</button>
-								<button
+								<!-- <button
 									class="btn btn-secondary me-2 mb-2"
 									@click="goScorePage"
 								>
 									매너 평가(임시)
-								</button>
+								</button> -->
 							</div>
-							<button
+							<!-- <button
 								v-if="isLeader"
 								class="btn btn-secondary me-2 mb-2"
 								@click="goScorePage"
 							>
 								매너 평가(임시)
-							</button>
+							</button> -->
 						</div>
 					</div>
 				</div>
