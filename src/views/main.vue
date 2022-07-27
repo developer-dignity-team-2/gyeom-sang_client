@@ -205,6 +205,8 @@ export default {
 			this.babsangData = this.filterData;
 		},
 		async getBabsang(type = '') {
+			const loader = this.$loading.show({ canCancel: false });
+
 			this.babsangData = await this.$get(`/babsang${type}`);
 
 			this.babsangData.result.sort(function (a, b) {
@@ -214,6 +216,7 @@ export default {
 				item => item.dining_status === 0,
 			);
 			this.babsangInitData = this.babsangData;
+			loader.hide();
 		},
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {
