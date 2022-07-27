@@ -4,7 +4,6 @@
 			<h5>{{ mannerTitle }}</h5>
 			<ul :key="i" v-for="(manner, i) in myManners">
 				<li class="mb-3">
-					<!-- <div class="dropdown-item rounded-2 activeNega"> -->
 					<div
 						class="rounded-2"
 						:class="[

@@ -215,8 +215,6 @@ export default {
 	max-width: 160px;
 }
 td {
-	//  min-width: 200px;
-	//  max-width: 300px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

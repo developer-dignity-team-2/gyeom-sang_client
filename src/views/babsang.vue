@@ -182,13 +182,6 @@
 								숟갈 선택
 							</button>
 							<div v-else>
-								<!-- <button
-									class="btn btn-primary"
-									@click="applySpoon"
-									v-if="!spoonStatus"
-								>
-									숟갈 얹기
-								</button> -->
 								<button
 									class="btn btn-primary me-2 mb-2"
 									data-bs-toggle="modal"
@@ -227,10 +220,6 @@
 				<template v-slot:title
 					>{{ babsangDetailData.restaurant_name }} 밥상에 숟갈 얹기!
 				</template>
-				<!-- <template v-slot:title
-										>{{ babsangDetailData.dining_table_title }} 밥상에 숟갈
-										얹기!
-									</template> -->
 				<template v-slot:body>
 					<textarea
 						class="form-control"

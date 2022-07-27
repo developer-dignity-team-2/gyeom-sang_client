@@ -31,21 +31,6 @@
 				</li>
 			</ul>
 		</div>
-		<!-- 페이지 표시 개수 select -->
-		<!-- <div class="d-flex align-items-right justify-content-right">
-			<span class="fs-6 me-1" style="width: 80px">표시개수 : </span>
-			<select
-				class="form-select form-select-sm"
-				v-model="resultPerPage"
-				id="floatingSelect"
-				@change="initPaging"
-				style="max-width: 80px"
-			>
-				<option value="12">12</option>
-				<option value="24">24</option>
-				<option :value="itemCount">전체</option>
-			</select>
-		</div> -->
 	</nav>
 	<!-- END pagination -->
 </template>
@@ -159,45 +144,25 @@ export default {
 .page-link:hover {
 	z-index: 2;
 	color: #575757;
-	// background-color: #f3969a;
 	background-color: #fff9e1;
-	// border-color: #f3969a;
 	border-color: #ffcb00;
 }
 
 .page-item.active .page-link {
 	z-index: 3;
 	color: #fff;
-	// color: #575757;
-	// background-color: #f3969a;
 	background-color: #ffcb00;
-	// border-color: #f3969a;
 	border-color: #ffcb00;
 }
 
 .page-item.disabled .page-link {
-	// color: #575757;
 	color: #fff;
 	pointer-events: none;
-	// background-color: #cce8e0;
 	background-color: #ffdf9c;
-	// background-color: #FFF9E1;
-	// border-color: #f4f4f4;
 	border-color: #ffdf9c;
-	// border-color: #FFF9E1;
 }
 
 .page-link {
 	padding: 0.375rem 0.75rem;
 }
-
-// .page-item:first-child .page-link {
-//   border-top-left-radius: 0.4rem;
-//   border-bottom-left-radius: 0.4rem;
-// }
-
-// .page-item:last-child .page-link {
-//   border-top-right-radius: 0.4rem;
-//   border-bottom-right-radius: 0.4rem;
-// }
 </style>

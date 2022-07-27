@@ -16,15 +16,9 @@ export default {
 			isVisible: false,
 		};
 	},
-	beforeCreate() {},
-	created() {},
-	beforeMount() {},
 	mounted() {
 		window.addEventListener('scroll', this.toggleVisibility);
 	},
-	beforeUpdate() {},
-	updated() {},
-	beforeUnmount() {},
 	unmounted() {
 		window.removeEventListener('scroll', this.toggleVisibility);
 	},

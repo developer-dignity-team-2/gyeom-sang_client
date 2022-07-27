@@ -30,8 +30,6 @@
 							</div>
 							<!-- 밥상카드 -->
 							<div class="row" v-if="babsangData.length !== 0">
-								<!-- <BabsangCardList :babsangData="babsangData.result" /> -->
-								<!-- <BabsangCardList :babsangData="babsangData"  /> -->
 								<BabsangCardList :babsangData="babsangData" />
 							</div>
 						</div>
