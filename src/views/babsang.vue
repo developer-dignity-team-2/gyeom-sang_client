@@ -462,6 +462,7 @@ export default {
 
 			await this.countSpoons(); // 신청한 숟갈 계산
 			await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
+			this.changeStatus(0); // 밥상 상태 "모집 중"
 
 			loaderB.hide();
 
@@ -522,6 +523,18 @@ export default {
 					}
 				}
 			});
+		},
+		// 밥상 상태 변경(0-모집 중, 1-모집 완료)
+		async changeStatus(status) {
+			const loader = this.$loading.show({ canCancel: false });
+
+			await this.$put(`/babsang/${this.$route.query.babsangId}`, {
+				param: {
+					dining_status: status,
+				},
+			});
+
+			loader.hide();
 		},
 		goSelectPage() {
 			this.$router.push({
