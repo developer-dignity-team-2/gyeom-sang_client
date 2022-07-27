@@ -85,6 +85,9 @@ export default {
 		};
 	},
 	watch: {},
+	created() {
+		this.doAggregation(); // 식사 매너 평가 실시 여부 확인
+	},
 	mounted() {
 		this.getBabsang();
 	},
@@ -112,6 +115,39 @@ export default {
 		reset() {
 			this.babsangData = this.babsangInitData;
 		},
+		// =============== [이하] 로그인시 매너 평가 진행 ===============
+		async doAggregation() {
+			const user = (await this.$get('/user')).result[0];
+			console.log('review_active : ', user);
+			if (user.review_active === 'Y') {
+				const reviews = (await this.$get('/babsang/review/list')).result;
+				console.log('reviews : ', reviews);
+				if (reviews.length > 0) {
+					for (let review of reviews) {
+						this.goScorePage(review.dining_table_id); // 매너 평가 화면 열기
+					}
+				} else {
+					await this.$put('/user', {
+						param: {
+							review_active: 'N',
+						},
+					});
+				}
+			} else {
+				this.$router.push({
+					path: '/',
+				});
+			}
+		},
+		// 매너 평가 화면 라우터
+		goScorePage(babsangId) {
+			this.$router.push({
+				name: 'GiveScore',
+				query: { babsangId: babsangId },
+			});
+		},
+		// =============== [이상] 로그인시 매너 평가 진행 ===============
+
 		// 기간 데이터
 		getDateValue(start, end) {
 			if (start && end) {
@@ -168,7 +204,6 @@ export default {
 
 			this.babsangData = this.filterData;
 		},
-
 		async getBabsang(type = '') {
 			this.babsangData = await this.$get(`/babsang${type}`);
 			this.babsangInitData = this.babsangData.result;
