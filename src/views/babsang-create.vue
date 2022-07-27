@@ -695,6 +695,15 @@ export default {
 			this.babsangId = await this.$get('/babsang');
 			const idArr = this.babsangId.result.map(item => item.id);
 			const idMax = Math.max(...idArr);
+			const param = {
+				babsangId: idMax,
+				nickname: this.$store.state.user.userData.profile.nickname,
+				diningDatetime: this.diningDatetime(),
+			};
+
+			await this.$post('/babsang/review', {
+				param,
+			});
 			window.scrollTo(0, 0);
 			this.$router.push({
 				path: `/babsang/${idMax}`,
