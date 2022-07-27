@@ -258,4 +258,30 @@ export default {
 	}
 	height: 38px;
 }
+// 반응형 버튼 폰트 사이즈
+@media (max-width: 1399px) {
+	button {
+		font-size: 0.9rem;
+	}
+}
+@media (max-width: 1199px) {
+	button {
+		font-size: 1rem;
+	}
+}
+@media (max-width: 493px) {
+	button {
+		font-size: 0.9rem;
+	}
+}
+@media (max-width: 476px) {
+	button {
+		font-size: 0.8rem;
+	}
+}
+@media (max-width: 437px) {
+	button {
+		font-size: 1vw;
+	}
+}
 </style>

@@ -8,7 +8,7 @@
 					'btn btn-outline-primary':
 						this.$store.state.button.buttonSign !== 'open',
 				}"
-				style="width: 45%"
+				style="width: 50%"
 				@click="changeOperationBabsang"
 			>
 				모집 중
@@ -20,7 +20,7 @@
 					'btn btn-outline-primary':
 						this.$store.state.button.buttonSign !== 'close',
 				}"
-				style="width: 55%"
+				style="width: 50%"
 				@click="changeOperationBabsang"
 			>
 				모집 마감
@@ -226,5 +226,31 @@ section {
 }
 .model-8 .checkbox input:checked + label:after {
 	left: 35px;
+}
+// 반응형 버튼 폰트 사이즈
+@media (max-width: 1399px) {
+	button {
+		font-size: 0.9rem;
+	}
+}
+@media (max-width: 1199px) {
+	button {
+		font-size: 1rem;
+	}
+}
+@media (max-width: 493px) {
+	button {
+		font-size: 0.9rem;
+	}
+}
+@media (max-width: 476px) {
+	button {
+		font-size: 0.8rem;
+	}
+}
+@media (max-width: 437px) {
+	button {
+		font-size: 1vw;
+	}
 }
 </style>
