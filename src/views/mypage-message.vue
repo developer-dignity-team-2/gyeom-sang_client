@@ -58,11 +58,7 @@
 									</div>
 								</div>
 								<!-- 삭제 -->
-								<div
-									class="col-xl-2 col-md-3btn-group"
-									role="group"
-									aria-label="Basic example"
-								>
+								<div class="col-2" role="group" aria-label="Basic example">
 									<button
 										type="button"
 										class="btn btn-danger"
@@ -78,6 +74,7 @@
 							</div>
 						</div>
 					</div>
+					<div></div>
 					<!-- pagination -->
 					<div
 						v-if="

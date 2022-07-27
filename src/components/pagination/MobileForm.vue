@@ -1,5 +1,20 @@
 <template>
 	<!-- 받은 메시지 -->
+	<div class="pt-2">
+		<i
+			class="bi bi-check-square"
+			style="cursor: pointer"
+			@click="$refs.checkbox.click()"
+		></i>
+		<input
+			class="form-check-input"
+			style="display: none"
+			type="checkbox"
+			ref="checkbox"
+			v-model="checked_all"
+			@change="doSelectAll"
+		/>
+	</div>
 	<ul v-if="$store.state.button.showMessage === 'R'">
 		<li class="row" :key="item.id" v-for="item in items">
 			<hr class="dropdown-divider" style="border-color: #f4f4f4" />
@@ -10,7 +25,7 @@
 					type="checkbox"
 					:value="item.id"
 					v-model="checked"
-					@change="doSelect"
+					@change="doSelect()"
 				/>
 			</div>
 			<div
@@ -51,7 +66,7 @@
 					type="checkbox"
 					:value="item.id"
 					v-model="checked"
-					@change="doSelect"
+					@change="doSelect()"
 				/>
 			</div>
 			<div
