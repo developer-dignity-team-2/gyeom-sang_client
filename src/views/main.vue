@@ -28,7 +28,6 @@
 							Try it out!
 						</router-link>
 					</p>
-					<!-- <button class="btn btn-secondary" type="submit">Search</button> -->
 				</div>
 			</div>
 		</div>
@@ -212,7 +211,7 @@ export default {
 				return b.id - a.id;
 			});
 			this.babsangData = this.babsangData.result.filter(
-				item => item.dining_status === 0,
+				item => item.dining_status === 0 || item.dining_status === 2,
 			);
 			this.babsangInitData = this.babsangData;
 		},
