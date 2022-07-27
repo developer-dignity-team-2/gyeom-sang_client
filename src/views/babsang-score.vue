@@ -674,6 +674,21 @@ export default {
 					}
 				}
 			}
+			await this.putDone(this.loginUser.email, this.babsangInfo.id); // 매너 평가 완료(is_done: 'Y')
+			// 매너 평가 종료 후 메인 화면 가기
+			this.$router.push({
+				path: '/',
+			});
+		},
+		// 매너 평가 완료 표기
+		async putDone(email, babsangId) {
+			await this.$put('/babsang/review/list', {
+				param: {
+					is_done: 'Y',
+					email: email,
+					dining_table_id: babsangId,
+				},
+			});
 		},
 		// 평가 대상자의 매너 항목과 점수 가져와 ID 부여
 		async doMakeMannerList(userEmail) {
@@ -813,7 +828,7 @@ export default {
 					confirmButtonColor: '#ffcb00',
 				});
 				this.doMakeMannerLists();
-				this.$router.push('/');
+				// this.$router.push('/');
 				// this.computeResult();
 			}
 		},
