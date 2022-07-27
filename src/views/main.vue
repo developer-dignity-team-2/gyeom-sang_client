@@ -117,10 +117,8 @@ export default {
 		// =============== [이하] 로그인시 매너 평가 진행 ===============
 		async doAggregation() {
 			const user = (await this.$get('/user')).result[0];
-			console.log('review_active : ', user);
 			if (user.review_active === 'Y') {
 				const reviews = (await this.$get('/babsang/review/list')).result;
-				console.log('reviews : ', reviews);
 				if (reviews.length > 0) {
 					for (let review of reviews) {
 						this.goScorePage(review.dining_table_id); // 매너 평가 화면 열기

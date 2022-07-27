@@ -528,7 +528,7 @@ export default {
 		async changeStatus(status) {
 			const loader = this.$loading.show({ canCancel: false });
 
-			await this.$put(`/babsang/${this.$route.query.babsangId}`, {
+			await this.$put(`/babsang/${this.$route.params.babsangId}`, {
 				param: {
 					dining_status: status,
 				},
