@@ -171,7 +171,6 @@ export default {
 
 		async getBabsang(type = '') {
 			this.babsangData = await this.$get(`/babsang${type}`);
-			this.babsangInitData = this.babsangData.result;
 
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
@@ -179,6 +178,7 @@ export default {
 			this.babsangData = this.babsangData.result.filter(
 				item => item.dining_status === 0,
 			);
+			this.babsangInitData = this.babsangData;
 		},
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {
