@@ -455,7 +455,7 @@ export default {
 					confirmButtonText: '확인',
 					confirmButtonColor: '#ffcb00',
 				});
-				this.changeStatus(2); // 밥상 상태 "모집 확정"
+				this.changeStatus(1); // 밥상 상태 "모집 마감"
 			} else if (oldSpoonArr.length === 0) {
 				this.$swal({
 					title: '숟갈 확정!',
@@ -477,7 +477,7 @@ export default {
 					confirmButtonText: '확인',
 					confirmButtonColor: '#ffcb00',
 				});
-				this.changeStatus(2); // 밥상 상태 "모집 확정"
+				this.changeStatus(1); // 밥상 상태 "모집 마감"
 			} else {
 				this.$swal({
 					title: '숟갈 확정!',

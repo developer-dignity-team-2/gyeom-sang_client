@@ -127,7 +127,7 @@
 										hideInputIcon
 										:min-time="minTime()"
 										:disabled="!this.dining_datetime"
-										minutesIncrement="10"
+										minutesIncrement="5"
 										noMinutesOverlay
 										:clearable="false"
 										:start-time="{
