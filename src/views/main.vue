@@ -169,6 +169,7 @@ export default {
 
 		// 성별 데이터
 		getGenderValue(gender) {
+			// console.log(gender);
 			this.genderVal = gender;
 
 			this.searchFilter();
