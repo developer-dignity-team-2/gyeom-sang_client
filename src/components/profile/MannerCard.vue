@@ -12,11 +12,13 @@
 						]"
 					>
 						<div class="row">
-							<div class="col-1">{{ i + 1 }}.</div>
-							<div class="col-7">
-								<span>{{ manner.question }}</span>
+							<div class="col-1">
+								<span>{{ i + 1 }}</span>
 							</div>
-							<div class="col-4" style="font-size: 1rem; text-align: end">
+							<div class="col-9 pe-0">
+								<span style="white-space: normal">{{ manner.question }}</span>
+							</div>
+							<div class="col-2 ps-0" style="font-size: 1rem; text-align: end">
 								<font-awesome-icon icon="fa-solid fa-spoon" />
 								<span class="ps-1">{{ manner.count }}</span>
 							</div>
@@ -24,10 +26,6 @@
 					</div>
 				</li>
 			</ul>
-		</div>
-		<div>
-			자동 줄 바꿈 자동 줄 바꿈 자동 줄 바꿈 자동 줄 바꿈 자동 줄 바꿈 자동 줄
-			바꿈 자동 줄 바꿈 자동 줄 바꿈
 		</div>
 	</div>
 </template>
