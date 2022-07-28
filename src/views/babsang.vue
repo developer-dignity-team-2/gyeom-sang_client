@@ -266,7 +266,7 @@ export default {
 	components: { UserCard, CommentCreate, CommentList, BabsangMap, SlotModal },
 	data() {
 		return {
-			babsangDetailData: [],
+			babsangDetailData: {},
 			spoonStatus: '', // false 방상에 숟갈 없음, true 방상에 숟갈 있음
 			countAppliedSpoons: 0,
 			spoonMessage: '',
@@ -301,7 +301,7 @@ export default {
 			this.scrollInit();
 		}, 100);
 	},
-	mounted() {
+	async mounted() {
 		this.socket = io(process.env.VUE_APP_DOMAIN_URL);
 		this.socket.on('increment', () => {
 			this.countAppliedSpoons = this.countAppliedSpoons + 1;
@@ -310,14 +310,37 @@ export default {
 			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
 
-		this.getBabsangDetailData();
+		await this.getBabsangDetailData();
 		this.countSpoons();
-		this.initialButton();
+		this.initialButton(); // 숟갈(얹기/빼기) 새로고침
+		this.doStatusInitial(); // 밥상 status 초기화
 	},
-
 	methods: {
 		scrollInit() {
 			window.scrollTo(0, 0);
+		},
+		// 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
+		async doStatusInitial() {
+			let nowTime = new Date(
+				new Date()
+					.toISOString()
+					.replace('T', ' ')
+					.replace(/\..*/, '')
+					.toString(),
+			).getTime();
+			let diningTime = new Date(
+				this.babsangDetailData.dining_datetime,
+			).getTime();
+			console.log(nowTime);
+			console.log(diningTime);
+			if (
+				this.babsangDetailData.dining_count - this.selectedUsers.length - 1 >
+					0 &&
+				nowTime - diningTime < 0
+			) {
+				await this.changeStatus(0);
+				console.log('모집중');
+			}
 		},
 		modifyBabsang() {
 			this.$router.push({
@@ -462,7 +485,6 @@ export default {
 
 			await this.countSpoons(); // 신청한 숟갈 계산
 			await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
-			this.changeStatus(0); // 밥상 상태 "모집 중"
 
 			loaderB.hide();
 
@@ -549,10 +571,9 @@ export default {
 			});
 		},
 		async getBabsangDetailData() {
-			this.babsangDetailData = await this.$get(
-				'/babsang/' + this.$route.params.babsangId,
-			);
-			this.babsangDetailData = this.babsangDetailData.result[0];
+			this.babsangDetailData = (
+				await this.$get('/babsang/' + this.$route.params.babsangId)
+			).result[0];
 			// textarea 줄바꿈
 			this.babsangDesciprion =
 				this.babsangDetailData.dining_description.replaceAll(
