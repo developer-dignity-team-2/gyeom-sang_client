@@ -311,7 +311,7 @@ export default {
 		});
 
 		await this.getBabsangDetailData();
-		this.countSpoons();
+		await this.countSpoons();
 		this.initialButton(); // 숟갈(얹기/빼기) 새로고침
 		this.doStatusInitial(); // 밥상 status 초기화
 	},
@@ -331,15 +331,12 @@ export default {
 			let diningTime = new Date(
 				this.babsangDetailData.dining_datetime,
 			).getTime();
-			console.log(nowTime);
-			console.log(diningTime);
 			if (
 				this.babsangDetailData.dining_count - this.selectedUsers.length - 1 >
 					0 &&
 				nowTime - diningTime < 0
 			) {
-				// await this.changeStatus(0);
-				console.log('모집중 ????');
+				await this.changeStatus(0);
 			}
 		},
 		modifyBabsang() {
