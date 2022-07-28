@@ -267,7 +267,7 @@ export default {
 	data() {
 		return {
 			babsangDetailData: {},
-			spoonStatus: '', // false 방상에 숟갈 없음, true 방상에 숟갈 있음
+			spoonStatus: '', // false 밥상에 숟갈 없음, true 밥상에 숟갈 있음
 			countAppliedSpoons: 0,
 			spoonMessage: '',
 			selectedUsers: '',
@@ -312,8 +312,8 @@ export default {
 
 		await this.getBabsangDetailData();
 		await this.countSpoons();
-		this.initialButton(); // 숟갈(얹기/빼기) 새로고침
-		this.doStatusInitial(); // 밥상 status 초기화
+		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
+		await this.doStatusInitial(); // 밥상 status 초기화
 	},
 	methods: {
 		scrollInit() {
