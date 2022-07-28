@@ -323,7 +323,7 @@ export default {
 
 			loader.hide();
 		},
-		// 밥상 상태 변경(0-모집 중, 1-모집 완료, 2-모집 확정)
+		// 밥상 상태 변경(0-모집 중, 1-모집 완료)
 		async changeStatus(status) {
 			const loader = this.$loading.show({ canCancel: false });
 
