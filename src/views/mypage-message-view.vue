@@ -42,13 +42,6 @@
 										</button>
 									</div>
 								</div>
-								<!-- <img
-									:src="messageDetail.profile_image"
-									alt="식당사진"
-									class="d-block user-select-none"
-									width="100%"
-									height="200"
-								/> -->
 								<img
 									:src="
 										VUE_APP_DOMAIN_URL +
@@ -282,7 +275,5 @@ dt {
 #wrapper {
 	width: 300px;
 	margin: auto;
-	/* display: flex; */
-	/* justify-content: center; */
 }
 </style>

@@ -28,7 +28,6 @@
 							Try it out!
 						</router-link>
 					</p>
-					<!-- <button class="btn btn-secondary" type="submit">Search</button> -->
 				</div>
 			</div>
 		</div>
@@ -118,10 +117,8 @@ export default {
 		// =============== [이하] 로그인시 매너 평가 진행 ===============
 		async doAggregation() {
 			const user = (await this.$get('/user')).result[0];
-			console.log('review_active : ', user);
 			if (user.review_active === 'Y') {
 				const reviews = (await this.$get('/babsang/review/list')).result;
-				console.log('reviews : ', reviews);
 				if (reviews.length > 0) {
 					for (let review of reviews) {
 						this.goScorePage(review.dining_table_id); // 매너 평가 화면 열기
@@ -169,6 +166,7 @@ export default {
 
 		// 성별 데이터
 		getGenderValue(gender) {
+			// console.log(gender);
 			this.genderVal = gender;
 
 			this.searchFilter();
@@ -205,8 +203,9 @@ export default {
 			this.babsangData = this.filterData;
 		},
 		async getBabsang(type = '') {
+			const loader = this.$loading.show({ canCancel: false });
+
 			this.babsangData = await this.$get(`/babsang${type}`);
-			this.babsangInitData = this.babsangData.result;
 
 			this.babsangData.result.sort(function (a, b) {
 				return b.id - a.id;
@@ -214,6 +213,8 @@ export default {
 			this.babsangData = this.babsangData.result.filter(
 				item => item.dining_status === 0,
 			);
+			this.babsangInitData = this.babsangData;
+			loader.hide();
 		},
 		onInputBabsangSearch(event) {
 			if (event.target.value === '') {

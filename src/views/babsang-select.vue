@@ -323,6 +323,18 @@ export default {
 
 			loader.hide();
 		},
+		// 밥상 상태 변경(0-모집 중, 1-모집 완료)
+		async changeStatus(status) {
+			const loader = this.$loading.show({ canCancel: false });
+
+			await this.$put(`/babsang/${this.$route.query.babsangId}`, {
+				param: {
+					dining_status: status,
+				},
+			});
+
+			loader.hide();
+		},
 		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 발송)
 		doCancel(spoon) {
 			if (this.fixedSpoons.indexOf(spoon) >= 0) {
@@ -386,6 +398,7 @@ export default {
 						// 뺀 숟갈에게 안내 메시지 발송
 						let cancelMessage = `아쉽게도 ${this.babsangInfo.restaurant_name} 밥상(${this.babsangInfo.dining_datetime})에 얹은 숟갈의 선정이 취소되셨습니다 ㅠ_ㅠ`;
 						this.sendMessage(spoon.spoon_email, cancelMessage);
+						this.changeStatus(0); // 밥상 상태 "모집 중"
 					} else if (r.status === 501) {
 						this.$swal({
 							title: `${spoon.spoon_nickname}님의 숟갈 빼기 실패!`,
@@ -442,6 +455,7 @@ export default {
 					confirmButtonText: '확인',
 					confirmButtonColor: '#ffcb00',
 				});
+				this.changeStatus(1); // 밥상 상태 "모집 마감"
 			} else if (oldSpoonArr.length === 0) {
 				this.$swal({
 					title: '숟갈 확정!',
@@ -463,6 +477,7 @@ export default {
 					confirmButtonText: '확인',
 					confirmButtonColor: '#ffcb00',
 				});
+				this.changeStatus(1); // 밥상 상태 "모집 마감"
 			} else {
 				this.$swal({
 					title: '숟갈 확정!',

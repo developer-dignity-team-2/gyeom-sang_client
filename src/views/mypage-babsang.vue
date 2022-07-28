@@ -7,7 +7,6 @@
 			</div>
 			<!-- 본문영역 -->
 			<div class="col-xl-9 col-md-8 col-sm-12">
-				<!-- <div class="col border rounded p-3" style="min-height: 480px"> -->
 				<div class="col border rounded p-3">
 					<h3>참여한 밥상 목록</h3>
 					<!-- 버튼 -->

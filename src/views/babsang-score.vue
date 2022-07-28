@@ -159,10 +159,6 @@
 				<!-- 숟갈1 점수 주기 -->
 				<div v-if="this.userIndex === 1">
 					<div class="col-12 border rounded p-3 text-center mb-4">
-						<!-- <div
-						class="col-12 border rounded p-3 text-center mb-4"
-						v-if="spoons.length !== 0"
-					> -->
 						<div
 							style="
 								display: flex;
@@ -446,13 +442,6 @@
 				<button type="button" class="btn btn-primary" @click="nextScore">
 					다음
 				</button>
-				<!-- <button
-					type="button"
-					class="btn btn-outline-primary"
-					@click="doMakeMannerLists()"
-				>
-					PUT테스트(임시)
-				</button> -->
 			</div>
 		</div>
 	</div>

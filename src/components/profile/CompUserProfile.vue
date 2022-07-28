@@ -13,9 +13,6 @@
 		<ul
 			class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 mb-3 shadow w-220px"
 		>
-			<!-- <li>
-				<div class="dropdown-item rounded-2 title">내 정보</div>
-			</li> -->
 			<li>
 				<div
 					class="dropdown-item rounded-2 cursor"
@@ -34,9 +31,6 @@
 					식사 매너 점수
 				</div>
 			</li>
-			<!-- <li>
-				<div class="dropdown-item rounded-2 title">밥상 정보</div>
-			</li> -->
 			<li><hr class="dropdown-divider" style="border-color: #f4f4f4" /></li>
 			<li>
 				<div
@@ -82,11 +76,6 @@
 					class="dropdown-item rounded-2 font-color-withdraw cursor"
 					@click="unlinkApp()"
 				>
-					<!-- <div
-					class="dropdown-item rounded-2 cursor nav-link"
-					style="color: #cfcfcf"
-					@click="unlinkApp()"
-				> -->
 					탈퇴하기
 				</div>
 			</li>
@@ -176,7 +165,6 @@ export default {
 				showCancelButton: true,
 				iconColor: '#ffcb00',
 				confirmButtonColor: '#ffcb00',
-				// cancelButtonColor: '#f4f4f4',
 				cancelButtonColor: '#d33',
 				cancelButtonText: '취소',
 				confirmButtonText: '확인',
@@ -189,7 +177,6 @@ export default {
 						localStorage.removeItem('jwt');
 						this.$swal({
 							title: '로그아웃되었습니다.',
-							// text: `{kakao_account.profile.nickname}님 환영합니다.`,
 							icon: 'info',
 							iconColor: '#ffcb00',
 							confirmButtonText: '확인',

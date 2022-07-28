@@ -127,7 +127,7 @@
 										hideInputIcon
 										:min-time="minTime()"
 										:disabled="!this.dining_datetime"
-										minutesIncrement="30"
+										minutesIncrement="5"
 										noMinutesOverlay
 										:clearable="false"
 										:start-time="{
@@ -531,26 +531,8 @@ export default {
 					let r = await this.$put('/babsang/' + this.$route.params.babsangId, {
 						param: {
 							dining_table_title: this.title,
-							// restaurant_name: this.placeName,
-							// dining_datetime: this.dining_datetime
-							// 	.toISOString()
-							// 	.replace('T', ' ')
-							// 	.slice(0, 16),
-							// recruit_start_date: this.recruit_start_date
-							// 	.toISOString()
-							// 	.replace('T', ' ')
-							// 	.slice(0, 10),
-							// recruit_end_date: this.recruit_end_date
-							// 	.toISOString()
-							// 	.replace('T', ' ')
-							// 	.slice(0, 10),
-							// gender_check: this.gender_check,
 							dining_description: this.dining_description,
 							dining_thumbnail: this.dining_thumbnail,
-							// restaurant_location: this.placeAddress,
-							// dining_count: this.dining_count,
-							// restaurant_latitude: this.placeLatitude,
-							// restaurant_longitude: this.placeLongitude,
 						},
 					});
 					loader.hide();
@@ -695,6 +677,15 @@ export default {
 			this.babsangId = await this.$get('/babsang');
 			const idArr = this.babsangId.result.map(item => item.id);
 			const idMax = Math.max(...idArr);
+			const param = {
+				babsangId: idMax,
+				nickname: this.$store.state.user.userData.profile.nickname,
+				diningDatetime: this.diningDatetime(),
+			};
+
+			await this.$post('/babsang/review', {
+				param,
+			});
 			window.scrollTo(0, 0);
 			this.$router.push({
 				path: `/babsang/${idMax}`,
@@ -783,11 +774,6 @@ export default {
 	left: 50%;
 	transform: translate3d(-50%, -50%, 0);
 }
-// #map {
-// 	width: 500px;
-// 	height: 500px;
-// 	margin: 10px auto auto;
-// }
 /* 라디오 버튼 스타일 */
 .list-group {
 	// max-width: 460px;

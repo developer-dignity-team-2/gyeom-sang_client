@@ -140,7 +140,7 @@ export default {
 			} else if (value === '남성') {
 				this.genderValue = 'M';
 			} else {
-				this.genderValue = 'W';
+				this.genderValue = 'F';
 			}
 			this.$emit('gender', this.genderValue);
 		},

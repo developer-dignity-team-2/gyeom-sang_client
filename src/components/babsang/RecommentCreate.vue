@@ -1,8 +1,5 @@
 <template>
 	<div class="container row" v-if="this.$store.state.user.isUser">
-		<!--   <div class="container row">-->
-		<!-- 댓글생성 -->
-
 		<!-- 댓글내용 입력 -->
 		<form name="content">
 			<div class="form-group">
