@@ -492,6 +492,7 @@ export default {
 
 			await this.countSpoons(); // 신청한 숟갈 계산
 			await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
+			this.$router.go(); // 새로고침
 
 			loaderB.hide();
 
