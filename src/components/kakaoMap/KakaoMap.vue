@@ -116,7 +116,14 @@ export default {
 					this.placeLongitude,
 				);
 			} else {
-				alert('선택된 식당정보가 없습니다.');
+				// alert('선택된 식당정보가 없습니다.');
+				this.$swal({
+					text: `선택된 식당정보가 없습니다.`,
+					icon: 'warning',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
 			}
 		},
 		initMap() {
