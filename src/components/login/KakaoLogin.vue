@@ -43,8 +43,8 @@ export default {
 
 					this.login(kakao_account);
 					this.$swal({
-						title: '로그인 성공!',
-						text: `${kakao_account.profile.nickname}님 환영합니다.`,
+						// title: '로그인 성공!',
+						text: `겸상 서비스를 시작하겠습니다.`,
 						icon: 'success',
 						iconColor: '#ffcb00',
 						confirmButtonText: '확인',
