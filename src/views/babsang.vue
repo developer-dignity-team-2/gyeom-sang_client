@@ -482,7 +482,7 @@ export default {
 					},
 				);
 				await this.$put(
-					`/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pickCancel`,
+					`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=pickCancel`,
 					{
 						spoon_email: userEmail,
 						param: {

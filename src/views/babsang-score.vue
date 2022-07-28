@@ -786,16 +786,6 @@ export default {
 				email: email,
 			});
 		},
-		// 평가 완료 여부 PUT
-		async putDoneY(email, babsangID) {
-			await this.$put(`/babsang/review/list`, {
-				param: {
-					is_done: 'Y',
-					email: email,
-					dining_table_id: babsangID,
-				},
-			});
-		},
 		// 사용자에게 해당되는 모든 밥상의 평가 완료시 PUT
 		async putReviewActiveN() {
 			await this.$put(`/user`, {

@@ -332,7 +332,7 @@ export default {
 					dining_status: status,
 				},
 			});
-
+			console.log('changeStatus-query : ', status);
 			loader.hide();
 		},
 		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 발송)
@@ -521,6 +521,16 @@ export default {
 		initialButton() {
 			this.$store.commit('button/buttonSignHL', 'H');
 			this.$store.commit('button/buttonSignFS', 'F');
+		},
+		// 매너 평가 완료 표기
+		async putDone(email, babsangId) {
+			await this.$put('/babsang/review/list', {
+				param: {
+					is_done: 'Y',
+					email: email,
+					dining_table_id: babsangId,
+				},
+			});
 		},
 	},
 };
