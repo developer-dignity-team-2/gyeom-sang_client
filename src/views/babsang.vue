@@ -481,6 +481,16 @@ export default {
 						},
 					},
 				);
+				await this.$put(
+					`/babsang/${this.$route.query.babsangId}/babsangSpoons?type=pickCancel`,
+					{
+						spoon_email: userEmail,
+						param: {
+							selected_yn: 'N',
+							// cancel_date: '2022-06-10',
+						},
+					},
+				);
 			}
 
 			await this.countSpoons(); // 신청한 숟갈 계산
