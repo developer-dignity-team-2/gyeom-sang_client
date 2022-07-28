@@ -338,8 +338,8 @@ export default {
 					0 &&
 				nowTime - diningTime < 0
 			) {
-				await this.changeStatus(0);
-				console.log('모집중');
+				// await this.changeStatus(0);
+				console.log('모집중 ????');
 			}
 		},
 		modifyBabsang() {
