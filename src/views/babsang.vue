@@ -22,7 +22,7 @@
 							</h3>
 
 							<div class="status babsang-info mb-2">
-								<span>#{{ currentStatus() }}</span>
+								<span>#{{ diningStatus }}</span>
 								<span>#{{ recruitGender() }}</span>
 								<span>#{{ babsangDetailData.dining_count }}인상</span>
 							</div>
@@ -268,6 +268,7 @@ export default {
 		return {
 			babsangDetailData: {},
 			spoonStatus: '', // false 밥상에 숟갈 없음, true 밥상에 숟갈 있음
+			diningStatus: '',
 			countAppliedSpoons: 0,
 			spoonMessage: '',
 			selectedUsers: '',
@@ -310,8 +311,8 @@ export default {
 			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
 		await this.getBabsangDetailData();
+		await this.currentStatus(); // 밥상 status
 		await this.countSpoons();
-		await this.doStatusInitial(); // 밥상 status 초기화
 		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
 	},
 	methods: {
@@ -478,7 +479,7 @@ export default {
 
 			// await this.countSpoons(); // 신청한 숟갈 계산
 			// await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
-			// await this.doStatusInitial(); // 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
+			await this.doStatusInitial(); // 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
 
 			loader.hide();
 
@@ -544,15 +545,12 @@ export default {
 		},
 		// 밥상 상태 변경(0-모집 중, 1-모집 완료)
 		async changeStatus(status) {
-			const loader = this.$loading.show({ canCancel: false });
-
 			await this.$put(`/babsang/${this.$route.params.babsangId}`, {
 				param: {
 					dining_status: status,
 				},
 			});
-
-			loader.hide();
+			this.currentStatus();
 		},
 		goSelectPage() {
 			this.$router.push({
@@ -581,17 +579,12 @@ export default {
 
 			this.writeMessage(); // 숟갈 메시지 초기화
 		},
-		currentStatus() {
-			let currentStatus = this.babsangDetailData.dining_status;
-			let status;
-			if (currentStatus === 0) {
-				status = '모집중';
-			} else if (currentStatus === 1) {
-				status = '모집 마감';
-			} else {
-				status = '모집 확정';
-			}
-			return status;
+		async currentStatus() {
+			// let currentStatus = this.babsangDetailData.dining_status;
+			let currentStatus = (
+				await this.$get('/babsang/' + this.$route.params.babsangId)
+			).result[0].dining_status;
+			this.diningStatus = currentStatus === 0 ? '모집중' : '모집 마감';
 		},
 		recruitGender() {
 			let gender = this.babsangDetailData.gender_check;
