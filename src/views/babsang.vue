@@ -176,7 +176,7 @@
 
 							<button
 								class="btn btn-primary me-2 mb-2"
-								@click="goSelectPage"
+								@click="enterCheckpoint(this.goSelectPage())"
 								v-if="isLeader"
 							>
 								숟갈 선택
@@ -192,7 +192,7 @@
 								</button>
 								<button
 									class="btn btn-primary me-2 mb-2"
-									@click="cancelSpoon"
+									@click="enterCheckpoint(this.cancelSpoon())"
 									v-if="spoonStatus"
 								>
 									숟갈 빼기
@@ -278,7 +278,6 @@ export default {
 				process.env.VUE_APP_DOMAIN_URL + '/static/images/default_img.jpeg',
 		};
 	},
-
 	computed: {
 		// 밥장/숟갈/게스트 분기처리
 		isLeader() {
@@ -311,17 +310,18 @@ export default {
 			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
 		await this.getBabsangDetailData();
-		await this.currentStatus(); // 밥상 status
+		await this.currentStatus(); // 현재 밥상 status 확인
 		await this.countSpoons();
 		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
+		// await this.doStatusInitial(); // 밥상 status
 	},
 	methods: {
 		scrollInit() {
 			window.scrollTo(0, 0);
 		},
 		// 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
-		async doStatusInitial() {
-			let nowTime = new Date(
+		enterCheckpoint(doSomething) {
+			let now = new Date(
 				new Date()
 					.toISOString()
 					.replace('T', ' ')
@@ -331,12 +331,19 @@ export default {
 			let diningTime = new Date(
 				this.babsangDetailData.dining_datetime,
 			).getTime();
-			if (
-				this.babsangDetailData.dining_count - this.selectedUsers.length - 1 >
-					0 &&
-				nowTime - diningTime < 0
-			) {
-				await this.changeStatus(0);
+			console.log('계산된 시간이 음수인가? ', now - diningTime);
+			if (now - diningTime < 0) {
+				console.log('식사 시간전이므로 숟갈 빼기 가능하여 숟갈을 뺌');
+				return doSomething; // 숟갈 빼기
+			} else {
+				this.$swal({
+					title: '마감된 밥상입니다!',
+					text: `해당 명령을 수행할 수 없습니다.`,
+					icon: 'warning',
+					iconColor: '#ffcb00',
+					confirmButtonText: '확인',
+					confirmButtonColor: '#ffcb00',
+				});
 			}
 		},
 		modifyBabsang() {
@@ -441,7 +448,7 @@ export default {
 				confirmButtonColor: '#ffcb00',
 			});
 		},
-		// 숟갈 빼기 로직
+		// 숟갈 빼기 로직: enterCheckpoint 안에서 실행됨
 		async cancelSpoon() {
 			this.socket.emit('cancelSpoon');
 
@@ -477,6 +484,7 @@ export default {
 				);
 			}
 
+			this.diningStatus = '모집중';
 			await this.changeStatus(0); // 밥상 status 모집중 변경
 			// await this.countSpoons(); // 신청한 숟갈 계산
 			// await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
@@ -484,7 +492,7 @@ export default {
 
 			loader.hide();
 
-			this.$router.go(); // 새로고침
+			// this.$router.go(); // 새로고침
 
 			this.$swal({
 				title: '숟갈 빼기 완료!',
@@ -551,8 +559,9 @@ export default {
 					dining_status: status,
 				},
 			});
-			this.currentStatus();
+			await this.currentStatus();
 		},
+		// enterCheckpoint 안에서 실행
 		goSelectPage() {
 			this.$router.push({
 				name: 'BabsangSelect',
