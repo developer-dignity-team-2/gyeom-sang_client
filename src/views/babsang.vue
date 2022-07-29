@@ -297,12 +297,17 @@ export default {
 			}
 		},
 	},
-	created() {
+	async created() {
 		setTimeout(() => {
 			this.scrollInit();
 		}, 100);
+		await this.getBabsangDetailData();
+		// await this.currentStatus(); // 밥상 status
+		await this.doStatusInitial(); // 현재의 밥상 status
+		await this.countSpoons();
+		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
 	},
-	async mounted() {
+	mounted() {
 		this.socket = io(process.env.VUE_APP_DOMAIN_URL);
 		this.socket.on('increment', () => {
 			this.countAppliedSpoons = this.countAppliedSpoons + 1;
@@ -310,10 +315,6 @@ export default {
 		this.socket.on('decrement', () => {
 			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
-		await this.getBabsangDetailData();
-		await this.currentStatus(); // 밥상 status
-		await this.countSpoons();
-		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
 	},
 	methods: {
 		scrollInit() {
