@@ -116,24 +116,26 @@ export default {
 		},
 		// =============== [이하] 로그인시 매너 평가 진행 ===============
 		async doAggregation() {
-			const user = (await this.$get('/user')).result[0];
-			if (user && user.review_active === 'Y') {
-				const reviews = (await this.$get('/babsang/review/list')).result;
-				if (reviews.length > 0) {
-					for (let review of reviews) {
-						this.goScorePage(review.dining_table_id); // 매너 평가 화면 열기
+			if (this.$store.state.user.isUser) {
+				const user = (await this.$get('/user')).result[0];
+				if (user && user.review_active === 'Y') {
+					const reviews = (await this.$get('/babsang/review/list')).result;
+					if (reviews.length > 0) {
+						for (let review of reviews) {
+							this.goScorePage(review.dining_table_id); // 매너 평가 화면 열기
+						}
+					} else {
+						await this.$put('/user', {
+							param: {
+								review_active: 'N',
+							},
+						});
 					}
 				} else {
-					await this.$put('/user', {
-						param: {
-							review_active: 'N',
-						},
+					this.$router.push({
+						path: '/',
 					});
 				}
-			} else {
-				this.$router.push({
-					path: '/',
-				});
 			}
 		},
 		// 매너 평가 화면 라우터
