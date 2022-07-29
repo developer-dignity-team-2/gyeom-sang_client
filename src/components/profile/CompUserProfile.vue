@@ -119,7 +119,6 @@ export default {
 					window.Kakao.API.request({
 						url: '/v1/user/unlink',
 						success: () => {
-							// alert('탈퇴 처리가 되었습니다.');
 							this.$swal({
 								title: 'ㅠ_ㅠ',
 								text: '꼭 다시 만나요~',
@@ -128,6 +127,7 @@ export default {
 								confirmButtonText: '확인',
 								confirmButtonColor: '#ffcb00',
 							});
+							this.$delete(`/user`);
 							this.$store.commit('user/getUserData', {});
 							this.$store.commit('user/userCheck', false);
 							this.initialButton(); // 필터, 정렬 버튼 설정 초기화
