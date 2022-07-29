@@ -296,16 +296,12 @@ export default {
 			}
 		},
 	},
-	async created() {
-		await this.getBabsangDetailData();
-		await this.countSpoons();
-		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
-		await this.doStatusInitial(); // 밥상 status 초기화
+	created() {
 		setTimeout(() => {
 			this.scrollInit();
 		}, 100);
 	},
-	mounted() {
+	async mounted() {
 		this.socket = io(process.env.VUE_APP_DOMAIN_URL);
 		this.socket.on('increment', () => {
 			this.countAppliedSpoons = this.countAppliedSpoons + 1;
@@ -313,6 +309,10 @@ export default {
 		this.socket.on('decrement', () => {
 			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
+		await this.getBabsangDetailData();
+		await this.countSpoons();
+		await this.doStatusInitial(); // 밥상 status 초기화
+		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
 	},
 	methods: {
 		scrollInit() {
@@ -449,55 +449,32 @@ export default {
 			let loader = this.$loading.show({ canCancel: false });
 
 			// 이미 숟갈 얹은 경우인지 확인
-			// let alreadySpoon = await this.alreadySpoon();
-
-			// let spoonEmail = alreadySpoon[0].spoon_email;
+			let alreadySpoon = await this.alreadySpoon();
+			let spoonEmail = alreadySpoon[0].spoon_email;
 
 			// 숟갈 얹은 유저이면 숟갈 빼기
-			// if (spoonEmail === userEmail) {
-			// 	await this.$put(
-			// 		`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=applyCancel`,
-			// 		{
-			// 			spoon_email: userEmail,
-			// 			param: {
-			// 				apply_yn: 'N',
-			// 				// cancel_date: '',
-			// 			},
-			// 		},
-			// 	);
-			// 	await this.$put(
-			// 		`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=pickCancel`,
-			// 		{
-			// 			spoon_email: userEmail,
-			// 			param: {
-			// 				selected_yn: 'N',
-			// 				// cancel_date: '2022-06-10',
-			// 			},
-			// 		},
-			// 	);
-			// }
-			// if (spoonEmail === userEmail) {
-			await this.$put(
-				`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=applyCancel`,
-				{
-					spoon_email: userEmail,
-					param: {
-						apply_yn: 'N',
-						// cancel_date: '',
+			if (spoonEmail === userEmail) {
+				await this.$put(
+					`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=applyCancel`,
+					{
+						spoon_email: userEmail,
+						param: {
+							apply_yn: 'N',
+							// cancel_date: '',
+						},
 					},
-				},
-			);
-			await this.$put(
-				`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=pickCancel`,
-				{
-					spoon_email: userEmail,
-					param: {
-						selected_yn: 'N',
-						// cancel_date: '2022-06-10',
+				);
+				await this.$put(
+					`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=pickCancel`,
+					{
+						spoon_email: userEmail,
+						param: {
+							selected_yn: 'N',
+							// cancel_date: '2022-06-10',
+						},
 					},
-				},
-			);
-			// }
+				);
+			}
 
 			// await this.countSpoons(); // 신청한 숟갈 계산
 			// await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
