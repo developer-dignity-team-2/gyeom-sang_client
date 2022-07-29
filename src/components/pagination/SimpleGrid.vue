@@ -170,11 +170,22 @@ export default {
 		doSelect() {
 			this.$store.commit('message/checkedMessage', this.checked);
 		},
+		// 전체 메시지 선택
+		// doSelectAll() {
+		// 	this.checked = [];
+		// 	if (this.checked_all) {
+		// 		for (let i in this.items) {
+		// 			this.checked.push(this.items[i].id);
+		// 		}
+		// 	}
+		// 	this.$store.commit('message/checkedMessage', this.checked);
+		// },
+		// 해당 페이지의 전체 메시지 선택
 		doSelectAll() {
 			this.checked = [];
 			if (this.checked_all) {
-				for (let i in this.items) {
-					this.checked.push(this.items[i].id);
+				for (let i in this.formattedItems) {
+					this.checked.push(this.formattedItems[i].id);
 				}
 			}
 			this.$store.commit('message/checkedMessage', this.checked);

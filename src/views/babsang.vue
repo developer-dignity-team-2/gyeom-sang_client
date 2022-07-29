@@ -267,7 +267,7 @@ export default {
 	data() {
 		return {
 			babsangDetailData: {},
-			spoonStatus: '', // false 방상에 숟갈 없음, true 방상에 숟갈 있음
+			spoonStatus: '', // false 밥상에 숟갈 없음, true 밥상에 숟갈 있음
 			countAppliedSpoons: 0,
 			spoonMessage: '',
 			selectedUsers: '',
@@ -311,9 +311,9 @@ export default {
 		});
 
 		await this.getBabsangDetailData();
-		this.countSpoons();
-		this.initialButton(); // 숟갈(얹기/빼기) 새로고침
-		this.doStatusInitial(); // 밥상 status 초기화
+		await this.countSpoons();
+		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
+		await this.doStatusInitial(); // 밥상 status 초기화
 	},
 	methods: {
 		scrollInit() {
@@ -331,15 +331,12 @@ export default {
 			let diningTime = new Date(
 				this.babsangDetailData.dining_datetime,
 			).getTime();
-			console.log(nowTime);
-			console.log(diningTime);
 			if (
 				this.babsangDetailData.dining_count - this.selectedUsers.length - 1 >
 					0 &&
 				nowTime - diningTime < 0
 			) {
 				await this.changeStatus(0);
-				console.log('모집중');
 			}
 		},
 		modifyBabsang() {
@@ -355,11 +352,7 @@ export default {
 		},
 		// 숟갈(얹기/빼기) 새로고침 버튼
 		async initialButton() {
-			const loader = this.$loading.show({ canCancel: false });
-
 			let alreadySpoon = await this.alreadySpoon();
-
-			loader.hide();
 
 			if (alreadySpoon.length > 0) {
 				this.spoonStatus = true;
@@ -420,8 +413,6 @@ export default {
 
 			let alreadySpoon = await this.alreadySpoon();
 
-			loader.hide();
-
 			if (alreadySpoon > 0) {
 				this.$swal({
 					title: '이미 숟갈 얹은 밥상!',
@@ -434,8 +425,6 @@ export default {
 				this.spoonStatus = true;
 				return;
 			}
-
-			loader = this.$loading.show({ canCancel: false });
 
 			await this.postSpoon(); // 숟갈 얹기
 			await this.countSpoons(); // 신청한 숟갈 계산
@@ -458,16 +447,12 @@ export default {
 
 			let userEmail = this.$store.state.user.userData.email;
 
-			const loader = this.$loading.show({ canCancel: false });
+			let loader = this.$loading.show({ canCancel: false });
 
 			// 이미 숟갈 얹은 경우인지 확인
 			let alreadySpoon = await this.alreadySpoon();
 
-			loader.hide();
-
 			let spoonEmail = alreadySpoon[0].spoon_email;
-
-			const loaderB = this.$loading.show({ canCancel: false });
 
 			// 숟갈 얹은 유저이면 숟갈 빼기
 			if (spoonEmail === userEmail) {
@@ -481,12 +466,25 @@ export default {
 						},
 					},
 				);
+				await this.$put(
+					`/babsang/${this.$route.params.babsangId}/babsangSpoons?type=pickCancel`,
+					{
+						spoon_email: userEmail,
+						param: {
+							selected_yn: 'N',
+							// cancel_date: '2022-06-10',
+						},
+					},
+				);
 			}
 
-			await this.countSpoons(); // 신청한 숟갈 계산
-			await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
+			// await this.countSpoons(); // 신청한 숟갈 계산
+			// await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
+			// await this.doStatusInitial(); // 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
 
-			loaderB.hide();
+			loader.hide();
+
+			this.$router.go(); // 새로고침
 
 			this.$swal({
 				title: '숟갈 빼기 완료!',

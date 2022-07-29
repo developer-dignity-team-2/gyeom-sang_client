@@ -281,10 +281,7 @@ export default {
 	},
 	props: {
 		babsangDetailData: {
-			type: Array,
-			default: function () {
-				return [];
-			},
+			type: Object,
 		},
 	},
 	data() {

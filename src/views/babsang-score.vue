@@ -3,6 +3,10 @@
 		<div class="row my-4">
 			<!-- 매너 점수 주기 -->
 			<div>
+				<h3 id="top">
+					<strong>{{ babsangInfo.restaurant_name }}</strong> 밥상에 대한 식사
+					매너를 평가해 주세요~
+				</h3>
 				<!-- 밥장 점수 주기-->
 				<div v-if="userIndex === 0">
 					<div class="col-12 border rounded p-3 text-center mb-4">
@@ -782,16 +786,6 @@ export default {
 				email: email,
 			});
 		},
-		// 평가 완료 여부 PUT
-		async putDoneY(email, babsangID) {
-			await this.$put(`/babsang/review/list`, {
-				param: {
-					is_done: 'Y',
-					email: email,
-					dining_table_id: babsangID,
-				},
-			});
-		},
 		// 사용자에게 해당되는 모든 밥상의 평가 완료시 PUT
 		async putReviewActiveN() {
 			await this.$put(`/user`, {
@@ -820,18 +814,21 @@ export default {
 				// this.$router.push('/');
 				// this.computeResult();
 			}
+			location.href = '#top';
 		},
 		backScore() {
 			// 로그인 사용자가 밥장인 경우에는 밥장 자신을 평가 할 수 없도록 처리
 			if (this.babsangInfo.host_email === this.loginUser.email) {
 				if (this.userIndex > 1) {
 					this.userIndex--;
+					location.href = '#top';
 				}
 			} else {
 				if (this.userIndex > 0) {
 					this.userIndex--;
 				}
 			}
+			location.href = '#top';
 		},
 		// 이전 버튼 disabled 처리
 		disabledBackButton() {
