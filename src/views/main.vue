@@ -117,7 +117,7 @@ export default {
 		// =============== [이하] 로그인시 매너 평가 진행 ===============
 		async doAggregation() {
 			const user = (await this.$get('/user')).result[0];
-			if (user.review_active === 'Y') {
+			if (user && user.review_active === 'Y') {
 				const reviews = (await this.$get('/babsang/review/list')).result;
 				if (reviews.length > 0) {
 					for (let review of reviews) {
