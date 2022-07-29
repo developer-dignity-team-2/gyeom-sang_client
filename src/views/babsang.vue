@@ -477,9 +477,10 @@ export default {
 				);
 			}
 
+			await this.changeStatus(0); // 밥상 status 모집중 변경
 			// await this.countSpoons(); // 신청한 숟갈 계산
 			// await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
-			await this.doStatusInitial(); // 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
+			// await this.doStatusInitial(); // 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
 
 			loader.hide();
 
@@ -584,6 +585,7 @@ export default {
 			let currentStatus = (
 				await this.$get('/babsang/' + this.$route.params.babsangId)
 			).result[0].dining_status;
+			console.log('currentStatus : ', currentStatus);
 			this.diningStatus = currentStatus === 0 ? '모집중' : '모집 마감';
 		},
 		recruitGender() {
