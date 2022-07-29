@@ -22,7 +22,7 @@
 							</h3>
 
 							<div class="status babsang-info mb-2">
-								<span>#{{ currentStatus() }}</span>
+								<span>#{{ diningStatus }}</span>
 								<span>#{{ recruitGender() }}</span>
 								<span>#{{ babsangDetailData.dining_count }}인상</span>
 							</div>
@@ -268,6 +268,7 @@ export default {
 		return {
 			babsangDetailData: {},
 			spoonStatus: '', // false 밥상에 숟갈 없음, true 밥상에 숟갈 있음
+			diningStatus: '',
 			countAppliedSpoons: 0,
 			spoonMessage: '',
 			selectedUsers: '',
@@ -296,12 +297,17 @@ export default {
 			}
 		},
 	},
-	created() {
+	async created() {
 		setTimeout(() => {
 			this.scrollInit();
 		}, 100);
+		await this.getBabsangDetailData();
+		// await this.currentStatus(); // 밥상 status
+		await this.doStatusInitial(); // 현재의 밥상 status
+		await this.countSpoons();
+		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
 	},
-	async mounted() {
+	mounted() {
 		this.socket = io(process.env.VUE_APP_DOMAIN_URL);
 		this.socket.on('increment', () => {
 			this.countAppliedSpoons = this.countAppliedSpoons + 1;
@@ -309,11 +315,6 @@ export default {
 		this.socket.on('decrement', () => {
 			this.countAppliedSpoons = this.countAppliedSpoons - 1;
 		});
-
-		await this.getBabsangDetailData();
-		await this.countSpoons();
-		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
-		await this.doStatusInitial(); // 밥상 status 초기화
 	},
 	methods: {
 		scrollInit() {
@@ -451,7 +452,6 @@ export default {
 
 			// 이미 숟갈 얹은 경우인지 확인
 			let alreadySpoon = await this.alreadySpoon();
-
 			let spoonEmail = alreadySpoon[0].spoon_email;
 
 			// 숟갈 얹은 유저이면 숟갈 빼기
@@ -478,6 +478,7 @@ export default {
 				);
 			}
 
+			await this.changeStatus(0); // 밥상 status 모집중 변경
 			// await this.countSpoons(); // 신청한 숟갈 계산
 			// await this.initialButton(); // 숟갈 얹기, 빼기 버튼 새로고침
 			// await this.doStatusInitial(); // 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
@@ -546,15 +547,12 @@ export default {
 		},
 		// 밥상 상태 변경(0-모집 중, 1-모집 완료)
 		async changeStatus(status) {
-			const loader = this.$loading.show({ canCancel: false });
-
 			await this.$put(`/babsang/${this.$route.params.babsangId}`, {
 				param: {
 					dining_status: status,
 				},
 			});
-
-			loader.hide();
+			this.currentStatus();
 		},
 		goSelectPage() {
 			this.$router.push({
@@ -583,17 +581,13 @@ export default {
 
 			this.writeMessage(); // 숟갈 메시지 초기화
 		},
-		currentStatus() {
-			let currentStatus = this.babsangDetailData.dining_status;
-			let status;
-			if (currentStatus === 0) {
-				status = '모집중';
-			} else if (currentStatus === 1) {
-				status = '모집 마감';
-			} else {
-				status = '모집 확정';
-			}
-			return status;
+		async currentStatus() {
+			// let currentStatus = this.babsangDetailData.dining_status;
+			let currentStatus = (
+				await this.$get('/babsang/' + this.$route.params.babsangId)
+			).result[0].dining_status;
+			console.log('currentStatus : ', currentStatus);
+			this.diningStatus = currentStatus === 0 ? '모집중' : '모집 마감';
 		},
 		recruitGender() {
 			let gender = this.babsangDetailData.gender_check;
