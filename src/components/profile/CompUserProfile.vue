@@ -127,7 +127,7 @@ export default {
 								confirmButtonText: '확인',
 								confirmButtonColor: '#ffcb00',
 							});
-							this.$delete(`/user`);
+							// this.$delete(`/user`);
 							this.$store.commit('user/getUserData', {});
 							this.$store.commit('user/userCheck', false);
 							this.initialButton(); // 필터, 정렬 버튼 설정 초기화
