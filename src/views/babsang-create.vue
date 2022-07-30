@@ -179,7 +179,6 @@
 										id="gender-all"
 										value="ALL"
 										v-model="gender_check"
-										@click="diningDatetime"
 									/>
 									<label
 										class="list-group-item rounded-3 py-3"
