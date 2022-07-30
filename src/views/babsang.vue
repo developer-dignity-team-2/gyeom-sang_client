@@ -278,7 +278,6 @@ export default {
 				process.env.VUE_APP_DOMAIN_URL + '/static/images/default_img.jpeg',
 		};
 	},
-
 	computed: {
 		// 밥장/숟갈/게스트 분기처리
 		isLeader() {
@@ -302,8 +301,8 @@ export default {
 			this.scrollInit();
 		}, 100);
 		await this.getBabsangDetailData();
-		// await this.currentStatus(); // 밥상 status
-		await this.doStatusInitial(); // 현재의 밥상 status
+		// await this.currentStatus(); // 현재의 밥상 status
+		await this.doStatusInitial(); // 조건에 따른 현재의 밥상 status
 		await this.countSpoons();
 		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
 	},
@@ -485,7 +484,7 @@ export default {
 
 			loader.hide();
 
-			this.$router.go(); // 새로고침
+			await this.$router.go(); // 새로고침
 
 			this.$swal({
 				title: '숟갈 빼기 완료!',
