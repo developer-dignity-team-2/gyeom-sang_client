@@ -175,11 +175,11 @@
 									<div style="width: 12rem">
 										<div class="img-wrap pf rounded-circle mb-1">
 											<img
-												:src="theSpoons[0].spoon_profile_image"
+												:src="theSpoons[0]?.spoon_profile_image"
 												alt="프로필"
 											/>
 										</div>
-										<strong>{{ theSpoons[0].spoon_nickname }}</strong>
+										<strong>{{ theSpoons[0]?.spoon_nickname }}</strong>
 									</div>
 								</div>
 							</div>
