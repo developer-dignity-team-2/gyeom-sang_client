@@ -585,7 +585,6 @@ export default {
 			let currentStatus = (
 				await this.$get('/babsang/' + this.$route.params.babsangId)
 			).result[0].dining_status;
-			console.log('currentStatus : ', currentStatus);
 			this.diningStatus = currentStatus === 0 ? '모집중' : '모집 마감';
 		},
 		recruitGender() {
