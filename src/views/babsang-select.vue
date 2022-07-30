@@ -332,7 +332,6 @@ export default {
 					dining_status: status,
 				},
 			});
-			console.log('changeStatus-query : ', status);
 			loader.hide();
 		},
 		// 숟갈 선택 취소(이미 확정된 숟갈의 경우 취소시 취소 안내 메시지 발송)
@@ -456,7 +455,6 @@ export default {
 					confirmButtonColor: '#ffcb00',
 				});
 				this.changeStatus(1); // 밥상 상태 "모집 마감"
-				console.log('숟갈 선정 완료');
 			} else if (oldSpoonArr.length === 0) {
 				this.$swal({
 					title: '숟갈 확정!',
@@ -479,7 +477,6 @@ export default {
 					confirmButtonColor: '#ffcb00',
 				});
 				this.changeStatus(1); // 밥상 상태 "모집 마감"
-				console.log('숟갈 추가 선정 완료');
 			} else {
 				this.$swal({
 					title: '숟갈 확정!',
