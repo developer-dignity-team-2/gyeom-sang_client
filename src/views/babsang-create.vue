@@ -179,6 +179,7 @@
 										id="gender-all"
 										value="ALL"
 										v-model="gender_check"
+										@click="diningDatetime"
 									/>
 									<label
 										class="list-group-item rounded-3 py-3"
@@ -575,28 +576,32 @@ export default {
 		},
 		diningDatetime() {
 			if (this.dining_datetime && this.time) {
-				let date = new Date(this.dining_datetime);
+				let offset = new Date().getTimezoneOffset() * 60000;
+				let date = new Date(this.dining_datetime - offset);
 				let dateTime = date.toISOString().replace('T', ' ').slice(0, 10);
 				let hour = this.time.hours;
 				let min =
 					this.time.minutes === 0 ? this.time.minutes + '0' : this.time.minutes;
+
 				return `${dateTime} ${hour}:${min}`;
 			}
 		},
 		setRecruitDate() {
 			if (this.recruit_date) {
-				const startDate = new Date(this.recruit_date[0]);
-				const endDate = new Date(this.recruit_date[1]);
+				let offset = new Date().getTimezoneOffset() * 60000;
+				const startDate = new Date(this.recruit_date[0] - offset);
+				const endDate = new Date(this.recruit_date[1] - offset);
 
 				this.recruit_start_date = startDate
 					.toISOString()
 					.replace('T', ' ')
-					.slice(0, 10);
+					.slice(0, 19);
 
 				this.recruit_end_date = endDate
 					.toISOString()
 					.replace('T', ' ')
 					.slice(0, 10);
+				this.recruit_end_date = this.recruit_end_date.concat(' 23:59:59');
 			}
 		},
 
