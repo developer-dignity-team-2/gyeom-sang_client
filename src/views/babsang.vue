@@ -301,9 +301,9 @@ export default {
 			this.scrollInit();
 		}, 100);
 		await this.getBabsangDetailData();
+		await this.countSpoons(); // doStatusInitial 보다 먼저 실행되어야 함
 		await this.currentStatus(); // 현재의 밥상 status
 		// await this.doStatusInitial(); // 조건에 따른 현재의 밥상 status
-		await this.countSpoons();
 		await this.initialButton(); // 숟갈(얹기/빼기) 새로고침
 	},
 	mounted() {
