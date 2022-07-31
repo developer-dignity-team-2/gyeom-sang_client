@@ -54,7 +54,8 @@
 								<!-- 소개내용 -->
 								<div class="card-body">
 									<p class="card-text text-center">
-										{{ messageDetail.dining_description }}
+										{{ messageDetail.dining_description.replaceAll(
+										/(\n|\r\n)/g, '<br />', ) }}
 									</p>
 								</div>
 								<!-- 밥상 정보(일시,장소,혼성여부) -->
