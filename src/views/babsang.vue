@@ -320,25 +320,25 @@ export default {
 			window.scrollTo(0, 0);
 		},
 		// 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
-		async doStatusInitial() {
-			let nowTime = new Date(
-				new Date()
-					.toISOString()
-					.replace('T', ' ')
-					.replace(/\..*/, '')
-					.toString(),
-			).getTime();
-			let diningTime = new Date(
-				this.babsangDetailData.dining_datetime,
-			).getTime();
-			if (
-				this.babsangDetailData.dining_count - this.selectedUsers.length - 1 >
-					0 &&
-				nowTime - diningTime < 0
-			) {
-				await this.changeStatus(0);
-			}
-		},
+		// async doStatusInitial() {
+		// 	let nowTime = new Date(
+		// 		new Date()
+		// 			.toISOString()
+		// 			.replace('T', ' ')
+		// 			.replace(/\..*/, '')
+		// 			.toString(),
+		// 	).getTime();
+		// 	let diningTime = new Date(
+		// 		this.babsangDetailData.dining_datetime,
+		// 	).getTime();
+		// 	if (
+		// 		this.babsangDetailData.dining_count - this.selectedUsers.length - 1 >
+		// 			0 &&
+		// 		nowTime - diningTime < 0
+		// 	) {
+		// 		await this.changeStatus(0);
+		// 	}
+		// },
 		modifyBabsang() {
 			this.$router.push({
 				name: 'BabsangCreate',
