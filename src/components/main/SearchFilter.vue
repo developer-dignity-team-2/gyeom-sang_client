@@ -50,8 +50,8 @@
 				</div>
 			</li>
 			<li class="nav-item me-2">
-				<div class="nav-link">
-					<span>기간 : </span>
+				<div class="nav-link d-none d-md-block">
+					<span class="pe-2">기간 : </span>
 					<Datepicker
 						input-class-name="range-pick"
 						v-model="date"
@@ -63,8 +63,22 @@
 						:clearable="false"
 					></Datepicker>
 				</div>
+				<div class="nav-link d-block d-sm-block d-md-none">
+					<div style="width: 5rem">
+						<Datepicker
+							input-class-name="range-pick"
+							v-model="date"
+							range
+							:enableTimePicker="false"
+							:minDate="new Date()"
+							style="display: inline-block; vertical-align: middle"
+							placeholder="날짜"
+							:clearable="false"
+						></Datepicker>
+					</div>
+				</div>
 			</li>
-			<li>
+			<li class="d-none d-sm-block">
 				<button
 					class="btn btn-secondary reset"
 					@click="reset"
@@ -175,6 +189,16 @@ export default {
 	--dp-marker-color: #ff6f60;
 	--dp-tooltip-color: #fafafa;
 	--dp-disabled-color-text: #8e8e8e;
+}
+@media (max-width: 767px) {
+	.nav {
+		align-items: center;
+		.nav-item {
+			.nav-link {
+				padding: 0.5rem;
+			}
+		}
+	}
 }
 .nav {
 	align-items: center;

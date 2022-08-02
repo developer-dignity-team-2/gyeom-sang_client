@@ -1,11 +1,11 @@
 <template>
-	<div class="container d-flex flex-column">
+	<div class="container d-flex flex-column mb-sx-5" style="overflow: hidden">
 		<!-- 검색창 -->
-		<div class="row row-cols-1 mt-3">
+		<div class="row row-cols-1 mt-4">
 			<div
-				class="col my-5 d-flex flex-column align-items-center justify-content-center"
+				class="col my-md-5 d-flex flex-column align-items-center justify-content-center"
 			>
-				<div class="">
+				<div class="input-wrap">
 					<input
 						class="search-bar form-control"
 						type="search"
@@ -14,8 +14,9 @@
 						@input="onInputBabsangSearch($event)"
 						@keyup.enter="onKeyupBabsangSearch"
 					/>
-					<p class="m-2 ps-4" style="color: #999; font-size: 0.9rem">
+					<p class="m-2 ps-md-4 ps-sm-0" style="color: #999; font-size: 0.9rem">
 						원하는 밥상이 없다면 직접 차려보세요.
+						<br class="d-block d-sm-none" />
 						<router-link
 							to="/babsang-create"
 							class="fw-bold"
@@ -240,15 +241,19 @@ export default {
 	font-size: 0.9rem;
 }
 @media (max-width: 767px) {
-	.search-bar {
-		width: 27rem;
-		padding-left: 4rem;
-		line-height: 3rem;
-		background: url('../assets/img/svg/search.svg') no-repeat 1.5rem 1.2rem;
-		background-size: 1.3rem;
-		border-radius: 3rem;
-		border: 2px solid #999;
-		font-size: 0.9rem;
+	.input-wrap {
+		width: 100%;
+		text-align: center;
+		.search-bar {
+			width: 100%;
+			padding-left: 4rem;
+			line-height: 3rem;
+			background: url('../assets/img/svg/search.svg') no-repeat 1.5rem 1.2rem;
+			background-size: 1.3rem;
+			border-radius: 3rem;
+			border: 2px solid #999;
+			font-size: 0.9rem;
+		}
 	}
 }
 .nav {
