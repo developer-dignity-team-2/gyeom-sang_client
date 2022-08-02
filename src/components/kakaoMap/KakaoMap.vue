@@ -10,9 +10,9 @@
 					원하는 식당을 검색해 보세요.
 				</h4>
 				<div class="map-area row" style="display: flex; padding: 0 2rem">
-					<div id="map" class="col-9"></div>
+					<div id="map" class="col-md-9"></div>
 
-					<div class="searchbox col-3 pe-0">
+					<div class="searchbox col-md-3 pe-0">
 						<input
 							class="form-control me-sm-2 mb-3"
 							type="search"
@@ -224,6 +224,47 @@ export default {
 
 				#map {
 					height: 60vh;
+				}
+			}
+		}
+	}
+	@media (max-width: 575.98px) {
+		.map-wrap {
+			width: 100vw;
+			.map-container {
+				background: rgba(255, 255, 255, 1);
+				overflow: hidden;
+				position: relative;
+
+				.map-area {
+					width: 100%;
+					overflow: hidden;
+					height: 70vh;
+
+					.searchbox {
+						height: 60vh;
+
+						.results {
+							.place {
+								border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+								cursor: pointer;
+								strong {
+									display: block;
+									font-size: 14px;
+									font-weight: bold;
+								}
+
+								span {
+									font-size: 11px;
+								}
+							}
+						}
+					}
+
+					#map {
+						height: 30vh;
+						margin-bottom: 1rem;
+					}
 				}
 			}
 		}
