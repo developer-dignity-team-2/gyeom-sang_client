@@ -257,6 +257,9 @@ export default {
 	}
 	height: 38px;
 }
+button {
+	white-space: nowrap;
+}
 // 반응형 버튼 폰트 사이즈
 @media (max-width: 1399px) {
 	button {
@@ -278,9 +281,9 @@ export default {
 		font-size: 0.8rem;
 	}
 }
-@media (max-width: 437px) {
-	button {
-		font-size: 1vw;
-	}
-}
+// @media (max-width: 437px) {
+// 	button {
+// 		font-size: 1vw;
+// 	}
+// }
 </style>

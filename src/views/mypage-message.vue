@@ -436,6 +436,7 @@ dt {
 
 button {
 	position: absolute;
+	white-space: nowrap;
 }
 
 .slide-up-enter-active,
