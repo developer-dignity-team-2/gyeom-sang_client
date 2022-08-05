@@ -19,7 +19,16 @@ export default {
 	},
 	methods: {
 		async $get(url) {
-			return (await instance.get(url)).data;
+			try {
+				return (await instance.get(url)).data;
+			} catch (err) {
+				window.Kakao.Auth.logout(() => {
+					this.$store.commit('user/getUserData', {});
+					this.$store.commit('user/userCheck', false);
+					this.initialButton(); // 필터, 정렬 버튼 설정 초기화
+					localStorage.removeItem('jwt');
+				});
+			}
 		},
 		async $post(url, data) {
 			return await instance.post(url, data);
