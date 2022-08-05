@@ -12,7 +12,10 @@
 				<div class="map-area row" style="display: flex; padding: 0 2rem">
 					<div id="map" class="col-md-9"></div>
 
-					<div class="searchbox col-md-3 pe-0">
+					<div
+						class="searchbox col-md-3 pe-0"
+						style="overflow-x: hidden; overflow-y: auto"
+					>
 						<input
 							class="form-control me-sm-2 mb-3"
 							type="search"
