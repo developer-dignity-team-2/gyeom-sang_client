@@ -144,7 +144,9 @@
 						</div>
 
 						<div v-show="!isModify" class="form-group mt-4 row">
-							<div class="col-12 mb-1">모집 기간</div>
+							<div class="col-12 mb-1">
+								모집 기간(당일은 같은 날 두번 꾹꾹!)
+							</div>
 							<datepicker
 								input-class-name="recruit-picker"
 								range
