@@ -97,6 +97,7 @@
 						<button
 							class="btn btn-secondary mx-2 modify"
 							v-if="isLeader"
+							:disabled="setButtonDisabled()"
 							@click="modifyBabsang"
 						>
 							수정
@@ -177,6 +178,7 @@
 							<button
 								class="btn btn-primary me-2 mb-2"
 								@click="goSelectPage"
+								:disabled="setButtonDisabled()"
 								v-if="isLeader"
 							>
 								숟갈 선택
@@ -186,6 +188,7 @@
 									class="btn btn-primary me-2 mb-2"
 									data-bs-toggle="modal"
 									data-bs-target="#toggleSpoonModal"
+									:disabled="!setButtonDisabled()"
 									v-if="!spoonStatus"
 								>
 									숟갈 얹기
@@ -193,6 +196,7 @@
 								<button
 									class="btn btn-primary me-2 mb-2"
 									@click="cancelSpoon"
+									:disabled="!setButtonDisabled()"
 									v-if="spoonStatus"
 								>
 									숟갈 빼기
@@ -320,25 +324,23 @@ export default {
 			window.scrollTo(0, 0);
 		},
 		// 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
-		// async doStatusInitial() {
-		// 	let nowTime = new Date(
-		// 		new Date()
-		// 			.toISOString()
-		// 			.replace('T', ' ')
-		// 			.replace(/\..*/, '')
-		// 			.toString(),
-		// 	).getTime();
-		// 	let diningTime = new Date(
-		// 		this.babsangDetailData.dining_datetime,
-		// 	).getTime();
-		// 	if (
-		// 		this.babsangDetailData.dining_count - this.selectedUsers.length - 1 >
-		// 			0 &&
-		// 		nowTime - diningTime < 0
-		// 	) {
-		// 		await this.changeStatus(0);
-		// 	}
-		// },
+		setButtonDisabled() {
+			let nowTime = new Date(
+				new Date()
+					.toISOString()
+					.replace('T', ' ')
+					.replace(/\..*/, '')
+					.toString(),
+			).getTime();
+			let diningTime = new Date(
+				this.babsangDetailData.dining_datetime,
+			).getTime();
+			if (nowTime - diningTime < 0) {
+				return true;
+			} else {
+				return false;
+			}
+		},
 		modifyBabsang() {
 			this.$router.push({
 				name: 'BabsangCreate',
