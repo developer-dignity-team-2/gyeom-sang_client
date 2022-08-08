@@ -239,7 +239,7 @@
 				<template v-slot:footer>
 					<button
 						class="btn btn-primary"
-						style="width: 20%"
+						style="width: 100px; white-space: nowrap"
 						@click="applySpoon"
 						data-bs-dismiss="modal"
 						aria-label="Close"
@@ -248,7 +248,7 @@
 					</button>
 					<button
 						class="btn btn-secondary"
-						style="width: 20%"
+						style="width: 100px; white-space: nowrap"
 						data-bs-dismiss="modal"
 						aria-label="Close"
 					>
@@ -565,12 +565,12 @@ export default {
 				query: { babsangId: this.$route.params.babsangId },
 			});
 		},
-		goScorePage() {
-			this.$router.push({
-				name: 'GiveScore',
-				query: { babsangId: this.$route.params.babsangId },
-			});
-		},
+		// goScorePage() {
+		// 	this.$router.push({
+		// 		name: 'GiveScore',
+		// 		query: { babsangId: this.$route.params.babsangId },
+		// 	});
+		// },
 		async getBabsangDetailData() {
 			this.babsangDetailData = (
 				await this.$get('/babsang/' + this.$route.params.babsangId)
