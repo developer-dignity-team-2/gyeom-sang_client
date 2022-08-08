@@ -12,6 +12,7 @@
 					id="Textarea"
 					rows="3"
 					style="height: 128px; resize: none"
+					:disabled="buttonDisabled"
 					placeholder="댓글 내용"
 				></textarea>
 			</div>
@@ -25,6 +26,7 @@
 					v-model="secret_check"
 					type="checkbox"
 					style="margin-right: 4px"
+					:disabled="buttonDisabled"
 					@change="checkedSecert"
 				/>
 				비밀댓글
@@ -35,6 +37,7 @@
 					type="button"
 					class="btn btn-primary"
 					style="margin: auto; margin-top: 15px"
+					:disabled="buttonDisabled"
 					@click="createComment"
 				>
 					댓글 등록
@@ -52,6 +55,11 @@ export default {
 			comment_description: '',
 			secret_check: 'N',
 		};
+	},
+	props: {
+		buttonDisabled: {
+			type: Boolean,
+		},
 	},
 	setup() {},
 	created() {},

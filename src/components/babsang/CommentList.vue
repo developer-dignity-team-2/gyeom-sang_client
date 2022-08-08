@@ -35,6 +35,7 @@
 								role="group"
 								v-show="!commentSave"
 								style="cursor: pointer; margin-right: 5px"
+								:class="{ 'div-pointer-events-none': buttonDisabled }"
 								@click="doCommentSave(list.id)"
 							>
 								수정 |
@@ -45,6 +46,8 @@
 								role="group"
 								v-show="!commentSave"
 								style="cursor: pointer"
+								:disabled="buttonDisabled"
+								:class="{ 'div-pointer-events-none': buttonDisabled }"
 								@click="deleteComment(list.id)"
 							>
 								삭제
@@ -90,6 +93,7 @@
 							type="button"
 							class="btn btn-outline-primary btn-sm"
 							style="margin-top: 8px"
+							:disabled="buttonDisabled"
 							@click="CeateToggle(list.id)"
 						>
 							답글
@@ -117,6 +121,7 @@
 							type="button"
 							class="btn btn-outline-primary btn-sm"
 							style="margin-top: 8px"
+							:disabled="buttonDisabled"
 							@click="CeateToggle(list.id)"
 						>
 							답글
@@ -174,6 +179,7 @@
 									role="group"
 									v-show="!commentSave"
 									style="cursor: pointer; margin-right: 5px"
+									:class="{ 'div-pointer-events-none': buttonDisabled }"
 									@click="doCommentSave(recomment.id)"
 								>
 									수정 |
@@ -183,6 +189,7 @@
 									role="group"
 									v-show="!commentSave"
 									style="cursor: pointer"
+									:class="{ 'div-pointer-events-none': buttonDisabled }"
 									@click="deleteComment(recomment.id)"
 								>
 									삭제
@@ -195,6 +202,7 @@
 									<button
 										type="button"
 										class="btn btn-primary mx-2 btn-sm"
+										:disabled="buttonDisabled"
 										@click="
 											doCommentPut(recomment.id, recomment.comment_description)
 										"
@@ -204,6 +212,7 @@
 									<button
 										type="submit"
 										class="btn btn-secondary btn-sm"
+										:disabled="buttonDisabled"
 										@click="doCommentSave()"
 									>
 										취소
@@ -282,6 +291,9 @@ export default {
 	props: {
 		babsangDetailData: {
 			type: Object,
+		},
+		buttonDisabled: {
+			type: Boolean,
 		},
 	},
 	data() {
@@ -411,5 +423,8 @@ dt {
 	height: 50px;
 	margin-right: 15px;
 	margin-bottom: 25px;
+}
+.div-pointer-events-none {
+	pointer-events: none;
 }
 </style>

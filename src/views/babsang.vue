@@ -120,8 +120,11 @@
 					</div> -->
 					<!-- 댓글 -->
 					<div class="col my-3">
-						<CommentList :babsangDetailData="babsangDetailData" />
-						<CommentCreate />
+						<CommentList
+							:babsangDetailData="babsangDetailData"
+							:buttonDisabled="setButtonDisabled()"
+						/>
+						<CommentCreate :buttonDisabled="setButtonDisabled()" />
 					</div>
 				</div>
 			</div>
@@ -336,8 +339,6 @@ export default {
 			let diningTime = new Date(
 				this.babsangDetailData.dining_datetime,
 			).getTime();
-			console.log('diningTime : ', diningTime);
-			console.log('result : ', nowTime - diningTime);
 			if (nowTime - diningTime < 0) {
 				return false;
 			} else {
