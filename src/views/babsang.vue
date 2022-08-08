@@ -188,7 +188,7 @@
 									class="btn btn-primary me-2 mb-2"
 									data-bs-toggle="modal"
 									data-bs-target="#toggleSpoonModal"
-									:disabled="!setButtonDisabled()"
+									:disabled="setButtonDisabled()"
 									v-if="!spoonStatus"
 								>
 									숟갈 얹기
@@ -196,7 +196,7 @@
 								<button
 									class="btn btn-primary me-2 mb-2"
 									@click="cancelSpoon"
-									:disabled="!setButtonDisabled()"
+									:disabled="setButtonDisabled()"
 									v-if="spoonStatus"
 								>
 									숟갈 빼기
@@ -323,22 +323,25 @@ export default {
 		scrollInit() {
 			window.scrollTo(0, 0);
 		},
-		// 밥상 status 모집중 변경(숟갈이 모두 확정되지 않은 경우, 숟갈이 숟갈 빼기한 경우)
+		// 모집 마감 버튼 처리
 		setButtonDisabled() {
-			let nowTime = new Date(
-				new Date()
-					.toISOString()
-					.replace('T', ' ')
-					.replace(/\..*/, '')
-					.toString(),
-			).getTime();
+			// let nowTime = new Date(
+			// 	new Date()
+			// 		.toISOString()
+			// 		.replace('T', ' ')
+			// 		.replace(/\..*/, '')
+			// 		.toString(),
+			// ).getTime();
+			let nowTime = new Date().getTime();
 			let diningTime = new Date(
 				this.babsangDetailData.dining_datetime,
 			).getTime();
+			console.log('diningTime : ', diningTime);
+			console.log('result : ', nowTime - diningTime);
 			if (nowTime - diningTime < 0) {
-				return true;
-			} else {
 				return false;
+			} else {
+				return true;
 			}
 		},
 		modifyBabsang() {
