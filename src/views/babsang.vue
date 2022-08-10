@@ -238,6 +238,14 @@
 				</template>
 				<template v-slot:footer>
 					<button
+						class="btn btn-secondary"
+						style="width: 100px; white-space: nowrap"
+						data-bs-dismiss="modal"
+						aria-label="Close"
+					>
+						취소
+					</button>
+					<button
 						class="btn btn-primary"
 						style="width: 100px; white-space: nowrap"
 						@click="applySpoon"
@@ -245,14 +253,6 @@
 						aria-label="Close"
 					>
 						숟갈 얹기
-					</button>
-					<button
-						class="btn btn-secondary"
-						style="width: 100px; white-space: nowrap"
-						data-bs-dismiss="modal"
-						aria-label="Close"
-					>
-						취소
 					</button>
 				</template>
 			</slot-modal>
@@ -490,8 +490,6 @@ export default {
 
 			loader.hide();
 
-			await this.$router.go(); // 새로고침
-
 			this.$swal({
 				title: '숟갈 빼기 완료!',
 				text: `${this.$store.state.user.userData.profile.nickname}님은 ${this.babsangDetailData.restaurant_name} 밥상에서 숟갈을 빼셨습니다.`,
@@ -499,6 +497,10 @@ export default {
 				iconColor: '#ffcb00',
 				confirmButtonText: '확인',
 				confirmButtonColor: '#ffcb00',
+			}).then(async result => {
+				if (result.isConfirmed) {
+					await this.$router.go(); // 새로고침
+				}
 			});
 		},
 		async deleteBabsang() {
