@@ -614,7 +614,7 @@ export default {
 			const input = this.$refs.fileInput;
 			const file = input.files[0];
 			if (file && file.type.substr(0, 5) === 'image') {
-				const maxSize = 1 * 1024 * 1024;
+				const maxSize = 3 * 1024 * 1024;
 				const fileSize = file.size;
 				if (fileSize <= maxSize) {
 					const res = await this.$upload('/upload/image', file);
