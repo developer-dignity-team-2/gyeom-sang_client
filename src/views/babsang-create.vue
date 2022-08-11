@@ -31,7 +31,7 @@
 								>밥상 사진을 업로드 해주세요 !</span
 							>
 							<small style="font-weight: light; color: rgba(0, 0, 0, 0.5)"
-								>(이미지 용량 1M 제한입니다.)</small
+								>(이미지 용량 3M 제한입니다.)</small
 							>
 						</div>
 					</div>
@@ -622,7 +622,7 @@ export default {
 					this.dining_thumbnail = res.filename;
 				} else {
 					this.$swal({
-						title: '이미지 용량 1M 제한입니다!',
+						title: '이미지 용량 3M 제한입니다!',
 						icon: 'warning',
 						iconColor: '#ffcb00',
 						confirmButtonColor: '#ffcb00',
