@@ -328,17 +328,18 @@ export default {
 		},
 		// 모집 마감 버튼 처리
 		setButtonDisabled() {
-			// let nowTime = new Date(
-			// 	new Date()
-			// 		.toISOString()
-			// 		.replace('T', ' ')
-			// 		.replace(/\..*/, '')
-			// 		.toString(),
-			// ).getTime();
-			let nowTime = new Date().getTime();
+			let nowTime = new Date(
+				new Date(+new Date() + 3240 * 10000)
+					.toISOString()
+					.replace('T', ' ')
+					.replace(/\..*/, ''),
+			).getTime();
+			// let nowTime = new Date().getTime();
 			let diningTime = new Date(
 				this.babsangDetailData.dining_datetime,
 			).getTime();
+			console.log('new Date() : ', nowTime);
+			console.log(diningTime);
 			if (nowTime - diningTime < 0) {
 				return false;
 			} else {
