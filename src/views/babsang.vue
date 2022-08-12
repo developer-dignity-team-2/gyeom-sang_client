@@ -267,10 +267,17 @@ import CommentList from '@/components/babsang/CommentList';
 import BabsangMap from '@/components/kakaoMap/BabsangMap';
 import SlotModal from '@/components/common/SlotModal';
 import { io } from 'socket.io-client';
+import dayjs from 'dayjs';
 
 export default {
 	name: 'Babsang',
-	components: { UserCard, CommentCreate, CommentList, BabsangMap, SlotModal },
+	components: {
+		UserCard,
+		CommentCreate,
+		CommentList,
+		BabsangMap,
+		SlotModal,
+	},
 	data() {
 		return {
 			babsangDetailData: {},
@@ -328,19 +335,30 @@ export default {
 		},
 		// 모집 마감 버튼 처리
 		setButtonDisabled() {
-			let nowTime = new Date(
-				new Date(+new Date() + 3240 * 10000)
-					.toISOString()
-					.replace('T', ' ')
-					.replace(/\..*/, ''),
-			).getTime();
+			// let nowTime = new Date(
+			// 	new Date(+new Date() + 3240 * 10000)
+			// 		.toISOString()
+			// 		.replace('T', ' ')
+			// 		.replace(/\..*/, ''),
+			// ).getTime();
 			// let nowTime = new Date().getTime();
-			let diningTime = new Date(
-				this.babsangDetailData.dining_datetime,
-			).getTime();
+			// let nowTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+			// let nowTime = dayjs().get('millisecond');
+			// let diningTime = new Date(
+			// 	this.babsangDetailData.dining_datetime,
+			// ).getTime();
+			let nowTime = dayjs();
+			let diningTime = dayjs(this.babsangDetailData.dining_datetime);
 			console.log('new Date() : ', nowTime);
 			console.log(diningTime);
-			if (nowTime - diningTime < 0) {
+			console.log('result : ', nowTime.diff(diningTime, 'ms'));
+			let result = nowTime.diff(diningTime, 'ms');
+			// if (nowTime - diningTime < 0) {
+			// 	return false;
+			// } else {
+			// 	return true;
+			// }
+			if (result < 0) {
 				return false;
 			} else {
 				return true;
